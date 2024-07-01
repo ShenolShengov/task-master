@@ -43,3 +43,7 @@
         --ring: 240 4.9% 83.9%;
     }
 }
+
+#menu-toggle:checked ~ #menu-links {
+    display: flex;
+}
