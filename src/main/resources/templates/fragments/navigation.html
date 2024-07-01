@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<nav th:fragment="nav" class="flex items-center justify-between px-4 py-4 bg-primary text-primary-foreground">
+    <div title="Logo" class="order-1 text-xl font-bold">TailwindCSS</div>
+    <div class="flex items-center space-x-4 order-2">
+        <a href="#" class="text-base font-medium hover:text-primary-700">About</a>
+        <a href="#" class="text-base font-medium hover:text-primary-700">Contacts</a>
+        <a href="#" class="text-base font-medium hover:text-primary-700">Add Task</a>
+        <a href="#" class="text-base font-medium hover:text-primary-700">My Tasks</a>
+        <a href="#" class="text-base font-medium hover:text-primary-700">Open Tasks</a>
+    </div>
+    <div class="flex items-center space-x-4 order-3">
+        <button class="text-base font-medium text-primary-foreground hover:text-primary-700">Register</button>
+        <button class="text-base font-medium text-primary-foreground hover:text-primary-700">Login</button>
+    </div>
+</nav>
+</body>
+</html>
