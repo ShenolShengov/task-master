@@ -1,4 +1,8 @@
 spring:
+  thymeleaf:
+      check-template-location: true
+      cache: false
+      prefix: file:./src/main/resources/templates/
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/planner_db?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
