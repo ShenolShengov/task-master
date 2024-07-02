@@ -7,111 +7,138 @@
 <div class="bg-background text-primary-foreground min-h-screen flex flex-col items-center justify-center">
     <main class="container mx-auto mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">
         <section class="bg-card rounded-lg p-6 shadow-md overflow-y-auto max-h-96">
-            <h2 class="text-xl text-black font-semibold mb-4">Today's Tasks</h2>
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl text-black font-semibold">Today's Tasks</h2>
+                <div class="flex items-center space-x-2">
+                    <span class="text-zinc-600">Sort by:</span>
+                    <select class="bg-input text-zinc-600 border border-input rounded-md px-2 py-1 pr-8">
+                        <option value="due_date">Due Date</option>
+                        <option value="priority">Priority</option>
+                        <option value="category">Category</option>
+                    </select>
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                        <svg class="h-4 w-4 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
             <ul>
                 <li class="flex flex-col py-4 border-b border-card">
                     <div class="flex items-center justify-between mb-2">
                         <span class="text-black font-semibold">Task 3</span>
+                        <span class="text-black">Priority: High</span>
                         <span class="text-black">Category: Personal</span>
                     </div>
-                    <p class="text-sm text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua.</p>
+                    <p class="text-sm text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                     <div class="flex items-center justify-between">
                         <span class="text-sm text-zinc-600">Due: 2022-12-31</span>
-                        <button class="bg-primary text-primary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-primary/80">
-                            Complete
-                        </button>
-                        <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">
-                            Edit
-                        </button>
+                        <button class="bg-primary text-primary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-primary/80">Complete</button>
+                        <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">Edit</button>
                     </div>
                 </li>
                 <li class="flex flex-col py-4 border-b border-card">
                     <div class="flex items-center justify-between mb-2">
                         <span class="text-black font-semibold">Task 3</span>
+                        <span class="text-black">Priority: High</span>
                         <span class="text-black">Category: Personal</span>
                     </div>
-                    <p class="text-sm text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua.</p>
+                    <p class="text-sm text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                     <div class="flex items-center justify-between">
                         <span class="text-sm text-zinc-600">Due: 2022-12-31</span>
-                        <button class="bg-primary text-primary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-primary/80">
-                            Complete
-                        </button>
-                        <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">
-                            Edit
-                        </button>
+                        <button class="bg-primary text-primary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-primary/80">Complete</button>
+                        <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">Edit</button>
                     </div>
                 </li>
                 <li class="flex flex-col py-4 border-b border-card">
                     <div class="flex items-center justify-between mb-2">
                         <span class="text-black font-semibold">Task 3</span>
+                        <span class="text-black">Priority: High</span>
                         <span class="text-black">Category: Personal</span>
                     </div>
-                    <p class="text-sm text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua.</p>
+                    <p class="text-sm text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                     <div class="flex items-center justify-between">
                         <span class="text-sm text-zinc-600">Due: 2022-12-31</span>
-                        <button class="bg-primary text-primary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-primary/80">
-                            Complete
-                        </button>
-                        <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">
-                            Edit
-                        </button>
+                        <button class="bg-primary text-primary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-primary/80">Complete</button>
+                        <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">Edit</button>
                     </div>
                 </li>
                 <li class="flex flex-col py-4 border-b border-card">
                     <div class="flex items-center justify-between mb-2">
                         <span class="text-black font-semibold">Task 3</span>
+                        <span class="text-black">Priority: High</span>
                         <span class="text-black">Category: Personal</span>
                     </div>
-                    <p class="text-sm text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua.</p>
+                    <p class="text-sm text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                     <div class="flex items-center justify-between">
                         <span class="text-sm text-zinc-600">Due: 2022-12-31</span>
-                        <button class="bg-primary text-primary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-primary/80">
-                            Complete
-                        </button>
-                        <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">
-                            Edit
-                        </button>
+                        <button class="bg-primary text-primary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-primary/80">Complete</button>
+                        <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">Edit</button>
                     </div>
                 </li>
-                <li class="flex flex-col py-4 border-b border-card">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-black font-semibold">Task 3</span>
-                        <span class="text-black">Category: Personal</span>
-                    </div>
-                    <p class="text-sm text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-sm text-zinc-600">Due: 2022-12-31</span>
-                        <button class="bg-primary text-primary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-primary/80">
-                            Complete
-                        </button>
-                        <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">
-                            Edit
-                        </button>
-                    </div>
+                <li class="hidden" id="completed-tasks">
+                    <h3 class="text-black text-xl font-semibold mb-2">Completed Tasks</h3>
+                    <ul>
+                        <li class="flex flex-col py-4 border-b border-card">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-black font-semibold">Task 1</span>
+                                <span class="text-black">Category: Work</span>
+                            </div>
+                            <p class="text-sm text-zinc-600 mb-2">Notes: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-zinc-600">Completed: 2023-01-15</span>
+                            </div>
+                        </li>
+                    </ul>
                 </li>
             </ul>
+            <button id="expand-completed-tasks" class="text-gray-500 hover:text-black mt-2 cursor-pointer">Show Completed Tasks</button>
         </section>
         <section class="bg-card rounded-lg p-6 shadow-md overflow-y-auto max-h-96">
             <h2 class="text-black text-xl font-semibold mb-4">Future Tasks</h2>
             <ul>
                 <li class="flex items-center justify-between py-2">
           <span class="flex items-center">
-            <input type="checkbox" class="form-checkbox h-5 w-5 text-primary border-primary rounded mr-2"/>
+            <input type="checkbox" class="form-checkbox h-5 w-5 text-primary border-primary rounded mr-2" />
             <span class="text-black text-lg">Task 3</span>
           </span>
                     <button class="text-secondary hover:text-secondary-foreground">Edit</button>
                 </li>
                 <li class="flex items-center justify-between py-2">
           <span class="flex items-center">
-            <input type="checkbox" class="form-checkbox h-5 w-5 text-primary border-primary rounded mr-2"/>
+            <input type="checkbox" class="form-checkbox h-5 w-5 text-primary border-primary rounded mr-2" />
             <span class="text-lg">Task 4</span>
           </span>
                     <button class="text-secondary hover:text-secondary-foreground">Edit</button>
+                </li>
+            </ul>
+        </section>
+        <section class="bg-card rounded-lg p-6 shadow-md">
+            <div class="flex items-center justify-between mb-4">
+                <label for="choose-date" class="text-black font-semibold">Choose a Date:</label>
+                <input type="date" id="choose-date" class="border border-card px-2 py-1 rounded-lg" />
+            </div>
+            <h2 class="text-xl text-black font-semibold mb-4">Previous Tasks</h2>
+            <ul>
+                <li class="flex flex-col py-4 border-b border-card">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-black font-semibold">Task 2</span>
+                        <span class="text-black">Category: Work</span>
+                    </div>
+                    <p class="text-sm text-zinc-600 mb-2">Notes: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-zinc-600">Completed: 2023-01-10</span>
+                    </div>
+                </li>
+                <li class="flex flex-col py-4 border-b border-card">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-black font-semibold">Task 1</span>
+                        <span class="text-black">Category: Personal</span>
+                    </div>
+                    <p class="text-sm text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-zinc-600">Completed: 2023-01-05</span>
+                    </div>
                 </li>
             </ul>
         </section>
@@ -122,4 +149,6 @@
 </div>
 <footer th:replace="~{/fragments/footer::footer}"></footer>
 </body>
+<script th:src="@{/js/completed-tasks.js}"></script>
+<script th:src="@{/js/future-and-previous-tasks.js}"></script>
 </html>
