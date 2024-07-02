@@ -1,39 +1,71 @@
-
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{/fragments/head::head}"></head>
 <body>
 <nav th:replace="~{/fragments/navigation::nav}"></nav>
-<div class="h-screen overflow-y-scroll">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-8">
-        <div class="flex items-center justify-center">
-            <div class="max-w-md">
-                <h2 class="text-4xl font-bold text-black mb-4">Organize Your Life</h2>
-                <p class="text-secondary-foreground">Keep track of your tasks, events, and goals all in one place with Planner App.</p>
+<div class="background-blue text-primary-foreground min-h-screen flex flex-col items-center justify-center">
+    <div class="max-w-4xl mx-auto p-8">
+        <h1 class="text-4xl text-primary font-bold mb-8">Welcome to Planner App</h1>
+        <p class="text-lg text-muted-foreground mb-8">Plan your day, week, and month efficiently with our intuitive Planner App. Stay organized and productive!</p>
+    </div>
+    <div class="purple-blue-bg text-card-foreground p-8 my-8 mx-4 rounded-lg shadow-lg max-w-4xl">
+        <h2 class="text-2xl font-bold mb-4">Features</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="flex items-center">
+                <img src="https://placehold.co/150?text=Feature+1" alt="Feature 1" class="w-16 h-16 mr-4 rounded-full" />
+                <p>Effortlessly create and manage tasks</p>
+            </div>
+            <div class="flex items-center">
+                <img src="https://placehold.co/150?text=Feature+2" alt="Feature 2" class="w-16 h-16 mr-4 rounded-full" />
+                <p>Set reminders and deadlines for your tasks</p>
+            </div>
+            <div class="flex items-center">
+                <img src="https://placehold.co/150?text=Feature+3" alt="Feature 3" class="w-16 h-16 mr-4 rounded-full" />
+                <p>Organize tasks by category or priority</p>
+            </div>
+            <div class="flex items-center">
+                <img src="https://placehold.co/150?text=Feature+4" alt="Feature 4" class="w-16 h-16 mr-4 rounded-full" />
+                <p>Sync across all your devices</p>
             </div>
         </div>
-        <div class="flex items-center justify-center">
-            <img src="/images/landing-page-1.jpg?text=Planner+App" alt="Planner App" class="rounded-lg shadow-lg" />
-        </div>
-
-        <div class="flex items-center justify-center">
-            <img src="/images/landing%20page-2.png?text=Features" alt="Features" class="rounded-lg shadow-lg" />
-        </div>
-        <div class="flex items-center justify-center">
-            <div class="max-w-md">
-                <h2 class="text-4xl font-bold text-black mb-4">Powerful Features</h2>
-                <p class="text-secondary-foreground">Discover a range of powerful features designed to make planning and organizing a breeze.</p>
+    </div>
+    <div class="blue-bg text-card-foreground p-8 my-8 mx-4 rounded-lg shadow-lg max-w-4xl">
+        <h2 class="text-2xl font-bold mb-4">How It Works</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <img src="https://placehold.co/300?text=How+It+Works+1" alt="How It Works 1" class="w-full rounded-lg" />
+            </div>
+            <div class="flex flex-col justify-center">
+                <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <button class="bg-primary text-primary-foreground py-2 px-4 rounded-lg hover:bg-primary/80">Learn More</button>
             </div>
         </div>
-
-        <div class="flex items-center justify-center">
-            <div class="max-w-md">
-                <h2 class="text-4xl font-bold text-black mb-4">Stay Connected</h2>
-                <p class="text-secondary-foreground">Connect with your friends and family to share schedules and collaborate on projects.</p>
+    </div>
+    <div class="white-blue-bg text-card-foreground p-8 my-8 mx-4 rounded-lg shadow-lg max-w-4xl">
+        <h2 class="text-2xl font-bold mb-4">Testimonials</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="flex items-center">
+                <img src="https://placehold.co/150?text=Testimonial+1" alt="Testimonial 1" class="w-16 h-16 mr-4 rounded-full" />
+                <p>"Planner App has completely transformed how I manage my tasks. Highly recommended!"</p>
+            </div>
+            <div class="flex items-center">
+                <img src="https://placehold.co/150?text=Testimonial+1" alt="Testimonial 1" class="w-16 h-16 mr-4 rounded-full" />
+                <p>"Planner App has completely transformed how I manage my tasks. Highly recommended!"</p>
+            </div>
+            <div class="flex items-center">
+                <img src="https://placehold.co/150?text=Testimonial+1" alt="Testimonial 1" class="w-16 h-16 mr-4 rounded-full" />
+                <p>"Planner App has completely transformed how I manage my tasks. Highly recommended!"</p>
+            </div>
+            <div class="flex items-center">
+                <img src="https://placehold.co/150?text=Testimonial+2" alt="Testimonial 2" class="w-16 h-16 mr-4 rounded-full" />
+                <p>"I love the simplicity and effectiveness of Planner App. It's a game-changer!"</p>
             </div>
         </div>
-        <div class="flex items-center justify-center">
-            <img src="/images/landing%20page-3.png?text=Stay+Connected" alt="Stay Connected" class="rounded-lg shadow-lg" />
-        </div>
+    </div>
+    <div class="light-blue-bg text-card-foreground p-8 my-8 mx-4 rounded-lg shadow-lg max-w-4xl">
+        <h2 class="text-2xl font-bold mb-4">Get Started</h2>
+        <p class="mb-4">Start organizing your life today with Planner App. Sign up now!</p>
+        <button class="bg-primary text-primary-foreground py-2 px-4 rounded-lg hover:bg-primary/80">Sign Up</button>
     </div>
 </div>
 

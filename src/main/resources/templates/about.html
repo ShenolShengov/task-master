@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/fragments/head::head}"></head>
+<body>
+<nav th:replace="~{/fragments/navigation::nav}"></nav>
+<div class="bg-blue-500 text-primary-foreground min-h-screen flex flex-col items-center justify-center p-4">
+<!--    <img class="w-24 h-24 mb-4" src="https://placehold.co/150?text=📅" alt="planner-icon" />-->
+    <h1 class="text-4xl font-extrabold mb-4 text-white">About Us</h1>
+    <p class="text-center max-w-md mb-6 text-white/80">Your go-to tool for organizing tasks, events, and schedules efficiently. Stay on top of your plans with Planner App!</p>
+    <div class="bg-white text-card-foreground p-6 rounded-lg shadow-lg max-w-md w-full">
+        <h2 class="text-black text-2xl font-semibold mb-3 text-accent">Our Mission</h2>
+        <p class="mb-4 text-muted-foreground">To simplify your life by providing a user-friendly platform to manage your daily activities effortlessly.</p>
+        <h2 class="text-black text-2xl font-semibold mb-3 text-accent">Features</h2>
+        <ul class="list-disc pl-5 space-y-2">
+            <li class="text-muted-foreground">Task Management</li>
+            <li class="text-muted-foreground">Event Scheduling</li>
+            <li class="text-muted-foreground">Priority Setting</li>
+        </ul>
+    </div>
+    <div class="bg-white  text-card-foreground p-6 rounded-lg shadow-lg max-w-md w-full mt-8">
+        <h2 class="text-black text-2xl font-semibold mb-3 text-accent">Our Vision</h2>
+        <p class="mb-4 text-muted-foreground">Empowering individuals to achieve their goals by providing intuitive tools for effective planning and time management.</p>
+        <h2 class="text-black text-2xl font-semibold mb-3 text-accent">Values</h2>
+        <ul class="list-disc pl-5 space-y-2">
+            <li class="text-muted-foreground">User-Centric Design</li>
+            <li class="text-muted-foreground">Innovation and Adaptability</li>
+            <li class="text-muted-foreground">Reliability and Security</li>
+            <li class="text-muted-foreground">Continuous Improvement</li>
+        </ul>
+    </div>
+</div>
+<footer th:replace="~{/fragments/footer::footer}"></footer>
+</body>
+</html>

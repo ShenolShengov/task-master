@@ -21,6 +21,7 @@
         --ring: 240 5.9% 10%;
         --radius: 0.5rem;
     }
+
     .dark {
         --background: 240 10% 3.9%;
         --foreground: 0 0% 98%;
@@ -47,3 +48,29 @@
 #menu-toggle:checked ~ #menu-links {
     display: flex;
 }
+
+.blue-bg {
+    background-color: rgb(105 139 212 / 70%);
+}
+
+.purple-blue-bg {
+    background-color: rgb(6 6 151 / 40%);
+}
+
+.white-blue-bg {
+    background-color: rgb(67 125 157 / 40%);
+}
+
+.light-blue-bg {
+    background-color: rgb(25 174 205 / 70%);
+}
+
+.background-blue {
+    background-color: rgb(0 127 175 / 10%);
+}
+
+
+.nav-bg {
+    background-color: rgb(39 38 73 / 90%);
+}
+
