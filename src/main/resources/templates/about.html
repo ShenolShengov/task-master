@@ -3,31 +3,54 @@
 <head th:replace="~{/fragments/head::head}"></head>
 <body>
 <nav th:replace="~{/fragments/navigation::nav}"></nav>
-<div class="bg-blue-500 text-primary-foreground min-h-screen flex flex-col items-center justify-center p-4">
-<!--    <img class="w-24 h-24 mb-4" src="https://placehold.co/150?text=📅" alt="planner-icon" />-->
-    <h1 class="text-4xl font-extrabold mb-4 text-white">About Us</h1>
-    <p class="text-center max-w-md mb-6 text-white/80">Your go-to tool for organizing tasks, events, and schedules efficiently. Stay on top of your plans with Planner App!</p>
-    <div class="bg-white text-card-foreground p-6 rounded-lg shadow-lg max-w-md w-full">
-        <h2 class="text-black text-2xl font-semibold mb-3 text-accent">Our Mission</h2>
-        <p class="mb-4 text-muted-foreground">To simplify your life by providing a user-friendly platform to manage your daily activities effortlessly.</p>
-        <h2 class="text-black text-2xl font-semibold mb-3 text-accent">Features</h2>
-        <ul class="list-disc pl-5 space-y-2">
-            <li class="text-muted-foreground">Task Management</li>
-            <li class="text-muted-foreground">Event Scheduling</li>
-            <li class="text-muted-foreground">Priority Setting</li>
-        </ul>
-    </div>
-    <div class="bg-white  text-card-foreground p-6 rounded-lg shadow-lg max-w-md w-full mt-8">
-        <h2 class="text-black text-2xl font-semibold mb-3 text-accent">Our Vision</h2>
-        <p class="mb-4 text-muted-foreground">Empowering individuals to achieve their goals by providing intuitive tools for effective planning and time management.</p>
-        <h2 class="text-black text-2xl font-semibold mb-3 text-accent">Values</h2>
-        <ul class="list-disc pl-5 space-y-2">
-            <li class="text-muted-foreground">User-Centric Design</li>
-            <li class="text-muted-foreground">Innovation and Adaptability</li>
-            <li class="text-muted-foreground">Reliability and Security</li>
-            <li class="text-muted-foreground">Continuous Improvement</li>
-        </ul>
-    </div>
+<div class="mr-10 ml-10 text-primary-foreground min-h-screen flex flex-col items-center justify-center p-4">
+    <!--    <img class="w-24 h-24 mb-4" src="https://placehold.co/150?text=📅" alt="planner-icon" />-->
+    <main class="container mx-auto p-6">
+        <h1 class="text-center text-4xl font-extrabold mb-4 text-black">About Us</h1>
+        <section class="text-black mb-6">
+            <p class="mb-4">
+                Planner App is designed to help you manage your tasks, organize your schedule, and stay on top of your
+                goals. Whether you're a student juggling assignments, a professional managing multiple projects, or a
+                busy parent coordinating family activities, Planner App provides a seamless and intuitive platform to
+                keep you organized and productive.
+            </p>
+            <p class="mb-4">
+                Our app offers a variety of features to enhance your planning experience. You can create detailed to-do
+                lists, set reminders, and prioritize tasks to ensure nothing falls through the cracks. The calendar view
+                allows you to get a comprehensive overview of your month, week, or day, making it easier to plan ahead
+                and allocate your time efficiently.
+            </p>
+            <p class="mb-4">
+                Collaboration is also at the heart of Planner App. You can share your lists and schedules with family
+                members, friends, or colleagues, making it a perfect tool for team projects and group activities.
+                Real-time updates and notifications ensure that everyone stays informed and on the same page.
+            </p>
+            <p class="mb-4">
+                With Planner App, customization is key. You can personalize your experience by choosing from a range of
+                themes and layouts that suit your style. Our user-friendly interface is designed to be accessible to
+                everyone, regardless of their tech-savviness.
+            </p>
+            <p class="mb-4">
+                Security and privacy are our top priorities. We implement robust security measures to protect your data
+                and ensure that your information remains confidential. Our commitment to providing a safe and secure
+                platform means you can trust Planner App with your most sensitive plans and tasks.
+            </p>
+<!--            <p class="mb-4">-->
+<!--                We are continually working to improve Planner App based on user feedback. Our dedicated team is always-->
+<!--                on the lookout for new features and enhancements to make your planning experience even better. Join the-->
+<!--                Planner App community today and take control of your time and productivity.-->
+<!--            </p>-->
+<!--            <p class="mb-4">-->
+<!--                Thank you for choosing Planner App. We are excited to help you achieve your goals and streamline your-->
+<!--                life.-->
+<!--            </p>-->
+        </section>
+
+        <section class="mb-6">
+            <img src="https://via.placeholder.com/1200x600" alt="Planner App Screenshot"
+                 class="rounded-lg shadow-md w-full">
+        </section>
+    </main>
 </div>
 <footer th:replace="~{/fragments/footer::footer}"></footer>
 </body>
