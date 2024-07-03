@@ -5,16 +5,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/users")
-public class UserController {
+@RequestMapping("/tasks")
+public class TaskController {
 
-    @GetMapping("/register")
-    public String registerView() {
-        return "register";
-    }
-
-    @GetMapping("/login")
-    public String loginView() {
-        return "login";
+    @GetMapping("/add-task")
+    public String addTaskView(){
+        return "add-task";
     }
 }
