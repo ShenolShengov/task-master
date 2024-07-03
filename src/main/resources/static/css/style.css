@@ -49,6 +49,10 @@
     display: flex;
 }
 
+svg {
+    height: 50px;
+}
+
 .blue-bg {
     background-color: rgb(105 139 212 / 70%);
 }
