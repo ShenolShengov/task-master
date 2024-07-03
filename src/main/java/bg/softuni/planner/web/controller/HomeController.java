@@ -12,12 +12,17 @@ public class HomeController {
     }
 
     @GetMapping("/home")
-    public String homeView(){
+    public String homeView() {
         return "home";
     }
 
     @GetMapping("/about")
-    public String aboutView(){
+    public String aboutView() {
         return "about";
+    }
+
+    @GetMapping("/contacts")
+    public String contactsView() {
+        return "contacts";
     }
 }

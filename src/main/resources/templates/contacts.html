@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planner App</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script src="https://unpkg.com/unlazy@0.11.3/dist/unlazy.with-hashing.iife.js" defer></script>
+    <script th:src="@{/js/script.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</head>
+<body>
+<nav th:replace="~{/fragments/navigation::nav}"></nav>
+<div id="map" class="h-80"></div>
+<div class="bg-background text-primary-foreground min-h-screen flex flex-col items-center justify-center">
+    <h1 class="text-5xl mb-8 text-black">Contact Us</h1>
+    <div class="bg-card w-9/12 p-8 rounded-lg shadow-lg mb-8">
+        <form action="#" method="POST" class="space-y-6">
+            <div class="grid grid-cols-2 gap-6">
+                <div>
+                    <label for="title" class="block text-lg font-medium text-black">Title</label>
+                    <input type="text" id="title" name="title" placeholder="Your Title"
+                           class="w-full px-4 py-3 mt-2 rounded-md border focus:outline-none focus:ring focus:ring-primary"
+                           required/>
+                </div>
+                <div>
+                    <label for="email" class="block text-lg font-medium text-black">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Your Email"
+                           class="w-full px-4 py-3 mt-2 rounded-md border focus:outline-none focus:ring focus:ring-primary"
+                           required/>
+                </div>
+            </div>
+            <div>
+                <label for="message" class="block text-lg font-medium text-black">Message</label>
+                <textarea id="message" name="message" rows="6" placeholder="Your Message"
+                          class="w-full px-4 py-3 mt-2 rounded-md border focus:outline-none focus:ring focus:ring-primary"
+                          required></textarea>
+            </div>
+            <div class="flex justify-start">
+                <button type="submit"
+                        class="bg-primary text-primary-foreground p-3 pr-5 pl-5  py-3 rounded-3xl hover:bg-primary/80 transition-colors duration-300">
+                    Send Message
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<footer th:replace="~{/fragments/footer::footer}"></footer>
+</body>
+<script th:src="@{/js/map.js}"></script>
+</html>
