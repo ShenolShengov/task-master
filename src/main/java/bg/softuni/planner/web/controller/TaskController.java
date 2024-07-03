@@ -9,7 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class TaskController {
 
     @GetMapping("/add-task")
-    public String addTaskView(){
+    public String addTaskView() {
         return "add-task";
+    }
+
+    @GetMapping("edit-task")
+    public String editTask() {
+        return "edit-task";
     }
 }
