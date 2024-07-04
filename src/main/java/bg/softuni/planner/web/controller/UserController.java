@@ -17,4 +17,9 @@ public class UserController {
     public String loginView() {
         return "login";
     }
+
+    @GetMapping("/all")
+    public String allView(){
+        return "all-users";
+    }
 }
