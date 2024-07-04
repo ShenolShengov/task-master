@@ -64,7 +64,7 @@
                 <td class="px-4 py-2 text-center">Admin</td>
                 <td class="px-4 py-2 text-center">
                     <button class="bg-accent text-accent-foreground px-2 py-1 rounded-lg ml-2">Make Admin</button>
-                    <button class="bg-secondary text-secondary-foreground px-2 py-1 rounded-lg">Edit</button>
+                    <button class="edit-button bg-secondary text-secondary-foreground px-2 py-1 rounded-lg">Edit</button>
                     <button class="bg-destructive text-destructive-foreground px-2 py-1 rounded-lg ml-2">Delete</button>
                 </td>
             </tr>
@@ -75,7 +75,7 @@
                 <td class="px-4 py-2 text-center">User</td>
                 <td class="px-4 py-2 text-center">
                     <button class="bg-accent text-accent-foreground px-2 py-1 rounded-lg ml-2">Make Admin</button>
-                    <button class="bg-secondary text-secondary-foreground px-2 py-1 rounded-lg">Edit</button>
+                    <button class="edit-button bg-secondary text-secondary-foreground px-2 py-1 rounded-lg">Edit</button>
                     <button class="bg-destructive text-destructive-foreground px-2 py-1 rounded-lg ml-2">Delete</button>
                 </td>
             </tr>
@@ -86,7 +86,7 @@
                 <td class="px-4 py-2 text-center">User</td>
                 <td class="px-4 py-2 text-center">
                     <button class="bg-accent text-accent-foreground px-2 py-1 rounded-lg ml-2">Make Admin</button>
-                    <button class="bg-secondary text-secondary-foreground px-2 py-1 rounded-lg">Edit</button>
+                    <button class="edit-button bg-secondary text-secondary-foreground px-2 py-1 rounded-lg">Edit</button>
                     <button class="bg-destructive text-destructive-foreground px-2 py-1 rounded-lg ml-2">Delete</button>
                 </td>
             </tr>
@@ -97,7 +97,7 @@
                 <td class="px-4 py-2 text-center">User</td>
                 <td class="px-4 py-2 text-center">
                     <button class="bg-accent text-accent-foreground px-2 py-1 rounded-lg ml-2">Make Admin</button>
-                    <button class="bg-secondary text-secondary-foreground px-2 py-1 rounded-lg">Edit</button>
+                    <button class="edit-button bg-secondary text-secondary-foreground px-2 py-1 rounded-lg">Edit</button>
                     <button class="bg-destructive text-destructive-foreground px-2 py-1 rounded-lg ml-2">Delete</button>
                 </td>
             </tr>
@@ -108,7 +108,7 @@
                 <td class="px-4 py-2 text-center">User</td>
                 <td class="px-4 py-2 text-center">
                     <button class="bg-accent text-accent-foreground px-2 py-1 rounded-lg ml-2">Make Admin</button>
-                    <button class="bg-secondary text-secondary-foreground px-2 py-1 rounded-lg">Edit</button>
+                    <button class="edit-button bg-secondary text-secondary-foreground px-2 py-1 rounded-lg">Edit</button>
                     <button class="bg-destructive text-destructive-foreground px-2 py-1 rounded-lg ml-2">Delete</button>
                 </td>
             </tr>
@@ -119,34 +119,38 @@
                 <td class="px-4 py-2 text-center">User</td>
                 <td class="px-4 py-2 text-center">
                     <button class="bg-accent text-accent-foreground px-2 py-1 rounded-lg ml-2">Make Admin</button>
-                    <button class="bg-secondary text-secondary-foreground px-2 py-1 rounded-lg">Edit</button>
+                    <button class="edit-button bg-secondary text-secondary-foreground px-2 py-1 rounded-lg">Edit</button>
                     <button class="bg-destructive text-destructive-foreground px-2 py-1 rounded-lg ml-2">Delete</button>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
-    <div class="mt-4  w-3/5" id="editSection"
-         style="display: flex;flex-direction: column;justify-content: center;gap: 1em;">
+    <div class="hidden flex flex-col justify-center gap-6 mt-4  w-3/5" id="editSection"
+         >
         <h2 class="text-xl mb-2"
             style="border-bottom: 2px solid black;padding-bottom: 0.5em;margin-bottom: 1em;">Edit</h2>
         <div class="flex gap-8">
             <div class="w-full md:w-1/2">
-                <input type="text" class="w-full  text-black border border-primary rounded-md px-3 py-2 mb-2"
+                <label class="block mb-3" for="username">Username</label>
+                <input id="username" type="text" class="w-full  text-black border border-primary rounded-md px-3 py-2 mb-2"
                        placeholder="Username"/>
             </div>
             <div class="w-full md:w-1/2">
-                <input type="text" class="w-full  text-black border border-primary rounded-md px-3 py-2 mb-2"
+                <label class="block mb-3" for="fullName">Full Name</label>
+                <input id="fullName" type="text" class="w-full  text-black border border-primary rounded-md px-3 py-2 mb-2"
                        placeholder="FullName"/>
             </div>
         </div>
         <div class="flex gap-8">
             <div class="w-full md:w-1/2">
-                <input type="email" class="w-full  text-black border border-primary rounded-md px-3 py-2 mb-2"
+                <label class="block mb-3" for="email">Email</label>
+                <input id="email" type="email" class="w-full  text-black border border-primary rounded-md px-3 py-2 mb-2"
                        placeholder="Email"/>
             </div>
             <div class="w-full md:w-1/2">
-                <input type="number" class="w-full  text-black border border-primary rounded-md px-3 py-2 mb-2"
+                <label class="block mb-3" for="age">Age</label>
+                <input id="age" type="number" class="w-full  text-black border border-primary rounded-md px-3 py-2 mb-2"
                        placeholder="Age"/>
             </div>
         </div>
@@ -161,6 +165,7 @@
 </div>
 <footer th:replace="~{/fragments/footer::footer}"></footer>
 </body>
+<script th:src="@{/js/edit-user.js}"></script>
 </html>
 <!--h2-->
 <!--border-bottom: 2px solid black;-->
