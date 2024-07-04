@@ -22,4 +22,8 @@ public class TaskController {
     public String openTasksView(){
         return "open-tasks";
     }
+
+    @GetMapping("/open-task/details")public String openTaskDetailsView(){
+        return "open-task-details";
+    }
 }
