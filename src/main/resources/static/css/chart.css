@@ -1,0 +1,21 @@
+@media (max-width: 1296px) {
+    #charts {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .chart {
+        min-width: 550px;
+    }
+}
+
+@media (min-width: 1297px) {
+    #charts {
+        flex-direction: row;
+    }
+}
+
+.chart {
+    width: 50%;
+    min-height: 500px;
+}

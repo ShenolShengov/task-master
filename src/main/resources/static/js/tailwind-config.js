@@ -1,7 +1,11 @@
 window.tailwind.config = {
     darkMode: ['class'],
     theme: {
+
         extend: {
+            screens: {
+                't': '1536px',
+            },
             colors: {
                 border: 'hsl(var(--border))',
                 input: 'hsl(var(--input))',

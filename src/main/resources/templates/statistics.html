@@ -6,42 +6,66 @@
     <title>Planner App</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
     <script src="https://unpkg.com/unlazy@0.11.3/dist/unlazy.with-hashing.iife.js" defer></script>
-    <script th:src="@{/js/script.js}"></script>
-    <script type="text/javascript" th:src="@{https://www.gstatic.com/charts/loader.js}"></script>
+    <script th:src="@{/js/tailwind-config.js}"></script>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/chart.css}">
 </head>
-<body >
+<body>
 <nav th:replace="~{/fragments/navigation::nav}"></nav>
 <div class="bg-background text-primary-foreground py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-7xl mx-auto">
+    <div class="max-w-7xl mx-auto" >
         <h2 class="text-black text-3xl font-bold text-center mb-8">App Statistics</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             <div class="bg-card p-6 rounded-lg shadow-lg text-black relative">
                 <h3 class="text-xl font-semibold mb-2">Users Registered</h3>
                 <p class="text-2xl font-bold">1,234</p>
-                <button class="absolute bottom-4 right-4 bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/80">View All</button>
+                <button class="absolute bottom-4 right-4 bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/80">
+                    View All
+                </button>
+            </div>
+            <div class="bg-card p-6 rounded-lg shadow-lg text-black relative">
+                <h3 class="text-xl font-semibold mb-2">Admin Users</h3>
+                <p class="text-2xl font-bold">456</p>
+                <button class="absolute bottom-4 right-4 bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/80">
+                    View All
+                </button>
+            </div>
+            <div class="bg-card p-6 rounded-lg shadow-lg text-black relative">
+                <h3 class="text-xl font-semibold mb-2">Regular Users</h3>
+                <p class="text-2xl font-bold">778</p>
+                <button class="absolute bottom-4 right-4 bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/80">
+                    View All
+                </button>
             </div>
             <div class="bg-card p-6 rounded-lg shadow-lg text-black">
-                <h3 class="text-xl font-semibold mb-2">Tasks Created</h3>
-                <p class="text-2xl font-bold">5,678</p>
+                <h3 class="text-xl font-semibold mb-2">Personal Tasks Created</h3>
+                <p class="text-2xl font-bold">3,456</p>
+            </div>
+            <div class="bg-card p-6 rounded-lg shadow-lg text-black">
+                <h3 class="text-xl font-semibold mb-2">Open Tasks Created</h3>
+                <p class="text-2xl font-bold">2,222</p>
             </div>
             <div class="bg-card p-6 rounded-lg shadow-lg text-black">
                 <h3 class="text-xl font-semibold mb-2">Comments Posted</h3>
                 <p class="text-2xl font-bold">9,012</p>
             </div>
-            <div class="bg-card p-6 rounded-lg shadow-lg text-black relative">
-                <h3 class="text-xl font-semibold mb-2">Admin Users</h3>
-                <p class="text-2xl font-bold">456</p>
-                <button class="absolute bottom-4 right-4 bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/80">View All</button>
-            </div>
-            <div class="bg-card p-6 rounded-lg shadow-lg text-black relative">
-                <h3 class="text-xl font-semibold mb-2">Regular Users</h3>
-                <p class="text-2xl font-bold">778</p>
-                <button class="absolute bottom-4 right-4 bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/80">View All</button>
-            </div>
         </div>
     </div>
 </div>
+    <div id="charts" class="flex  ">
+        <div id="donutchart" class="chart"></div>
+        <div id="donutchart2" class="chart"></div>
+    </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script th:src="@{/js/user-donut-chart.js}"></script>
+<script>
+    $(window).resize(function(){
+        drawChart();
+    });
+</script>
 <footer th:replace="~{/fragments/footer::footer}"></footer>
 </body>
 </html>
+<!--1296-->
