@@ -123,7 +123,7 @@
                 <div class="flex items-center space-x-2">
                     <div id="date-wrapper" class="hidden">
                         <label for="choose-date" class="text-zinc-600">Choose Day:</label>
-                        <input type="date" id="choose-date" class="text-black border border-card px-2 py-1 rounded-lg"/>
+                        <input type="date" id="choose-date" class="yesterday max-yesterday text-black border border-card px-2 py-1 rounded-lg"/>
                     </div>
                     <label for="f-p-sort-by" class="text-zinc-600">Sort by:</label>
                     <select id="f-p-sort-by"
@@ -337,5 +337,6 @@
 </body>
 <script th:src="@{/js/completed-tasks.js}"></script>
 <script th:src="@{/js/switch-future-prev-tasks.js}"></script>
-<script th:src="@{/js/yesterday-date.js}"></script>
+<script th:src="@{/js/switch-future-prev-tasks.js}"></script>
+<script th:src="@{/js/dates.js}"></script>
 </html>
