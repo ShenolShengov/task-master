@@ -4,32 +4,91 @@
 <div class="text-primary-foreground min-h-screen flex items-center justify-center">
     <div class="bg-card w-full max-w-md p-8 rounded-lg shadow-lg">
         <h2 class="text-black text-2xl font-bold mb-6">Register</h2>
-        <form >
+        <form class="text-black"
+              th:method="post"
+              th:action="@{/users/register}"
+              th:object="${registerData}">
             <div class="mb-4">
-                <label for="username" class="block text-black text-sm font-medium mb-2">Username</label>
-                <input type="text" id="username" name="username" placeholder="Enter your username" class="w-full px-3 py-2 placeholder-input text-input border rounded-lg focus:outline-none focus:ring focus:ring-primary" />
+                <label th:for="username" class="block text-black text-sm font-medium mb-2">Username</label>
+                <input th:field="*{username}"
+                       required minlength="5" maxlength="15"
+                       type="text" id="username" name="username" placeholder="Enter your username"
+                       class="w-full px-3 py-2  border rounded-lg focus:outline-none focus:ring focus:ring-primary"/>
+                <div th:errors="*{username}"
+                     class="text-sm bg-destructive text-destructive-foreground p-1 rounded-md mx-auto">
+                    <p>Username length must be between 5 and 15 symbols!</p>
+                </div>
             </div>
             <div class="mb-4">
-                <label for="fullName" class="block text-black text-sm font-medium mb-2">Full Name</label>
-                <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" class="w-full px-3 py-2 placeholder-input text-input border rounded-lg focus:outline-none focus:ring focus:ring-primary" />
+                <label th:for="fullName" class="block text-black text-sm font-medium mb-2">Full Name</label>
+                <input th:field="*{fullName}"
+                       required minlength="5" maxlength="20"
+                       type="text" id="fullName" name="fullName" placeholder="Enter your full name"
+                       class="w-full px-3 py-2  border rounded-lg focus:outline-none focus:ring focus:ring-primary"/>
+                <div th:errors="*{fullName}"
+                     class="text-sm bg-destructive text-destructive-foreground p-1 rounded-md mx-auto">
+                    <p>Full name length must be between 5 and 20 symbols!</p>
+                </div>
             </div>
             <div class="mb-4">
-                <label for="email" class="block text-black text-sm font-medium mb-2">Email</label>
-                <input type="email" id="email" name="email" placeholder="Enter your email" class="w-full px-3 py-2 placeholder-input text-input border rounded-lg focus:outline-none focus:ring focus:ring-primary" />
+                <label th:for="email" class="block text-black text-sm font-medium mb-2">Email</label>
+                <input th:field="*{email}"
+                       required
+                       type="email" id="email" name="email" placeholder="Enter your email"
+                       class="w-full px-3 py-2  border rounded-lg focus:outline-none focus:ring focus:ring-primary"/>
+                <div th:errors="*{email}"
+                     class="text-sm bg-destructive text-destructive-foreground p-1 rounded-md mx-auto">
+                    <p>Enter valid email</p>
+                </div>
             </div>
             <div class="mb-4">
-                <label for="age" class="block text-black text-sm font-medium mb-2">Age</label>
-                <input type="number" id="age" name="age" placeholder="Enter your age" class="w-full px-3 py-2 placeholder-input text-input border rounded-lg focus:outline-none focus:ring focus:ring-primary" />
+                <label th:for="age" class="block text-black text-sm font-medium mb-2">Age</label>
+                <input th:field="*{age}"
+                       required min="1"
+                       type="number" id="age" name="age" placeholder="Enter your age"
+                       class="w-full px-3 py-2  border rounded-lg focus:outline-none focus:ring focus:ring-primary"/>
+                <div th:errors="*{age}"
+                     class="text-sm bg-destructive text-destructive-foreground p-1 rounded-md mx-auto">
+                    <p>Age must be positive</p>
+                </div>
             </div>
             <div class="mb-4">
-                <label for="password" class="block text-black text-sm font-medium mb-2">Password</label>
-                <input type="password" id="password" name="password" placeholder="Enter your password" class="w-full px-3 py-2 placeholder-input text-input border rounded-lg focus:outline-none focus:ring focus:ring-primary" />
+                <label th:for="password" class="block text-black text-sm font-medium mb-2">Password</label>
+                <input th:field="*{password}"
+                       required minlength="5" maxlength="15"
+                       type="password" id="password" name="password"
+                       placeholder="Enter your password"
+                       class="w-full px-3 py-2  border rounded-lg focus:outline-none focus:ring focus:ring-primary"/>
+                <div th:errors="*{password}"
+                     class="text-sm bg-destructive text-destructive-foreground p-1 rounded-md mx-auto">
+                    <p>Password length must be between 2 and 15 symbols!</p>
+                </div>
+                <div th:errors="global"
+                     class="text-sm bg-destructive text-destructive-foreground p-1 rounded-md mx-auto">
+                    <p>Password length must be between 2 and 15 symbols!</p>
+                </div>
             </div>
             <div class="mb-6">
-                <label for="confirmPassword" class="block text-black text-sm font-medium mb-2">Confirm Password</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" class="w-full px-3 py-2 placeholder-input text-input border rounded-lg focus:outline-none focus:ring focus:ring-primary" />
+                <label th:for="confirmPassword" class="block text-black text-sm font-medium mb-2">Confirm
+                    Password</label>
+                <input th:field="*{confirmPassword}"
+                       required minlength="5" maxlength="15"
+                       type="password" id="confirmPassword" name="confirmPassword"
+                       placeholder="Confirm your password"
+                       class="w-full px-3 py-2  border rounded-lg focus:outline-none focus:ring focus:ring-primary"/>
+                <div th:errors="*{confirmPassword}"
+                     class="text-sm bg-destructive text-destructive-foreground p-1 rounded-md mx-auto">
+                    <p>Password length must be between 2 and 15 symbols!</p>
+                </div>
+                <div th:errors="global"
+                     class="text-sm bg-destructive text-destructive-foreground p-1 rounded-md mx-auto">
+                    <p>Password length must be between 2 and 15 symbols!</p>
+                </div>
             </div>
-            <button type="submit" class="w-full bg-primary text-primary-foreground py-2 rounded-lg hover:bg-primary/80 transition-colors duration-300">Register</button>
+            <button type="submit"
+                    class="w-full bg-primary text-primary-foreground py-2 rounded-lg hover:bg-primary/80 transition-colors duration-300">
+                Register
+            </button>
         </form>
     </div>
 </div>

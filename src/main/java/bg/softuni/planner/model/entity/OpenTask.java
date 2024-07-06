@@ -1,19 +1,24 @@
 package bg.softuni.planner.model.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "open_tasks")
+@Getter
+@Setter
 public class OpenTask extends BaseEntity {
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false)
     private String category;
 
     @Column(nullable = false, columnDefinition = "TEXT")
@@ -36,4 +41,7 @@ public class OpenTask extends BaseEntity {
     )
     private Set<User> upVotes;
 
+    public OpenTask() {
+        this.upVotes = new LinkedHashSet<>();
+    }
 }

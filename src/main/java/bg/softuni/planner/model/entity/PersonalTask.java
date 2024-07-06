@@ -13,10 +13,10 @@ import java.time.LocalDate;
 @Setter
 public class PersonalTask extends BaseEntity {
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false)
     private String category;
 
     @Column(nullable = false)
