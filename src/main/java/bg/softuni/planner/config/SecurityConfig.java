@@ -21,7 +21,7 @@ public class SecurityConfig {
         return httpSecurity
                 .authorizeHttpRequests(authorizationRequest -> authorizationRequest
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .requestMatchers("/", "/users/register", "/users/login",
+                        .requestMatchers("/", "/users/register", "/users/login", "/users/login-error",
                                 "/about", "/contacts").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(login -> login.
@@ -29,7 +29,7 @@ public class SecurityConfig {
                         .usernameParameter("username")
                         .passwordParameter("password")
                         .defaultSuccessUrl("/home")
-                        .failureForwardUrl("/login-error"))
+                        .failureUrl("/users/login-error"))
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .invalidateHttpSession(true))

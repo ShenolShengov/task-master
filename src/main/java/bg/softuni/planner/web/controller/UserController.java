@@ -47,6 +47,12 @@ public class UserController {
         return "login";
     }
 
+    @GetMapping("/login-error")
+    public String loginError(Model model, RedirectAttributes rAtt) {
+        rAtt.addFlashAttribute("hasError", true);
+        return "redirect:/users/login";
+    }
+
     @GetMapping("/all")
     public String allView() {
         return "all-users";
