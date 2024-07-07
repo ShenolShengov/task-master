@@ -4,6 +4,7 @@ import bg.softuni.taskmaster.model.dto.ContactUsDTO;
 import bg.softuni.taskmaster.service.ContactService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,7 +19,10 @@ public class HomeController {
     private final ContactService contactService;
     @GetMapping("/")
     public String indexView() {
-        return "index";
+        if (SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser")){
+            return "index";
+        }
+        return "home";
     }
 
     @GetMapping("/home")
@@ -45,10 +49,11 @@ public class HomeController {
             rAAt.addFlashAttribute("contactData", contactUsDTO);
             rAAt.addFlashAttribute("org.springframework.validation.BindingResult.contactData",
                     bindingResult);
+            rAAt.addFlashAttribute("scrollToFrom", true);
             return "redirect:/contacts";
         }
         contactService.sendMail(contactUsDTO);
         rAAt.addFlashAttribute("mailSent", true);
-        return "redirect:/home";
+        return "redirect:/";
     }
 }

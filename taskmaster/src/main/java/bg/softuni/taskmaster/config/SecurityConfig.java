@@ -22,16 +22,17 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizationRequest -> authorizationRequest
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/", "/users/register", "/users/login", "/users/login-error",
-                                "/about", "/contacts").permitAll()
+                                "/about", "/contacts", "/tasks/open-tasks").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(login -> login.
                         loginPage("/users/login")
                         .usernameParameter("username")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/home")
+                        .defaultSuccessUrl("/")
                         .failureUrl("/users/login-error"))
                 .logout(logout -> logout
                         .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
                         .invalidateHttpSession(true))
                 .build();
     }
