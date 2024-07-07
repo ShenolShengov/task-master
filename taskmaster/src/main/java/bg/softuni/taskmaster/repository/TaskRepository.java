@@ -1,9 +1,9 @@
 package bg.softuni.taskmaster.repository;
 
-import bg.softuni.taskmaster.model.entity.PersonalTask;
+import bg.softuni.taskmaster.model.entity.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PersonalTaskRepository extends JpaRepository<PersonalTask, Long> {
+public interface TaskRepository extends JpaRepository<Task, Long> {
 }

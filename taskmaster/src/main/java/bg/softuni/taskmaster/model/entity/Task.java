@@ -6,12 +6,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
-@Table(name = "personal_tasks")
+@Table(name = "tasks")
 @Getter
 @Setter
-public class PersonalTask extends BaseEntity {
+public class Task extends BaseEntity {
 
     @Column(nullable = false)
     private String name;
@@ -25,6 +26,14 @@ public class PersonalTask extends BaseEntity {
 
     @Column(nullable = false)
     private LocalDate dueDate;
+
+    @Column(nullable = false)
+    private LocalTime startTime;
+
+    @Column(nullable = false)
+    private LocalTime endTime;
+
+    private boolean allDay;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;

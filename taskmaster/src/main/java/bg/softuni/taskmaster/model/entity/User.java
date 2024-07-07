@@ -32,10 +32,10 @@ public class User extends BaseEntity {
     private Set<Role> roles;
 
     @OneToMany(mappedBy = "user")
-    private Set<PersonalTask> personalTasks;
+    private Set<Task> tasks;
 
     public User() {
         this.roles = new LinkedHashSet<>();
-        this.personalTasks = new LinkedHashSet<>();
+        this.tasks = new LinkedHashSet<>();
     }
 }
