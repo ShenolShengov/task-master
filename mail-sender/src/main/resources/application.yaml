@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: email-sender
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${mail}
+    password: ${password}
+    properties:
+      mail:
+        smtp:
+          outh: true
+          starttls:
+            enable: true
+mail:
+  api:
+    from: ${mail}
+
+server:
+  port: 8081
