@@ -1,10 +1,11 @@
-package bg.softuni.taskmaster.service;
+package bg.softuni.taskmaster.service.impl;
 
 import bg.softuni.taskmaster.model.dto.TaskAddDTO;
 import bg.softuni.taskmaster.model.entity.Task;
 import bg.softuni.taskmaster.model.enums.TaskPriorities;
 import bg.softuni.taskmaster.repository.TaskRepository;
 import bg.softuni.taskmaster.repository.UserRepository;
+import bg.softuni.taskmaster.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
