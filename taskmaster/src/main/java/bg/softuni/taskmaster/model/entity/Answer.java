@@ -10,18 +10,18 @@ import java.time.LocalDateTime;
 @Table(name = "comments")
 @Getter
 @Setter
-public class Comment extends BaseEntity {
-
-    @Column(nullable = false)
-    private LocalDateTime createdTime;
+public class Answer extends BaseEntity {
 
     @Column(nullable = false)
     private String description;
+
+    @Column(nullable = false)
+    private LocalDateTime createdTime;
 
     @ManyToOne(optional = false)
     private User user;
 
     @ManyToOne(optional = false)
-    private OpenTask task;
+    private Question question;
 
 }

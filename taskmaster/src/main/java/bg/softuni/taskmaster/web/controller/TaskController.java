@@ -44,13 +44,4 @@ public class TaskController {
     public String editTask() {
         return "edit-task";
     }
-
-    @GetMapping("/open-tasks")
-    public String openTasksView(){
-        return "open-tasks";
-    }
-
-    @GetMapping("/open-task/details")public String openTaskDetailsView(){
-        return "open-task-details";
-    }
 }

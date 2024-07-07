@@ -50,6 +50,7 @@ window.tailwind.config = {
         extend: {
 
             colors: {
+                code: 'hsl(var(--code))',
                 border: 'hsl(var(--border))',
                 input: 'hsl(var(--input))',
                 sort: 'hsl(var(--sort))',

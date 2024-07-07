@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/fragments/head::head}"></head>
+<body class="bg-blue-500">
+<nav th:replace="~{/fragments/navigation::nav}"></nav>
+<div class=" mt-4 mb-4 text-primary-foreground min-h-screen flex flex-col items-center justify-center">
+    <form th:action="@{/questions/ask}"
+          th:method="post"
+          th:object="${askQuestionData}"
+          class="bg-card p-8 rounded-lg shadow-lg w-full max-w-xl">
+        <h1 class="text-center text-4xl font-bold mb-6 text-black">Ask Question</h1>
+        <div class="grid grid-cols-2 gap-6">
+            <div>
+                <label th:for="name" class="block text-sm font-medium text-black">Title</label>
+                <input th:field="*{title}" id="name" name="name" type="text"
+                       class="text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring"
+                       placeholder="e.g. How to sort a array in java"/>
+                <div th:errors="*{title}"
+                     class="text-sm text-destructive">
+                    <p>Username length must be between 5 and 15 symbols!</p>
+                </div>
+            </div>
+            <div>
+                <label th:for="tags" class="block text-sm font-medium text-black">Tags</label>
+                <input th:field="*{tags}" type="text" id="tags"
+                       class="text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring"
+                       placeholder="e.g. (java git c#)"/>
+                <div th:errors="*{tags}"
+                     class="text-sm text-destructive">
+                    <p>Username length must be between 5 and 15 symbols!</p>
+                </div>
+            </div>
+        </div>
+        <label th:for="description" class="block text-sm font-medium mt-6 text-black">Description</label>
+        <textarea th:field="*{description}" id="description"
+                  class="w-full mt-1 p-3 rounded-md text-black border border-input focus:outline-none focus:ring focus:ring-ring"
+                  rows="5" ></textarea>
+        <div th:errors="*{description}"
+             class="text-sm text-destructive">
+            <p>Username length must be between 5 and 15 symbols!</p>
+        </div>
+
+        <label th:for="code" class="block text-sm font-medium mt-6 text-black">Code</label>
+        <textarea th:field="*{code}" id="code"
+                  class="w-full mt-1 p-3 rounded-md text-black border border-input focus:outline-none focus:ring focus:ring-ring"
+                  rows="5" ></textarea>
+        <div th:errors="*{code}"
+             class="text-sm text-destructive">
+            <p>Username length must be between 5 and 15 symbols!</p>
+        </div>
+        <div class="flex justify-center">
+            <button type="submit"
+                    class="bg-primary text-primary-foreground mt-6 py-3 px-6 rounded-md hover:bg-primary/80 transition-colors">
+                Ask question
+            </button>
+        </div>
+    </form>
+</div>
+<footer th:replace="~{/fragments/footer::footer}"></footer>
+<script th:src="@{/js/dates.js}"></script>
+</body>
+</html>
+@GetMapping("/ask")public String askView(Model model){if(!model.containsAttribute("askQuestionData")){model.addAttribute("askQuestionData", new AskQuestionDTO());}return"ask-question";}
