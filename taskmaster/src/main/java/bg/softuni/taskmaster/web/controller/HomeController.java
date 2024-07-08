@@ -16,7 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 public class HomeController {
 
-    private final ContactService contactService;
     @GetMapping("/")
     public String indexView() {
         if (SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser")){
@@ -35,25 +34,4 @@ public class HomeController {
         return "about";
     }
 
-    @GetMapping("/contacts")
-    public String contactsView(Model model) {
-        if (!model.containsAttribute("contactData")) {
-            model.addAttribute("contactData", new ContactUsDTO());
-        }
-        return "contacts";
-    }
-
-    @PostMapping("/contacts")
-    public String doContacts(@Valid ContactUsDTO contactUsDTO, BindingResult bindingResult, RedirectAttributes rAtt) {
-        if (bindingResult.hasErrors()) {
-            rAtt.addFlashAttribute("contactData", contactUsDTO);
-            rAtt.addFlashAttribute("org.springframework.validation.BindingResult.contactData",
-                    bindingResult);
-            rAtt.addFlashAttribute("invalidData", true);
-            return "redirect:/contacts";
-        }
-        contactService.sendMail(contactUsDTO);
-        rAtt.addFlashAttribute("mailSent", true);
-        return "redirect:/";
-    }
 }
