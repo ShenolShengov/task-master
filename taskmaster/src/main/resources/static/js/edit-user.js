@@ -8,7 +8,7 @@ for (let i = 0; i < editButtons.length; i++) {
     let element = editButtons[i];
 
     element.addEventListener('click', () => {
-        fetch("http://localhost:8080/users/" + element.id)
+        fetch("http://localhost:8080/users/api/" + element.id)
             .then(e => e.json())
             .then(json => {
                 getElementById("id").value = json.id;
@@ -22,4 +22,3 @@ for (let i = 0; i < editButtons.length; i++) {
     })
 }
 
-let element = getElementById("tasks");

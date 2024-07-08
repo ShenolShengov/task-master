@@ -2,6 +2,7 @@ package bg.softuni.taskmaster.model.entity;
 
 import bg.softuni.taskmaster.model.enums.TaskPriorities;
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,7 @@ import java.time.LocalTime;
 @Table(name = "tasks")
 @Getter
 @Setter
+@EqualsAndHashCode(callSuper = false)
 public class Task extends BaseEntity {
 
     @Column(nullable = false)

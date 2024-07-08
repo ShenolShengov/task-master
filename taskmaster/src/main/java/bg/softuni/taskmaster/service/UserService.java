@@ -13,9 +13,15 @@ public interface UserService {
 
     Set<TaskInfoDTO> getTasks();
 
-    UserInfoDTO getInfo(String username);
+    UserInfoDTO getInfo(Long id);
 
     Set<UserInfoDTO> getAllInfo();
 
     void edit(UserEditDTO userEditDTO);
+
+    void delete(Long id);
+
+    void makeAdmin(Long id);
+
+    void removeAdmin(Long id);
 }

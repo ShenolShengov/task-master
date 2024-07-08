@@ -54,10 +54,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserInfoDTO getInfo(String username) {
-        return userRepository.findByUsername(username)
-                .map(this::toInfo)
-                .orElseThrow(RuntimeException::new);//todo add custom exception ObjectNotFoundException
+    public UserInfoDTO getInfo(Long id) {
+        return modelMapper.map(userHelperService.getUser(id), UserInfoDTO.class);
     }
 
     private UserInfoDTO toInfo(User e) {
@@ -67,7 +65,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN')")
     public Set<UserInfoDTO> getAllInfo() {
         return userRepository.findAll()
                 .stream().map(this::toInfo)
@@ -76,9 +73,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void edit(UserEditDTO userEditDTO) {
-        User user = userRepository.findById(userEditDTO.getId())
-                .orElseThrow(RuntimeException::new);
+        User user = userHelperService.getUser(userEditDTO.getId());
         BeanUtils.copyProperties(userEditDTO, user);
+        userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void makeAdmin(Long id) {
+        User user = userHelperService.getUser(id);
+        user.getRoles().add(roleRepository.getByName(UserRoles.ADMIN));
+        userRepository.save(user);
+    }
+
+    @Override
+    public void removeAdmin(Long id) {
+        User user = userHelperService.getUser(id);
+        user.getRoles().remove(roleRepository.getByName(UserRoles.ADMIN));
         userRepository.save(user);
     }
 }

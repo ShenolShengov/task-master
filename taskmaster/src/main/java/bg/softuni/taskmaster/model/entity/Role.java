@@ -2,6 +2,7 @@ package bg.softuni.taskmaster.model.entity;
 
 import bg.softuni.taskmaster.model.enums.UserRoles;
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 public class Role extends BaseEntity {
 
     @Column(nullable = false)

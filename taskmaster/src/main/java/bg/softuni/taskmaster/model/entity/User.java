@@ -31,11 +31,19 @@ public class User extends BaseEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Set<Task> tasks;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private Set<Question> questions;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private Set<Answer> answers;
 
     public User() {
         this.roles = new LinkedHashSet<>();
         this.tasks = new LinkedHashSet<>();
+        this.questions = new LinkedHashSet<>();
+        this.answers = new LinkedHashSet<>();
     }
 }

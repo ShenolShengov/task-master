@@ -35,7 +35,7 @@ public class UserHelperServiceImpl implements UserHelperService {
     @Override
     public boolean haseRole(String role, User user) {
         return user.getRoles()
-                .stream().anyMatch(e -> e.getName().name().equals("ROLE_" + role));
+                .stream().anyMatch(e -> e.getName().name().equals(role));
     }
 
     @Override
@@ -53,6 +53,12 @@ public class UserHelperServiceImpl implements UserHelperService {
     public User getUser() {
         return userRepository.findByUsername(getName())
                 .orElseThrow(() -> new AuthenticationException("User is not authenticated"));
+    }
+
+    @Override
+    public User getUser(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(RuntimeException::new);
     }
 
     private static Authentication getAuthentication() {
