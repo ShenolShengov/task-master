@@ -44,16 +44,16 @@ public class HomeController {
     }
 
     @PostMapping("/contacts")
-    public String doContacts(@Valid ContactUsDTO contactUsDTO, BindingResult bindingResult, RedirectAttributes rAAt) {
+    public String doContacts(@Valid ContactUsDTO contactUsDTO, BindingResult bindingResult, RedirectAttributes rAtt) {
         if (bindingResult.hasErrors()) {
-            rAAt.addFlashAttribute("contactData", contactUsDTO);
-            rAAt.addFlashAttribute("org.springframework.validation.BindingResult.contactData",
+            rAtt.addFlashAttribute("contactData", contactUsDTO);
+            rAtt.addFlashAttribute("org.springframework.validation.BindingResult.contactData",
                     bindingResult);
-            rAAt.addFlashAttribute("scrollToFrom", true);
+            rAtt.addFlashAttribute("scrollToFrom", true);
             return "redirect:/contacts";
         }
         contactService.sendMail(contactUsDTO);
-        rAAt.addFlashAttribute("mailSent", true);
+        rAtt.addFlashAttribute("mailSent", true);
         return "redirect:/";
     }
 }

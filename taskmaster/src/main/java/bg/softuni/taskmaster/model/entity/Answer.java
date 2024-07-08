@@ -3,6 +3,7 @@ package bg.softuni.taskmaster.model.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.stereotype.Controller;
 
 import java.time.LocalDateTime;
 
@@ -12,8 +13,11 @@ import java.time.LocalDateTime;
 @Setter
 public class Answer extends BaseEntity {
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
+
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String code;
 
     @Column(nullable = false)
     private LocalDateTime createdTime;

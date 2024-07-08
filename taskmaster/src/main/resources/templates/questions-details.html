@@ -68,7 +68,7 @@
     <div class="bg-card shadow-lg rounded-lg overflow-hidden w-full md:w-3/4 mt-4 relative">
         <div class="p-4">
             <div class="flex gap-6 items-baseline">
-                <h2 class="text-black font-bold text-2xl mb-2">3 Answer</h2>
+                <h2 th:text="*{answers.size() + ' Answers'}" class="text-black font-bold text-2xl mb-2">3 Answer</h2>
                 <div class="mb-6 flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
                     <select class="px-4 py-2 rounded-lg text-black focus:outline-none focus:ring focus:ring-primary">
                         <option value="" selected disabled hidden>Sort by</option>
@@ -78,10 +78,11 @@
                     </select>
                 </div>
             </div>
-            <div class="comment-container">
-                <p class="text-black mt-2">Great job on completing this task! Great job on completing this task!</p>
+            <div th:if="${scrollToFrom}" id="scroll"></div>
+            <div th:each="answer: *{answers}" class="comment-container border-solid border-black border-b-2 pb-4">
+                <p th:text="${answer.getDescription()}" class="text-black mt-2">Great job on completing this task! Great job on completing this task!</p>
                 <pre class="pl-4 pr-4 mt-4 box-border overflow-scroll bg-code rounded-lg">
-                <code  class="text-black pl-2">
+                <code th:text="${answer.getCode()}"  class="text-black pl-2">
 @GetMapping("/ask")
     public String askView(Model model) {
         if (!model.containsAttribute("askQuestionData")) {
@@ -92,48 +93,22 @@
                 </code>
                 </pre>
                 <div class="text-black  flex justify-between items-center">
-                    <button class="delete-comment-button bg-destructive text-destructive-foreground px-2 py-1 rounded-lg font-semibold">
+                    <button class="mt-6 delete-comment-button bg-destructive text-destructive-foreground px-2 py-1 rounded-lg font-semibold">
                         Delete
                     </button>
                     <div class="mt-4">
-                        <p class="font-semibold ">answered May 9, 2012 at 4:09 </p>
-                        <p class="font-semibold text-black text-right ">by Shenol10</p>
+                        <p th:text="${'answered ' + answer.getCreatedTime()}" class="font-semibold ">answered May 9, 2012 at 4:09 </p>
+                        <p th:text="${'by ' + answer.getUserUsername()}" class="font-semibold text-black text-right ">by Shenol10</p>
                     </div>
                 </div>
-            </div>
-            <div class="comment-container">
-                <div class="flex items-center space-x-4 mt-4 comment">
-                    <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
-                        <span class="text-primary-foreground font-semibold">JD</span>
-                    </div>
-                    <div>
-                        <p class="text-black font-semibold">John Doe</p>
-                        <p class="text-black text-muted-foreground">2 hours ago</p>
-                    </div>
-                    <button class="delete-comment-button bg-destructive text-destructive-foreground px-2 py-1 rounded-lg font-semibold ml-auto">
-                        Delete
-                    </button>
-                </div>
-                <p class="text-black mt-2">Great job on completing this task!</p>
-            </div>
-            <div class="comment-container">
-                <div class="flex items-center space-x-4 mt-4 comment">
-                    <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
-                        <span class="text-primary-foreground font-semibold">JS</span>
-                    </div>
-                    <div>
-                        <p class="text-base font-semibold">Jane Smith</p>
-                        <p class="text-sm text-muted-foreground">1 day ago</p>
-                    </div>
-                    <button class="delete-comment-button bg-destructive text-destructive-foreground px-2 py-1 rounded-lg font-semibold ml-auto">
-                        Delete
-                    </button>
-                </div>
-                <p class="text-base mt-2">I have some feedback for this task. Let's discuss it further.</p>
             </div>
         </div>
     </div>
 </div>
 <footer th:replace="~{/fragments/footer::footer}"></footer>
 </body>
+<script>
+    document.getElementById("scroll")
+        .scrollIntoView({block: "end", behavior: "smooth"});
+</script>
 </html>

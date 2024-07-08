@@ -54,10 +54,11 @@ public class QuestionController {
             rAtt.addFlashAttribute("questionAnswerData", questionAnswerDTO);
             rAtt.addFlashAttribute("org.springframework.validation.BindingResult.questionAnswerData",
                     bindingResult);
+            rAtt.addFlashAttribute("scrollToFrom", true);
         } else {
             questionService.answer(questionAnswerDTO, id);
         }
-        return "redirect:/" + id;
+        return "redirect:/questions/" + id;
     }
 
     @GetMapping("/{id}")
