@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Getter
@@ -18,4 +19,9 @@ public class QuestionDetailsDTO implements Serializable {
     private String userUsername;
     private Set<String> tags;
     private Set<AnswerDetailsDTO> answers;
+
+    public QuestionDetailsDTO() {
+        this.tags = new LinkedHashSet<>();
+        this.answers = new LinkedHashSet<>();
+    }
 }

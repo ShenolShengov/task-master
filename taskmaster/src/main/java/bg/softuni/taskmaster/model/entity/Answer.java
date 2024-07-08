@@ -28,4 +28,7 @@ public class Answer extends BaseEntity {
     @ManyToOne(optional = false)
     private Question question;
 
+    public Answer() {
+        this.createdTime = LocalDateTime.now();
+    }
 }

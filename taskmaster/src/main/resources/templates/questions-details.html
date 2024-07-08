@@ -44,8 +44,8 @@
             <h2 class="text-black text-2xl  mb-2">Answer</h2>
             <label th:for="description" class="mb-2 block text-sm font-medium mt-4 text-black">Description</label>
             <textarea id="description" th:field="*{description}"
-                    class="w-full h-20 text-black placeholder-muted-foreground border border-primary rounded-lg p-2 focus:outline-none focus:ring focus:ring-primary"
-                    placeholder="Write your comment here">
+                      class="w-full h-20 text-black placeholder-muted-foreground border border-primary rounded-lg p-2 focus:outline-none focus:ring focus:ring-primary"
+                      placeholder="Write your comment here">
             </textarea>
             <div th:errors="*{description}"
                  class="text-sm text-destructive">
@@ -53,8 +53,8 @@
             </div>
             <label th:for="code" class="mb-2 block text-sm font-medium mt-4 text-black">Code</label>
             <textarea id="code" th:field="*{code}"
-                    class="w-full h-20 text-black placeholder-muted-foreground border border-primary rounded-lg p-2 focus:outline-none focus:ring focus:ring-primary"
-                    placeholder="Write your comment here">
+                      class="w-full h-20 text-black placeholder-muted-foreground border border-primary rounded-lg p-2 focus:outline-none focus:ring focus:ring-primary"
+                      placeholder="Write your comment here">
 
             </textarea>
             <div th:errors="*{code}"
@@ -78,11 +78,12 @@
                     </select>
                 </div>
             </div>
-            <div th:if="${scrollToFrom}" id="scroll"></div>
+            <div th:if="${invalidData}" id="invalidDataScroll"></div>
             <div th:each="answer: *{answers}" class="comment-container border-solid border-black border-b-2 pb-4">
-                <p th:text="${answer.getDescription()}" class="text-black mt-2">Great job on completing this task! Great job on completing this task!</p>
+                <p th:text="${answer.getDescription()}" class="text-black mt-2">Great job on completing this task! Great
+                    job on completing this task!</p>
                 <pre class="pl-4 pr-4 mt-4 box-border overflow-scroll bg-code rounded-lg">
-                <code th:text="${answer.getCode()}"  class="text-black pl-2">
+                <code th:text="${answer.getCode()}" class="text-black pl-2">
 @GetMapping("/ask")
     public String askView(Model model) {
         if (!model.containsAttribute("askQuestionData")) {
@@ -97,18 +98,27 @@
                         Delete
                     </button>
                     <div class="mt-4">
-                        <p th:text="${'answered ' + answer.getCreatedTime()}" class="font-semibold ">answered May 9, 2012 at 4:09 </p>
-                        <p th:text="${'by ' + answer.getUserUsername()}" class="font-semibold text-black text-right ">by Shenol10</p>
+                        <p th:text="${'answered ' + answer.getCreatedTime()}" class="font-semibold ">answered May 9,
+                            2012 at 4:09 </p>
+                        <p th:text="${'by ' + answer.getUserUsername()}" class="font-semibold text-black text-right ">by
+                            Shenol10</p>
                     </div>
                 </div>
             </div>
+            <div th:if="${successfullyAddedComment}" id="addedCommentScroll"></div>
         </div>
     </div>
 </div>
 <footer th:replace="~{/fragments/footer::footer}"></footer>
 </body>
 <script>
-    document.getElementById("scroll")
-        .scrollIntoView({block: "end", behavior: "smooth"});
+
+    let invalidDataScroller = document.getElementById("invalidDataScroll");
+    let addedCommentScroller = document.getElementById("addedCommentScroll");
+    if (invalidDataScroller != null) {
+        invalidDataScroller.scrollIntoView({block: "end", behavior: "smooth"});
+    } else if (addedCommentScroller != null) {
+        addedCommentScroller.scrollIntoView({block: "end", behavior: "smooth"});
+    }
 </script>
 </html>

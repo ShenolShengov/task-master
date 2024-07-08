@@ -54,9 +54,10 @@ public class QuestionController {
             rAtt.addFlashAttribute("questionAnswerData", questionAnswerDTO);
             rAtt.addFlashAttribute("org.springframework.validation.BindingResult.questionAnswerData",
                     bindingResult);
-            rAtt.addFlashAttribute("scrollToFrom", true);
+            rAtt.addFlashAttribute("invalidData", true);
         } else {
             questionService.answer(questionAnswerDTO, id);
+            rAtt.addFlashAttribute("successfullyAddedComment", true);
         }
         return "redirect:/questions/" + id;
     }

@@ -49,7 +49,7 @@ public class HomeController {
             rAtt.addFlashAttribute("contactData", contactUsDTO);
             rAtt.addFlashAttribute("org.springframework.validation.BindingResult.contactData",
                     bindingResult);
-            rAtt.addFlashAttribute("scrollToFrom", true);
+            rAtt.addFlashAttribute("invalidData", true);
             return "redirect:/contacts";
         }
         contactService.sendMail(contactUsDTO);
