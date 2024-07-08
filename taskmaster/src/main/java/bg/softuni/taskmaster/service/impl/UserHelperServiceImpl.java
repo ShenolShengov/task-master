@@ -33,8 +33,24 @@ public class UserHelperServiceImpl implements UserHelperService {
     }
 
     @Override
+    public boolean haseRole(String role, User user) {
+        return user.getRoles()
+                .stream().anyMatch(e -> e.getName().name().equals("ROLE_" + role));
+    }
+
+    @Override
+    public boolean isAdmin() {
+        return haseRole("ADMIN");
+    }
+
+    @Override
+    public boolean isAdmin(User user) {
+        return haseRole("ADMIN", user);
+    }
+
+    @Override
     @SneakyThrows
-    public User getUser()  {
+    public User getUser() {
         return userRepository.findByUsername(getName())
                 .orElseThrow(() -> new AuthenticationException("User is not authenticated"));
     }

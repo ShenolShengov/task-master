@@ -10,6 +10,10 @@ public interface UserHelperService {
     String getName();
 
     boolean haseRole(String role);
+    boolean haseRole(String role, User user);
+
+    boolean isAdmin();
+    boolean isAdmin(User user);
 
     User getUser() throws AuthenticationException;
 }

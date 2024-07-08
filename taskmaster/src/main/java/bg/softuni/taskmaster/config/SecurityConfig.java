@@ -29,7 +29,7 @@ public class SecurityConfig {
                         .usernameParameter("username")
                         .passwordParameter("password")
                         .defaultSuccessUrl("/")
-                        .failureUrl("/users/login-error"))
+                        .failureForwardUrl("/users/login-error"))
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")

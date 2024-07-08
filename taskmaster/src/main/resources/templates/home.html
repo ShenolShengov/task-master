@@ -14,8 +14,10 @@
                 <h2 class="text-xl text-black font-semibold">Today's Tasks</h2>
                 <div class="flex items-center space-x-2">
                     <label for="today-sort-by" class="text-zinc-600">Sort by:</label>
-                    <select id="today-sort-by"
+                    <form action=""></form>
+                    <select  id="today-sort-by"
                             class="bg-input text-zinc-600 border border-input rounded-md px-2 py-1 pr-8">
+
                         <option value="priority">Priority</option>
                         <option value="priority">Priority DESC</option>
                         <option value="category">Category</option>
@@ -267,8 +269,5 @@
 </div>
 <footer th:replace="~{/fragments/footer::footer}"></footer>
 </body>
-<script th:src="@{/js/completed-tasks.js}"></script>
-<script th:src="@{/js/switch-future-prev-tasks.js}"></script>
-<script th:src="@{/js/switch-future-prev-tasks.js}"></script>
 <script th:src="@{/js/dates.js}"></script>
 </html>

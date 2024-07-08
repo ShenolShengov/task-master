@@ -1,5 +1,6 @@
 package bg.softuni.taskmaster.web.controller;
 
+import bg.softuni.taskmaster.model.dto.UserEditDTO;
 import bg.softuni.taskmaster.model.dto.UserRegisterDTO;
 import bg.softuni.taskmaster.service.UserService;
 import jakarta.validation.Valid;
@@ -20,7 +21,6 @@ public class UserController {
 
     @GetMapping("/register")
     public String registerView(Model model) {
-
         if (!model.containsAttribute("registerData")) {
             model.addAttribute("registerData", new UserRegisterDTO());
         }
@@ -46,14 +46,35 @@ public class UserController {
 
     }
 
-    @GetMapping("/login-error")
-    public String loginError(RedirectAttributes rAtt) {
-        rAtt.addFlashAttribute("hasError", true);
-        return "redirect:/users/login";
+
+    @PostMapping("/login-error")
+    public String loginError(@ModelAttribute("username") String username, Model model) {
+        model.addAttribute("hasError", true);
+        model.addAttribute("username", username);
+        return "login";
     }
 
-    @GetMapping("/all")
-    public String allView() {
+
+    @GetMapping
+    public String allView(Model model) {
+        model.addAttribute("allUsers", userService.getAllInfo());
+        if (!model.containsAttribute("editData")) {
+            model.addAttribute("editData", new UserEditDTO());
+        }
         return "all-users";
+    }
+
+    @PutMapping
+    public String edit(@Valid UserEditDTO userEditDTO, BindingResult bindingResult,
+                       RedirectAttributes rAtt) {
+        if (bindingResult.hasErrors()) {
+            rAtt.addFlashAttribute("editData", userEditDTO);
+            rAtt.addFlashAttribute("org.springframework.validation.BindingResult.editData",
+                    bindingResult);
+            rAtt.addFlashAttribute("showEdit", true);
+            return "redirect:/users";
+        }
+        userService.edit(userEditDTO);
+        return "redirect:/users";
     }
 }

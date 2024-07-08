@@ -1,20 +1,24 @@
 package bg.softuni.taskmaster.web.controller;
 
+import bg.softuni.taskmaster.service.UserHelperService;
 import bg.softuni.taskmaster.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
 
     private final UserService userService;
+    private final UserHelperService userHelperService;
+
     @GetMapping("/")
     public String indexView(Model model) {
-        if (isAnonymous()){
+        if (!userHelperService.isAuthenticated()) {
             return "index";
         }
         model.addAttribute("currentUserTasks", userService.getTasks());
@@ -27,7 +31,9 @@ public class HomeController {
         return "about";
     }
 
-    private static boolean isAnonymous() {
-        return SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser");
+    @GetMapping("/statistics")
+    public String statisticsView() {
+        return "statistics";
     }
+
 }

@@ -1,7 +1,6 @@
 package bg.softuni.taskmaster.web.controller;
 
 import bg.softuni.taskmaster.model.dto.TaskAddDTO;
-import bg.softuni.taskmaster.model.dto.UserRegisterDTO;
 import bg.softuni.taskmaster.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -3,157 +3,100 @@
 <head th:replace="~{/fragments/head::head}"></head>
 <body>
 <nav th:replace="~{/fragments/navigation::nav}"></nav>
-<!--<div class="bg-background text-foreground min-h-screen p-4 flex flex-col items-center">-->
-<!--    <h1 class="text-3xl font-bold mb-4">All users</h1>-->
-<!--    <div class="overflow-x-auto w-full max-w-4xl">-->
-<!--        <table class="min-w-full bg-card rounded-lg">-->
-<!--            <thead>-->
-<!--            <tr>-->
-<!--                <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">Username</th>-->
-<!--                <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">Full Name</th>-->
-<!--                <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">Email</th>-->
-<!--                <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">Role</th>-->
-<!--                <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">Actions</th>-->
-<!--            </tr>-->
-<!--            </thead>-->
-<!--            <tbody>-->
-<!--            <tr>-->
-<!--                <td class="px-4 py-2 text-center">JohnDoe</td>-->
-<!--                <td class="px-4 py-2 text-center">John Doe</td>-->
-<!--                <td class="px-4 py-2 text-center">john.doe@example.com</td>-->
-<!--                <td class="px-4 py-2 text-center">Admin</td>-->
-<!--                <td class="px-4 py-2 text-center">-->
-<!--                    <button class="bg-secondary text-secondary-foreground px-2 py-1 rounded-lg">Edit</button>-->
-<!--                    <button class="bg-destructive text-destructive-foreground px-2 py-1 rounded-lg ml-2">Delete</button>-->
-<!--                    <button class="bg-accent text-accent-foreground px-2 py-1 rounded-lg ml-2">Make Admin</button>-->
-<!--                </td>-->
-<!--            </tr>-->
-<!--            <tr>-->
-<!--                <td class="px-4 py-2 text-center">JaneSmith</td>-->
-<!--                <td class="px-4 py-2 text-center">Jane Smith</td>-->
-<!--                <td class="px-4 py-2 text-center">jane.smith@example.com</td>-->
-<!--                <td class="px-4 py-2 text-center">User</td>-->
-<!--                <td class="px-4 py-2 text-center">-->
-<!--                    <button class="bg-secondary text-secondary-foreground px-2 py-1 rounded-lg">Edit</button>-->
-<!--                    <button class="bg-destructive text-destructive-foreground px-2 py-1 rounded-lg ml-2">Delete</button>-->
-<!--                    <button class="bg-accent text-accent-foreground px-2 py-1 rounded-lg ml-2">Make Admin</button>-->
-<!--                </td>-->
-<!--            </tr>-->
-<!--            </tbody>-->
-<!--        </table>-->
-<!--    </div>-->
-<!--</div>-->
 <div class="bg-background text-foreground min-h-screen p-4 flex flex-col items-center mb-8">
     <h1 class="text-3xl  mb-4 text-center">All users</h1>
-    <div class="overflow-x-auto w-full max-w-4xl">
-        <table class="min-w-full bg-card rounded-lg">
+    <div class="overflow-x-auto w-full max-w-5xl">
+        <table class="min-w-full bg-card rounded-lg table-fixed">
             <thead>
             <tr>
                 <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">Username</th>
                 <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">Full Name</th>
                 <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">Email</th>
+                <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">Age</th>
                 <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">Role</th>
                 <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">Actions</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td class="px-4 py-2 text-center">JohnDoe</td>
-                <td class="px-4 py-2 text-center">John Doe</td>
-                <td class="px-4 py-2 text-center">john.doe@example.com</td>
-                <td class="px-4 py-2 text-center">Admin</td>
+            <tr th:each="user : ${allUsers}" th:object="${user}">
+                <td th:text="*{username}" class="px-4 py-2 text-center">JohnDoe</td>
+                <td th:text="*{fullName}" class="px-4 py-2 text-center">John Doe</td>
+                <td th:text="*{email}" class="px-4 py-2 text-center">john.doe@example.com</td>
+                <td th:text="*{age}" class="px-4 py-2 text-center">22</td>
+                <td th:text="*{isAdmin}? 'Admin' : 'User'" class="px-4 py-2 text-center">Admin</td>
                 <td class="px-4 py-2 text-center">
-                    <button class="bg-accent text-accent-foreground px-2 py-1 rounded-lg ml-2">Make Admin</button>
-                    <button class="edit-button bg-secondary text-secondary-foreground px-2 py-1 rounded-lg">Edit</button>
-                    <button class="bg-destructive text-destructive-foreground px-2 py-1 rounded-lg ml-2">Delete</button>
-                </td>
-            </tr>
-            <tr>
-                <td class="px-4 py-2 text-center">JaneSmith</td>
-                <td class="px-4 py-2 text-center">Jane Smith</td>
-                <td class="px-4 py-2 text-center">jane.smith@example.com</td>
-                <td class="px-4 py-2 text-center">User</td>
-                <td class="px-4 py-2 text-center">
-                    <button class="bg-accent text-accent-foreground px-2 py-1 rounded-lg ml-2">Make Admin</button>
-                    <button class="edit-button bg-secondary text-secondary-foreground px-2 py-1 rounded-lg">Edit</button>
-                    <button class="bg-destructive text-destructive-foreground px-2 py-1 rounded-lg ml-2">Delete</button>
-                </td>
-            </tr>
-            <tr>
-                <td class="px-4 py-2 text-center">JaneSmith</td>
-                <td class="px-4 py-2 text-center">Jane Smith</td>
-                <td class="px-4 py-2 text-center">jane.smith@example.com</td>
-                <td class="px-4 py-2 text-center">User</td>
-                <td class="px-4 py-2 text-center">
-                    <button class="bg-accent text-accent-foreground px-2 py-1 rounded-lg ml-2">Make Admin</button>
-                    <button class="edit-button bg-secondary text-secondary-foreground px-2 py-1 rounded-lg">Edit</button>
-                    <button class="bg-destructive text-destructive-foreground px-2 py-1 rounded-lg ml-2">Delete</button>
-                </td>
-            </tr>
-            <tr>
-                <td class="px-4 py-2 text-center">JaneSmith</td>
-                <td class="px-4 py-2 text-center">Jane Smith</td>
-                <td class="px-4 py-2 text-center">jane.smith@example.com</td>
-                <td class="px-4 py-2 text-center">User</td>
-                <td class="px-4 py-2 text-center">
-                    <button class="bg-accent text-accent-foreground px-2 py-1 rounded-lg ml-2">Make Admin</button>
-                    <button class="edit-button bg-secondary text-secondary-foreground px-2 py-1 rounded-lg">Edit</button>
-                    <button class="bg-destructive text-destructive-foreground px-2 py-1 rounded-lg ml-2">Delete</button>
-                </td>
-            </tr>
-            <tr>
-                <td class="px-4 py-2 text-center">JaneSmith</td>
-                <td class="px-4 py-2 text-center">Jane Smith</td>
-                <td class="px-4 py-2 text-center">jane.smith@example.com</td>
-                <td class="px-4 py-2 text-center">User</td>
-                <td class="px-4 py-2 text-center">
-                    <button class="bg-accent text-accent-foreground px-2 py-1 rounded-lg ml-2">Make Admin</button>
-                    <button class="edit-button bg-secondary text-secondary-foreground px-2 py-1 rounded-lg">Edit</button>
+                    <button th:text="*{isAdmin}? 'Remove Admin' : 'Make Admin'"
+                            class="mr-2 bg-accent text-accent-foreground px-2 py-1 rounded-lg ml-2">Make Admin</button>
+                    <button th:id="*{username}"
+                            class="edit-button bg-secondary text-secondary-foreground px-2 py-1 rounded-lg">Edit
+                    </button>
                     <button class="bg-destructive text-destructive-foreground px-2 py-1 rounded-lg ml-2">Delete</button>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
-    <div class="hidden flex flex-col justify-center gap-6 mt-4  w-3/5" id="editSection">
+    <form th:method="put" th:action="@{/users}" th:object="${editData}" class="hidden flex flex-col justify-center gap-6 mt-4  w-[68.8%]"
+          id="editSection">
         <h2 class="text-xl mb-2 border-solid border-b-2 border-black pb-2 rem mb-4">Edit</h2>
+        <input th:field="*{id}" type="hidden" id="id">
         <div class="flex gap-8">
             <div class="w-full md:w-1/2">
                 <label class="block mb-3" for="username">Username</label>
-                <input id="username" type="text" class="w-full  text-black border border-primary rounded-md px-3 py-2 mb-2"
+                <input th:field="*{username}" id="username" type="text"
+                       class="w-full  text-black border border-primary rounded-md px-3 py-2 mb-2"
                        placeholder="Username"/>
-                <div class="bg-destructive text-destructive-foreground p-1 rounded-md mx-auto">
-                    <p>Username length must be between 2 and 15 symbols!</p>
+                <div th:errors="*{username}"
+                     class="text-sm text-destructive">
+                    <p>Username length must be between 5 and 15 symbols!</p>
                 </div>
             </div>
             <div class="w-full md:w-1/2">
                 <label class="block mb-3" for="fullName">Full Name</label>
-                <input id="fullName" type="text" class="w-full  text-black border border-primary rounded-md px-3 py-2 mb-2"
+                <input th:field="*{fullName}" id="fullName" type="text"
+                       class="w-full  text-black border border-primary rounded-md px-3 py-2 mb-2"
                        placeholder="FullName"/>
+                <div th:errors="*{fullName}"
+                     class="text-sm text-destructive">
+                    <p>Username length must be between 5 and 15 symbols!</p>
+                </div>
             </div>
         </div>
         <div class="flex gap-8">
             <div class="w-full md:w-1/2">
                 <label class="block mb-3" for="email">Email</label>
-                <input id="email" type="email" class="w-full  text-black border border-primary rounded-md px-3 py-2 mb-2"
+                <input th:field="*{email}" id="email" type="email"
+                       class="w-full  text-black border border-primary rounded-md px-3 py-2 mb-2"
                        placeholder="Email"/>
+                <div th:errors="*{email}"
+                     class="text-sm text-destructive">
+                    <p>Username length must be between 5 and 15 symbols!</p>
+                </div>
             </div>
             <div class="w-full md:w-1/2">
                 <label class="block mb-3" for="age">Age</label>
-                <input id="age" type="number" class="w-full  text-black border border-primary rounded-md px-3 py-2 mb-2"
+                <input th:field="*{age}" id="age" type="number" class="w-full  text-black border border-primary rounded-md px-3 py-2 mb-2"
                        placeholder="Age"/>
+                <div th:errors="*{age}"
+                     class="text-sm text-destructive">
+                    <p>Username length must be between 5 and 15 symbols!</p>
+                </div>
             </div>
         </div>
-        <!--        <select class="w-full bg-input text-input border border-primary rounded-md px-3 py-2 mb-2">-->
-        <!--            <option value="admin">Admin</option>-->
-        <!--            <option value="user">User</option>-->
-        <!--        </select>-->
         <div class="flex justify-start">
             <button class="bg-primary text-primary-foreground px-4 py-2 rounded-lg">Save Changes</button>
         </div>
-    </div>
+    </form>
+    <div th:if="${showEdit}" id="scroll"></div>
 </div>
 <footer th:replace="~{/fragments/footer::footer}"></footer>
 </body>
+<script th:if="${showEdit}">
+    document.getElementById('editSection').classList.toggle('hidden', false);
+</script>
+<script>
+    document.getElementById("scroll")
+        .scrollIntoView({block: "end", behavior: "smooth"});
+</script>
 <script th:src="@{/js/edit-user.js}"></script>
 </html>

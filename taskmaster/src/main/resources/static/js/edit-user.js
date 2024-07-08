@@ -1,16 +1,25 @@
 let editButtons = document.getElementsByClassName('edit-button');
-let usernameInput = document.getElementById('username');
-let fullNameInput = document.getElementById('fullName');
-let emailInput = document.getElementById('email');
-let ageInput = document.getElementById('age');
+
+function getElementById(id) {
+    return document.getElementById(id);
+}
+
 for (let i = 0; i < editButtons.length; i++) {
     let element = editButtons[i];
-    // fetch('http://localhost:8080/api/uses/' + element.id);
-    editButtons[i].addEventListener('click', () => {
-        document.getElementById('editSection').classList.toggle('hidden', false);
-        usernameInput.value = "Shenol10";
-        fullNameInput.value = "Shenol Shengov";
-        emailInput.value = "shenolshengov41@gmail.com";
-        ageInput.value = '20';
+
+    element.addEventListener('click', () => {
+        fetch("http://localhost:8080/users/" + element.id)
+            .then(e => e.json())
+            .then(json => {
+                getElementById("id").value = json.id;
+                getElementById('username').value = json.username;
+                getElementById('fullName').value = json.fullName;
+                getElementById('email').value = json.email;
+                getElementById('age').value = json.age;
+                getElementById('editSection').classList.toggle('hidden', false);
+            })
+            .catch(error => console.log('An error occurred' + error));
     })
 }
+
+let element = getElementById("tasks");
