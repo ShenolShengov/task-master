@@ -2,8 +2,10 @@ package bg.softuni.taskmaster.config;
 
 import bg.softuni.taskmaster.model.dto.AnswerDetailsDTO;
 import bg.softuni.taskmaster.model.dto.QuestionDetailsDTO;
+import bg.softuni.taskmaster.model.dto.TaskAddDTO;
 import bg.softuni.taskmaster.model.entity.Answer;
 import bg.softuni.taskmaster.model.entity.Question;
+import bg.softuni.taskmaster.model.entity.Task;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

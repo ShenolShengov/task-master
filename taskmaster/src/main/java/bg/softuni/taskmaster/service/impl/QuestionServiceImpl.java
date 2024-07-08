@@ -1,23 +1,25 @@
 package bg.softuni.taskmaster.service.impl;
 
 import bg.softuni.taskmaster.model.dto.AnswerDetailsDTO;
-import bg.softuni.taskmaster.model.dto.AskQuestionDTO;
 import bg.softuni.taskmaster.model.dto.QuestionAnswerDTO;
+import bg.softuni.taskmaster.model.dto.QuestionAskDTO;
 import bg.softuni.taskmaster.model.dto.QuestionDetailsDTO;
 import bg.softuni.taskmaster.model.entity.Answer;
 import bg.softuni.taskmaster.model.entity.Question;
 import bg.softuni.taskmaster.repository.AnswerRepository;
 import bg.softuni.taskmaster.repository.QuestionRepository;
-import bg.softuni.taskmaster.repository.UserRepository;
 import bg.softuni.taskmaster.service.QuestionService;
+import bg.softuni.taskmaster.service.UserHelperService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.LinkedHashSet;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,17 +27,16 @@ import java.util.stream.Collectors;
 public class QuestionServiceImpl implements QuestionService {
 
     private final QuestionRepository questionRepository;
-    private final UserRepository userRepository;
     private final AnswerRepository answerRepository;
+    private final UserHelperService userHelperService;
     private final ModelMapper modelMapper;
 
     @Override
-    public long ask(AskQuestionDTO askQuestionDTO) {
-        String authenticatedUserUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        Question question = modelMapper.map(askQuestionDTO, Question.class);
+    @SneakyThrows
+    public long ask(QuestionAskDTO questionAskDTO) {
+        Question question = modelMapper.map(questionAskDTO, Question.class);
         question.setCreatedTime(LocalDateTime.now());
-        question.setUser(userRepository.findByUsername(authenticatedUserUsername).orElseThrow(
-                RuntimeException::new));//todo add custom exception - ObjectNotFoundException
+        question.setUser(userHelperService.getUser());
         return questionRepository.save(question).getId();
     }
 
@@ -61,12 +62,11 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    @SneakyThrows
     public void answer(QuestionAnswerDTO questionAnswerDTO, Long id) {
-        String authenticatedUserUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         Answer answer = modelMapper.map(questionAnswerDTO, Answer.class);
         answer.setQuestion(questionRepository.findById(id).orElseThrow(RuntimeException::new));
-        answer.setUser(userRepository.findByUsername(authenticatedUserUsername).orElseThrow(
-                RuntimeException::new));//todo add custom exception - ObjectNotFoundException
+        answer.setUser(userHelperService.getUser());
         answerRepository.save(answer);
     }
 }

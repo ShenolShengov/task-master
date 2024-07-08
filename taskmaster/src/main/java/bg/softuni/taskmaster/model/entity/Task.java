@@ -41,4 +41,7 @@ public class Task extends BaseEntity {
     @ManyToOne(optional = false)
     private User user;
 
+    public Task() {
+
+    }
 }

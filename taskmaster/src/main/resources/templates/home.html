@@ -30,88 +30,23 @@
                 </div>
             </div>
             <ul>
-                <li class="flex flex-col py-4 border-b border-card">
+                <li th:each="task: ${currentUserTasks}" th:object="${task}" class="flex flex-col py-4 border-b border-card">
                     <div class="flex items-center justify-between mb-2">
-                        <span class="text-black font-semibold">Task 3</span>
-                        <span class="text-black">Priority: High</span>
-                        <span class="text-black">Category: Personal</span>
+                        <span th:text="*{name}" class="text-black text-lg ">Task 3</span>
+                        <span th:text="*{'Priority: ' + priority}" class="text-black">Priority: High</span>
+                        <span th:text="*{'Category: ' + category}" class="text-black">Category: Personal</span>
                     </div>
-                    <p class="text-sm text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor
+                    <p th:text="*{description}" class=" text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor
                         incididunt ut labore et dolore magna aliqua.</p>
                     <div class="flex items-center justify-between">
-                        <span class="text-sm text-zinc-600">Due: 2022-12-31</span>
-                        <button class="bg-primary text-primary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-primary/80">
-                            Complete
-                        </button>
-                        <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">
-                            Edit
-                        </button>
-                        <button class="bg-destructive text-destructive-foreground py-1 px-2 rounded-lg shadow-md hover:bg-destructive/80">
-                            Remove
-                        </button>
-                    </div>
-                </li>
-                <li class="flex flex-col py-4 border-b border-card">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-black font-semibold">Task 3</span>
-                        <span class="text-black">Priority: High</span>
-                        <span class="text-black">Category: Personal</span>
-                    </div>
-                    <p class="text-sm text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-sm text-zinc-600">Start Time: 09:00 AM</span>
-                        <span class="text-sm text-zinc-600">End Time: 10:00 AM</span>
-                        <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">Edit</button>
-                        <button class="bg-destructive text-destructive-foreground py-1 px-2 rounded-lg shadow-md hover:bg-destructive/80">Remove</button>
-                    </div>
-                </li>
-                <li class="flex flex-col py-4 border-b border-card">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-black font-semibold">Task 3</span>
-                        <span class="text-black">Priority: High</span>
-                        <span class="text-black">Category: Personal</span>
-                    </div>
-                    <p class="text-sm text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-sm text-zinc-600">Due: 2022-12-31</span>
-                        <button class="bg-primary text-primary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-primary/80">Complete</button>
-                        <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">Edit</button>
-                        <button class="bg-destructive text-destructive-foreground py-1 px-2 rounded-lg shadow-md hover:bg-destructive/80">Remove</button>
-                    </div>
-                </li>
-                <li class="flex flex-col py-4 border-b border-card">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-black font-semibold">Task 3</span>
-                        <span class="text-black">Priority: High</span>
-                        <span class="text-black">Category: Personal</span>
-                    </div>
-                    <p class="text-sm text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-sm text-zinc-600">Due: 2022-12-31</span>
-                        <button class="bg-primary text-primary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-primary/80">Complete</button>
-                        <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">Edit</button>
-                        <button class="bg-destructive text-destructive-foreground py-1 px-2 rounded-lg shadow-md hover:bg-destructive/80">Remove</button>
-                    </div>
-                </li>
-                <li class="flex flex-col py-4 border-b border-card">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-black font-semibold">Task 3</span>
-                        <span class="text-black">Priority: High</span>
-                        <span class="text-black">Category: Personal</span>
-                    </div>
-                    <p class="text-sm text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-sm text-zinc-600">Due: 2022-12-31</span>
-                        <button class="bg-primary text-primary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-primary/80">Complete</button>
+                        <span th:if="!*{allDay}" th:text="*{'Start time: ' +startTime}" class="text-sm text-zinc-600">Start Time: 09:00 AM</span>
+                        <span th:if="!*{allDay}" th:text="*{'End time: ' + endTime}" class="text-sm text-zinc-600">End Time: 10:00 AM</span>
+                        <span th:if="*{allDay}" class="text-sm text-zinc-600">All day</span>
                         <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">Edit</button>
                         <button class="bg-destructive text-destructive-foreground py-1 px-2 rounded-lg shadow-md hover:bg-destructive/80">Remove</button>
                     </div>
                 </li>
             </ul>
-            <button id="expand-completed-tasks" class="text-gray-500 hover:text-black mt-2 cursor-pointer">Show
-                Completed Tasks
-            </button>
         </section>
         <section id="switch-tasks-section" class=" bg-card rounded-lg p-6 shadow-md overflow-y-auto max-h-96">
             <div class="flex justify-between items-center mb-4">

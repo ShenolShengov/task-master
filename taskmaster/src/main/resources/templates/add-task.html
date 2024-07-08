@@ -89,7 +89,7 @@
             <p>Username length must be between 5 and 15 symbols!</p>
         </div>
         <div class="flex justify-center">
-            <button type="submit"
+            <button type="submit" id="add-task"
                     class="bg-primary text-primary-foreground mt-6 py-3 px-6 rounded-md hover:bg-primary/80 transition-colors">
                 Add task
             </button>
@@ -103,16 +103,16 @@
     let startTimeDiv = document.getElementById("start-time-div");
     let endTimeDiv = document.getElementById("end-time-div");
     allDayCheckBox.addEventListener("change", () => {
-        // if (allDayCheckBox.checked) {
-        //     startTimeDiv.disabled  = true;
-        //     endTimeDiv.disabled  = true;
-        // }else {
-        //     startTimeDiv.disabled  = false;
-        //     endTimeDiv.disabled  = false;
-        // }
         startTimeDiv.classList.toggle('hidden');
         endTimeDiv.classList.toggle('hidden');
     });
+    document.getElementById("add-task").addEventListener('click', () => {
+        if (allDayCheckBox.checked) {
+            document.getElementById("startTime").value = '00:00';
+            document.getElementById("endTime").value = "23:59";
+        }
+    });
+
 </script>
 </body>
 </html>

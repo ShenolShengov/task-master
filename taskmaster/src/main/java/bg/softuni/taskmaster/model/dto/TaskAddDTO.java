@@ -1,5 +1,6 @@
 package bg.softuni.taskmaster.model.dto;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -9,7 +10,6 @@ import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
@@ -17,7 +17,7 @@ import java.time.LocalTime;
 public class TaskAddDTO implements Serializable {
 
     @NotNull
-    @Length(min = 5, max = 20)
+    @Length(min = 5, max = 40)
     private String name;
 
     @Length(min = 5, max = 20)
@@ -42,4 +42,6 @@ public class TaskAddDTO implements Serializable {
     @NotNull
     @Length(min = 5, max = 2000)
     private String description;
+
+
 }

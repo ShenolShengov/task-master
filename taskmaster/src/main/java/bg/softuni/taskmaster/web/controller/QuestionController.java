@@ -1,6 +1,6 @@
 package bg.softuni.taskmaster.web.controller;
 
-import bg.softuni.taskmaster.model.dto.AskQuestionDTO;
+import bg.softuni.taskmaster.model.dto.QuestionAskDTO;
 import bg.softuni.taskmaster.model.dto.QuestionAnswerDTO;
 import bg.softuni.taskmaster.service.QuestionService;
 import jakarta.validation.Valid;
@@ -29,21 +29,21 @@ public class QuestionController {
     @GetMapping("/ask")
     public String askView(Model model) {
         if (!model.containsAttribute("askQuestionData")) {
-            model.addAttribute("askQuestionData", new AskQuestionDTO());
+            model.addAttribute("askQuestionData", new QuestionAskDTO());
         }
         return "ask-question";
     }
 
     @PostMapping("/ask")
-    public String doRegister(@Valid AskQuestionDTO askQuestionDTO, BindingResult bindingResult,
+    public String doRegister(@Valid QuestionAskDTO questionAskDTO, BindingResult bindingResult,
                              RedirectAttributes rAtt) {
         if (bindingResult.hasErrors()) {
-            rAtt.addFlashAttribute("askQuestionData", askQuestionDTO);
+            rAtt.addFlashAttribute("askQuestionData", questionAskDTO);
             rAtt.addFlashAttribute("org.springframework.validation.BindingResult.askQuestionData",
                     bindingResult);
             return "redirect:/questions/ask";
         }
-        long questionId = questionService.ask(askQuestionDTO);
+        long questionId = questionService.ask(questionAskDTO);
         return "redirect:/questions/" + questionId;
     }
 

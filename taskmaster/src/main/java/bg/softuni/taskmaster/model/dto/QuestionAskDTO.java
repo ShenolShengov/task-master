@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-public class AskQuestionDTO implements Serializable {
+public class QuestionAskDTO implements Serializable {
 
     @NotNull
     @Length(min = 5, max = 20)
