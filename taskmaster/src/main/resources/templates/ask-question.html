@@ -60,4 +60,3 @@
 <script th:src="@{/js/dates.js}"></script>
 </body>
 </html>
-@GetMapping("/ask")public String askView(Model model){if(!model.containsAttribute("askQuestionData")){model.addAttribute("askQuestionData", new AskQuestionDTO());}return"ask-question";}

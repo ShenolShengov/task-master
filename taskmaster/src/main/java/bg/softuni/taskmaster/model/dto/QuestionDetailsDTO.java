@@ -4,13 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Set;
 
 @Getter
 @Setter
 public class QuestionDetailsDTO implements Serializable {
 
+    private String id;
     private String title;
     private String description;
     private String code;

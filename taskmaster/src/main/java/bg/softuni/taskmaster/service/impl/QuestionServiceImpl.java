@@ -1,8 +1,11 @@
 package bg.softuni.taskmaster.service.impl;
 
 import bg.softuni.taskmaster.model.dto.AskQuestionDTO;
+import bg.softuni.taskmaster.model.dto.QuestionAnswerDTO;
 import bg.softuni.taskmaster.model.dto.QuestionDetailsDTO;
+import bg.softuni.taskmaster.model.entity.Answer;
 import bg.softuni.taskmaster.model.entity.Question;
+import bg.softuni.taskmaster.repository.AnswerRepository;
 import bg.softuni.taskmaster.repository.QuestionRepository;
 import bg.softuni.taskmaster.repository.UserRepository;
 import bg.softuni.taskmaster.service.QuestionService;
@@ -25,6 +28,7 @@ public class QuestionServiceImpl implements QuestionService {
     public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("MMM dd, yyyy 'at' kk:mm");
     private final QuestionRepository questionRepository;
     private final UserRepository userRepository;
+    private final AnswerRepository answerRepository;
     private final ModelMapper modelMapper;
 
     @Override
@@ -48,5 +52,16 @@ public class QuestionServiceImpl implements QuestionService {
                         HashSet::add,
                         AbstractCollection::addAll));
         return questionDetailsDTO;
+    }
+
+    @Override
+    public void answer(QuestionAnswerDTO questionAnswerDTO, Long id) {
+        String authenticatedUserUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        Answer answer = modelMapper.map(questionAnswerDTO, Answer.class);
+        answer.setCreatedTime(LocalDateTime.now());
+        answer.setQuestion(questionRepository.findById(id).orElseThrow(RuntimeException::new));
+        answer.setUser(userRepository.findByUsername(authenticatedUserUsername).orElseThrow(
+                RuntimeException::new));//todo add custom exception - ObjectNotFoundException
+        answerRepository.save(answer);
     }
 }

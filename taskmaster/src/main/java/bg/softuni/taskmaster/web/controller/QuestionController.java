@@ -1,6 +1,7 @@
 package bg.softuni.taskmaster.web.controller;
 
 import bg.softuni.taskmaster.model.dto.AskQuestionDTO;
+import bg.softuni.taskmaster.model.dto.QuestionAnswerDTO;
 import bg.softuni.taskmaster.service.QuestionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -46,9 +47,25 @@ public class QuestionController {
         return "redirect:/questions/" + questionId;
     }
 
+    @PostMapping("/answer/{id}")
+    public String answer(@PathVariable Long id, @Valid QuestionAnswerDTO questionAnswerDTO,
+                         BindingResult bindingResult, RedirectAttributes rAtt) {
+        if (bindingResult.hasErrors()) {
+            rAtt.addFlashAttribute("questionAnswerData", questionAnswerDTO);
+            rAtt.addFlashAttribute("org.springframework.validation.BindingResult.questionAnswerData",
+                    bindingResult);
+        } else {
+            questionService.answer(questionAnswerDTO, id);
+        }
+        return "redirect:/" + id;
+    }
+
     @GetMapping("/{id}")
     public String detailsView(@PathVariable Long id, Model model) {
-        model.addAttribute("questionData",questionService.getDetailsDTO(id));
+        model.addAttribute("questionData", questionService.getDetailsDTO(id));
+        if (!model.containsAttribute("questionAnswerData")) {
+            model.addAttribute("questionAnswerData", new QuestionAnswerDTO());
+        }
         return "questions-details";
     }
 }
