@@ -19,6 +19,7 @@ public class UserEditDTO {
 
     @NotNull(message = "Username length must be between 5 and 15 symbols!")
     @Length(min = 2, max = 15, message = "Username length must be between 5 and 15 symbols!")
+    @UniqueField(UniqueFieldType.USERNAME)
     private String username;
 
     @NotNull(message = "Full name length must be between 2 and 20 symbols!")
@@ -27,6 +28,7 @@ public class UserEditDTO {
 
     @Email(message = "Not valid email")
     @NotEmpty(message = "Not valid email")
+    @UniqueField(UniqueFieldType.EMAIL)
     private String email;
 
     @Positive(message = "Age must be positive")

@@ -1,6 +1,7 @@
 package bg.softuni.taskmaster.service;
 
 import bg.softuni.taskmaster.model.dto.*;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Set;
 
@@ -12,7 +13,7 @@ public interface UserService {
 
     UserInfoDTO getInfo(Long id);
 
-    Set<UserInfoDTO> getAllInfo();
+    Set<UserInfoDTO> getAllInfo(Pageable pageable);
 
     void edit(UserEditDTO userEditDTO);
 

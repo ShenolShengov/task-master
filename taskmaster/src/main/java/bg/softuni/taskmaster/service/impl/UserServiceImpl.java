@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -62,8 +64,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Set<UserInfoDTO> getAllInfo() {
-        return userRepository.findAll()
+    public Set<UserInfoDTO> getAllInfo(Pageable pageable) {
+        return userRepository.findAll(pageable)
                 .stream().map(this::toInfo)
                 .collect(Collectors.toCollection(LinkedHashSet::new));
     }

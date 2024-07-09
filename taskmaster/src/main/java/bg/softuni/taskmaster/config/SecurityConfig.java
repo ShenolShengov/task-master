@@ -19,7 +19,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/users/api/**"))
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/users/**"))//return to /users/api/**
                 .authorizeHttpRequests(authorizationRequest -> authorizationRequest
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/", "/users/register", "/users/login", "/users/login-error",

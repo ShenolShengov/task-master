@@ -6,6 +6,7 @@ import bg.softuni.taskmaster.service.UserService;
 import bg.softuni.taskmaster.service.UsersPagingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,10 +31,26 @@ public class UserController {
     public UserChangePasswordDTO changePasswordData() {
         return new UserChangePasswordDTO();
     }
+
     @GetMapping
-    public String allView(Model model) {
-        model.addAttribute("allUsers", userService.getAllInfo());
+    public String allView(Model model,
+                          @RequestParam(value = "page", required = false) Integer page) {
+        usersPagingService.setPage(page);
+        PageRequest pageRequest = PageRequest.of(usersPagingService.getPage(), usersPagingService.getSize());
+        model.addAttribute("allUsers", userService.getAllInfo(pageRequest));
+
         return "all-users";
+    }
+
+    @GetMapping("/next-page")
+    public String nextPage(){
+        usersPagingService.nextPage();
+        return "redirect:/users";
+    }
+    @GetMapping("/prev-page")
+    public String prevPage(){
+        usersPagingService.prevPage();
+        return "redirect:/users";
     }
 
     @PutMapping
