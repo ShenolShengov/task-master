@@ -31,10 +31,11 @@
                             class="make-remove-admin mr-2 bg-accent text-accent-foreground px-2 py-1 rounded-lg ml-2">
                         Make Admin
                     </button>
-                    <button th:id="*{id}"
+                    <button th:id="*{id}" th:data-username="*{username}"
                             class="edit-button bg-secondary text-secondary-foreground px-2 py-1 rounded-lg">Edit
                     </button>
-                    <button  class="bg-destructive text-destructive-foreground px-2 py-1 rounded-lg ml-2">Change
+                    <button th:id="*{id}" th:data-username="*{username}"
+                            class="change-password-button bg-destructive text-destructive-foreground px-2 py-1 rounded-lg ml-2">Change
                         password
                     </button>
                     <button th:id="*{id}" class="delete-button bg-destructive text-destructive-foreground px-2 py-1 rounded-lg ml-2">Delete</button>
@@ -46,8 +47,8 @@
     <form th:method="put" th:action="@{/users}" th:object="${editData}"
           class="hidden flex flex-col justify-center gap-6 mt-4  w-[68.8%]"
           id="editSection">
-        <h2 class="text-2xl mb-2 border-solid border-b-2 border-black pb-2 rem mb-4">Edit</h2>
-        <input th:field="*{id}" type="hidden" id="id">
+        <h2 id="editLabel" class="text-2xl mb-2 border-solid border-b-2 border-black pb-2 rem mb-4">Edit</h2>
+        <input th:field="*{id}" type="hidden" id="editDataUserId">
         <div class="flex gap-8">
             <div class="w-full md:w-1/2">
                 <label class="block mb-3" for="username">Username</label>
@@ -97,39 +98,68 @@
         </div>
     </form>
 
-    <form class="p-6 min-w-[45em] hidden">
-        <h2 class="text-2xl mb-2 border-solid border-b-2 border-black pb-2 rem mb-4">Change Password</h2>
+    <form th:method="patch"
+          th:action="@{/users/change-password}"
+          th:object="${changePasswordData}"
+          class="p-6 min-w-[45em] hidden" id="changePasswordSection">
+        <input th:field="*{id}" type="hidden" id="changePasswordUserId">
+        <h2 id="changePasswordLabel"
+            class="text-2xl mb-2 border-solid border-b-2 border-black pb-2 rem mb-4">Change Password</h2>
         <div class="flex gap-4">
             <div class="mb-4 w-full md:w-1/2">
-                <label for="new-password" class="mb-3 block text-sm font-medium text-primary">New Password</label>
-                <input id="new-password" type="password"
-                       class="w-full px-3 py-2 placeholder-input text-input border rounded-lg focus:outline-none focus:ring ring-primary"
+                <label th:for="newPassword" class="mb-3 block text-sm font-medium text-primary">New Password</label>
+                <input th:field="*{newPassword}" id="newPassword" type="password"
+                       class="w-full px-3 py-2 placeholder-input text-black border rounded-lg focus:outline-none focus:ring ring-primary"
                        placeholder="Enter your new password"/>
+                <div th:errors="*{newPassword}"
+                     class="text-sm text-destructive">
+                    <p>Password length must be between 2 and 15 symbols!</p>
+                </div>
+                <div th:errors="global"
+                     class="text-sm text-destructive">
+                    <p>Password length must be between 2 and 15 symbols!</p>
+                </div>
             </div>
             <div class="mb-4 w-full md:w-1/2">
-                <label for="confirm-password" class="mb-3 block text-sm font-medium text-primary">Confirm Password</label>
-                <input
-                        id="confirm-password"
+                <label th:for="confirmPassword" class="mb-3 block text-sm font-medium text-primary">Confirm Password</label>
+                <input th:field="*{confirmPassword}"
+                        id="confirmPassword"
                         type="password"
-                        class="w-full px-3 py-2 placeholder-input text-input border rounded-lg focus:outline-none focus:ring ring-primary"
+                        class="w-full px-3 py-2 placeholder-input text-black border rounded-lg focus:outline-none focus:ring ring-primary"
                         placeholder="Confirm your new password"
                 />
+                <div th:errors="*{confirmPassword}"
+                     class="text-sm text-destructive">
+                    <p>Password length must be between 2 and 15 symbols!</p>
+                </div>
+                <div th:errors="global"
+                     class="text-sm text-destructive">
+                    <p>Password length must be between 2 and 15 symbols!</p>
+                </div>
             </div>
         </div>
         <div class="flex justify-start">
-            <button class="bg-primary text-primary-foreground px-4 py-2 rounded-lg">Change password</button>
+            <button type="submit" class="bg-primary text-primary-foreground px-4 py-2 rounded-lg">Change password</button>
         </div>
     </form>
-    <div th:if="${showEdit}" id="scroll"></div>
+    <div th:if="${showEdit != null or showChangePassword != null}" id="scroll"></div>
 </div>
 <footer th:replace="~{/fragments/footer::footer}"></footer>
 </body>
 <script th:if="${showEdit}">
     document.getElementById('editSection').classList.toggle('hidden', false);
+    document.getElementById('changePasswordSection').classList.add('hidden');
+    document.getElementById("scroll")
+        .scrollIntoView({block: "end", behavior: "smooth"});
+</script>
+<script th:if="${showChangePassword}">
+    document.getElementById('changePasswordSection').classList.toggle('hidden', false);
+    document.getElementById('editSection').classList.add('hidden');
     document.getElementById("scroll")
         .scrollIntoView({block: "end", behavior: "smooth"});
 </script>
 <script th:src="@{/js/user-make-remove-admin.js}"></script>
 <script th:src="@{/js/edit-user.js}"></script>
 <script th:src="@{/js/delete-user.js}"></script>
+<script th:src="@{/js/chage-user-password.js}"></script>
 </html>

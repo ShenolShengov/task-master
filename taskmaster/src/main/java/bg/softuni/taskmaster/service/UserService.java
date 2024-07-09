@@ -1,9 +1,6 @@
 package bg.softuni.taskmaster.service;
 
-import bg.softuni.taskmaster.model.dto.TaskInfoDTO;
-import bg.softuni.taskmaster.model.dto.UserEditDTO;
-import bg.softuni.taskmaster.model.dto.UserInfoDTO;
-import bg.softuni.taskmaster.model.dto.UserRegisterDTO;
+import bg.softuni.taskmaster.model.dto.*;
 
 import java.util.Set;
 
@@ -24,4 +21,6 @@ public interface UserService {
     void makeAdmin(Long id);
 
     void removeAdmin(Long id);
+
+    void changePassword(UserChangePasswordDTO changePasswordDTO);
 }

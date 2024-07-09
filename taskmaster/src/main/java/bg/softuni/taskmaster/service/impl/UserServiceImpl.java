@@ -1,9 +1,6 @@
 package bg.softuni.taskmaster.service.impl;
 
-import bg.softuni.taskmaster.model.dto.TaskInfoDTO;
-import bg.softuni.taskmaster.model.dto.UserEditDTO;
-import bg.softuni.taskmaster.model.dto.UserInfoDTO;
-import bg.softuni.taskmaster.model.dto.UserRegisterDTO;
+import bg.softuni.taskmaster.model.dto.*;
 import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.model.enums.UserRoles;
 import bg.softuni.taskmaster.repository.RoleRepository;
@@ -96,6 +93,13 @@ public class UserServiceImpl implements UserService {
     public void removeAdmin(Long id) {
         User user = userHelperService.getUser(id);
         user.getRoles().remove(roleRepository.getByName(UserRoles.ADMIN));
+        userRepository.save(user);
+    }
+
+    @Override
+    public void changePassword(UserChangePasswordDTO changePasswordDTO) {
+        User user = userHelperService.getUser(changePasswordDTO.getId());
+        user.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
         userRepository.save(user);
     }
 }

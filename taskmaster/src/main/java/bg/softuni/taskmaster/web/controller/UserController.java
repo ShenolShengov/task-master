@@ -1,5 +1,6 @@
 package bg.softuni.taskmaster.web.controller;
 
+import bg.softuni.taskmaster.model.dto.UserChangePasswordDTO;
 import bg.softuni.taskmaster.model.dto.UserEditDTO;
 import bg.softuni.taskmaster.model.dto.UserRegisterDTO;
 import bg.softuni.taskmaster.service.UserService;
@@ -61,6 +62,9 @@ public class UserController {
         if (!model.containsAttribute("editData")) {
             model.addAttribute("editData", new UserEditDTO());
         }
+        if (!model.containsAttribute("changePasswordData")) {
+            model.addAttribute("changePasswordData", new UserChangePasswordDTO());
+        }
         return "all-users";
     }
 
@@ -75,6 +79,20 @@ public class UserController {
             return "redirect:/users";
         }
         userService.edit(userEditDTO);
+        return "redirect:/users";
+    }
+
+    @PatchMapping("/change-password")
+    public String changePassword(@Valid UserChangePasswordDTO changePasswordDTO, BindingResult bindingResult,
+                                 RedirectAttributes rAtt){
+        if (bindingResult.hasErrors()) {
+            rAtt.addFlashAttribute("changePasswordData", changePasswordDTO);
+            rAtt.addFlashAttribute("org.springframework.validation.BindingResult.changePasswordData",
+                    bindingResult);
+            rAtt.addFlashAttribute("showChangePassword", true);
+            return "redirect:/users";
+        }
+        userService.changePassword(changePasswordDTO);
         return "redirect:/users";
     }
 }
