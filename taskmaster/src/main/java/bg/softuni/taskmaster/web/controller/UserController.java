@@ -2,8 +2,8 @@ package bg.softuni.taskmaster.web.controller;
 
 import bg.softuni.taskmaster.model.dto.UserChangePasswordDTO;
 import bg.softuni.taskmaster.model.dto.UserEditDTO;
-import bg.softuni.taskmaster.model.dto.UserRegisterDTO;
 import bg.softuni.taskmaster.service.UserService;
+import bg.softuni.taskmaster.service.UsersPagingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -19,52 +19,20 @@ public class UserController {
 
 
     private final UserService userService;
+    private final UsersPagingService usersPagingService;
 
-    @GetMapping("/register")
-    public String registerView(Model model) {
-        if (!model.containsAttribute("registerData")) {
-            model.addAttribute("registerData", new UserRegisterDTO());
-        }
-        return "register";
+    @ModelAttribute("editData")
+    public UserEditDTO editData() {
+        return new UserEditDTO();
     }
 
-    @PostMapping("/register")
-    public String doRegister(@Valid UserRegisterDTO userRegisterDTO, BindingResult bindingResult,
-                             RedirectAttributes rAtt) {
-        if (bindingResult.hasErrors()) {
-            rAtt.addFlashAttribute("registerData", userRegisterDTO);
-            rAtt.addFlashAttribute("org.springframework.validation.BindingResult.registerData",
-                    bindingResult);
-            return "redirect:/users/register";
-        }
-        userService.register(userRegisterDTO);
-        return "redirect:/users/login";
+    @ModelAttribute("changePasswordData")
+    public UserChangePasswordDTO changePasswordData() {
+        return new UserChangePasswordDTO();
     }
-
-    @GetMapping("/login")
-    public String loginView() {
-        return "login";
-
-    }
-
-
-    @PostMapping("/login-error")
-    public String loginError(@ModelAttribute("username") String username, Model model) {
-        model.addAttribute("hasError", true);
-        model.addAttribute("username", username);
-        return "login";
-    }
-
-
     @GetMapping
     public String allView(Model model) {
         model.addAttribute("allUsers", userService.getAllInfo());
-        if (!model.containsAttribute("editData")) {
-            model.addAttribute("editData", new UserEditDTO());
-        }
-        if (!model.containsAttribute("changePasswordData")) {
-            model.addAttribute("changePasswordData", new UserChangePasswordDTO());
-        }
         return "all-users";
     }
 
@@ -84,7 +52,7 @@ public class UserController {
 
     @PatchMapping("/change-password")
     public String changePassword(@Valid UserChangePasswordDTO changePasswordDTO, BindingResult bindingResult,
-                                 RedirectAttributes rAtt){
+                                 RedirectAttributes rAtt) {
         if (bindingResult.hasErrors()) {
             rAtt.addFlashAttribute("changePasswordData", changePasswordDTO);
             rAtt.addFlashAttribute("org.springframework.validation.BindingResult.changePasswordData",
