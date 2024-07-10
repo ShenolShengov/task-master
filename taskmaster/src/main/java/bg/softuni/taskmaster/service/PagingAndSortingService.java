@@ -24,12 +24,12 @@ public interface PagingAndSortingService<T extends BaseEntity> {
 
     boolean hasPrevPage();
 
-    Integer nextPage();
+    void nextPage();
 
-    Integer prevPage();
+    void prevPage();
 
     Pageable getPageable();
 
     void filterResult(Long elementCount);
-    void setUp(Integer page, String sortBy);
+    void setUp(Integer page, String sortBy, String sortDirection);
 }

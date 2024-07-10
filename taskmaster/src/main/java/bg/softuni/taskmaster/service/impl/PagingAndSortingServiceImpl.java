@@ -20,15 +20,17 @@ import java.util.stream.Collectors;
 public class PagingAndSortingServiceImpl<T extends BaseEntity> implements PagingAndSortingService<T> {
 
     private static final Integer DEFAULT_PAGE_SIZE = 5;
+    private static final int MAX_PAGE_SIZE = 10;
     private static final Integer DEFAULT_PAGE = 0;
     private static final String DEFAULT_SORT_BY = "id";
-    private static final int MAX_PAGE_SIZE = 10;
+    private static final String DEFAULT_SORT_DIRECTION = "ASC";
     private final Class<T> clazz;
     private final JpaRepository<T, Long> repository;
     private final Set<String> sortingFields;
     private Integer page;
     private Integer size;
     private String sortBy;
+    private String sortDirection;
     private Long elementsCount;
 
     public PagingAndSortingServiceImpl(JpaRepository<T, Long> repository, Class<T> clazz) {
@@ -39,6 +41,14 @@ public class PagingAndSortingServiceImpl<T extends BaseEntity> implements Paging
         setSize(DEFAULT_PAGE_SIZE);
         setPage(DEFAULT_PAGE);
         setSortBy(DEFAULT_SORT_BY);
+        setSortDirection(DEFAULT_SORT_DIRECTION);
+    }
+
+    private void setSortDirection(String sortDirection) {
+        if (!"ASC".equals(sortDirection) && !"DESC".equals(sortDirection)) {
+            return;
+        }
+        this.sortDirection = sortDirection;
     }
 
     private Set<String> getSortingFields(Class<?> type) {
@@ -81,12 +91,12 @@ public class PagingAndSortingServiceImpl<T extends BaseEntity> implements Paging
 
     @Override
     public Integer pageCount() {
-        return (int) Math.ceil((double) elementsCount / size);
+        return (int) Math.ceil((double) elementsCount / size) - 1;
     }
 
     @Override
     public boolean haseNextPage() {
-        return pageCount() - (long) (page + 1) * size > 0;
+        return elementsCount - ((long) (page + 1) * size) > 0;
     }
 
     @Override
@@ -95,19 +105,17 @@ public class PagingAndSortingServiceImpl<T extends BaseEntity> implements Paging
     }
 
     @Override
-    public Integer nextPage() {
+    public void nextPage() {
         if (haseNextPage()) {
             page++;
         }
-        return this.getPage();
     }
 
     @Override
-    public Integer prevPage() {
+    public void prevPage() {
         if (hasPrevPage()) {
             page--;
         }
-        return getPage();
     }
 
     @Override
@@ -122,9 +130,10 @@ public class PagingAndSortingServiceImpl<T extends BaseEntity> implements Paging
     }
 
     @Override
-    public void setUp(Integer page, String sortBy) {
+    public void setUp(Integer page, String sortBy, String sortDirection) {
         setPage(page);
         setSortBy(sortBy);
+        setSortDirection(sortDirection);
     }
 
 }
