@@ -1,5 +1,6 @@
 package bg.softuni.taskmaster.model.entity;
 
+import bg.softuni.taskmaster.model.anottation.SortParam;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,15 +15,19 @@ import java.util.Set;
 public class User extends BaseEntity {
 
     @Column(nullable = false, unique = true)
+    @SortParam
     private String username;
 
     @Column(name = "full_name", nullable = false)
+    @SortParam
     private String fullName;
 
     @Column(nullable = false, unique = true)
+    @SortParam
     private String email;
 
     @Column(nullable = false)
+    @SortParam
     private Integer age;
 
     @Column(nullable = false)

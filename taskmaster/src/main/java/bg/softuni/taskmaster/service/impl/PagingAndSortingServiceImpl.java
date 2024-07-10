@@ -1,5 +1,6 @@
 package bg.softuni.taskmaster.service.impl;
 
+import bg.softuni.taskmaster.model.anottation.SortParam;
 import bg.softuni.taskmaster.model.entity.BaseEntity;
 import bg.softuni.taskmaster.service.PagingAndSortingService;
 import lombok.Getter;
@@ -10,6 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -36,7 +38,7 @@ public class PagingAndSortingServiceImpl<T extends BaseEntity> implements Paging
     public PagingAndSortingServiceImpl(JpaRepository<T, Long> repository, Class<T> clazz) {
         this.repository = repository;
         this.clazz = clazz;
-        this.sortingFields = getSortingFields(clazz);
+        this.sortingFields = getSortingFields();
         this.elementsCount = repository.count();
         setSize(DEFAULT_PAGE_SIZE);
         setPage(DEFAULT_PAGE);
@@ -44,19 +46,20 @@ public class PagingAndSortingServiceImpl<T extends BaseEntity> implements Paging
         setSortDirection(DEFAULT_SORT_DIRECTION);
     }
 
-    private void setSortDirection(String sortDirection) {
+    @Override
+    public void setSortDirection(String sortDirection) {
         if (!"ASC".equals(sortDirection) && !"DESC".equals(sortDirection)) {
             return;
         }
         this.sortDirection = sortDirection;
     }
 
-    private Set<String> getSortingFields(Class<?> type) {
-        Set<String> sortingFields = Arrays.stream(type.getDeclaredFields())
+    public Set<String> getSortingFields() {
+
+        return Arrays.stream(clazz.getDeclaredFields())
+                .filter(e -> e.isAnnotationPresent(SortParam.class))
                 .map(Field::getName)
-                .collect(Collectors.toSet());
-        sortingFields.add("id");
-        return sortingFields;
+                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     @Override
@@ -82,8 +85,7 @@ public class PagingAndSortingServiceImpl<T extends BaseEntity> implements Paging
 
     @Override
     public void setSortBy(String sortBy) {
-
-        if (sortBy == null || !sortingFields.contains(sortBy)) {
+        if ((sortBy == null || !sortingFields.contains(sortBy)) && !sortBy.equals("id")) {
             return;
         }
         this.sortBy = sortBy;
@@ -120,7 +122,8 @@ public class PagingAndSortingServiceImpl<T extends BaseEntity> implements Paging
 
     @Override
     public Pageable getPageable() {
-        return PageRequest.of(getPage(), getSize(), Sort.Direction.ASC, getSortBy());
+        Sort.Direction direction = Sort.Direction.fromString(sortDirection);
+        return PageRequest.of(getPage(), getSize(), direction, sortBy);
     }
 
     @Override

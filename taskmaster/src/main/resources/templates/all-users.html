@@ -5,26 +5,32 @@
 <nav th:replace="~{/fragments/navigation::nav}"></nav>
 <div class="bg-background text-foreground min-h-screen p-4 flex flex-col items-center mb-8">
     <div class="flex w-[70em] justify-center mb-4">
+
         <h1 class="text-3xl ml-auto  mb-4 text-center">All users</h1>
         <div class="flex items-center space-x-2 ml-auto">
-            <label for="today-sort-by" class="text-zinc-600">Sort by:</label>
-            <select th:selected="${@userPagingAndSortingService.getSortBy()}"
-                    onchange="sortBy(this.value)" id="today-sort-by"
+            <label for="sort-by" class="text-zinc-600">Sort by:</label>
+            <select th:value="${@userPagingAndSortingService.getSortBy()}"
+                    onchange="sortBy(this.value)" id="sort-by"
                     class="bg-input text-zinc-600 border border-input rounded-md px-2 py-1 pr-8">
-                <option value="id">None</option>
-                <option value="username">Username</option>
-                <option value="fullName">Full Name</option>
-                <option value="email">Email</option>
-                <option value="age">Age</option>
+                <option value="none">None</option>
+                <option th:each="option: ${@userPagingAndSortingService.getSortingFields()}"
+                        th:value="${option}"
+                        th:text="${#strings.capitalize(option)}"
+                        th:selected="${@userPagingAndSortingService.getSortBy().equals(option)}">
+                    Username
+                </option>
             </select>
-            <select th:selected="${@userPagingAndSortingService.getSortBy()}"
-                    onchange="sortBy(this.value)" id=""
+            <select th:value="${@userPagingAndSortingService.getSortDirection()}"
+                    onchange="sortDirection(this.value)"
                     class="bg-input text-zinc-600 border border-input rounded-md px-2 py-1 pr-8">
-                <option value="id">None</option>
-                <option value="username">Username</option>
-                <option value="fullName">Full Name</option>
-                <option value="email">Email</option>
-                <option value="age">Age</option>
+                <option th:selected="${@userPagingAndSortingService.getSortDirection().equals('ASC')}"
+                        value="ASC">
+                    ASC
+                </option>
+                <option th:selected="${@userPagingAndSortingService.getSortDirection().equals('DESC')}"
+                        value="DESC">
+                    DESC
+                </option>
             </select>
             <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                 <svg class="h-4 w-4 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -196,13 +202,14 @@
 </body>
 <script>
 
-    function getUrl(){
+    function getUrl() {
         return new URL(window.location);
     }
 
-    function reload(url){
+    function reload(url) {
         window.location.replace(url.href);
     }
+
     function nextPage() {
         let url = getUrl();
         let newPage = url.searchParams.get('page') == null ? 2 : Number(url.searchParams.get('page')) + 1;
@@ -212,7 +219,17 @@
 
     function sortBy(by) {
         let url = getUrl();
-        url.searchParams.set('sortBy', by);
+        if (by === 'none') {
+            url.searchParams.delete('sortBy');
+        } else {
+            url.searchParams.set('sortBy', by);
+        }
+        reload(url);
+    }
+
+    function sortDirection(direction) {
+        let url = getUrl();
+        url.searchParams.set('sortDirection', direction);
         reload(url);
     }
 
