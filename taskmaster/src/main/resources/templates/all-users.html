@@ -18,7 +18,7 @@
             </tr>
             </thead>
             <tbody id="users">
-            <tr th:each="user : ${allUsers}" th:object="${user}" th:id="*{id + '-section'}">
+            <tr th:each="user : ${foundedUsers}" th:object="${user}" th:id="*{id + '-section'}">
                 <td th:text="*{username}" class="px-4 py-2 text-center">JohnDoe</td>
                 <td th:text="*{fullName}" class="px-4 py-2 text-center">John Doe</td>
                 <td th:text="*{email}" class="px-4 py-2 text-center">john.doe@example.com</td>
@@ -35,19 +35,28 @@
                             class="edit-button bg-secondary text-secondary-foreground px-2 py-1 rounded-lg">Edit
                     </button>
                     <button th:id="*{id}" th:data-username="*{username}"
-                            class="change-password-button bg-destructive text-destructive-foreground px-2 py-1 rounded-lg ml-2">Change
+                            class="change-password-button bg-destructive text-destructive-foreground px-2 py-1 rounded-lg ml-2">
+                        Change
                         password
                     </button>
-                    <button th:id="*{id}" class="delete-button bg-destructive text-destructive-foreground px-2 py-1 rounded-lg ml-2">Delete</button>
+                    <button th:id="*{id}"
+                            class="delete-button bg-destructive text-destructive-foreground px-2 py-1 rounded-lg ml-2">
+                        Delete
+                    </button>
                 </td>
             </tr>
             </tbody>
         </table>
         <div class=" mt-4 flex justify-end">
-            <button onclick="window.location.replace('http://localhost:8080/users/prev-page')"
-                    class="bg-primary text-primary-foreground px-2 py-2 mr-4 rounded-lg ">Previous</button
-            ><button onclick="window.location.replace('http://localhost:8080/users/next-page')"
-                    class="bg-primary text-primary-foreground px-2 py-2 rounded-lg ">Next</button>
+            <button th:if="${@userPagingAndSortingService.hasPrevPage()}"
+                    onclick="window.location.replace('http://localhost:8080/users/prev-page')"
+                    class="bg-primary text-primary-foreground px-2 py-2 mr-4 rounded-lg ">Previous
+            </button
+            >
+            <button th:if="${@userPagingAndSortingService.haseNextPage()}"
+                    onclick="window.location.replace('http://localhost:8080/users/next-page')"
+                    class="bg-primary text-primary-foreground px-2 py-2 rounded-lg ">Next
+            </button>
         </div>
     </div>
     <form th:method="put" th:action="@{/users}" th:object="${editData}"
@@ -127,12 +136,13 @@
                 </div>
             </div>
             <div class="mb-4 w-full md:w-1/2">
-                <label th:for="confirmPassword" class="mb-3 block text-sm font-medium text-primary">Confirm Password</label>
+                <label th:for="confirmPassword" class="mb-3 block text-sm font-medium text-primary">Confirm
+                    Password</label>
                 <input th:field="*{confirmPassword}"
-                        id="confirmPassword"
-                        type="password"
-                        class="w-full px-3 py-2 placeholder-input text-black border rounded-lg focus:outline-none focus:ring ring-primary"
-                        placeholder="Confirm your new password"
+                       id="confirmPassword"
+                       type="password"
+                       class="w-full px-3 py-2 placeholder-input text-black border rounded-lg focus:outline-none focus:ring ring-primary"
+                       placeholder="Confirm your new password"
                 />
                 <div th:errors="*{confirmPassword}"
                      class="text-sm text-destructive">
@@ -145,7 +155,8 @@
             </div>
         </div>
         <div class="flex justify-start">
-            <button type="submit" class="bg-primary text-primary-foreground px-4 py-2 rounded-lg">Change password</button>
+            <button type="submit" class="bg-primary text-primary-foreground px-4 py-2 rounded-lg">Change password
+            </button>
         </div>
     </form>
     <div th:if="${showEdit != null or showChangePassword != null}" id="scroll"></div>

@@ -12,9 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -103,5 +101,12 @@ public class UserServiceImpl implements UserService {
         User user = userHelperService.getUser(changePasswordDTO.getId());
         user.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
         userRepository.save(user);
+    }
+
+    @Override
+    public Set<UserInfoDTO> searchByUsername(String username) {
+        return userRepository.findAllByUsernameContains(username)
+                .stream().map(this::toInfo)
+                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 }

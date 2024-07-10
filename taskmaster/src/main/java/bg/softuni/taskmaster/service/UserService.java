@@ -24,4 +24,6 @@ public interface UserService {
     void removeAdmin(Long id);
 
     void changePassword(UserChangePasswordDTO changePasswordDTO);
+
+    Set<UserInfoDTO> searchByUsername(String username);
 }

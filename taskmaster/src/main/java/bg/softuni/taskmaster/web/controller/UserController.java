@@ -2,16 +2,19 @@ package bg.softuni.taskmaster.web.controller;
 
 import bg.softuni.taskmaster.model.dto.UserChangePasswordDTO;
 import bg.softuni.taskmaster.model.dto.UserEditDTO;
+import bg.softuni.taskmaster.model.dto.UserInfoDTO;
+import bg.softuni.taskmaster.model.entity.User;
+import bg.softuni.taskmaster.service.PagingAndSortingService;
 import bg.softuni.taskmaster.service.UserService;
-import bg.softuni.taskmaster.service.UsersPagingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Set;
 
 @Controller
 @RequestMapping("/users")
@@ -20,7 +23,7 @@ public class UserController {
 
 
     private final UserService userService;
-    private final UsersPagingService usersPagingService;
+    private final PagingAndSortingService<User> pagingAndSortingService;
 
     @ModelAttribute("editData")
     public UserEditDTO editData() {
@@ -34,22 +37,34 @@ public class UserController {
 
     @GetMapping
     public String allView(Model model,
-                          @RequestParam(value = "page", required = false) Integer page) {
-        usersPagingService.setPage(page);
-        PageRequest pageRequest = PageRequest.of(usersPagingService.getPage(), usersPagingService.getSize());
-        model.addAttribute("allUsers", userService.getAllInfo(pageRequest));
+                          @RequestParam(value = "page", required = false) Integer page,
+                          @RequestParam(value = "sortBy", required = false) String sortBy
+                          ) {
+        pagingAndSortingService.setUp(page, sortBy);
+        model.addAttribute("foundedUsers",
+                userService.getAllInfo(pagingAndSortingService.getPageable()));
 
         return "all-users";
     }
 
+    @GetMapping("/search/username")
+    public String search(@RequestParam(value = "username") String username, Model model) {
+        Set<UserInfoDTO> foundedUsers = userService.searchByUsername(username);
+        model.addAttribute("foundedUsers", foundedUsers);
+        pagingAndSortingService.filterResult((long) foundedUsers.size());
+        return "all-users";
+    }
+
+
     @GetMapping("/next-page")
-    public String nextPage(){
-        usersPagingService.nextPage();
+    public String nextPage() {
+        pagingAndSortingService.nextPage();
         return "redirect:/users";
     }
+
     @GetMapping("/prev-page")
-    public String prevPage(){
-        usersPagingService.prevPage();
+    public String prevPage() {
+        pagingAndSortingService.prevPage();
         return "redirect:/users";
     }
 

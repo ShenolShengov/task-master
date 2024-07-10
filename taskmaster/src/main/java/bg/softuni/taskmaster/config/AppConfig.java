@@ -2,10 +2,12 @@ package bg.softuni.taskmaster.config;
 
 import bg.softuni.taskmaster.model.dto.AnswerDetailsDTO;
 import bg.softuni.taskmaster.model.dto.QuestionDetailsDTO;
-import bg.softuni.taskmaster.model.dto.TaskAddDTO;
 import bg.softuni.taskmaster.model.entity.Answer;
 import bg.softuni.taskmaster.model.entity.Question;
-import bg.softuni.taskmaster.model.entity.Task;
+import bg.softuni.taskmaster.model.entity.User;
+import bg.softuni.taskmaster.repository.UserRepository;
+import bg.softuni.taskmaster.service.PagingAndSortingService;
+import bg.softuni.taskmaster.service.impl.PagingAndSortingServiceImpl;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -24,10 +26,10 @@ public class AppConfig {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.typeMap(Question.class, QuestionDetailsDTO.class)
                 .addMappings(m -> m.using(fromLocalDateTimeToString())
-                .map(Question::getCreatedTime, QuestionDetailsDTO::setCreatedTime));
+                        .map(Question::getCreatedTime, QuestionDetailsDTO::setCreatedTime));
         modelMapper.typeMap(Answer.class, AnswerDetailsDTO.class)
                 .addMappings(m -> m.using(fromLocalDateTimeToString())
-                .map(Answer::getCreatedTime, AnswerDetailsDTO::setCreatedTime));
+                        .map(Answer::getCreatedTime, AnswerDetailsDTO::setCreatedTime));
         return modelMapper;
     }
 
@@ -35,5 +37,8 @@ public class AppConfig {
         return mappingContext -> DATE_TIME_FORMATTER.format(mappingContext.getSource());
     }
 
-
+    @Bean
+    public PagingAndSortingService<User> userPagingAndSortingService(UserRepository userRepository) {
+        return new PagingAndSortingServiceImpl<>(userRepository, User.class);
+    }
 }
