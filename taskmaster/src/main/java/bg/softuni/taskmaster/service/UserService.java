@@ -25,5 +25,6 @@ public interface UserService {
 
     void changePassword(UserChangePasswordDTO changePasswordDTO);
 
-    Set<UserInfoDTO> searchByUsername(String username);
+    Set<UserInfoDTO> search(String searchQuery);
+
 }

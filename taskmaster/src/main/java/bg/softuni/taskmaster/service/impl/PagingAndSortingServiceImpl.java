@@ -6,12 +6,15 @@ import bg.softuni.taskmaster.service.PagingAndSortingService;
 import lombok.Getter;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,41 +36,32 @@ public class PagingAndSortingServiceImpl<T extends BaseEntity> implements Paging
     private Integer size;
     private String sortBy;
     private String sortDirection;
-    private Long elementsCount;
+    private String searchQuery;
+    private Integer elementsCount;
 
     public PagingAndSortingServiceImpl(JpaRepository<T, Long> repository, Class<T> clazz) {
         this.repository = repository;
         this.clazz = clazz;
         this.sortingFields = getSortingFields();
-        this.elementsCount = repository.count();
+        this.elementsCount = (int) repository.count();
+        this.searchQuery = "";
         setSize(DEFAULT_PAGE_SIZE);
         setPage(DEFAULT_PAGE);
         setSortBy(DEFAULT_SORT_BY);
         setSortDirection(DEFAULT_SORT_DIRECTION);
     }
 
-    @Override
-    public void setSortDirection(String sortDirection) {
-        if (!"ASC".equals(sortDirection) && !"DESC".equals(sortDirection)) {
-            return;
-        }
-        this.sortDirection = sortDirection;
-    }
-
-    public Set<String> getSortingFields() {
-
-        return Arrays.stream(clazz.getDeclaredFields())
-                .filter(e -> e.isAnnotationPresent(SortParam.class))
-                .map(Field::getName)
-                .collect(Collectors.toCollection(LinkedHashSet::new));
-    }
 
     @Override
     public void setPage(Integer page) {
-        if (page == null || page > pageCount()) {
+        if (page == null || page > getPageCount()) {
             return;
         }
         this.page = page;
+    }
+
+    private double getPageCount() {
+        return Math.ceil((double) elementsCount / size) - 1;
     }
 
     @Override
@@ -79,46 +73,37 @@ public class PagingAndSortingServiceImpl<T extends BaseEntity> implements Paging
     }
 
     @Override
-    public String getSortBy() {
-        return sortBy;
-    }
-
-    @Override
     public void setSortBy(String sortBy) {
-        if ((sortBy == null || !sortingFields.contains(sortBy)) && !sortBy.equals("id")) {
+        if ((sortBy == null || !sortingFields.contains(sortBy)) && !"id".equals(sortBy)) {
             return;
         }
         this.sortBy = sortBy;
     }
 
     @Override
-    public Integer pageCount() {
-        return (int) Math.ceil((double) elementsCount / size) - 1;
-    }
-
-    @Override
-    public boolean haseNextPage() {
-        return elementsCount - ((long) (page + 1) * size) > 0;
+    public boolean hasNextPage() {
+        return page < getPageCount();
     }
 
     @Override
     public boolean hasPrevPage() {
-        return this.getPage() > 0;
+        return page > 0;
     }
 
-    @Override
-    public void nextPage() {
-        if (haseNextPage()) {
-            page++;
-        }
+    public Set<String> getSortingFields() {
+
+        return Arrays.stream(clazz.getDeclaredFields()).filter(e -> e.isAnnotationPresent(SortParam.class)).map(Field::getName).collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
+
     @Override
-    public void prevPage() {
-        if (hasPrevPage()) {
-            page--;
+    public void setSortDirection(String sortDirection) {
+        if (!"ASC".equals(sortDirection) && !"DESC".equals(sortDirection)) {
+            return;
         }
+        this.sortDirection = sortDirection;
     }
+
 
     @Override
     public Pageable getPageable() {
@@ -126,11 +111,6 @@ public class PagingAndSortingServiceImpl<T extends BaseEntity> implements Paging
         return PageRequest.of(getPage(), getSize(), direction, sortBy);
     }
 
-    @Override
-    public void filterResult(Long elementsCount) {
-        this.elementsCount = elementsCount;
-        setPage(0);
-    }
 
     @Override
     public void setUp(Integer page, String sortBy, String sortDirection) {
@@ -138,5 +118,28 @@ public class PagingAndSortingServiceImpl<T extends BaseEntity> implements Paging
         setSortBy(sortBy);
         setSortDirection(sortDirection);
     }
+
+    @Override
+    public void setElementCount(Integer elementsCount) {
+        this.elementsCount = elementsCount;
+    }
+
+    @Override
+    public void setSearchQuery(String searchQuery) {
+        this.searchQuery = searchQuery;
+    }
+
+    @Override
+    public List<?> applyPageable(List<?> founded) {
+        Pageable pageable = getPageable();
+        int end = (int) pageable.getOffset() + pageable.getPageSize() * (pageable.getPageNumber() + 1);
+        return founded.subList((int) pageable.getOffset(), Math.min(end, founded.size()));
+    }
+
+    @Override
+    public void setDefaultElementCounts() {
+        this.elementsCount = (int) repository.count();
+    }
+
 
 }

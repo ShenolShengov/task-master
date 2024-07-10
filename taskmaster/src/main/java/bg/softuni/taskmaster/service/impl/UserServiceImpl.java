@@ -104,9 +104,40 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Set<UserInfoDTO> searchByUsername(String username) {
-        return userRepository.findAllByUsernameContains(username)
-                .stream().map(this::toInfo)
+    public Set<UserInfoDTO> search(String searchQuery) {
+
+        return userRepository.findAll()
+                .stream()
+                .filter(e ->
+                       (isNumber(searchQuery) && e.getAge().equals(Integer.valueOf(searchQuery))) ||
+                       ("@".contains(searchQuery) && e.getEmail().contains(searchQuery)) ||
+                       (!isNumber(searchQuery) && e.getUsername().contains(searchQuery)) ||
+                       (!isNumber(searchQuery) && e.getFullName().contains(searchQuery))
+                )
+                .map(this::toInfo)
                 .collect(Collectors.toCollection(LinkedHashSet::new));
+
+//        Set<User> founded = switch (by) {
+//            case "username" -> userRepository.findAllByUsernameContains(value, pageable);
+//            case "fullName" -> userRepository.findAllByFullNameContains(value, pageable);
+//            case "email" -> userRepository.findAllBEmailContains(value, pageable);
+//            case "age" -> userRepository.findAllByAgeContains(Integer.valueOf(value), pageable);
+//            default -> new HashSet<>();
+//        };
+//        return founded
+//                .stream().map(this::toInfo)
+//                .collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+
+
+
+    private boolean isNumber(String searchQuery) {
+        //todo fix
+        try {
+            Integer.valueOf(searchQuery);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }
