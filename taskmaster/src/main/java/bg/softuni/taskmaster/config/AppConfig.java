@@ -37,7 +37,7 @@ public class AppConfig {
         return mappingContext -> DATE_TIME_FORMATTER.format(mappingContext.getSource());
     }
 
-    @Bean
+    @Bean(name = "usersPagingAndSorting")
     public PagingAndSortingService<User> userPagingAndSortingService(UserRepository userRepository) {
         return new PagingAndSortingServiceImpl<>(userRepository, User.class);
     }

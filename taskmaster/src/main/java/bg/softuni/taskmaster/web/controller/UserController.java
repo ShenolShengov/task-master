@@ -14,7 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Set;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/users")
@@ -42,7 +43,6 @@ public class UserController {
                           @RequestParam(required = false, defaultValue = "ASC") String sortDirection
     ) {
         pagingAndSortingService.setUp(page - 1, sortBy, sortDirection);
-        pagingAndSortingService.setDefaultElementCounts();
         model.addAttribute("foundedUsers",
                 userService.getAllInfo(pagingAndSortingService.getPageable()));
 
@@ -57,12 +57,11 @@ public class UserController {
                          @RequestParam(value = "search_query") String searchQuery
 
     ) {
-        pagingAndSortingService.setUp(page - 1, sortBy, sortDirection);
-        Set<UserInfoDTO> founded = userService.search(searchQuery);
-        pagingAndSortingService.setElementCount(founded.size());
-        pagingAndSortingService.applyPageable(founded.stream().toList());
-        pagingAndSortingService.setSearchQuery(searchQuery);
-        model.addAttribute("foundedUsers", founded);
+        pagingAndSortingService.setUp(page - 1, sortBy, sortDirection, searchQuery);
+        Map.Entry<Integer, List<UserInfoDTO>> foundedWithTotalElements =
+                userService.search(searchQuery, pagingAndSortingService.getPageable());
+        pagingAndSortingService.setTotalElements(foundedWithTotalElements.getKey());
+        model.addAttribute("foundedUsers", foundedWithTotalElements.getValue());
         return "all-users";
     }
 

@@ -1,8 +1,11 @@
 package bg.softuni.taskmaster.service;
 
 import bg.softuni.taskmaster.model.dto.*;
+import bg.softuni.taskmaster.model.entity.User;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface UserService {
@@ -25,6 +28,7 @@ public interface UserService {
 
     void changePassword(UserChangePasswordDTO changePasswordDTO);
 
-    Set<UserInfoDTO> search(String searchQuery);
+    Set<UserInfoDTO> search(String searchQuery, PagingAndSortingService<User> pagingAndSortingService);
+    Map.Entry<Integer, List<UserInfoDTO>> search(String searchQuery, Pageable pageable);
 
 }

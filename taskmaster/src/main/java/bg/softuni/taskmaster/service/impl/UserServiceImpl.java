@@ -5,6 +5,7 @@ import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.model.enums.UserRoles;
 import bg.softuni.taskmaster.repository.RoleRepository;
 import bg.softuni.taskmaster.repository.UserRepository;
+import bg.softuni.taskmaster.service.PagingAndSortingService;
 import bg.softuni.taskmaster.service.UserHelperService;
 import bg.softuni.taskmaster.service.UserService;
 import jakarta.transaction.Transactional;
@@ -17,8 +18,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -104,40 +104,54 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Set<UserInfoDTO> search(String searchQuery) {
+    public Set<UserInfoDTO> search(String searchQuery, PagingAndSortingService<User> pagingAndSortingService) {
+        List<User> founded;
+        Integer totalElements;
+        Pageable pageable = pagingAndSortingService.getPageable();
+        if (isNumber(searchQuery)) {
+            Integer age = Integer.valueOf(searchQuery);
+            founded = userRepository.findAllByAge(age, pageable);
+            totalElements = userRepository.countAllByAge(age);
+        } else if ("@".contains(searchQuery)) {
+            founded = userRepository.findAllByEmailContains(searchQuery, pageable);
+            totalElements = userRepository.countAllByEmailContains(searchQuery);
+        } else {
+            founded = userRepository
+                    .findAllByUsernameContainsIgnoreCaseOrFullNameContainsIgnoreCase(searchQuery, searchQuery,
+                            pageable);
+            totalElements = userRepository
+                    .countAllByUsernameContainsIgnoreCaseOrFullNameContainsIgnoreCase(searchQuery, searchQuery);
+        }
+        pagingAndSortingService.setTotalElements(totalElements);
+        return founded.stream().map(this::toInfo).collect(Collectors.toCollection(LinkedHashSet::new));
+    }
 
-        return userRepository.findAll()
-                .stream()
-                .filter(e ->
-                       (isNumber(searchQuery) && e.getAge().equals(Integer.valueOf(searchQuery))) ||
-                       ("@".contains(searchQuery) && e.getEmail().contains(searchQuery)) ||
-                       (!isNumber(searchQuery) && e.getUsername().contains(searchQuery)) ||
-                       (!isNumber(searchQuery) && e.getFullName().contains(searchQuery))
-                )
-                .map(this::toInfo)
-                .collect(Collectors.toCollection(LinkedHashSet::new));
-
-//        Set<User> founded = switch (by) {
-//            case "username" -> userRepository.findAllByUsernameContains(value, pageable);
-//            case "fullName" -> userRepository.findAllByFullNameContains(value, pageable);
-//            case "email" -> userRepository.findAllBEmailContains(value, pageable);
-//            case "age" -> userRepository.findAllByAgeContains(Integer.valueOf(value), pageable);
-//            default -> new HashSet<>();
-//        };
-//        return founded
-//                .stream().map(this::toInfo)
-//                .collect(Collectors.toCollection(LinkedHashSet::new));
+    @Override
+    public Map.Entry<Integer, List<UserInfoDTO>> search(String searchQuery, Pageable pageable) {
+        List<User> founded;
+        Integer totalElements;
+        if (isNumber(searchQuery)) {
+            Integer age = Integer.valueOf(searchQuery);
+            founded = userRepository.findAllByAge(age, pageable);
+            totalElements = userRepository.countAllByAge(age);
+        } else if ("@".contains(searchQuery)) {
+            founded = userRepository.findAllByEmailContains(searchQuery, pageable);
+            totalElements = userRepository.countAllByEmailContains(searchQuery);
+        } else {
+            founded = userRepository
+                    .findAllByUsernameContainsIgnoreCaseOrFullNameContainsIgnoreCase(searchQuery, searchQuery,
+                            pageable);
+            totalElements = userRepository
+                    .countAllByUsernameContainsIgnoreCaseOrFullNameContainsIgnoreCase(searchQuery, searchQuery);
+        }
+        return Map.entry(totalElements,
+                founded.stream().map(this::toInfo).toList());
     }
 
 
-
     private boolean isNumber(String searchQuery) {
-        //todo fix
-        try {
-            Integer.valueOf(searchQuery);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
+        return Arrays.stream(searchQuery.split(""))
+                .allMatch(e -> Character.isDigit(e.charAt(0)));
+
     }
 }

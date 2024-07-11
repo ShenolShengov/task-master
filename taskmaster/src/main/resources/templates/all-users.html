@@ -6,33 +6,34 @@
 <div class="bg-background text-foreground min-h-screen p-4 flex flex-col items-center mb-8">
     <h1 class="text-3xl mb-6 text-center">All users</h1>
     <div class="flex w-[70em] justify-end mb-4">
+        <p th:text="${@usersPagingAndSorting.getTotalElements() + ' users'}" class="mr-auto text-2xl ">2 users</p>
         <div class="flex items-center space-x-2">
             <button onclick="search(getElementById('search').value)"
                     class="px-4 py-2 rounded-lg bg-primary text-primary-foreground">Search
             </button>
-            <input th:value="${@userPagingAndSortingService.getSearchQuery()}" th:id="search" type="text" placeholder=""
+            <input th:value="${@usersPagingAndSorting.getSearchQuery()}" th:id="search" type="text" placeholder=""
                    class="w-full md:w-64 text-black px-4 py-2 rounded-lg  focus:outline-none focus:ring focus:ring-primary"/>
             <label for="sort-by" class="text-base text-primary">Sort by:</label>
-            <select th:value="${@userPagingAndSortingService.getSortBy()}"
+            <select th:value="${@usersPagingAndSorting.getSortBy()}"
                     onchange="sortBy(this.value)" id="sort-by"
                     class="bg-input text-zinc-600 border border-input rounded-md px-4 py-2 pr-8">
                 <option value="none">None</option>
-                <option th:each="option: ${@userPagingAndSortingService.getSortingFields()}"
+                <option th:each="option: ${@usersPagingAndSorting.getSortingFields()}"
                         th:value="${option}"
                         th:text="${#strings.capitalize(option)}"
-                        th:selected="${@userPagingAndSortingService.getSortBy().equals(option)}">
+                        th:selected="${@usersPagingAndSorting.getSortBy().equals(option)}">
                     Username
                 </option>
             </select>
             <!--         px-2 py-1 pr-8-->
-            <select th:value="${@userPagingAndSortingService.getSortDirection()}"
+            <select th:value="${@usersPagingAndSorting.getSortDirection()}"
                     onchange="sortDirection(this.value)"
                     class="bg-input text-zinc-600 border border-input rounded-md px-4 py-2 pr-8">
-                <option th:selected="${@userPagingAndSortingService.getSortDirection().equals('ASC')}"
+                <option th:selected="${@usersPagingAndSorting.getSortDirection().equals('ASC')}"
                         value="ASC">
                     ASC
                 </option>
-                <option th:selected="${@userPagingAndSortingService.getSortDirection().equals('DESC')}"
+                <option th:selected="${@usersPagingAndSorting.getSortDirection().equals('DESC')}"
                         value="DESC">
                     DESC
                 </option>
@@ -82,13 +83,17 @@
             </tbody>
         </table>
         <div class=" mt-4 flex justify-end">
-            <button th:if="${@userPagingAndSortingService.hasPrevPage()}"
-                    onclick="prevPage()"
+            <button th:if="${@usersPagingAndSorting.hasPrevPage()}"
+                    th:data-max-page-count="${@usersPagingAndSorting.getPageCount()}"
+                    th:data-page="${@usersPagingAndSorting.getPage()}"
+                    onclick="prevPage(this.dataset.maxPageCount)"
                     class="ref-on-click bg-primary text-primary-foreground px-2 py-2 mr-4 rounded-lg ">Previous
             </button
             >
-            <button th:if="${@userPagingAndSortingService.hasNextPage()}"
-                    onclick="nextPage()"
+            <button th:if="${@usersPagingAndSorting.hasNextPage()}"
+                    th:data-max-page-count="${@usersPagingAndSorting.getPageCount()}"
+                    th:data-page="${@usersPagingAndSorting.getPage()}"
+                    onclick="nextPage(this.dataset.maxPageCount)"
                     class="ref-on-click bg-primary text-primary-foreground px-2 py-2 rounded-lg ">Next
             </button>
         </div>
@@ -204,20 +209,26 @@
         return new URL(window.location);
     }
 
-    function search(search) {
-        let newHref = 'http://localhost:8080/users/search';
-        let url = new URL(newHref);
-        url.searchParams.set("search_query", search);
-        reload(url);
-    }
-
     function reload(url) {
         window.location.replace(url.href);
     }
 
-    function nextPage() {
+    function nextPage(page, maxPageCount) {
         let url = getUrl();
-        let newPage = url.searchParams.get('page') == null ? 2 : Number(url.searchParams.get('page')) + 1;
+        let newPage = url.searchParams.get('page') == null ? 2 : String(Number(url.searchParams.get('page')) + 1);
+        if (Number(newPage) > Number(maxPageCount)){
+            newPage = 2;
+        }
+        url.searchParams.set("page", newPage);
+        reload(url);
+    }
+
+    function prevPage(page, maxPageCount) {
+        let url = getUrl();
+        let newPage = url.searchParams.get('page') == null ? 0 : String(Number(url.searchParams.get('page')) - 1);
+        if (Number(newPage) > Number(maxPageCount)){
+            newPage = 1;
+        }
         url.searchParams.set("page", newPage);
         reload(url);
     }
@@ -238,12 +249,15 @@
         reload(url);
     }
 
-    function prevPage() {
+    function search(search) {
         let url = getUrl();
-        let newPage = url.searchParams.get('page') == null ? 0 : Number(url.searchParams.get('page')) - 1;
-        url.searchParams.set("page", newPage);
+        if (!url.href.includes('/search')) {
+            url.href = 'http://localhost:8080/users/search';
+        }
+        url.searchParams.set("search_query", search);
         reload(url);
     }
+
 
 </script>
 <script th:if="${showEdit}">
