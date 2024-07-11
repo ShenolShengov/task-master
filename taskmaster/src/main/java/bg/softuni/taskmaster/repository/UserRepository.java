@@ -1,11 +1,12 @@
 package bg.softuni.taskmaster.repository;
 
 import bg.softuni.taskmaster.model.entity.User;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -14,16 +15,18 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String value);
 
-    Integer countAllByAge(Integer age);
 
-    List<User> findAllByAge(Integer age, Pageable pageable);
+//    Page<User> findAllByAge(Integer age, Pageable pageable);
+//
+//    Page<User> findAllByEmailContains(String email, Pageable pageable);
 
-    List<User> findAllByEmailContains(String email, Pageable pageable);
+    @Query("SELECT u FROM User u WHERE  " +
+           "u.username like CONCAT('%',:searchQuery,'%') OR " +
+           "u.email like CONCAT('%',:searchQuery,'%') OR " +
+           "u.fullName like CONCAT('%',:searchQuery,'%') OR " +
+           "u.age = :searchQuery")
+    Page<User> findAllBySearchQuery(String searchQuery,
+                                    Pageable pageable);
 
-    List<User> findAllByUsernameContainsIgnoreCaseOrFullNameContainsIgnoreCase(String username, String fullName,
-                                                                               Pageable pageable);
 
-    Integer countAllByEmailContains(String email);
-
-    Integer countAllByUsernameContainsIgnoreCaseOrFullNameContainsIgnoreCase(String username, String fullName);
 }
