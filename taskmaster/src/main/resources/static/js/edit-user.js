@@ -6,7 +6,6 @@ function getElementById(id) {
 
 for (let i = 0; i < editButtons.length; i++) {
     let element = editButtons[i];
-
     element.addEventListener('click', () => {
         fetch("http://localhost:8080/users/api/" + element.id)
             .then(e => e.json())

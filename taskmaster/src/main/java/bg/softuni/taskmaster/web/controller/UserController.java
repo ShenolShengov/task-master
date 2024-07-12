@@ -77,6 +77,7 @@ public class UserController {
     ) {
         pageable = checkForDefaultSorting(sort, pageable);
         addSelectedSortOptionToModel(model, sort);
+        model.addAttribute("searchQuery", searchQuery);
         model.addAttribute("foundedUsers",
                 userService.search(searchQuery, pageable.previousOrFirst()));
         return "all-users";

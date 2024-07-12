@@ -15,16 +15,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String value);
 
-
-//    Page<User> findAllByAge(Integer age, Pageable pageable);
-//
-//    Page<User> findAllByEmailContains(String email, Pageable pageable);
-
     @Query("SELECT u FROM User u WHERE  " +
            "u.username like CONCAT('%',:searchQuery,'%') OR " +
            "u.email like CONCAT('%',:searchQuery,'%') OR " +
            "u.fullName like CONCAT('%',:searchQuery,'%') OR " +
-           "u.age = :searchQuery")
+           "CAST(u.age as string ) = :searchQuery")
     Page<User> findAllBySearchQuery(String searchQuery,
                                     Pageable pageable);
 

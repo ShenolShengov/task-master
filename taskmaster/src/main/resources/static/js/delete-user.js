@@ -7,7 +7,10 @@ for (let i = 0; i < deleteUserButtons.length; i++) {
         let currentUserSection = getElementById(element.id + "-section");
         let allUsers = getElementById("users");
         allUsers.removeChild(currentUserSection);
-        fetch('http://localhost:8080/users/api/' + element.id, {method: 'DELETE'})
+        fetch('http://localhost:8080/users/api/' + element.id, {
+            method: 'DELETE',
+            headers: getHeaderWithCsrf()
+        })
             .catch(error => console.log('An error occurred' + error));
     });
 }

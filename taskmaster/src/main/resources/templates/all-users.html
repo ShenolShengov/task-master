@@ -11,7 +11,7 @@
             <button onclick="search(getElementById('search').value)"
                     class="px-4 py-2 rounded-lg bg-primary text-primary-foreground">Search
             </button>
-            <input th:value="${@pagingAndSortingServiceImpl.getSearchQuery()}" th:id="search" type="text" placeholder=""
+            <input th:value="${searchQuery}" th:id="search" type="text" placeholder=""
                    class="w-full md:w-64 text-black px-4 py-2 rounded-lg  focus:outline-none focus:ring focus:ring-primary"/>
             <label for="sortProperty" class="text-base text-primary">Sort by:</label>
             <select
@@ -214,6 +214,7 @@
     document.getElementById("scroll")
         .scrollIntoView({block: "end", behavior: "smooth"});
 </script>
+<script th:inline="javascript" th:replace="~{/fragments/csrf::csrf}"></script>
 <script th:src="@{/js/user-make-remove-admin.js}"></script>
 <script th:src="@{/js/edit-user.js}"></script>
 <script th:src="@{/js/delete-user.js}"></script>
