@@ -4,6 +4,7 @@ import bg.softuni.taskmaster.model.dto.*;
 import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.model.enums.UserRoles;
 import bg.softuni.taskmaster.repository.RoleRepository;
+import bg.softuni.taskmaster.repository.TaskRepository;
 import bg.softuni.taskmaster.repository.UserRepository;
 import bg.softuni.taskmaster.service.UserHelperService;
 import bg.softuni.taskmaster.service.UserService;
@@ -18,9 +19,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +28,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final TaskRepository taskRepository;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
     private final UserHelperService userHelperService;
@@ -44,8 +44,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @SneakyThrows
     @Transactional
-    public Set<TaskInfoDTO> getTasks() {
-        return userHelperService.getUser().getTasks().stream().map(e -> modelMapper.map(e, TaskInfoDTO.class)).collect(Collectors.toCollection(LinkedHashSet::new));
+    public Page<TaskInfoDTO> getTasksFor(LocalDate dueDate, Pageable pageable) {
+        return taskRepository.findAllByUserIdAndDueDate(userHelperService.getUser().getId(), dueDate, pageable)
+                .map(e -> modelMapper.map(e, TaskInfoDTO.class));
     }
 
     @Override

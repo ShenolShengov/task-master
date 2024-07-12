@@ -1,5 +1,6 @@
 package bg.softuni.taskmaster.model.entity;
 
+import bg.softuni.taskmaster.model.anottation.SortParam;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -17,6 +18,7 @@ import java.util.Set;
 public class Question extends BaseEntity {
 
     @Column(nullable = false)
+    @SortParam
     private String title;
 
     @Column(nullable = false)
@@ -29,6 +31,7 @@ public class Question extends BaseEntity {
     private String code;
 
     @Column(nullable = false)
+    @SortParam
     private LocalDateTime createdTime;
 
     @OneToMany(mappedBy = "question")

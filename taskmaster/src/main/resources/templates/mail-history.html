@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/fragments/head::head}"></head>
+<body>
+<nav th:replace="~{/fragments/navigation::nav}"></nav>
+<div class="bg-background text-foreground min-h-screen p-4 flex flex-col items-center mb-8">
+    <h1 class="text-3xl mb-6 text-center">Email history</h1>
+    <div class="flex w-[70em] justify-end mb-4">
+        <p  class="mr-auto text-2xl ">4 emails sent</p>
+        <div class="flex items-center space-x-2">
+<!--                    onclick="search(getElementById('search').value)"-->
+            <button
+                    class="px-4 py-2 rounded-lg bg-primary text-primary-foreground">Search
+            </button>
+            <input th:value="${searchQuery}" th:id="search" type="text" placeholder=""
+                   class="w-full md:w-64 text-black px-4 py-2 rounded-lg  focus:outline-none focus:ring focus:ring-primary"/>
+            <label for="sortProperty" class="text-base text-primary">Sort by:</label>
+            <select
+                    onchange="sort(this.value, getElementById('sortDirection').value)"
+                    id="sortProperty"
+                    class="bg-input text-zinc-600 border border-input rounded-md px-4 py-2 pr-8">
+                <option value="">None</option>
+                <option th:each="option: ${@sortingUtils.getSortingFields('User')}"
+                        th:value="${option}"
+                        th:text="${#strings.capitalize(option)}"
+                >
+<!--                        th:selected="${sortProperties.equals(option)}"-->
+                    Username
+                </option>
+            </select>
+<!--                    onchange="sort(getElementById('sortProperty').value,this.value)"-->
+            <select
+                    id="sortDirection"
+                    class="bg-input text-zinc-600 border border-input rounded-md px-4 py-2 pr-8">
+<!--                        th:selected="${sortDirection.equals('asc')}"-->
+                <option
+                        value="asc">
+                    ASC
+                </option>
+<!--                        th:selected="${sortDirection.equals('desc')}"-->
+                <option
+                        value="desc">
+                    DESC
+                </option>
+            </select>
+        </div>
+    </div>
+    <div class="overflow-x-auto w-[70em]">
+        <table class="min-w-full bg-card rounded-lg table-fixed">
+            <thead>
+            <tr>
+                <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">Action</th>
+                <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">Time</th>
+                <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">From</th>
+                <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">To</th>
+                <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">Description</th>
+            </tr>
+            </thead>
+            <tbody id="users">
+            <!--            <tr th:each="history : ${founded.getContent()}" th:object="${history}">-->
+            <!--                <td th:text="*{username}" class="px-4 py-2 text-center">JohnDoe</td>-->
+            <!--                <td th:text="*{fullName}" class="px-4 py-2 text-center">John Doe</td>-->
+            <!--                <td th:text="*{email}" class="px-4 py-2 text-center">john.doe@example.com</td>-->
+            <!--                <td th:text="*{age}" class="px-4 py-2 text-center">22</td>-->
+            <!--                <td th:text="*{isAdmin}? 'Admin' : 'User'" th:id="*{id + '-role'}" class="px-4 py-2 text-center">Admin-->
+            <!--                </td>-->
+            <!--            </tr>-->
+            <tr>
+                <td class="px-4 py-2 text-center">Register</td>
+                <td class="px-4 py-2 text-center">07.12.2024 15:15</td>
+                <td class="px-4 py-2 text-center">john.doe@example.com</td>
+                <td class="px-4 py-2 text-center">shenol@gmail.com</td>
+                <td class="px-4 py-2 text-center">New register user with username Erol15.
+                </td>
+            </tr>
+             <tr>
+                <td class="px-4 py-2 text-center">Add role admin</td>
+                <td class="px-4 py-2 text-center">07.12.2024 15:17</td>
+                <td class="px-4 py-2 text-center">john.doe@example.com</td>
+                <td class="px-4 py-2 text-center">shenol@gmail.com</td>
+                <td class="px-4 py-2 text-center"> Shenol10 add role admin to Erol15.
+                </td>
+            </tr>
+             <tr>
+                <td class="px-4 py-2 text-center">Register</td>
+                <td class="px-4 py-2 text-center">07.12.2024 16:20</td>
+                <td class="px-4 py-2 text-center">john.doe@example.com</td>
+                <td class="px-4 py-2 text-center">shenol@gmail.com</td>
+                <td class="px-4 py-2 text-center">New register user with username Shengov.
+                </td>
+            </tr>
+             <tr>
+                <td class="px-4 py-2 text-center">Delete</td>
+                <td class="px-4 py-2 text-center">07.12.2024 15:15</td>
+                <td class="px-4 py-2 text-center">john.doe@example.com</td>
+                <td class="px-4 py-2 text-center">shenol@gmail.com</td>
+                <td class="px-4 py-2 text-center"> Shenol10 delete user Shengov
+                </td>
+            </tr>
+             <tr>
+                <td class="px-4 py-2 text-center">Register</td>
+                <td class="px-4 py-2 text-center">07.12.2024 15:15</td>
+                <td class="px-4 py-2 text-center">john.doe@example.com</td>
+                <td class="px-4 py-2 text-center">shenol@gmail.com</td>
+                <td class="px-4 py-2 text-center">New register user with username Shenol10.
+                </td>
+            </tr>
+             <tr>
+                <td class="px-4 py-2 text-center">Register</td>
+                <td class="px-4 py-2 text-center">07.12.2024 15:15</td>
+                <td class="px-4 py-2 text-center">john.doe@example.com</td>
+                <td class="px-4 py-2 text-center">shenol@gmail.com</td>
+                <td class="px-4 py-2 text-center">New register user with username Shenol10.
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+        <div class=" mt-4 flex justify-end">
+            <button th:if="${!founded.isFirst()}"
+                    onclick="prevPage()"
+                    class="ref-on-click bg-primary text-primary-foreground px-2 py-2 mr-4 rounded-lg ">Previous
+            </button
+            >
+            <button th:if="${!founded.isLast()}"
+                    onclick="nextPage()"
+                    class="ref-on-click bg-primary text-primary-foreground px-2 py-2 rounded-lg ">Next
+            </button>
+        </div>
+    </div>
+</div>
+<footer th:replace="~{/fragments/footer::footer}"></footer>
+</body>
+<script th:src="@{/js/pagingSortingAndFiltering.js}"></script>
+<!--<script th:inline="javascript" th:replace="~{/fragments/csrf::csrf}"></script>-->
+</html>

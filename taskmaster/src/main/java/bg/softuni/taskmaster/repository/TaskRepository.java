@@ -12,4 +12,6 @@ import java.time.LocalDate;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
+
+    Page<Task> findAllByUserIdAndDueDate(Long userId, LocalDate dueDate, Pageable pageable);
 }

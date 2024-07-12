@@ -20,28 +20,15 @@ function prevPage() {
     reload(url);
 }
 
-// function sortProperties(by) {
-//     let url = getUrl();
-//     if (by === 'none') {
-//         url.searchParams.delete('sort_properties');
-//     } else {
-//         url.searchParams.set('sort_properties', by);
-//     }
-//     reload(url);
-// }
-
-
-function sort(properties, direction) {
+function sortWithPrefix(prefix, properties, direction) {
     let url = getUrl();
-    url.searchParams.set('sort', (properties + ',' + direction));
+    url.searchParams.set(prefix + 'sort', (properties + ',' + direction));
     reload(url);
 }
 
-// function sortDirection(direction) {
-//     let url = getUrl();
-//     url.searchParams.set('sort_direction', direction);
-//     reload(url);
-// }
+function sort(properties, direction) {
+    sortWithPrefix("", properties, direction);
+}
 
 function search(search) {
     let url = getUrl();

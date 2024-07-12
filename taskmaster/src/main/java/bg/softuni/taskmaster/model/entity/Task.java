@@ -1,5 +1,6 @@
 package bg.softuni.taskmaster.model.entity;
 
+import bg.softuni.taskmaster.model.anottation.SortParam;
 import bg.softuni.taskmaster.model.enums.TaskPriorities;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
@@ -16,7 +17,9 @@ import java.time.LocalTime;
 @EqualsAndHashCode(callSuper = false)
 public class Task extends BaseEntity {
 
+
     @Column(nullable = false)
+    @SortParam
     private String name;
 
     @Column(nullable = false)
@@ -24,15 +27,19 @@ public class Task extends BaseEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
+    @SortParam
     private TaskPriorities priority;
 
     @Column(nullable = false)
     private LocalDate dueDate;
 
+
     @Column(nullable = false)
+    @SortParam
     private LocalTime startTime;
 
     @Column(nullable = false)
+    @SortParam
     private LocalTime endTime;
 
     private boolean allDay;

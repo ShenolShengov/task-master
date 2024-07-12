@@ -5,7 +5,6 @@ import bg.softuni.taskmaster.model.dto.UserEditDTO;
 import bg.softuni.taskmaster.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mapping.PropertyReferenceException;
@@ -15,6 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import static bg.softuni.taskmaster.utils.SortingUtils.addSelectedSortOptions;
+import static bg.softuni.taskmaster.utils.SortingUtils.checkForDefaultSorting;
 
 @Controller
 @RequestMapping("/users")
@@ -43,26 +45,14 @@ public class UserController {
                           Pageable pageable
     ) {
         pageable = checkForDefaultSorting(sort, pageable);
-        addSelectedSortOptionToModel(model, sort);
+        addSelectedSortOptions(model, sort);
         model.addAttribute("foundedUsers",
                 userService.getAllInfo(pageable.previousOrFirst()));
 
         return "all-users";
     }
 
-    private static Pageable checkForDefaultSorting(String sort, Pageable pageable) {
-        if (sort.startsWith(",")) {
-            pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
-                    Sort.Direction.fromString(sort.substring(1)), "id");
-        }
-        return pageable;
-    }
 
-    private static void addSelectedSortOptionToModel(Model model, String sort) {
-        String[] sortTokens = sort.split(",");
-        model.addAttribute("sortProperties", sortTokens[0]);
-        model.addAttribute("sortDirection", sortTokens[1]);
-    }
 
     @GetMapping("/search")
     public String search(Model model,
@@ -76,7 +66,7 @@ public class UserController {
 
     ) {
         pageable = checkForDefaultSorting(sort, pageable);
-        addSelectedSortOptionToModel(model, sort);
+        addSelectedSortOptions(model, sort);
         model.addAttribute("searchQuery", searchQuery);
         model.addAttribute("foundedUsers",
                 userService.search(searchQuery, pageable.previousOrFirst()));

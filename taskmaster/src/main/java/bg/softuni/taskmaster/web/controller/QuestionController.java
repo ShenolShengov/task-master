@@ -64,7 +64,7 @@ public class QuestionController {
 
     @GetMapping("/{id}")
     public String detailsView(@PathVariable Long id, Model model) {
-        model.addAttribute("questionData", questionService.getDetailsDTO(id));
+        model.addAttribute("questionData", questionService.getDetailsInfoDTO(id));
         if (!model.containsAttribute("questionAnswerData")) {
             model.addAttribute("questionAnswerData", new QuestionAnswerDTO());
         }

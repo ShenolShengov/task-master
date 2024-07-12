@@ -3,7 +3,7 @@ package bg.softuni.taskmaster.service.impl;
 import bg.softuni.taskmaster.model.dto.AnswerDetailsDTO;
 import bg.softuni.taskmaster.model.dto.QuestionAnswerDTO;
 import bg.softuni.taskmaster.model.dto.QuestionAskDTO;
-import bg.softuni.taskmaster.model.dto.QuestionDetailsDTO;
+import bg.softuni.taskmaster.model.dto.QuestionDetailsInfoDTO;
 import bg.softuni.taskmaster.model.entity.Answer;
 import bg.softuni.taskmaster.model.entity.Question;
 import bg.softuni.taskmaster.repository.AnswerRepository;
@@ -42,23 +42,30 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     @Transactional
-    public QuestionDetailsDTO getDetailsDTO(Long id) {
+    public QuestionDetailsInfoDTO getDetailsInfoDTO(Long id) {
         Question question = questionRepository.findById(id)
                 .orElseThrow(RuntimeException::new);
-        QuestionDetailsDTO questionDetailsDTO = modelMapper.map(question, QuestionDetailsDTO.class);
+        QuestionDetailsInfoDTO questionDetailsInfoDTO = modelMapper.map(question, QuestionDetailsInfoDTO.class);
 
-        questionDetailsDTO.setAnswers(
-                questionDetailsDTO.getAnswers()
+        questionDetailsInfoDTO.setAnswers(
+                questionDetailsInfoDTO.getAnswers()
                         .stream().
                         sorted(Comparator.comparing(AnswerDetailsDTO::getCreatedTime))
                         .collect(Collectors.toCollection(LinkedHashSet::new))
         );
 
-        questionDetailsDTO.setTags(
-                Arrays.stream(question.getTags().split("\\s+"))
-                        .collect(Collectors.toCollection(LinkedHashSet::new)))
-        ;
-        return questionDetailsDTO;
+        questionDetailsInfoDTO.setTags(mapToTags(question.getTags()));
+        return questionDetailsInfoDTO;
+    }
+
+    private static LinkedHashSet<String> mapToTags(String tags) {
+        return Arrays.stream(tags.split("\\s+"))
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+
+    @Override
+    public QuestionDetailsInfoDTO getBaseInfoDTO(Long id) {
+        return null;
     }
 
     @Override
@@ -68,5 +75,6 @@ public class QuestionServiceImpl implements QuestionService {
         answer.setQuestion(questionRepository.findById(id).orElseThrow(RuntimeException::new));
         answer.setUser(userHelperService.getUser());
         answerRepository.save(answer);
+        questionRepository.save(answer.getQuestion());
     }
 }

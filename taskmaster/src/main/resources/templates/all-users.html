@@ -19,9 +19,9 @@
                     id="sortProperty"
                     class="bg-input text-zinc-600 border border-input rounded-md px-4 py-2 pr-8">
                 <option value="">None</option>
-                <option th:each="option: ${@sortingFieldsUtils.getSortingFields('User')}"
+                <option th:each="option: ${@sortingUtils.getSortingFields('Question')}"
                         th:value="${option}"
-                        th:text="${#strings.capitalize(option)}"
+                        th:text="${@sortingUtils.getSortingFormattedSortingFiled(option)}"
                         th:selected="${sortProperties.equals(option)}">
                     Username
                 </option>
@@ -54,7 +54,7 @@
             </tr>
             </thead>
             <tbody id="users">
-            <tr th:each="user : ${foundedUsers.getContent()}" th:object="${user}" th:id="*{id + '-section'}">
+            <tr th:each="user : ${foundedUsers}" th:object="${user}" th:id="*{id + '-section'}">
                 <td th:text="*{username}" class="px-4 py-2 text-center">JohnDoe</td>
                 <td th:text="*{fullName}" class="px-4 py-2 text-center">John Doe</td>
                 <td th:text="*{email}" class="px-4 py-2 text-center">john.doe@example.com</td>
@@ -216,6 +216,7 @@
 </script>
 <script th:inline="javascript" th:replace="~{/fragments/csrf::csrf}"></script>
 <script th:src="@{/js/user-make-remove-admin.js}"></script>
+<script th:src="@{/js/pagingSortingAndFiltering.js}"></script>
 <script th:src="@{/js/edit-user.js}"></script>
 <script th:src="@{/js/delete-user.js}"></script>
 <script th:src="@{/js/chage-user-password.js}"></script>

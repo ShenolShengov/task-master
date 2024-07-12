@@ -11,68 +11,109 @@
     <main class="container mx-auto mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">
         <section id="today-tasks-section" class="bg-card rounded-lg p-6 shadow-md overflow-y-auto max-h-96">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl text-black font-semibold">Today's Tasks</h2>
+                <h2 class="text-xl text-black font-semibold">My Tasks</h2>
                 <div class="flex items-center space-x-2">
-                    <label for="today-sort-by" class="text-zinc-600">Sort by:</label>
-                    <form action=""></form>
-                    <select  id="today-sort-by"
-                            class="bg-input text-zinc-600 border border-input rounded-md px-2 py-1 pr-8">
-
-                        <option value="priority">Priority</option>
-                        <option value="priority">Priority DESC</option>
-                        <option value="category">Category</option>
+                    <label for="chooseTaskDate" class="text-zinc-600">Choose Day:</label>
+                    <input onchange="{
+                        let url = getUrl();
+                        url.searchParams.set('task_due_date', this.value);
+                        reload(url);
+                    }"
+                           th:value="${task_due_date}"
+                           id="chooseTaskDate"
+                           type="date" class="text-black border border-card px-2 py-1 rounded-lg"/>
+                    <label for="taskSortProperty" class="text-base text-primary">Sort by:</label>
+                    <select
+                            onchange="sortWithPrefix('task_',this.value, getElementById('taskSortDirection').value)"
+                            id="taskSortProperty"
+                            class="bg-input text-zinc-600 border border-input rounded-md px-4 py-2 pr-8">
+                        <option value="">None</option>
+                        <option th:each="option: ${@sortingUtils.getSortingFields('Task')}"
+                                th:value="${option}"
+                                th:text="${@sortingUtils.getSortingFormattedSortingFiled(option)}"
+                                th:selected="${task_sortProperties.equals(option)}">
+                            Username
+                        </option>
                     </select>
-                    <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                        <svg class="h-4 w-4 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                             xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </div>
+                    <select
+                            onchange="sortWithPrefix('task_' ,getElementById('taskSortProperty').value,this.value)"
+                            id="taskSortDirection"
+                            class="bg-input text-zinc-600 border border-input rounded-md px-4 py-2 pr-8">
+                        <option th:selected="${task_sortDirection.equals('asc')}"
+                                value="asc">
+                            ASC
+                        </option>
+                        <option th:selected="${task_sortDirection.equals('desc')}"
+                                value="desc">
+                            DESC
+                        </option>
+                    </select>
                 </div>
             </div>
             <ul>
-                <li th:each="task: ${currentUserTasks}" th:object="${task}" class="flex flex-col py-4 border-b border-card">
+                <li th:each="task: ${userTasks}" th:object="${task}" class="flex flex-col py-4 border-b border-card">
                     <div class="flex items-center justify-between mb-2">
                         <span th:text="*{name}" class="text-black text-lg ">Task 3</span>
                         <span th:text="*{'Priority: ' + priority}" class="text-black">Priority: High</span>
                         <span th:text="*{'Category: ' + category}" class="text-black">Category: Personal</span>
                     </div>
-                    <p th:text="*{description}" class=" text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor
+                    <p th:text="*{description}" class=" text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do
+                        eiusmod tempor
                         incididunt ut labore et dolore magna aliqua.</p>
                     <div class="flex items-center justify-between">
                         <span th:if="!*{allDay}" th:text="*{'Start time: ' +startTime}" class="text-sm text-zinc-600">Start Time: 09:00 AM</span>
                         <span th:if="!*{allDay}" th:text="*{'End time: ' + endTime}" class="text-sm text-zinc-600">End Time: 10:00 AM</span>
                         <span th:if="*{allDay}" class="text-sm text-zinc-600">All day</span>
-                        <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">Edit</button>
-                        <button class="bg-destructive text-destructive-foreground py-1 px-2 rounded-lg shadow-md hover:bg-destructive/80">Remove</button>
+                        <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">
+                            Edit
+                        </button>
+                        <button class="bg-destructive text-destructive-foreground py-1 px-2 rounded-lg shadow-md hover:bg-destructive/80">
+                            Remove
+                        </button>
                     </div>
                 </li>
             </ul>
         </section>
         <section id="switch-tasks-section" class=" bg-card rounded-lg p-6 shadow-md overflow-y-auto max-h-96">
             <div class="flex justify-between items-center mb-4">
-                <h2 id="future-label" class="text-xl text-black font-semibold">Future Tasks</h2>
-                <h2 id="prev-label" class="hidden text-xl text-black font-semibold">Previous Tasks</h2>
+                <h2 class="text-xl text-black font-semibold">My Tasks</h2>
                 <div class="flex items-center space-x-2">
-                    <div id="date-wrapper" class="hidden">
-                        <label for="choose-date" class="text-zinc-600">Choose Day:</label>
-                        <input type="date" id="choose-date" class="yesterday max-yesterday text-black border border-card px-2 py-1 rounded-lg"/>
-                    </div>
-                    <label for="f-p-sort-by" class="text-zinc-600">Sort by:</label>
-                    <select id="f-p-sort-by"
-                            class="bg-input text-zinc-600 border border-input rounded-md px-2 py-1 pr-8">
-                        <option value="due_date">Due Date</option>
-                        <option value="priority">Priority</option>
-                        <option value="category">Category</option>
+                    <label for="chooseQuestionId" class="text-zinc-600">Choose Day:</label>
+                    <input onchange="{
+                        let url = getUrl();
+                        url.searchParams.set('question_created_time', this.value);
+                        reload(url);
+                    }"
+                           th:value="${question_created_time}"
+                           type="date"
+                           id="chooseQuestionId"
+                           class="text-black border border-card px-2 py-1 rounded-lg"/>
+                    <label for="questionSortProperty" class="text-base text-primary">Sort by:</label>
+                    <select
+                            onchange="sortWithPrefix('question_',this.value, getElementById('questionSortDirection').value)"
+                            id="questionSortProperty"
+                            class="bg-input text-zinc-600 border border-input rounded-md px-4 py-2 pr-8">
+                        <option value="">None</option>
+                        <option th:each="option: ${@sortingUtils.getSortingFields('Question')}"
+                                th:value="${option}"
+                                th:text="${@sortingUtils.getSortingFormattedSortingFiled(option)}"
+                                th:selected="${question_sortProperties.equals(option)}">
+                            Username
+                        </option>
                     </select>
-                    <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                        <svg class="h-4 w-4 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                             xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </div>
+                    <select
+                            onchange="sortWithPrefix('question_' ,getElementById('questionSortProperty').value,this.value)"
+                            id="questionSortDirection"
+                            class="bg-input text-zinc-600 border border-input rounded-md px-4 py-2 pr-8">
+                        <option th:selected="${question_sortDirection.equals('asc')}"
+                                value="asc">
+                            ASC
+                        </option>
+                        <option th:selected="${question_sortDirection.equals('desc')}"
+                                value="desc">
+                            DESC
+                        </option>
+                    </select>
                 </div>
             </div>
             <ul>
@@ -270,4 +311,5 @@
 <footer th:replace="~{/fragments/footer::footer}"></footer>
 </body>
 <script th:src="@{/js/dates.js}"></script>
+<script th:src="@{/js/pagingSortingAndFiltering.js}"></script>
 </html>

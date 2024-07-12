@@ -9,19 +9,15 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class QuestionDetailsDTO implements Serializable {
+public class QuestionBaseInfoDTO implements Serializable {
 
     private String id;
     private String title;
     private String description;
-    private String code;
     private String createdTime;
-    private String userUsername;
     private Set<String> tags;
-    private Set<AnswerDetailsDTO> answers;
 
-    public QuestionDetailsDTO() {
+    public QuestionBaseInfoDTO() {
         this.tags = new LinkedHashSet<>();
-        this.answers = new LinkedHashSet<>();
     }
 }
