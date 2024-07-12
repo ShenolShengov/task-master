@@ -37,9 +37,9 @@ public class UserController {
     @GetMapping
     public String allView(Model model,
                           @RequestParam(required = false) Integer ignoredPage,
-                          @RequestParam(required = false, defaultValue = "id,asc")
+                          @RequestParam(required = false, defaultValue = ",asc")
                           String sort,
-                          @PageableDefault(size = 5, sort = "id")
+                          @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.ASC)
                           Pageable pageable
     ) {
         pageable = checkForDefaultSorting(sort, pageable);
@@ -67,12 +67,12 @@ public class UserController {
     @GetMapping("/search")
     public String search(Model model,
                          @RequestParam(required = false) Integer ignoredPage,
-                         @RequestParam(required = false, defaultValue = "id,asc")
+                         @RequestParam(required = false, defaultValue = ",asc")
                          String sort,
-                         @PageableDefault(size = 5)
+                         @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.ASC)
                          Pageable pageable,
 
-                         @RequestParam(value = "search_query", required = false, defaultValue = "") String searchQuery
+                         @RequestParam(name = "search_query", required = false, defaultValue = "") String searchQuery
 
     ) {
         pageable = checkForDefaultSorting(sort, pageable);
