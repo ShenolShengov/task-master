@@ -1,12 +1,13 @@
 package bg.softuni.taskmaster.model.dto;
 
-import jakarta.annotation.PostConstruct;
+import bg.softuni.taskmaster.validation.validstartandendtime.ValidStartAndEndTime;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -14,6 +15,7 @@ import java.time.LocalTime;
 
 @Getter
 @Setter
+@ValidStartAndEndTime
 public class TaskAddDTO implements Serializable {
 
     @NotNull
@@ -31,9 +33,11 @@ public class TaskAddDTO implements Serializable {
     private LocalDate dueDate;
 
     @NotNull
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime startTime;
 
     @NotNull
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime endTime;
 
     @NotNull

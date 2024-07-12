@@ -60,19 +60,32 @@
             </div>
             <div id="start-time-div">
                 <label th:for="startTime" class="block text-sm font-medium text-black">Start</label>
-                <input th:field="*{startTime}" id="startTime" name="dueDate" type="time" min="today"
+                <input th:field="*{startTime}"
+
+                       id="startTime" name="dueDate" type="time" min="today"
                        class="text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring"
                        placeholder="Select due date"/>
                 <div th:errors="*{startTime}"
                      class="text-sm text-destructive">
                     <p>Username length must be between 5 and 15 symbols!</p>
                 </div>
+                <div th:errors="global"
+                     class="text-sm text-destructive">
+                    <p>Username length must be between 5 and 15 symbols!</p>
+                </div>
             </div>
             <div id="end-time-div">
-                <label th:for="endTime" class="block text-sm font-medium text-black">End</label>
-                <input th:field="*{endTime}" id="endTime" name="dueDate" type="time"
+                <label th:for="endTime"
+                       class="block text-sm font-medium text-black">End</label>
+                <!--                       th:value="*{#temporals.format(endTime, 'HH:mm')}"-->
+                <input th:field="*{endTime}"
+                       id="endTime" name="dueDate" type="time"
                        class="text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring"
                        placeholder="Select due date"/>
+                <div th:errors="global"
+                     class="text-sm text-destructive">
+                    <p>Username length must be between 5 and 15 symbols!</p>
+                </div>
             </div>
             <div class="flex items-center">
                 <input th:field="*{allDay}" type="checkbox" id="allDay"
