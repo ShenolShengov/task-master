@@ -18,33 +18,33 @@ import java.time.LocalTime;
 @ValidStartAndEndTime
 public class TaskAddDTO implements Serializable {
 
-    @NotNull
-    @Length(min = 5, max = 20)
+    @NotNull(message = "{validation.task.name.length}")
+    @Length(min = 5, max = 20, message = "{validation.task.name.length}")
     private String name;
 
-    @Length(min = 5, max = 20)
+    @NotNull(message = "{validation.task.category.length}")
+    @Length(min = 5, max = 20, message = "{validation.task.category.length}")
     private String category;
 
-    @NotEmpty
+    @NotEmpty(message = "{validation.task.priority.not.null}")
     private String priority;
 
-    @NotNull
-    @FutureOrPresent
+    @NotNull(message = "{validation.task.dueDate.not.null}")
+    @FutureOrPresent(message = "{validation.task.dueDate.future.or.present}")
     private LocalDate dueDate;
 
-    @NotNull
+    @NotNull(message = "{validation.task.time.not.null}")
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime startTime;
 
-    @NotNull
+    @NotNull(message = "{validation.task.time.not.null}")
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime endTime;
 
-    @NotNull
     private boolean allDay;
 
-    @NotNull
-    @Length(min = 5, max = 2000)
+    @NotNull(message = "{validation.description.length}")
+    @Length(min = 5, max = 2000, message = "{validation.description.length}")
     private String description;
 
 

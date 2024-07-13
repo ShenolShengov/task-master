@@ -8,17 +8,21 @@ import org.hibernate.validator.constraints.Length;
 
 @Getter
 @Setter
-@MatchField(first = "newPassword", second = "confirmPassword")
+@MatchField(
+        first = "newPassword",
+        second = "confirmPassword",
+        message = "{validation.user.passwords.not.match}"
+)
 public class UserChangePasswordDTO {
 
     @NotNull
     private Long id;
 
-    @NotNull(message = "Password length must be between 2 and 15 symbols!")
-    @Length(min = 2, max = 15, message = "Password length must be between 2 and 15 symbols!")
+    @NotNull(message = "{validation.user.password.length}")
+    @Length(min = 5, max = 15, message = "{validation.user.password.length}")
     private String newPassword;
 
-    @NotNull(message = "Password length must be between 2 and 15 symbols!")
-    @Length(min = 2, max = 15, message = "Password length must be between 2 and 15 symbols!")
+    @NotNull(message = "{validation.user.password.length}")
+    @Length(min = 5, max = 15, message = "{validation.user.password.length}")
     private String confirmPassword;
 }

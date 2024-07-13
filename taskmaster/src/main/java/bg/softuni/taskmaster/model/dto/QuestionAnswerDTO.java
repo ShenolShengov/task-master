@@ -11,11 +11,11 @@ import java.io.Serializable;
 @Setter
 public class QuestionAnswerDTO implements Serializable {
 
-    @NotNull
-    @Length(min = 20, max = 2000)
+    @NotNull(message = "{validation.description.length}")
+    @Length(min = 5, max = 2000, message = "{{validation.description.length}}")
     private String description;
 
-    @NotNull
-    @Length(min = 300, max = 5000)
+    @NotNull(message = "{validation.question.answer.code.length}")
+    @Length(max = 5000, message = "{validation.question.answer.code.length}")
     private String code;
 }

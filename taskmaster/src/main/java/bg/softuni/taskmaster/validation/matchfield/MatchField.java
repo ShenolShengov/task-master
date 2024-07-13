@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface MatchField {
 
-    String message() default "{match.filed}";
+    String message() default "{validation.field.unique}";
 
     String first();
 

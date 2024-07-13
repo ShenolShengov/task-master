@@ -13,35 +13,36 @@ import org.hibernate.validator.constraints.Length;
 
 @MatchField(
         first = "password",
-        second = "confirmPassword"
+        second = "confirmPassword",
+        message = "{validation.user.passwords.not.match}"
 )
 @Getter
 @Setter
 public class UserRegisterDTO {
 
-    @NotNull(message = "Username length must be between 5 and 15 symbols!")
-    @Length(min = 2, max = 15, message = "Username length must be between 5 and 15 symbols!")
+    @NotNull(message = "{validation.user.username.length}")
+    @Length(min = 2, max = 15, message = "{validation.user.username.length}")
     @UniqueField(UniqueFieldType.USERNAME)
     private String username;
 
-    @NotNull(message = "Full name length must be between 2 and 20 symbols!")
-    @Length(min = 2, max = 20, message = "Full name length must be between 2 and 20 symbols!")
+    @NotNull(message = "{validation.user.full.name.length}")
+    @Length(min = 2, max = 30, message = "{validation.user.full.name.length}")
     private String fullName;
 
-    @Email(message = "Not valid email")
-    @NotEmpty(message = "Not valid email")
+    @Email(message = "{validation.user.email.not.valid}")
+    @NotEmpty(message = "{validation.user.email.not.valid}")
     @UniqueField(UniqueFieldType.EMAIL)
     private String email;
 
-    @Positive(message = "Age must be positive")
-    @NotNull(message = "Age must be positive")
+    @Positive(message = "{validation.user.age.positive}")
+    @NotNull(message = "{validation.user.age.positive}")
     private Integer age;
 
-    @NotNull(message = "Password length must be between 2 and 15 symbols!")
-    @Length(min = 2, max = 15, message = "Password length must be between 2 and 15 symbols!")
+    @NotNull(message = "{validation.user.password.length}")
+    @Length(min = 5, max = 15, message = "{validation.user.password.length}")
     private String password;
 
-    @NotNull(message = "Password length must be between 5 and 15 symbols!")
-    @Length(min = 2, max = 15, message = "Password length must be between 2 and 15 symbols!")
+    @NotNull(message = "{validation.user.password.length}")
+    @Length(min = 5, max = 15, message = "{validation.user.password.length}")
     private String confirmPassword;
 }

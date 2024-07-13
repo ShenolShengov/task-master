@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface UniqueField {
 
-    String message() default "{field.unique}";
+    String message() default "{validation.field.unique}";
 
      UniqueFieldType value();
 

@@ -35,6 +35,16 @@
         </li>
     </ul>
     <div class="flex items-center space-x-4 order-2 md:order-3">
+        <form method="get">
+        <label for="lang" class="text-input-foreground text-xs">Language</label>
+            <select id="lang"
+                    name="lang"
+                    onchange="this.form.submit()"
+                    class="text-black text-xs hover:bg-input/80 py-2 pl-3 pr-8 rounded-lg">
+                <option th:selected="${#locale.toString().equals('en_US')}" value="en_US">English</option>
+                <option th:selected="${#locale.toString().equals('bg_BG')}" value="bg_BG">Български</option>
+            </select>
+        </form>
         <a sec:authorize="isAnonymous()" th:href="@{/users/register}"
            class="text-base font-medium text-primary-foreground hover:text-primary-700">Register</a>
         <a sec:authorize="isAnonymous()" th:href="@{/users/login}"

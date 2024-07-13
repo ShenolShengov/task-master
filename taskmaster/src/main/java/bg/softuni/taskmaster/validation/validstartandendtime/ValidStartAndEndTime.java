@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface ValidStartAndEndTime {
 
-    String message() default "{field.unique}";
+    String message() default "{validation.task.invalid.start.and.end.time}";
 
     Class<?>[] groups() default {};
 
