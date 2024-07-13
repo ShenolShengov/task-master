@@ -15,7 +15,7 @@
 </head>
 <body>
 <nav th:replace="~{/fragments/navigation::nav}"></nav>
-<div id="map" class="h-80"></div>
+<div id="map" class="h-80 z-0"></div>
 <div class="bg-background text-primary-foreground min-h-screen flex flex-col items-center justify-center">
     <h1 class="text-5xl mb-8 text-black">Contact Us</h1>
     <div class="bg-card w-9/12 p-8 rounded-lg shadow-lg mb-8">
@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div>
-                <label  th:for="message" class="block text-lg font-medium text-black">Message</label>
+                <label th:for="message" class="block text-lg font-medium text-black">Message</label>
                 <textarea th:field="*{message}" id="message" name="message" rows="6" placeholder="Your Message"
                           class=" text-black w-full px-4 py-3 mt-2 rounded-md border focus:outline-none focus:ring focus:ring-primary"
                           required></textarea>
@@ -66,7 +66,10 @@
 </body>
 <script th:src="@{/js/map.js}"></script>
 <script>
-    document.getElementById("scroll")
-        .scrollIntoView({block: "end", behavior: "smooth"});
+    let elementById = document.getElementById("scroll");
+    if (elementById != null) {
+        elementById
+            .scrollIntoView({block: "end", behavior: "smooth"})
+    }
 </script>
 </html>
