@@ -9,6 +9,9 @@ public class ValidStartAndEndTimeValidator implements ConstraintValidator<ValidS
     @Override
     public boolean isValid(TaskAddDTO value, ConstraintValidatorContext context) {
         if (value.getStartTime() == null || value.getEndTime() == null) {
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate("{validation.task.time.not.null}")
+                    .addConstraintViolation();
             return false;
         }
         return value.getStartTime().isBefore(value.getEndTime());

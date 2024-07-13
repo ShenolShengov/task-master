@@ -33,11 +33,9 @@ public class TaskAddDTO implements Serializable {
     @FutureOrPresent(message = "{validation.task.dueDate.future.or.present}")
     private LocalDate dueDate;
 
-    @NotNull(message = "{validation.task.time.not.null}")
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime startTime;
 
-    @NotNull(message = "{validation.task.time.not.null}")
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime endTime;
 

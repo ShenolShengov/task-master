@@ -61,7 +61,6 @@ public class UserController {
                          String sort,
                          @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.ASC)
                          Pageable pageable,
-
                          @RequestParam(name = "search_query", required = false, defaultValue = "") String searchQuery
 
     ) {

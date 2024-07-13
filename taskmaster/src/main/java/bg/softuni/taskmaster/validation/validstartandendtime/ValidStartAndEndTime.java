@@ -1,6 +1,5 @@
 package bg.softuni.taskmaster.validation.validstartandendtime;
 
-import bg.softuni.taskmaster.validation.uniquefield.UniqueFieldType;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 

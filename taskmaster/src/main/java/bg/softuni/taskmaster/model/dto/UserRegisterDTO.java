@@ -1,8 +1,8 @@
 package bg.softuni.taskmaster.model.dto;
 
 import bg.softuni.taskmaster.validation.matchfield.MatchField;
-import bg.softuni.taskmaster.validation.uniquefield.UniqueField;
-import bg.softuni.taskmaster.validation.uniquefield.UniqueFieldType;
+import bg.softuni.taskmaster.validation.uniquefield.NotTaken;
+import bg.softuni.taskmaster.validation.uniquefield.NotTakenType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -22,7 +22,7 @@ public class UserRegisterDTO {
 
     @NotNull(message = "{validation.user.username.length}")
     @Length(min = 2, max = 15, message = "{validation.user.username.length}")
-    @UniqueField(UniqueFieldType.USERNAME)
+    @NotTaken(value = NotTakenType.USERNAME, message ="{validation.user.username.unique}")
     private String username;
 
     @NotNull(message = "{validation.user.full.name.length}")
@@ -31,7 +31,7 @@ public class UserRegisterDTO {
 
     @Email(message = "{validation.user.email.not.valid}")
     @NotEmpty(message = "{validation.user.email.not.valid}")
-    @UniqueField(UniqueFieldType.EMAIL)
+    @NotTaken(value = NotTakenType.EMAIL, message ="{validation.email.username.unique}")
     private String email;
 
     @Positive(message = "{validation.user.age.positive}")

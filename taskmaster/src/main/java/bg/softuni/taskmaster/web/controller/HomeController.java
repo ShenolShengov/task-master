@@ -33,7 +33,7 @@ public class HomeController {
     @GetMapping("/")
     public String indexView(Model model,
                             @RequestParam(name = "task_due_date", required = false) LocalDate taskDueDate,
-                            @RequestParam(name = "taskSort", defaultValue = ",asc") String taskSort,
+                            @RequestParam(name = "task_sort", defaultValue = ",asc") String taskSort,
                             @Qualifier("task")
                             @PageableDefault(size = Integer.MAX_VALUE, sort = "id", direction = Sort.Direction.ASC)
                             Pageable taskPageable,

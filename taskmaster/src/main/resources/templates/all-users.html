@@ -19,7 +19,7 @@
                     id="sortProperty"
                     class="bg-input text-zinc-600 border border-input rounded-md px-4 py-2 pr-8">
                 <option value="">None</option>
-                <option th:each="option: ${@sortingUtils.getSortingFields('Question')}"
+                <option th:each="option: ${@sortingUtils.getSortingFields('User')}"
                         th:value="${option}"
                         th:text="${@sortingUtils.getSortingFormattedSortingFiled(option)}"
                         th:selected="${sortProperties.equals(option)}">

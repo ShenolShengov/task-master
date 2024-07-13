@@ -37,7 +37,8 @@
         <li sec:authorize="hasRole('ROLE_USER')"
             class="group text-base font-medium relative block">
             <p th:text="#{nav_admin}">Admin</p>
-            <ul class=" group-hover:block hidden absolute bg-primary w-22 rounded-lg top-full left-[-38%]">
+            <ul     th:classappend="${#locale.toString().equals('en_US')} ? 'left-[-38%]' : 'left-[-18%]'"
+                    class=" group-hover:block hidden absolute bg-primary w-22 rounded-lg top-full">
                 <li class="px-4 py-2"><a th:text="#{nav_all_users}" th:href="@{/users}">All users</a></li>
                 <li class="px-4 pb-2"><a th:text="#{nav_statistics}"  th:href="@{/statistics}">Statistics</a></li>
             </ul>
