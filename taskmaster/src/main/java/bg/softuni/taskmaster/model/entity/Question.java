@@ -1,20 +1,19 @@
 package bg.softuni.taskmaster.model.entity;
 
-import bg.softuni.taskmaster.model.anottation.SortParam;
+import bg.softuni.taskmaster.anottation.SortParam;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashSet;
+import java.util.Comparator;
 import java.util.Set;
+import java.util.TreeSet;
 
 @Entity
 @Table(name = "questions")
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = false)
 public class Question extends BaseEntity {
 
     @Column(nullable = false)
@@ -35,6 +34,7 @@ public class Question extends BaseEntity {
     private LocalDateTime createdTime;
 
     @OneToMany(mappedBy = "question")
+    @OrderBy("createdTime desc")
     private Set<Answer> answers;
 
     @ManyToOne(optional = false)
@@ -42,6 +42,6 @@ public class Question extends BaseEntity {
 
 
     public Question() {
-        this.answers = new LinkedHashSet<>();
+        this.answers = new TreeSet<>(Comparator.comparing(Answer::getCreatedTime));
     }
 }

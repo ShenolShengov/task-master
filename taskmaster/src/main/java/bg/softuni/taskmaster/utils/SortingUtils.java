@@ -1,6 +1,6 @@
 package bg.softuni.taskmaster.utils;
 
-import bg.softuni.taskmaster.model.anottation.SortParam;
+import bg.softuni.taskmaster.anottation.SortParam;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

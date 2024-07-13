@@ -1,4 +1,4 @@
-package bg.softuni.taskmaster.model.anottation;
+package bg.softuni.taskmaster.anottation;
 
 import jakarta.validation.Payload;
 

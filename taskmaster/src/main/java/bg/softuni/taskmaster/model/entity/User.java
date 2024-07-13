@@ -1,6 +1,6 @@
 package bg.softuni.taskmaster.model.entity;
 
-import bg.softuni.taskmaster.model.anottation.SortParam;
+import bg.softuni.taskmaster.anottation.SortParam;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

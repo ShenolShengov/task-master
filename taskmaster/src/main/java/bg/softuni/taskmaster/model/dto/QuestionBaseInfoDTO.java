@@ -20,4 +20,9 @@ public class QuestionBaseInfoDTO implements Serializable {
     public QuestionBaseInfoDTO() {
         this.tags = new LinkedHashSet<>();
     }
+
+    public QuestionBaseInfoDTO setTags(Set<String> tags) {
+        this.tags = tags;
+        return this;
+    }
 }

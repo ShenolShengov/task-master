@@ -14,23 +14,8 @@ import java.time.format.DateTimeFormatter;
 
 @Configuration
 public class AppConfig {
-
-    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("MMM dd, yyyy 'at' kk:mm");
-
     @Bean
     public ModelMapper modelMapper() {
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.typeMap(Question.class, QuestionDetailsInfoDTO.class)
-                .addMappings(m -> m.using(fromLocalDateTimeToString())
-                        .map(Question::getCreatedTime, QuestionDetailsInfoDTO::setCreatedTime));
-        modelMapper.typeMap(Answer.class, AnswerDetailsDTO.class)
-                .addMappings(m -> m.using(fromLocalDateTimeToString())
-                        .map(Answer::getCreatedTime, AnswerDetailsDTO::setCreatedTime));
-        return modelMapper;
+        return new ModelMapper();
     }
-
-    private static Converter<LocalDateTime, String> fromLocalDateTimeToString() {
-        return mappingContext -> DATE_TIME_FORMATTER.format(mappingContext.getSource());
-    }
-
 }

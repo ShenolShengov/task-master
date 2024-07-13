@@ -1,8 +1,9 @@
 package bg.softuni.taskmaster.service.impl;
 
-import bg.softuni.taskmaster.model.dto.AnswerDetailsDTO;
+import bg.softuni.taskmaster.mappers.QuestionMapper;
 import bg.softuni.taskmaster.model.dto.QuestionAnswerDTO;
 import bg.softuni.taskmaster.model.dto.QuestionAskDTO;
+import bg.softuni.taskmaster.model.dto.QuestionBaseInfoDTO;
 import bg.softuni.taskmaster.model.dto.QuestionDetailsInfoDTO;
 import bg.softuni.taskmaster.model.entity.Answer;
 import bg.softuni.taskmaster.model.entity.Question;
@@ -18,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.stream.Collectors;
 
@@ -43,29 +43,17 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     @Transactional
     public QuestionDetailsInfoDTO getDetailsInfoDTO(Long id) {
-        Question question = questionRepository.findById(id)
-                .orElseThrow(RuntimeException::new);
-        QuestionDetailsInfoDTO questionDetailsInfoDTO = modelMapper.map(question, QuestionDetailsInfoDTO.class);
 
-        questionDetailsInfoDTO.setAnswers(
-                questionDetailsInfoDTO.getAnswers()
-                        .stream().
-                        sorted(Comparator.comparing(AnswerDetailsDTO::getCreatedTime))
-                        .collect(Collectors.toCollection(LinkedHashSet::new))
-        );
-
-        questionDetailsInfoDTO.setTags(mapToTags(question.getTags()));
-        return questionDetailsInfoDTO;
+        return questionRepository.findById(id).map(e -> QuestionMapper.INSTANCE.toDetailsInfo(e).setTags(mapToTags(e.getTags()))).orElseThrow(NullPointerException::new);
     }
 
     private static LinkedHashSet<String> mapToTags(String tags) {
-        return Arrays.stream(tags.split("\\s+"))
-                .collect(Collectors.toCollection(LinkedHashSet::new));
+        return Arrays.stream(tags.split("\\s+")).collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     @Override
-    public QuestionDetailsInfoDTO getBaseInfoDTO(Long id) {
-        return null;
+    public QuestionBaseInfoDTO getBaseInfoDTO(Question question) {
+        return QuestionMapper.INSTANCE.toBaseInfo(question).setTags(mapToTags(question.getTags()));
     }
 
     @Override

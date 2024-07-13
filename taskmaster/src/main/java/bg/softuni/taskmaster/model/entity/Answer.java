@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @Table(name = "answers")
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = false)
 public class Answer extends BaseEntity {
 
     @Column(nullable = false, columnDefinition = "TEXT")

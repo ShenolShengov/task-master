@@ -3,9 +3,11 @@ package bg.softuni.taskmaster.service.impl;
 import bg.softuni.taskmaster.model.dto.*;
 import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.model.enums.UserRoles;
+import bg.softuni.taskmaster.repository.QuestionRepository;
 import bg.softuni.taskmaster.repository.RoleRepository;
 import bg.softuni.taskmaster.repository.TaskRepository;
 import bg.softuni.taskmaster.repository.UserRepository;
+import bg.softuni.taskmaster.service.QuestionService;
 import bg.softuni.taskmaster.service.UserHelperService;
 import bg.softuni.taskmaster.service.UserService;
 import jakarta.transaction.Transactional;
@@ -29,6 +31,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final TaskRepository taskRepository;
+    private final QuestionRepository questionRepository;
+    private final QuestionService questionService;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
     private final UserHelperService userHelperService;
@@ -107,5 +111,18 @@ public class UserServiceImpl implements UserService {
             return userRepository.findAll(pageable).map(this::toInfo);
         }
         return userRepository.findAllBySearchQuery(searchQuery, pageable).map(this::toInfo);
+    }
+
+    @Override
+    @SneakyThrows
+    public Page<QuestionBaseInfoDTO> getQuestionsFrom(LocalDate questionCreatedTime, Pageable pageable) {
+        Long userId = userHelperService.getUser().getId();
+        if (questionCreatedTime == null) {
+            return questionRepository.findAllByUserId(userId, pageable)
+                    .map(questionService::getBaseInfoDTO);
+        }
+
+        return questionRepository.findAllByUserIdAndCreatedTimeDate(userId, questionCreatedTime, pageable)
+                .map(questionService::getBaseInfoDTO);
     }
 }

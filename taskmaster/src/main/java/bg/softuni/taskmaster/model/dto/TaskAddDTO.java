@@ -19,7 +19,7 @@ import java.time.LocalTime;
 public class TaskAddDTO implements Serializable {
 
     @NotNull
-    @Length(min = 5, max = 40)
+    @Length(min = 5, max = 20)
     private String name;
 
     @Length(min = 5, max = 20)

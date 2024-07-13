@@ -29,4 +29,5 @@ public interface UserService {
 
     Page<UserInfoDTO> search(String searchQuery, Pageable pageable);
 
+    Page<QuestionBaseInfoDTO> getQuestionsFrom(LocalDate questionCreatedTime, Pageable pageable);
 }

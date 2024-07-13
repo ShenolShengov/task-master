@@ -1,6 +1,5 @@
 package bg.softuni.taskmaster.web.controller;
 
-import bg.softuni.taskmaster.repository.QuestionRepository;
 import bg.softuni.taskmaster.service.UserHelperService;
 import bg.softuni.taskmaster.service.UserService;
 import bg.softuni.taskmaster.utils.LocalDateUtils;
@@ -38,7 +37,8 @@ public class HomeController {
                             @Qualifier("task")
                             @PageableDefault(size = Integer.MAX_VALUE, sort = "id", direction = Sort.Direction.ASC)
                             Pageable taskPageable,
-                            @RequestParam(name = "question_created_time", required = false) LocalDate questionCreatedTime,
+                            @RequestParam(name = "question_created_time", required = false)
+                            LocalDate questionCreatedTime,
                             @RequestParam(name = "question_sort", defaultValue = ",asc") String questionSort,
                             @Qualifier("question")
                             @PageableDefault(size = Integer.MAX_VALUE, sort = "id", direction = Sort.Direction.ASC)
@@ -54,10 +54,9 @@ public class HomeController {
         model.addAttribute("userTasks", userService.getTasksFor(taskDueDate, taskPageable));
 
         questionPageable = checkForDefaultSorting(questionSort, questionPageable);
-        questionCreatedTime = LocalDateUtils.orToday(questionCreatedTime);
         SortingUtils.addSelectedSortOptions(model, questionSort, QUESTION_PREFIX);
         model.addAttribute("question_created_time", questionCreatedTime);
-//        model.addAttribute("userQuestions", )
+        model.addAttribute("userQuestions", userService.getQuestionsFrom(questionCreatedTime, questionPageable));
 
         return "home";
     }

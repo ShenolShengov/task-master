@@ -7,11 +7,11 @@
 <section th:if="${mailSent}" class="bg-green-400 p-4 border-green-900  border-t-8 box-border">
     <p class="text-lg">Successfully sent email</p>
 </section>
-<div class="bg-background text-primary-foreground min-h-screen flex flex-col items-center justify-center">
-    <main class="container mx-auto mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">
-        <section id="today-tasks-section" class="bg-card rounded-lg p-6 shadow-md overflow-y-auto max-h-96">
+<div class="bg-background text-primary-foreground min-h-screen mx-2 flex flex-col items-center justify-center">
+    <main class="container mx-auto mt-8 grid grid-cols-1  md:grid-cols-2">
+        <section id="my-tasks" class="w-[45em] bg-card rounded-lg p-6 shadow-md overflow-y-auto max-h-96">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl text-black font-semibold">My Tasks</h2>
+                <h2 class="text-lg text-black font-semibold">My Tasks</h2>
                 <div class="flex items-center space-x-2">
                     <label for="chooseTaskDate" class="text-zinc-600">Choose Day:</label>
                     <input onchange="{
@@ -74,9 +74,9 @@
                 </li>
             </ul>
         </section>
-        <section id="switch-tasks-section" class=" bg-card rounded-lg p-6 shadow-md overflow-y-auto max-h-96">
+        <section id="my-questions" class=" bg-card rounded-lg p-6 shadow-md overflow-y-auto max-h-96">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl text-black font-semibold">My Tasks</h2>
+                <h2 class="text-lg text-black font-semibold">My Questions</h2>
                 <div class="flex items-center space-x-2">
                     <label for="chooseQuestionId" class="text-zinc-600">Choose Day:</label>
                     <input onchange="{
@@ -117,196 +117,40 @@
                 </div>
             </div>
             <ul>
-                <li class="flex flex-col py-4 border-b border-card">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-black font-semibold">Task 3</span>
-                        <span class="text-black">Priority: High</span>
-                        <span class="text-black">Category: Personal</span>
-                    </div>
-                    <p class="text-sm text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-sm text-zinc-600">Due: 2022-12-31</span>
-                        <button class="bg-primary text-primary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-primary/80">
-                            Complete
-                        </button>
-                        <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">
-                            Edit
-                        </button>
-                    </div>
-                </li>
-                <li class="flex flex-col py-4 border-b border-card">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-black font-semibold">Task 3</span>
-                        <span class="text-black">Priority: High</span>
-                        <span class="text-black">Category: Personal</span>
-                    </div>
-                    <p class="text-sm text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-sm text-zinc-600">Due: 2022-12-31</span>
-                        <button class="bg-primary text-primary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-primary/80">
-                            Complete
-                        </button>
-                        <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">
-                            Edit
-                        </button>
-                    </div>
-                </li>
-                <li class="flex flex-col py-4 border-b border-card">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-black font-semibold">Task 3</span>
-                        <span class="text-black">Priority: High</span>
-                        <span class="text-black">Category: Personal</span>
-                    </div>
-                    <p class="text-sm text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-sm text-zinc-600">Due: 2022-12-31</span>
-                        <button class="bg-primary text-primary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-primary/80">
-                            Complete
-                        </button>
-                        <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">
-                            Edit
-                        </button>
-                    </div>
-                </li>
-                <li class="flex flex-col py-4 border-b border-card">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-black font-semibold">Task 3</span>
-                        <span class="text-black">Priority: High</span>
-                        <span class="text-black">Category: Personal</span>
-                    </div>
-                    <p class="text-sm text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-sm text-zinc-600">Due: 2022-12-31</span>
-                        <button class="bg-primary text-primary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-primary/80">
-                            Complete
-                        </button>
-                        <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">
-                            Edit
-                        </button>
-                    </div>
-                </li>
-                <li class="flex flex-col py-4 border-b border-card">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-black font-semibold">Task 3</span>
-                        <span class="text-black">Priority: High</span>
-                        <span class="text-black">Category: Personal</span>
-                    </div>
-                    <p class="text-sm text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-sm text-zinc-600">Due: 2022-12-31</span>
-                        <button class="bg-primary text-primary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-primary/80">
-                            Complete
-                        </button>
-                        <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">
-                            Edit
-                        </button>
-                    </div>
-                </li>
-                <li class="flex flex-col py-4 border-b border-card">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-black font-semibold">Task 3</span>
-                        <span class="text-black">Priority: High</span>
-                        <span class="text-black">Category: Personal</span>
-                    </div>
-                    <p class="text-sm text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-sm text-zinc-600">Due: 2022-12-31</span>
-                        <button class="bg-primary text-primary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-primary/80">
-                            Complete
-                        </button>
-                        <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">
-                            Edit
-                        </button>
-                    </div>
-                </li>
-                <li class="flex flex-col py-4 border-b border-card">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-black font-semibold">Task 3</span>
-                        <span class="text-black">Priority: High</span>
-                        <span class="text-black">Category: Personal</span>
-                    </div>
-                    <p class="text-sm text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-sm text-zinc-600">Due: 2022-12-31</span>
-                        <button class="bg-primary text-primary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-primary/80">
-                            Complete
-                        </button>
-                        <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">
-                            Edit
-                        </button>
-                    </div>
-                </li>
-                <li class="flex flex-col py-4 border-b border-card">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-black font-semibold">Task 3</span>
-                        <span class="text-black">Priority: High</span>
-                        <span class="text-black">Category: Personal</span>
-                    </div>
-                    <p class="text-sm text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-sm text-zinc-600">Due: 2022-12-31</span>
-                        <button class="bg-primary text-primary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-primary/80">
-                            Complete
-                        </button>
-                        <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">
-                            Edit
-                        </button>
-                    </div>
-                </li>
-                <li class="flex flex-col py-4 border-b border-card">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-black font-semibold">Task 3</span>
-                        <span class="text-black">Priority: High</span>
-                        <span class="text-black">Category: Personal</span>
-                    </div>
-                    <p class="text-sm text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-sm text-zinc-600">Due: 2022-12-31</span>
-                        <button class="bg-primary text-primary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-primary/80">
-                            Complete
-                        </button>
-                        <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">
-                            Edit
-                        </button>
-                    </div>
-                </li>
-                <li class="flex flex-col py-4 border-b border-card">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-black font-semibold">Task 3</span>
-                        <span class="text-black">Priority: High</span>
-                        <span class="text-black">Category: Personal</span>
-                    </div>
-                    <p class="text-sm text-zinc-600 mb-2">Notes: Consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-sm text-zinc-600">Due: 2022-12-31</span>
-                        <button class="bg-primary text-primary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-primary/80">
-                            Complete
-                        </button>
-                        <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">
-                            Edit
-                        </button>
-                    </div>
+                <li th:each="question: ${userQuestions}" th:object="${question}"
+                    class="flex flex-col py-4 border-b border-card">
+                    <a th:href="@{'/questions/' + *{id}}">
+                        <div class="flex items-center justify-between mb-4">
+                            <span th:text="*{title}" class="text-black font-semibold">Question 3</span>
+                            <span th:text="*{'Tags: ' + tags}" class="text-black">Priority: High</span>
+                            <span th:text="*{'Answers: 4'}" class="text-black">Category: Personal</span>
+                        </div>
+                        <p th:text="*{description}" class="text-sm text-zinc-600 mb-4">Notes: Consectetur adipiscing
+                            elit, sed do eiusmod tempor
+                            incididunt ut labore et dolore magna aliqua.</p>
+                        <div class="flex items-center justify-between">
+                            <span th:text="*{'Ask on ' + createdTime}" class="text-sm text-zinc-600">Ask on ...</span>
+                            <button class="bg-destructive text-destructive-foreground py-1 px-2 rounded-lg shadow-md hover:bg-destructive/80">
+                                Remove
+                            </button>
+                            <!--                            <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">-->
+                            <!--                                Edit-->
+                            <!--                            </button>-->
+                        </div>
+                    </a>
                 </li>
             </ul>
-            <button id="switch-tasks" class="text-gray-500 hover:text-black mt-2 cursor-pointer">Switch to Previous
-                Tasks
-            </button>
         </section>
     </main>
-    <button class="add-task-btn bg-primary text-primary-foreground py-2 px-4 mt-8 rounded-lg shadow-md hover:bg-primary/80">
-        Add New
-        Task
-    </button>
+    <div class="flex gap-8">
+        <a th:href="@{/tasks/add-task}" class="add-task-btn bg-primary text-primary-foreground py-2 px-4 mt-8 rounded-lg shadow-md hover:bg-primary/80">
+            Add New
+            Task
+        </a>
+        <a th:href="@{/questions/ask}" class="add-task-btn bg-primary text-primary-foreground py-2 px-4 mt-8 rounded-lg shadow-md hover:bg-primary/80">
+            Ask Question
+        </a>
+    </div>
 </div>
 <footer th:replace="~{/fragments/footer::footer}"></footer>
 </body>
