@@ -11,8 +11,8 @@ import org.hibernate.validator.constraints.Length;
 @Setter
 public class ContactUsDTO {
 
-    @NotNull(message = "{validation.title.length}")
-    @Length(min = 5, max = 200, message = "{validation.title.length}")
+    @NotNull(message = "{validation.contacts.us.title.length}")
+    @Length(min = 5, max = 200, message = "{validation.contacts.us.title.length}")
     private String title;
 
     @Email(message = "{validation.user.email.not.valid}")

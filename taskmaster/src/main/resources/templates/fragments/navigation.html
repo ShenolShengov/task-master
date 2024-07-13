@@ -20,23 +20,32 @@
     <ul id="menu-links"
         class=" hidden z-10 md:flex flex-col md:flex-row items-center space-x-4 order-3 md:order-2 w-full md:w-auto">
         <li><a sec:authorize="isAuthenticated()" th:href="@{/tasks/add-task}"
+               th:text="#{nav_add_task}"
                class="text-base font-medium hover:text-primary-700">Add Task</a></li>
         <li><a sec:authorize="isAuthenticated()" th:href="@{/questions/ask}"
+               th:text="#{nav_ask_question}"
                class="text-base font-medium hover:text-primary-700">Ask Question</a></li>
-        <li><a th:href="@{/questions}" class="text-base font-medium hover:text-primary-700">Questions</a></li>
-        <li><a th:href="@{/about}" class="text-base font-medium hover:text-primary-700">About</a></li>
-        <li><a th:href="@{/contacts}" class="text-base font-medium hover:text-primary-700">Contacts</a></li>
-        <li sec:authorize="hasRole('ROLE_USER')" class="group text-base font-medium relative block hover:ul block">
-            Admin
+        <li><a th:href="@{/questions}"
+               th:text="#{nav_questions}"
+               class="text-base font-medium hover:text-primary-700">Questions</a></li>
+        <li><a th:href="@{/about}"
+               th:text="#{nav_about}"
+               class="text-base font-medium hover:text-primary-700">About</a></li>
+        <li><a th:href="@{/contacts}"
+               th:text="#{nav_contacts}"
+               class="text-base font-medium hover:text-primary-700">Contacts</a></li>
+        <li sec:authorize="hasRole('ROLE_USER')"
+            class="group text-base font-medium relative block">
+            <p th:text="#{nav_admin}">Admin</p>
             <ul class=" group-hover:block hidden absolute bg-primary w-22 rounded-lg top-full left-[-38%]">
-                <li class="px-4 py-2"><a th:href="@{/tasks/open-tasks}">All users</a></li>
-                <li class="px-4 pb-2"><a th:href="@{/tasks/open-tasks}">Statistics</a></li>
+                <li class="px-4 py-2"><a th:text="#{nav_all_users}" th:href="@{/users}">All users</a></li>
+                <li class="px-4 pb-2"><a th:text="#{nav_statistics}"  th:href="@{/statistics}">Statistics</a></li>
             </ul>
         </li>
     </ul>
     <div class="flex items-center space-x-4 order-2 md:order-3">
         <form method="get">
-        <label for="lang" class="text-input-foreground text-xs">Language</label>
+        <label th:text="#{nav_language}" for="lang" class="text-input-foreground text-xs">Language</label>
             <select id="lang"
                     name="lang"
                     onchange="this.form.submit()"
@@ -46,11 +55,14 @@
             </select>
         </form>
         <a sec:authorize="isAnonymous()" th:href="@{/users/register}"
+           th:text="#{nav_register}"
            class="text-base font-medium text-primary-foreground hover:text-primary-700">Register</a>
         <a sec:authorize="isAnonymous()" th:href="@{/users/login}"
+           th:text="#{nav_login}"
            class="text-base font-medium text-primary-foreground hover:text-primary-700">Login</a>
-        <form sec:authorize="isAuthenticated()" th:action="@{/logout}" th:method="post">
-            <button type="submit" class="text-base font-medium text-primary-foreground hover:text-primary-700">Logout
+        <form sec:authorize="isAuthenticated()"
+              th:action="@{/logout}" th:method="post">
+            <button type="submit"  th:text="#{nav_logout}" class="text-base font-medium text-primary-foreground hover:text-primary-700">Logout
             </button>
         </form>
     </div>
