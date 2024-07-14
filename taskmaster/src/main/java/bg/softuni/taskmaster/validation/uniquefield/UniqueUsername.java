@@ -5,14 +5,13 @@ import jakarta.validation.Payload;
 
 import java.lang.annotation.*;
 
-@Constraint(validatedBy = UniqueFieldValidator.class)
+@Constraint(validatedBy = UniqueUsernameValidator.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface UniqueField {
+public @interface UniqueUsername {
 
     String message() default "{validation.field.unique}";
 
-    UniqueFieldType value();
     boolean checkForLoggedUser() default false;
 
     Class<?>[] groups() default {};

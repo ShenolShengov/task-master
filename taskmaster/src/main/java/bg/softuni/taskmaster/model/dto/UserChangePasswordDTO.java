@@ -1,5 +1,6 @@
 package bg.softuni.taskmaster.model.dto;
 
+import bg.softuni.taskmaster.validation.matchloggeduserpassword.MatchLoggedUserPassword;
 import bg.softuni.taskmaster.validation.matchfield.MatchField;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -15,8 +16,8 @@ import org.hibernate.validator.constraints.Length;
 )
 public class UserChangePasswordDTO {
 
-    @NotNull
-    private Long id;
+    @MatchLoggedUserPassword
+    private String currentPassword;
 
     @NotNull(message = "{validation.user.password.length}")
     @Length(min = 5, max = 15, message = "{validation.user.password.length}")

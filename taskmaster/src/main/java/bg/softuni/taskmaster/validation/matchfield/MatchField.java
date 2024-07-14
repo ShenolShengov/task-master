@@ -8,7 +8,6 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = MatchFieldValidator.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-
 public @interface MatchField {
 
     String message() default "{validation.field.unique}";
