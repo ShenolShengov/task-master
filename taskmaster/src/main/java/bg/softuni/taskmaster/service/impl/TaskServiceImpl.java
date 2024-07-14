@@ -24,7 +24,6 @@ public class TaskServiceImpl implements TaskService {
     private final UserHelperService userHelperService;
 
     @Override
-    @SneakyThrows
     public void add(TaskAddDTO taskAddDTO) {
         Task task = modelMapper.map(taskAddDTO, Task.class);
         task.setPriority(TaskPriorities.valueOf(taskAddDTO.getPriority()));

@@ -31,7 +31,7 @@ public class UserRegisterDTO {
 
     @Email(message = "{validation.user.email.not.valid}")
     @NotEmpty(message = "{validation.user.email.not.valid}")
-    @UniqueField(value = UniqueFieldType.EMAIL, message ="{validation.email.username.unique}")
+    @UniqueField(value = UniqueFieldType.EMAIL, message ="{validation.email.unique}")
     private String email;
 
     @Positive(message = "{validation.user.age.positive}")

@@ -13,7 +13,7 @@ public @interface UniqueField {
     String message() default "{validation.field.unique}";
 
     UniqueFieldType value();
-    long currentUser() default 0;
+    boolean checkForLoggedUser() default false;
 
     Class<?>[] groups() default {};
 

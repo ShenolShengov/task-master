@@ -21,7 +21,7 @@ public class UserEditDTO {
 
     @NotNull(message = "{validation.user.username.length}")
     @Length(min = 2, max = 15, message = "{validation.user.username.length}")
-    @UniqueField(value = UniqueFieldType.USERNAME, message = "{validation.user.username.unique}")
+    @UniqueField(value = UniqueFieldType.USERNAME, checkForLoggedUser = true, message = "{validation.user.username.unique}")
     private String username;
 
     @NotNull(message = "{validation.user.full.name.length}")
@@ -30,7 +30,7 @@ public class UserEditDTO {
 
     @Email(message = "{validation.user.email.not.valid}")
     @NotEmpty(message = "{validation.user.email.not.valid}")
-    @UniqueField(value = UniqueFieldType.EMAIL, message = "{validation.user.email.unique}")
+    @UniqueField(value = UniqueFieldType.EMAIL, checkForLoggedUser = true, message = "{validation.email.unique}")
     private String email;
 
     @Positive(message = "{validation.user.age.positive}")

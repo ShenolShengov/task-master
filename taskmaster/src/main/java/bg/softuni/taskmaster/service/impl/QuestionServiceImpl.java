@@ -32,7 +32,6 @@ public class QuestionServiceImpl implements QuestionService {
     private final ModelMapper modelMapper;
 
     @Override
-    @SneakyThrows
     public long ask(QuestionAskDTO questionAskDTO) {
         Question question = modelMapper.map(questionAskDTO, Question.class);
         question.setCreatedTime(LocalDateTime.now());
@@ -57,7 +56,6 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    @SneakyThrows
     public void answer(QuestionAnswerDTO questionAnswerDTO, Long id) {
         Answer answer = modelMapper.map(questionAnswerDTO, Answer.class);
         answer.setQuestion(questionRepository.findById(id).orElseThrow(RuntimeException::new));

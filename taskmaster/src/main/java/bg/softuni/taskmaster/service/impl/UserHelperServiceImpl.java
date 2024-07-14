@@ -49,10 +49,9 @@ public class UserHelperServiceImpl implements UserHelperService {
     }
 
     @Override
-    @SneakyThrows
     public User getUser() {
         return userRepository.findByUsername(getName())
-                .orElseThrow(() -> new AuthenticationException("User is not authenticated"));
+                .orElseThrow(RuntimeException::new);
     }
 
     @Override

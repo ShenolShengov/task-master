@@ -17,7 +17,7 @@ public interface UserHelperService {
 
     boolean isAdmin(User user);
 
-    User getUser() throws AuthenticationException;
+    User getUser();
 
     User getUser(Long id);
 }

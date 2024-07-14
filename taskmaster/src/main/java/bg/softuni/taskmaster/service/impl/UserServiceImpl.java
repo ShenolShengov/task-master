@@ -46,7 +46,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @SneakyThrows
     @Transactional
     public Page<TaskInfoDTO> getTasksFor(LocalDate dueDate, Pageable pageable) {
         return taskRepository.findAllByUserIdAndDueDate(userHelperService.getUser().getId(), dueDate, pageable)
@@ -114,7 +113,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @SneakyThrows
     public Page<QuestionBaseInfoDTO> getQuestionsFrom(LocalDate questionCreatedTime, Pageable pageable) {
         Long userId = userHelperService.getUser().getId();
         if (questionCreatedTime == null) {
