@@ -93,7 +93,6 @@
                             onchange="sortWithPrefix('question_',this.value, getElementById('questionSortDirection').value)"
                             id="questionSortProperty"
                             class="bg-input text-zinc-600 border border-input rounded-md px-4 py-2 pr-8">
-                        <option value="">None</option>
                         <option th:each="option: ${@sortingUtils.getSortingFields('Question')}"
                                 th:value="${option}"
                                 th:text="${@sortingUtils.getSortingFormattedSortingFiled(option)}"
@@ -133,9 +132,6 @@
                             <button class="bg-destructive text-destructive-foreground py-1 px-2 rounded-lg shadow-md hover:bg-destructive/80">
                                 Remove
                             </button>
-                            <!--                            <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">-->
-                            <!--                                Edit-->
-                            <!--                            </button>-->
                         </div>
                     </a>
                 </li>

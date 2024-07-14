@@ -12,7 +12,6 @@ import bg.softuni.taskmaster.service.UserHelperService;
 import bg.softuni.taskmaster.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -70,7 +69,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void edit(UserEditDTO userEditDTO) {
-        User user = userHelperService.getUser(userEditDTO.getId());
+        User user = userHelperService.getUser();
         BeanUtils.copyProperties(userEditDTO, user);
         userRepository.save(user);
     }
@@ -98,7 +97,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void changePassword(UserChangePasswordDTO changePasswordDTO) {
-        User user = userHelperService.getUser(changePasswordDTO.getId());
+        User user = userHelperService.getUser();
         user.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
         userRepository.save(user);
     }
@@ -122,5 +121,10 @@ public class UserServiceImpl implements UserService {
 
         return questionRepository.findAllByUserIdAndCreatedTimeDate(userId, questionCreatedTime, pageable)
                 .map(questionService::getBaseInfoDTO);
+    }
+
+    @Override
+    public UserEditDTO getCurrentUserEditData() {
+        return modelMapper.map(userHelperService.getUser(), UserEditDTO.class);
     }
 }

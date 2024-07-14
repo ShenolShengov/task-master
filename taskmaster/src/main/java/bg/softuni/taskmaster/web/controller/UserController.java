@@ -28,7 +28,7 @@ public class UserController {
 
     @ModelAttribute("editData")
     public UserEditDTO editData() {
-        return new UserEditDTO();
+        return userService.getCurrentUserEditData();
     }
 
     @ModelAttribute("changePasswordData")
@@ -41,7 +41,7 @@ public class UserController {
                           @RequestParam(required = false) Integer ignoredPage,
                           @RequestParam(required = false, defaultValue = ",asc")
                           String sort,
-                          @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.ASC)
+                          @PageableDefault(sort = "id", direction = Sort.Direction.ASC)
                           Pageable pageable
     ) {
         pageable = checkForDefaultSorting(sort, pageable);
@@ -53,13 +53,12 @@ public class UserController {
     }
 
 
-
     @GetMapping("/search")
     public String search(Model model,
                          @RequestParam(required = false) Integer ignoredPage,
                          @RequestParam(required = false, defaultValue = ",asc")
                          String sort,
-                         @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.ASC)
+                         @PageableDefault(sort = "id", direction = Sort.Direction.ASC)
                          Pageable pageable,
                          @RequestParam(name = "search_query", required = false, defaultValue = "") String searchQuery
 
@@ -77,18 +76,28 @@ public class UserController {
         return "redirect:/users";
     }
 
-    @PutMapping
-    public String edit(@Valid UserEditDTO userEditDTO, BindingResult bindingResult,
-                       RedirectAttributes rAtt) {
+
+    @GetMapping("/edit")
+    public String editUser() {
+        return "edit-user";
+    }
+
+    @PutMapping("/edit")
+    public String editView(@Valid UserEditDTO userEditDTO, BindingResult bindingResult,
+                           RedirectAttributes rAtt) {
         if (bindingResult.hasErrors()) {
             rAtt.addFlashAttribute("editData", userEditDTO);
             rAtt.addFlashAttribute("org.springframework.validation.BindingResult.editData",
                     bindingResult);
-            rAtt.addFlashAttribute("showEdit", true);
-            return "redirect:/users";
+            return "redirect:/users/edit";
         }
         userService.edit(userEditDTO);
-        return "redirect:/users";
+        return "redirect:/";
+    }
+
+    @GetMapping("/change-password")
+    public String changePasswordView() {
+        return "change-password";
     }
 
     @PatchMapping("/change-password")
@@ -98,10 +107,9 @@ public class UserController {
             rAtt.addFlashAttribute("changePasswordData", changePasswordDTO);
             rAtt.addFlashAttribute("org.springframework.validation.BindingResult.changePasswordData",
                     bindingResult);
-            rAtt.addFlashAttribute("showChangePassword", true);
-            return "redirect:/users";
+            return "redirect:/users/change-password";
         }
         userService.changePassword(changePasswordDTO);
-        return "redirect:/users";
+        return "redirect:/";
     }
 }

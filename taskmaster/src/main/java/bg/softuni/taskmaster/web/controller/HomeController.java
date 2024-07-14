@@ -39,9 +39,9 @@ public class HomeController {
                             Pageable taskPageable,
                             @RequestParam(name = "question_created_time", required = false)
                             LocalDate questionCreatedTime,
-                            @RequestParam(name = "question_sort", defaultValue = ",asc") String questionSort,
+                            @RequestParam(name = "question_sort", defaultValue = "createdTime,desc") String questionSort,
                             @Qualifier("question")
-                            @PageableDefault(size = Integer.MAX_VALUE, sort = "id", direction = Sort.Direction.ASC)
+                            @PageableDefault(size = Integer.MAX_VALUE, sort = "createdTime", direction = Sort.Direction.DESC)
                             Pageable questionPageable
     ) {
         if (!userHelperService.isAuthenticated()) {
@@ -53,7 +53,6 @@ public class HomeController {
         model.addAttribute("task_due_date", taskDueDate);
         model.addAttribute("userTasks", userService.getTasksFor(taskDueDate, taskPageable));
 
-        questionPageable = checkForDefaultSorting(questionSort, questionPageable);
         SortingUtils.addSelectedSortOptions(model, questionSort, QUESTION_PREFIX);
         model.addAttribute("question_created_time", questionCreatedTime);
         model.addAttribute("userQuestions", userService.getQuestionsFrom(questionCreatedTime, questionPageable));

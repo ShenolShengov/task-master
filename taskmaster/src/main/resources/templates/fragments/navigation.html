@@ -61,6 +61,15 @@
         <a sec:authorize="isAnonymous()" th:href="@{/users/login}"
            th:text="#{nav_login}"
            class="text-base font-medium text-primary-foreground hover:text-primary-700">Login</a>
+        <div sec:authorize="isAuthenticated()"
+             class="group text-base font-medium relative block">
+            <p th:text="#{nav_profile}">Profile</p>
+            <ul     th:classappend="${#locale.toString().equals('en_US')} ? 'left-[-38%]' : 'left-[-18%]'"
+                    class=" group-hover:block hidden absolute bg-primary w-22 rounded-lg top-full">
+                <li class="px-4 py-2"><a th:text="#{nav_edit}" th:href="@{/users/edit}">Edit data</a></li>
+                <li class="px-4 pb-2"><a th:text="#{nav_change_password}"  th:href="@{/users/change-password}">Change password</a></li>
+            </ul>
+        </div>
         <form sec:authorize="isAuthenticated()"
               th:action="@{/logout}" th:method="post">
             <button type="submit"  th:text="#{nav_logout}" class="text-base font-medium text-primary-foreground hover:text-primary-700">Logout

@@ -11,7 +11,6 @@ for (let i = 0; i < editButtons.length; i++) {
             .then(e => e.json())
             .then(json => {
                 getElementById("editLabel").textContent = "Edit - " + json.username;
-                getElementById("editDataUserId").value = json.id;
                 getElementById('username').value = json.username;
                 getElementById('fullName').value = json.fullName;
                 getElementById('email').value = json.email;
