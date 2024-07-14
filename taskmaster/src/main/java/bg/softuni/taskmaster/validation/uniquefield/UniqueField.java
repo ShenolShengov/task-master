@@ -4,17 +4,15 @@ import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
 import java.lang.annotation.*;
-import java.util.Map;
 
-@Constraint(validatedBy = NotTakenValidator.class)
+@Constraint(validatedBy = UniqueFieldValidator.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface NotTaken {
+public @interface UniqueField {
 
     String message() default "{validation.field.unique}";
 
-    NotTakenType value();
-
+    UniqueFieldType value();
     long currentUser() default 0;
 
     Class<?>[] groups() default {};

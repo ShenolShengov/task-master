@@ -2,7 +2,7 @@ package bg.softuni.taskmaster.validation.uniquefield;
 
 import org.thymeleaf.util.StringUtils;
 
-public enum NotTakenType {
+public enum UniqueFieldType {
     USERNAME, EMAIL;
 
     @Override

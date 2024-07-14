@@ -10,7 +10,7 @@ for (let i = 0; i < editButtons.length; i++) {
         fetch("http://localhost:8080/users/api/" + element.id)
             .then(e => e.json())
             .then(json => {
-                getElementById("editLabel").textContent = "Edit - " + element.dataset.username;
+                getElementById("editLabel").textContent = "Edit - " + json.username;
                 getElementById("editDataUserId").value = json.id;
                 getElementById('username').value = json.username;
                 getElementById('fullName').value = json.fullName;

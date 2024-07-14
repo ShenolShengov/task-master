@@ -1,8 +1,8 @@
 package bg.softuni.taskmaster.model.dto;
 
-import bg.softuni.taskmaster.validation.uniquefield.NotTaken;
-import bg.softuni.taskmaster.validation.uniquefield.NotTakenType;
-import jakarta.annotation.PostConstruct;
+import bg.softuni.taskmaster.validation.matchfield.MatchField;
+import bg.softuni.taskmaster.validation.uniquefield.UniqueField;
+import bg.softuni.taskmaster.validation.uniquefield.UniqueFieldType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -11,10 +11,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import java.util.Arrays;
-
 @Getter
 @Setter
+@MatchField(first = "id", second = "fullName")
 public class UserEditDTO {
 
     @NotNull
@@ -22,7 +21,7 @@ public class UserEditDTO {
 
     @NotNull(message = "{validation.user.username.length}")
     @Length(min = 2, max = 15, message = "{validation.user.username.length}")
-    @NotTaken(value = NotTakenType.USERNAME, message = "{validation.user.username.unique}")
+    @UniqueField(value = UniqueFieldType.USERNAME, message = "{validation.user.username.unique}")
     private String username;
 
     @NotNull(message = "{validation.user.full.name.length}")
@@ -31,14 +30,10 @@ public class UserEditDTO {
 
     @Email(message = "{validation.user.email.not.valid}")
     @NotEmpty(message = "{validation.user.email.not.valid}")
-    @NotTaken(value = NotTakenType.EMAIL, message = "{validation.user.email.unique}")
+    @UniqueField(value = UniqueFieldType.EMAIL, message = "{validation.user.email.unique}")
     private String email;
 
     @Positive(message = "{validation.user.age.positive}")
     @NotNull(message = "{validation.user.age.positive}")
     private Integer age;
-
-    @PostConstruct
-    public void post() {
-    }
 }

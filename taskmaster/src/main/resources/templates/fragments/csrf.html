@@ -10,7 +10,6 @@
         let headers = new Headers();
         const csrfToken = /*[[${_csrf.token}]]*/ null;
         const csrfHeaderName = /*[[${_csrf.getHeaderName}]]*/ null;
-        console.log(csrfToken);
         headers.append(csrfHeaderName, csrfToken);
         return headers;
     }

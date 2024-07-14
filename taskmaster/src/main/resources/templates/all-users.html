@@ -6,7 +6,7 @@
 <div class="bg-background text-foreground min-h-screen p-4 flex flex-col items-center mb-8">
     <h1 class="text-3xl mb-6 text-center">All users</h1>
     <div class="flex w-[70em] justify-end mb-4">
-        <p th:text="${foundedUsers.getTotalElements() + ' users'}" class="mr-auto text-2xl ">2 users</p>
+        <p th:text="${foundedUsers.getTotalElements() + ' users'}" id="founded-user-label" class="mr-auto text-2xl ">2 users</p>
         <div class="flex items-center space-x-2">
             <button onclick="search(getElementById('search').value)"
                     class="px-4 py-2 rounded-lg bg-primary text-primary-foreground">Search
@@ -67,7 +67,7 @@
                             class="make-remove-admin mr-2 bg-accent text-accent-foreground px-2 py-1 rounded-lg ml-2">
                         Make Admin
                     </button>
-                    <button th:id="*{id}" th:data-username="*{username}"
+                    <button th:id="*{id}"
                             class="edit-button bg-secondary text-secondary-foreground px-2 py-1 rounded-lg">Edit
                     </button>
                     <button th:id="*{id}" th:data-username="*{username}"

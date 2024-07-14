@@ -6,23 +6,23 @@ import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class NotTakenValidator implements ConstraintValidator<NotTaken, String> {
+public class UniqueFieldValidator implements ConstraintValidator<UniqueField, String> {
 
     private final UserRepository userRepository;
-    private NotTakenType notTakenType;
+    private UniqueFieldType uniqueFieldType;
     private long currentUser;
 
     @Override
-    public void initialize(NotTaken constraintAnnotation) {
+    public void initialize(UniqueField constraintAnnotation) {
         ConstraintValidator.super.initialize(constraintAnnotation);
-        notTakenType = constraintAnnotation.value();
+        uniqueFieldType = constraintAnnotation.value();
         this.currentUser = constraintAnnotation.currentUser();
 
     }
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return switch (notTakenType) {
+        return switch (uniqueFieldType) {
             case USERNAME -> userRepository.findByUsername(value).filter(e -> e.getId() != currentUser).isEmpty();
             case EMAIL -> userRepository.findByEmail(value).filter(e -> e.getId() != currentUser).isEmpty();
         };
