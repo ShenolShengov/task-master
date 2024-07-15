@@ -6,9 +6,9 @@
 <div class="bg-background text-foreground min-h-screen p-4 flex flex-col items-center mb-8">
     <h1 class="text-3xl mb-6 text-center">Email history</h1>
     <div class="flex w-[70em] justify-end mb-4">
-        <p  class="mr-auto text-2xl ">4 emails sent</p>
+        <p class="mr-auto text-2xl ">4 emails sent</p>
         <div class="flex items-center space-x-2">
-<!--                    onclick="search(getElementById('search').value)"-->
+            <!--                    onclick="search(getElementById('search').value)"-->
             <button
                     class="px-4 py-2 rounded-lg bg-primary text-primary-foreground">Search
             </button>
@@ -24,20 +24,20 @@
                         th:value="${option}"
                         th:text="${#strings.capitalize(option)}"
                 >
-<!--                        th:selected="${sortProperties.equals(option)}"-->
+                    <!--                        th:selected="${sortProperties.equals(option)}"-->
                     Username
                 </option>
             </select>
-<!--                    onchange="sort(getElementById('sortProperty').value,this.value)"-->
+            <!--                    onchange="sort(getElementById('sortProperty').value,this.value)"-->
             <select
                     id="sortDirection"
                     class="bg-input text-zinc-600 border border-input rounded-md px-4 py-2 pr-8">
-<!--                        th:selected="${sortDirection.equals('asc')}"-->
+                <!--                        th:selected="${sortDirection.equals('asc')}"-->
                 <option
                         value="asc">
                     ASC
                 </option>
-<!--                        th:selected="${sortDirection.equals('desc')}"-->
+                <!--                        th:selected="${sortDirection.equals('desc')}"-->
                 <option
                         value="desc">
                     DESC
@@ -49,11 +49,12 @@
         <table class="min-w-full bg-card rounded-lg table-fixed">
             <thead>
             <tr>
-                <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">Action</th>
-                <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">Time</th>
+                <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">Subject</th>
+                <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">Date</th>
                 <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">From</th>
                 <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">To</th>
-                <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">Description</th>
+                <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">Short Description
+                </th>
             </tr>
             </thead>
             <tbody id="users">
@@ -66,14 +67,14 @@
             <!--                </td>-->
             <!--            </tr>-->
             <tr>
-                <td class="px-4 py-2 text-center">Register</td>
+                <td class="px-4 py-2 text-center">aaaaaa aaa</td>
                 <td class="px-4 py-2 text-center">07.12.2024 15:15</td>
                 <td class="px-4 py-2 text-center">john.doe@example.com</td>
                 <td class="px-4 py-2 text-center">shenol@gmail.com</td>
                 <td class="px-4 py-2 text-center">New register user with username Erol15.
                 </td>
             </tr>
-             <tr>
+            <tr>
                 <td class="px-4 py-2 text-center">Add role admin</td>
                 <td class="px-4 py-2 text-center">07.12.2024 15:17</td>
                 <td class="px-4 py-2 text-center">john.doe@example.com</td>
@@ -81,7 +82,7 @@
                 <td class="px-4 py-2 text-center"> Shenol10 add role admin to Erol15.
                 </td>
             </tr>
-             <tr>
+            <tr>
                 <td class="px-4 py-2 text-center">Register</td>
                 <td class="px-4 py-2 text-center">07.12.2024 16:20</td>
                 <td class="px-4 py-2 text-center">john.doe@example.com</td>
@@ -89,7 +90,7 @@
                 <td class="px-4 py-2 text-center">New register user with username Shengov.
                 </td>
             </tr>
-             <tr>
+            <tr>
                 <td class="px-4 py-2 text-center">Delete</td>
                 <td class="px-4 py-2 text-center">07.12.2024 15:15</td>
                 <td class="px-4 py-2 text-center">john.doe@example.com</td>
@@ -97,7 +98,7 @@
                 <td class="px-4 py-2 text-center"> Shenol10 delete user Shengov
                 </td>
             </tr>
-             <tr>
+            <tr>
                 <td class="px-4 py-2 text-center">Register</td>
                 <td class="px-4 py-2 text-center">07.12.2024 15:15</td>
                 <td class="px-4 py-2 text-center">john.doe@example.com</td>
@@ -105,7 +106,7 @@
                 <td class="px-4 py-2 text-center">New register user with username Shenol10.
                 </td>
             </tr>
-             <tr>
+            <tr>
                 <td class="px-4 py-2 text-center">Register</td>
                 <td class="px-4 py-2 text-center">07.12.2024 15:15</td>
                 <td class="px-4 py-2 text-center">john.doe@example.com</td>
@@ -131,6 +132,8 @@
 </div>
 <footer th:replace="~{/fragments/footer::footer}"></footer>
 </body>
+<script>
+</script>
 <script th:src="@{/js/pagingSortingAndFiltering.js}"></script>
 <!--<script th:inline="javascript" th:replace="~{/fragments/csrf::csrf}"></script>-->
 </html>

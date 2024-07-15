@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +32,7 @@ public class HomeController {
     private final UserHelperService userHelperService;
 
     @GetMapping("/")
+    @PreAuthorize("hasRole('Admin')")
     public String indexView(Model model,
                             @RequestParam(name = "task_due_date", required = false) LocalDate taskDueDate,
                             @RequestParam(name = "task_sort", defaultValue = ",asc") String taskSort,
