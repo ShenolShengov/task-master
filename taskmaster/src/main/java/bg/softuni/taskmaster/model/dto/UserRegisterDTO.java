@@ -1,8 +1,8 @@
 package bg.softuni.taskmaster.model.dto;
 
 import bg.softuni.taskmaster.validation.matchfield.MatchField;
-import bg.softuni.taskmaster.validation.uniqueEmail.UniqueEmail;
-import bg.softuni.taskmaster.validation.uniquefield.UniqueUsername;
+import bg.softuni.taskmaster.validation.unique.email.UniqueEmail;
+import bg.softuni.taskmaster.validation.unique.username.UniqueUsername;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

@@ -1,4 +1,4 @@
-package bg.softuni.taskmaster.validation.uniqueEmail;
+package bg.softuni.taskmaster.validation.unique.username;
 
 import bg.softuni.taskmaster.repository.UserRepository;
 import bg.softuni.taskmaster.service.UserHelperService;
@@ -7,22 +7,22 @@ import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, String> {
+public class UniqueUsernameValidator implements ConstraintValidator<UniqueUsername, String> {
 
     private final UserRepository userRepository;
     private final UserHelperService userHelperService;
     private boolean checkForCurrentUser;
 
     @Override
-    public void initialize(UniqueEmail constraintAnnotation) {
+    public void initialize(UniqueUsername constraintAnnotation) {
         ConstraintValidator.super.initialize(constraintAnnotation);
         this.checkForCurrentUser = constraintAnnotation.checkForLoggedUser();
 
     }
 
     @Override
-    public boolean isValid(String email, ConstraintValidatorContext context) {
-        return userRepository.findByEmail(email)
+    public boolean isValid(String value, ConstraintValidatorContext context) {
+        return userRepository.findByUsername(value)
                 .filter(e -> !checkForCurrentUser || !e.getId().equals(userHelperService.getUser().getId()))
                 .isEmpty();
     }

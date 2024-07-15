@@ -1,6 +1,5 @@
-package bg.softuni.taskmaster.validation.uniqueEmail;
+package bg.softuni.taskmaster.validation.unique.email;
 
-import bg.softuni.taskmaster.validation.uniquefield.UniqueUsernameValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 

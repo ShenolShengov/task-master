@@ -1,4 +1,4 @@
-package bg.softuni.taskmaster.validation.matchloggeduserpassword;
+package bg.softuni.taskmaster.validation.notmatchloggeduserpassword;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -11,9 +11,9 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = MatchLoggedUserPasswordValidator.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface MatchLoggedUserPassword {
+public @interface NotMatchLoggedUserPassword {
 
-    String message() default "{validation.wrong.password}";
+    String message() default "{validation.change.to.same.password}";
 
     Class<?>[] groups() default {};
 

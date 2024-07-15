@@ -1,4 +1,4 @@
-package bg.softuni.taskmaster.validation.uniquefield;
+package bg.softuni.taskmaster.validation.unique.username;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
