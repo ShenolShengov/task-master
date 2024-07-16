@@ -1,6 +1,6 @@
 package bg.softuni.taskmaster.model.dto;
 
-import bg.softuni.taskmaster.validation.validstartandendtime.ValidStartAndEndTime;
+import bg.softuni.taskmaster.validation.validstartandendtime.ProperStartAndEndTime;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -15,7 +15,7 @@ import java.time.LocalTime;
 
 @Getter
 @Setter
-@ValidStartAndEndTime
+@ProperStartAndEndTime
 public class TaskAddDTO implements Serializable {
 
     @NotNull(message = "{validation.task.name.length}")
@@ -34,9 +34,11 @@ public class TaskAddDTO implements Serializable {
     private LocalDate dueDate;
 
     @DateTimeFormat(pattern = "HH:mm")
+    @NotNull(message = "{validation.task.time.not.null}")
     private LocalTime startTime;
 
     @DateTimeFormat(pattern = "HH:mm")
+    @NotNull(message = "{validation.task.time.not.null}")
     private LocalTime endTime;
 
     private boolean allDay;

@@ -63,11 +63,6 @@
                      class="text-sm text-destructive">
                     <p>Password length must be between 2 and 15 symbols!</p>
                 </div>
-                <div th:unless="${#fields.hasErrors('password') || #fields.hasErrors('confirmPassword')}"
-                     th:errors="global"
-                     class="text-sm text-destructive">
-                    <p>Password length must be between 2 and 15 symbols!</p>
-                </div>
             </div>
             <div class="mb-6">
                 <label th:for="confirmPassword" class="block text-black text-sm font-medium mb-2">Confirm
@@ -78,11 +73,6 @@
                        placeholder="Confirm your password"
                        class="w-full px-3 py-2  border rounded-lg focus:outline-none focus:ring focus:ring-primary"/>
                 <div th:errors="*{confirmPassword}"
-                     class="text-sm text-destructive">
-                    <p>Password length must be between 2 and 15 symbols!</p>
-                </div>
-                <div th:errors="global"
-                     th:unless="${#fields.hasErrors('password') || #fields.hasErrors('confirmPassword')}"
                      class="text-sm text-destructive">
                     <p>Password length must be between 2 and 15 symbols!</p>
                 </div>

@@ -5,16 +5,16 @@ import jakarta.validation.Payload;
 
 import java.lang.annotation.*;
 
-@Constraint(validatedBy = MatchFieldValidator.class)
+@Constraint(validatedBy = MatchPasswordsValidator.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface MatchField {
+public @interface MatchPasswords {
 
     String message() default "{validation.field.unique}";
 
-    String first();
+    String password();
 
-    String second();
+    String confirmPassword();
 
     Class<?>[] groups() default {};
 

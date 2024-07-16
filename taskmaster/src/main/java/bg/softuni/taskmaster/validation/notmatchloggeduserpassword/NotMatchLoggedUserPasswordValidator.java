@@ -7,13 +7,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @RequiredArgsConstructor
-public class MatchLoggedUserPasswordValidator implements ConstraintValidator<NotMatchLoggedUserPassword, String> {
+public class NotMatchLoggedUserPasswordValidator implements ConstraintValidator<NotMatchLoggedUserPassword, String> {
 
     private final UserHelperService userHelperService;
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public boolean isValid(String value, ConstraintValidatorContext context) {
-        return !passwordEncoder.matches(value, userHelperService.getUser().getPassword());
+    public boolean isValid(String password, ConstraintValidatorContext context) {
+        if (password == null || password.isEmpty()) {
+            return true;
+        }
+        return !passwordEncoder.matches(password, userHelperService.getUser().getPassword());
     }
 }

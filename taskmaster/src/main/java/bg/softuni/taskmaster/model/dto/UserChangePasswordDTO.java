@@ -1,7 +1,7 @@
 package bg.softuni.taskmaster.model.dto;
 
 import bg.softuni.taskmaster.validation.matchloggeduserpassword.MatchLoggedUserPassword;
-import bg.softuni.taskmaster.validation.matchfield.MatchField;
+import bg.softuni.taskmaster.validation.matchfield.MatchPasswords;
 import bg.softuni.taskmaster.validation.notmatchloggeduserpassword.NotMatchLoggedUserPassword;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -10,9 +10,9 @@ import org.hibernate.validator.constraints.Length;
 
 @Getter
 @Setter
-@MatchField(
-        first = "newPassword",
-        second = "confirmPassword",
+@MatchPasswords(
+        password = "newPassword",
+        confirmPassword = "confirmPassword",
         message = "{validation.user.passwords.not.match}"
 )
 public class UserChangePasswordDTO {

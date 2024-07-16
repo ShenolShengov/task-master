@@ -8,12 +8,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = ValidStartAndEndTimeValidator.class)
+@Constraint(validatedBy = ProperStartAndEndTimeValidator.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface ValidStartAndEndTime {
+public @interface ProperStartAndEndTime {
 
-    String message() default "{validation.task.invalid.start.and.end.time}";
+    String message() default "{validation.task.start.time.before.end.time}";
 
     Class<?>[] groups() default {};
 

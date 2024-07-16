@@ -1,6 +1,6 @@
 package bg.softuni.taskmaster.model.dto;
 
-import bg.softuni.taskmaster.validation.matchfield.MatchField;
+import bg.softuni.taskmaster.validation.matchfield.MatchPasswords;
 import bg.softuni.taskmaster.validation.unique.email.UniqueEmail;
 import bg.softuni.taskmaster.validation.unique.username.UniqueUsername;
 import jakarta.validation.constraints.Email;
@@ -11,9 +11,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-@MatchField(
-        first = "password",
-        second = "confirmPassword",
+@MatchPasswords(
+        password = "password",
+        confirmPassword = "confirmPassword",
         message = "{validation.user.passwords.not.match}"
 )
 @Getter

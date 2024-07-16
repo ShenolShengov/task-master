@@ -13,7 +13,10 @@ public class MatchLoggedUserPasswordValidator implements ConstraintValidator<Mat
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public boolean isValid(String value, ConstraintValidatorContext context) {
-        return passwordEncoder.matches(value, userHelperService.getUser().getPassword());
+    public boolean isValid(String password, ConstraintValidatorContext context) {
+        if (password == null || password.isEmpty()) {
+            return false;
+        }
+        return passwordEncoder.matches(password, userHelperService.getUser().getPassword());
     }
 }
