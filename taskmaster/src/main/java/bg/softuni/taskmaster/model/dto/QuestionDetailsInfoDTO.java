@@ -20,6 +20,7 @@ public class QuestionDetailsInfoDTO implements Serializable {
     private String createdTime;
     private String userUsername;
     private Set<String> tags;
+
     private Set<AnswerDetailsDTO> answers;
 
     public QuestionDetailsInfoDTO() {

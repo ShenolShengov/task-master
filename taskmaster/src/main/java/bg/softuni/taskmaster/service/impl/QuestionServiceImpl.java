@@ -13,10 +13,12 @@ import bg.softuni.taskmaster.service.QuestionService;
 import bg.softuni.taskmaster.service.UserHelperService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -43,7 +45,20 @@ public class QuestionServiceImpl implements QuestionService {
     @Transactional
     public QuestionDetailsInfoDTO getDetailsInfoDTO(Long id) {
 
-        return questionRepository.findById(id).map(e -> QuestionMapper.INSTANCE.toDetailsInfo(e).setTags(mapToTags(e.getTags()))).orElseThrow(NullPointerException::new);
+        return questionRepository.findById(id).map(e ->
+                QuestionMapper.INSTANCE.toDetailsInfo(e).setTags(mapToTags(e.getTags()))).orElseThrow(NullPointerException::new);
+    }
+
+    @Override
+    public Page<QuestionBaseInfoDTO> getQuestionsFrom(LocalDate questionCreatedTime, Pageable pageable) {
+        Long userId = userHelperService.getUser().getId();
+        if (questionCreatedTime == null) {
+            return questionRepository.findAllByUserId(userId, pageable)
+                    .map(this::getBaseInfoDTO);
+        }
+
+        return questionRepository.findAllByUserIdAndCreatedTimeDate(userId, questionCreatedTime, pageable)
+                .map(this::getBaseInfoDTO);
     }
 
     private static LinkedHashSet<String> mapToTags(String tags) {

@@ -1,5 +1,7 @@
 package bg.softuni.taskmaster.web.controller;
 
+import bg.softuni.taskmaster.service.QuestionService;
+import bg.softuni.taskmaster.service.TaskService;
 import bg.softuni.taskmaster.service.UserHelperService;
 import bg.softuni.taskmaster.service.UserService;
 import bg.softuni.taskmaster.utils.LocalDateUtils;
@@ -29,6 +31,8 @@ public class HomeController {
     public static final String TASK_PREFIX = "task_";
     private static final String QUESTION_PREFIX = "question_";
     private final UserService userService;
+    private final TaskService taskService;
+    private final QuestionService questionService;
     private final UserHelperService userHelperService;
 
     @GetMapping("/")
@@ -53,11 +57,12 @@ public class HomeController {
         taskDueDate = LocalDateUtils.orToday(taskDueDate);
         SortingUtils.addSelectedSortOptions(model, taskSort, TASK_PREFIX);
         model.addAttribute("task_due_date", taskDueDate);
-        model.addAttribute("userTasks", userService.getTasksFor(taskDueDate, taskPageable));
+        model.addAttribute("userTasks", taskService.getTasksFor(taskDueDate, taskPageable));
 
         SortingUtils.addSelectedSortOptions(model, questionSort, QUESTION_PREFIX);
         model.addAttribute("question_created_time", questionCreatedTime);
-        model.addAttribute("userQuestions", userService.getQuestionsFrom(questionCreatedTime, questionPageable));
+        model.addAttribute("userQuestions", questionService
+                .getQuestionsFrom(questionCreatedTime, questionPageable));
 
         return "home";
     }

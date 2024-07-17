@@ -35,25 +35,9 @@ public class UserController {
         return new UserChangePasswordDTO();
     }
 
+
     @GetMapping
-    public String allView(Model model,
-                          @RequestParam(required = false) Integer ignoredPage,
-                          @RequestParam(required = false, defaultValue = ",asc")
-                          String sort,
-                          @PageableDefault(sort = "id", direction = Sort.Direction.ASC)
-                          Pageable pageable
-    ) {
-        pageable = checkForDefaultSorting(sort, pageable);
-        addSelectedSortOptions(model, sort);
-        model.addAttribute("foundedUsers",
-                userService.getAllInfo(pageable.previousOrFirst()));
-
-        return "all-users";
-    }
-
-
-    @GetMapping("/search")
-    public String search(Model model,
+    public String getAll(Model model,
                          @RequestParam(required = false) Integer ignoredPage,
                          @RequestParam(required = false, defaultValue = ",asc")
                          String sort,
@@ -66,7 +50,7 @@ public class UserController {
         addSelectedSortOptions(model, sort);
         model.addAttribute("searchQuery", searchQuery);
         model.addAttribute("foundedUsers",
-                userService.search(searchQuery, pageable.previousOrFirst()));
+                userService.getAll(searchQuery, pageable.previousOrFirst()));
         return "all-users";
     }
 

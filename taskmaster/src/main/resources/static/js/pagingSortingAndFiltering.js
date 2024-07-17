@@ -32,10 +32,15 @@ function sort(properties, direction) {
 
 function search(search) {
     let url = getUrl();
-    if (!url.href.includes('/search')) {
-        url.href = 'http://localhost:8080/users/search';
+    if (!url.searchParams.has('search_query') || url.searchParams.get('search_query') !== search) {
+        url.href = url.href.split('?')[0];
     }
     url.searchParams.set("search_query", search);
     reload(url);
 }
+
+function getElementById(id) {
+    return document.getElementById(id);
+}
+
 
