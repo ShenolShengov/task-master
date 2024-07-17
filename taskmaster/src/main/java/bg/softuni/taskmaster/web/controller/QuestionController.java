@@ -5,13 +5,13 @@ import bg.softuni.taskmaster.model.dto.QuestionAnswerDTO;
 import bg.softuni.taskmaster.service.QuestionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -21,8 +21,15 @@ public class QuestionController {
 
     private final QuestionService questionService;
 
-    @GetMapping()
-    public String questionsView() {
+    @GetMapping
+    public String questionsView(Model model,
+                                @RequestParam(required = false) Integer ignoredPage,
+                                @RequestParam(required = false, defaultValue = "createdTime,asc")
+                                String sort,
+                                @PageableDefault(sort = "createdTime", direction = Sort.Direction.ASC)
+                                Pageable pageable) {
+
+        model.addAttribute("sortDirection", sort.split(",")[1]);
         return "questions";
     }
 

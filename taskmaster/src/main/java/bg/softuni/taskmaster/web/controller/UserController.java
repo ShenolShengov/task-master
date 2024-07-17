@@ -7,7 +7,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -69,11 +68,6 @@ public class UserController {
         model.addAttribute("foundedUsers",
                 userService.search(searchQuery, pageable.previousOrFirst()));
         return "all-users";
-    }
-
-    @ExceptionHandler(PropertyReferenceException.class)
-    public String returnToHome() {
-        return "redirect:/users";
     }
 
 

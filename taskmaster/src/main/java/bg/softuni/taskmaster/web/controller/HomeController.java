@@ -77,7 +77,7 @@ public class HomeController {
     public String emailHistoryView(Model model) {
         model.addAttribute("founded",
                 new PageImpl<>(List.of(), PageRequest.of(0, 5), 0));
-        return "mail-history-c";
+        return "mail-history";
     }
 
 }

@@ -1,59 +1,149 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{/fragments/head::head}"></head>
-<body >
+<body>
 <nav th:replace="~{/fragments/navigation::nav}"></nav>
-<div class="mr-10 ml-10 bg-background text-primary-foreground min-h-screen flex flex-col items-center mt-16">
-    <h1 class="text-black text-center text-4xl  mb-4">Open Tasks</h1>
-    <div class="flex flex-col md:flex-row items-center justify-end w-full px-4">
-        <div class="mb-6 flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
-            <button class="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/80 focus:outline-none focus:ring focus:ring-primary">Search</button>
-            <input type="text" placeholder="Search tasks..." class="w-full md:w-64 px-4 py-2 rounded-lg  text-primary-foreground focus:outline-none focus:ring focus:ring-primary" />
-            <select class="px-4 py-2 rounded-lg text-black  focus:outline-none focus:ring focus:ring-primary">
-                    <option value="" selected disabled hidden>Sort by</option>
-                    <option value="name">Name</option>
-                    <option value="category">Category</option>
-                    <option value="date">Date</option>
-                </select>
-            </div>
+<div class="mr-10 ml-10 bg-background text-primary-foreground min-h-screen flex flex-col  mt-16">
+    <h1 class="text-black text-center text-4xl  mb-4">Questions</h1>
+    <div class="flex flex-col md:flex-row items-center w-full px-4">
+        <div class="mb-6 flex flex-col md:flex-row items-center gap-2 w-full">
+            <div class="mr-auto text-black text-lg">6 questions</div>
+            <button class="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/80 focus:outline-none focus:ring focus:ring-primary">
+                Search
+            </button>
+            <input type="text" placeholder="Search questions..."
+                   class="w-full md:w-64 px-4 py-2 rounded-lg  text-black focus:outline-none focus:ring focus:ring-primary"/>
+            <select onchange="sort('createdTime', this.value)"
+                    class="px-4 py-2 pr-8 rounded-lg text-black  focus:outline-none focus:ring focus:ring-primary">
+                <option th:selected="${sortDirection.equals('asc')}" value="asc">Newest First</option>
+                <option th:selected="${sortDirection.equals('desc')}" value="desc">Oldest First</option>
+            </select>
+        </div>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="bg-card shadow-lg rounded-lg overflow-hidden">
-            <div class="p-4">
-                <h2 class="text-black font-bold mb-2">Task 1</h2>
-                <p class="text-black text-muted-foreground mb-4">Category: Work</p>
-                <p class="text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget leo nec justo fermentum euismod.</p>
+    <div class="grid grid-cols-1 md:grid-cols-1 gap-8 mb-8">
+        <a href="#">
+            <div class="bg-card shadow-lg flex flex-col rounded-lg overflow-hidden">
+                <div class="p-4">
+                    <div class="flex justify-between">
+                        <h2 class="text-black font-bold mb-2">Lists in java</h2>
+                        <h3 class="text-black">6 answers</h3>
+                    </div>
+                    <p class="text-black">I want to sort list. Please help me brothers :)</p>
+                </div>
+                <div class="px-4 py-2 flex flex-wrap gap-4">
+                    <div class="box-border bg-secondary text-xs text-secondary-foreground px-2 py-0.5 rounded-full">
+                        windows-subsystem-for-linux
+                    </div>
+                    <div class="box-border bg-secondary text-xs text-secondary-foreground px-2 py-0.5 rounded-full">
+                        windows-subsystem-for-linux
+                    </div>
+                    <div class="box-border bg-secondary text-xs text-secondary-foreground px-2 py-0.5 rounded-full">
+                        windows-subsystem-for-linux
+                    </div>
+                    <p class="ml-auto text-black">Shenol asked on Sep 4, 2008 at 15:59</p>
+                </div>
             </div>
-            <div class="bg-primary px-4 py-2 flex justify-between items-center">
-                <p class="text-primary-foreground font-semibold">Added by: Shenol</p>
-                <button class="text-destructive-foreground font-semibold">Edit Task</button>
-                <button class="text-destructive-foreground font-semibold">Delete Task</button>
+        </a>
+        <a href="#">
+            <div class="bg-card shadow-lg flex flex-col rounded-lg overflow-hidden">
+                <div class="p-4">
+                    <div class="flex justify-between">
+                        <h2 class="text-black font-bold mb-2">Lists in java</h2>
+                        <h3 class="text-black">6 answers</h3>
+                    </div>
+                    <p class="text-black">I want to sort list. Please help me brothers :)</p>
+                </div>
+                <div class="px-4 py-2 flex flex-wrap gap-4">
+                    <div class="box-border bg-secondary text-xs text-secondary-foreground px-2 py-0.5 rounded-full">
+                        windows-subsystem-for-linux
+                    </div>
+                    <div class="box-border bg-secondary text-xs text-secondary-foreground px-2 py-0.5 rounded-full">
+                        windows-subsystem-for-linux
+                    </div>
+                    <div class="box-border bg-secondary text-xs text-secondary-foreground px-2 py-0.5 rounded-full">
+                        windows-subsystem-for-linux
+                    </div>
+                    <p class="ml-auto text-black">Shenol asked on Sep 4, 2008 at 15:59</p>
+                </div>
             </div>
+        </a>
+        <a href="#">
+            <div class="bg-card shadow-lg flex flex-col rounded-lg overflow-hidden">
+                <div class="p-4">
+                    <div class="flex justify-between">
+                        <h2 class="text-black font-bold mb-2">Lists in java</h2>
+                        <h3 class="text-black">6 answers</h3>
+                    </div>
+                    <p class="text-black">I want to sort list. Please help me brothers :)</p>
+                </div>
+                <div class="px-4 py-2 flex flex-wrap gap-4">
+                    <div class="box-border bg-secondary text-xs text-secondary-foreground px-2 py-0.5 rounded-full">
+                        windows-subsystem-for-linux
+                    </div>
+                    <div class="box-border bg-secondary text-xs text-secondary-foreground px-2 py-0.5 rounded-full">
+                        windows-subsystem-for-linux
+                    </div>
+                    <div class="box-border bg-secondary text-xs text-secondary-foreground px-2 py-0.5 rounded-full">
+                        windows-subsystem-for-linux
+                    </div>
+                    <p class="ml-auto text-black">Shenol asked on Sep 4, 2008 at 15:59</p>
+                </div>
+            </div>
+        </a>
+        <a href="#">
+            <div class="bg-card shadow-lg flex flex-col rounded-lg overflow-hidden">
+                <div class="p-4">
+                    <div class="flex justify-between">
+                        <h2 class="text-black font-bold mb-2">Lists in java</h2>
+                        <h3 class="text-black">6 answers</h3>
+                    </div>
+                    <p class="text-black">I want to sort list. Please help me brothers :)</p>
+                </div>
+                <div class="px-4 py-2 flex flex-wrap gap-4">
+                    <div class="box-border bg-secondary text-xs text-secondary-foreground px-2 py-0.5 rounded-full">
+                        windows-subsystem-for-linux
+                    </div>
+                    <div class="box-border bg-secondary text-xs text-secondary-foreground px-2 py-0.5 rounded-full">
+                        windows-subsystem-for-linux
+                    </div>
+                    <div class="box-border bg-secondary text-xs text-secondary-foreground px-2 py-0.5 rounded-full">
+                        windows-subsystem-for-linux
+                    </div>
+                    <p class="ml-auto text-black">Shenol asked on Sep 4, 2008 at 15:59</p>
+                </div>
+            </div>
+        </a>
+        <a href="#">
+            <div class="bg-card shadow-lg flex flex-col rounded-lg overflow-hidden">
+                <div class="p-4">
+                    <div class="flex justify-between">
+                        <h2 class="text-black font-bold mb-2">Lists in java</h2>
+                        <h3 class="text-black">6 answers</h3>
+                    </div>
+                    <p class="text-black">I want to sort list. Please help me brothers :)</p>
+                </div>
+                <div class="px-4 py-2 flex flex-wrap gap-4">
+                    <div class="box-border bg-secondary text-xs text-secondary-foreground px-2 py-0.5 rounded-full">
+                        windows-subsystem-for-linux
+                    </div>
+                    <div class="box-border bg-secondary text-xs text-secondary-foreground px-2 py-0.5 rounded-full">
+                        windows-subsystem-for-linux
+                    </div>
+                    <div class="box-border bg-secondary text-xs text-secondary-foreground px-2 py-0.5 rounded-full">
+                        windows-subsystem-for-linux
+                    </div>
+                    <p class="ml-auto text-black">Shenol asked on Sep 4, 2008 at 15:59</p>
+                </div>
+            </div>
+        </a>
         </div>
-        <div class="bg-card shadow-lg rounded-lg overflow-hidden">
-            <div class="p-4">
-                <h2 class="text-xl font-bold mb-2">Task 2</h2>
-                <p class="text-sm text-muted-foreground mb-4">Category: Personal</p>
-                <p class="text-base">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-            </div>
-            <div class="bg-primary px-4 py-2 flex justify-between items-center">
-                <button class="text-primary-foreground font-semibold">Added by</button>
-                <button class="text-destructive-foreground font-semibold">Delete Task</button>
-            </div>
-        </div>
-        <div class="bg-card shadow-lg rounded-lg overflow-hidden">
-            <div class="p-4">
-                <h2 class="text-xl font-bold mb-2">Task 3</h2>
-                <p class="text-sm text-muted-foreground mb-4">Category: Home</p>
-                <p class="text-base">Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            </div>
-            <div class="bg-primary px-4 py-2 flex justify-between items-center">
-                <button class="text-primary-foreground font-semibold">Added by</button>
-                <button class="text-destructive-foreground font-semibold">Delete Task</button>
-            </div>
+        <div class="flex justify-end gap-4 items-center mb-8">
+            <button class="text-sm p-2 text-black border rounded-lg bg-gray-200 hover:bg-gray-300">Previous</button>
+            <button class="text-sm p-2 text-black border rounded-lg bg-gray-200 hover:bg-gray-300">Next</button>
         </div>
     </div>
 </div>
 <footer th:replace="~{/fragments/footer::footer}"></footer>
+<script th:src="@{js/pagingSortingAndFiltering.js}"></script>
 </body>
 </html>
