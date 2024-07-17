@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New User Registration Notification</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        p {
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div>
+        <h1>New User Registration</h1>
+    </div>
+    <div class="p-6">
+        <p>Hello Admin</p>
+        <p>A new user has registered on TaskMaster:</p>
+        <ul>
+            <li>
+                <strong>Name: </strong>
+                <p th:text="${USERNAME}"></p>
+            </li>
+            <li>
+                <strong>Email: </strong>
+                <p class="inline" th:text="${EMAIL}"></p>
+            </li>
+            <li>
+                <strong>Joined: </strong>
+                <p th:text="${JOINED_TIME}"></p>
+
+            </li>
+        </ul>
+        <p class="mt-4 text-gray-600">Please review and manage their account as necessary.</p>
+        <p class="mt-4 text-gray-600">Thank you!</p>
+    </div>
+    <div class="bg-gray-100 text-gray-600 text-center py-4 text-sm">
+        <p>Best regards,<br>TaskMaster Admin Team</p>
+    </div>
+</div>
+</body>
+</html>
