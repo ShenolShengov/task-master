@@ -63,21 +63,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
-    public void makeAdmin(Long id) {
-        User user = userHelperService.getUser(id);
-        user.getRoles().add(roleRepository.getByName(UserRoles.ADMIN));
-        userRepository.save(user);
-    }
-
-    @Override
-    public void removeAdmin(Long id) {
-        User user = userHelperService.getUser(id);
-        user.getRoles().remove(roleRepository.getByName(UserRoles.ADMIN));
-        userRepository.save(user);
-    }
-
-    @Override
     public void changePassword(UserChangePasswordDTO changePasswordDTO) {
         User user = userHelperService.getUser();
         user.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));

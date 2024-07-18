@@ -16,10 +16,6 @@ public interface UserService {
 
     void delete(Long id);
 
-    void makeAdmin(Long id);
-
-    void removeAdmin(Long id);
-
     void changePassword(UserChangePasswordDTO changePasswordDTO);
 
     Page<UserInfoDTO> getAll(String searchQuery, Pageable pageable);
