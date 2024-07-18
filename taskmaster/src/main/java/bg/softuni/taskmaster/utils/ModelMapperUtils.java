@@ -24,14 +24,9 @@ public class ModelMapperUtils {
     public static ModelMapper getModifiedModelMapper() {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().getConverters().add(ModelMapperUtils.localDateTimeToStringConverter());
-        modelMapper
-                .typeMap(UserRegisterDTO.class, User.class)
+        modelMapper.typeMap(UserRegisterDTO.class, User.class)
                 .addMappings(m -> m.using(ModelMapperUtils.encodePasswordConverter())
                         .map(UserRegisterDTO::getPassword, User::setPassword));
-        modelMapper.
-                typeMap(Question.class, QuestionDetailsInfoDTO.class)
-                .addMappings(m -> m.using(ModelMapperUtils.toCollectionOfAnswerDetailsDto(modelMapper))
-                        .map(Question::getAnswers, QuestionDetailsInfoDTO::setAnswers));
         return modelMapper;
     }
 
@@ -51,14 +46,5 @@ public class ModelMapperUtils {
 
     private static Converter<String, String> encodePasswordConverter() {
         return context -> Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8().encode(context.getSource());
-    }
-
-    private static Converter<Set<Answer>, Set<AnswerDetailsDTO>> toCollectionOfAnswerDetailsDto(ModelMapper modelMapper) {
-        return context -> context.
-                getSource().
-                stream().
-                sorted(Comparator.comparing(Answer::getCreatedTime).reversed()).
-                map(e -> modelMapper.map(e, AnswerDetailsDTO.class))
-                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 }

@@ -4,10 +4,7 @@ import jakarta.persistence.OrderBy;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.Comparator;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 @Getter
 @Setter
@@ -20,12 +17,11 @@ public class QuestionDetailsInfoDTO implements Serializable {
     private String createdTime;
     private String userUsername;
     private Set<String> tags;
-//    @OrderBy("createdTime desc")//todo fix ask lucho
-    private Set<AnswerDetailsDTO> answers;
+    private List<AnswerDetailsDTO> answers;
 
     public QuestionDetailsInfoDTO() {
         this.tags = new LinkedHashSet<>();
-        this.answers = new LinkedHashSet<>();
+        this.answers = new ArrayList<>();
     }
 
     public QuestionDetailsInfoDTO setTags(Set<String> tags) {

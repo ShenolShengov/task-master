@@ -6,9 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.Comparator;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 @Entity
 @Table(name = "questions")
@@ -34,13 +32,14 @@ public class Question extends BaseEntity {
     private LocalDateTime createdTime;
 
     @OneToMany(mappedBy = "question")
-    private Set<Answer> answers;
+    @OrderBy("createdTime desc")
+    private List<Answer> answers;
 
     @ManyToOne(optional = false)
     private User user;
 
 
     public Question() {
-        this.answers = new TreeSet<>(Comparator.comparing(Answer::getCreatedTime));
+        this.answers = new ArrayList<>();
     }
 }

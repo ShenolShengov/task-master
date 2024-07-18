@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class UserLoginController {
 
-
     @GetMapping("/login")
     public String loginView() {
         return "login";
