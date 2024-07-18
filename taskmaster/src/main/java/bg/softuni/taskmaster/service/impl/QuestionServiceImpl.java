@@ -1,6 +1,5 @@
 package bg.softuni.taskmaster.service.impl;
 
-import bg.softuni.taskmaster.mappers.QuestionMapper;
 import bg.softuni.taskmaster.model.dto.QuestionAnswerDTO;
 import bg.softuni.taskmaster.model.dto.QuestionAskDTO;
 import bg.softuni.taskmaster.model.dto.QuestionBaseInfoDTO;
@@ -44,21 +43,20 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     @Transactional
     public QuestionDetailsInfoDTO getDetailsInfoDTO(Long id) {
-
-        return questionRepository.findById(id).map(e ->
-                QuestionMapper.INSTANCE.toDetailsInfo(e).setTags(mapToTags(e.getTags()))).orElseThrow(NullPointerException::new);
+        return questionRepository.findById(id)
+                .map(e -> modelMapper.map(e, QuestionDetailsInfoDTO.class)
+                        .setTags(mapToTags(e.getTags())))
+                .orElseThrow(NullPointerException::new);
     }
 
     @Override
     public Page<QuestionBaseInfoDTO> getQuestionsFrom(LocalDate questionCreatedTime, Pageable pageable) {
         Long userId = userHelperService.getUser().getId();
         if (questionCreatedTime == null) {
-            return questionRepository.findAllByUserId(userId, pageable)
-                    .map(this::getBaseInfoDTO);
+            return questionRepository.findAllByUserId(userId, pageable).map(this::getBaseInfoDTO);
         }
 
-        return questionRepository.findAllByUserIdAndCreatedTimeDate(userId, questionCreatedTime, pageable)
-                .map(this::getBaseInfoDTO);
+        return questionRepository.findAllByUserIdAndCreatedTimeDate(userId, questionCreatedTime, pageable).map(this::getBaseInfoDTO);
     }
 
     private static LinkedHashSet<String> mapToTags(String tags) {
@@ -67,7 +65,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public QuestionBaseInfoDTO getBaseInfoDTO(Question question) {
-        return QuestionMapper.INSTANCE.toBaseInfo(question).setTags(mapToTags(question.getTags()));
+        return modelMapper.map(question, QuestionBaseInfoDTO.class).setTags(mapToTags(question.getTags()));
     }
 
     @Override

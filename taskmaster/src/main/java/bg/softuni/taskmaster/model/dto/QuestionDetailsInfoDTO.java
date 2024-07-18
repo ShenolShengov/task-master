@@ -20,7 +20,7 @@ public class QuestionDetailsInfoDTO implements Serializable {
     private String createdTime;
     private String userUsername;
     private Set<String> tags;
-
+//    @OrderBy("createdTime desc")//todo fix ask lucho
     private Set<AnswerDetailsDTO> answers;
 
     public QuestionDetailsInfoDTO() {

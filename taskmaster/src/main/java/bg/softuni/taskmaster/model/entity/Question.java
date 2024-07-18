@@ -34,7 +34,6 @@ public class Question extends BaseEntity {
     private LocalDateTime createdTime;
 
     @OneToMany(mappedBy = "question")
-    @OrderBy("createdTime desc")//todo fix ask lucho
     private Set<Answer> answers;
 
     @ManyToOne(optional = false)
