@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:fragment="language(fixedPositon)" method="get"
+      th:classappend="${fixedPositon}? 'absolute top-6 right-6'">
+    <label th:text="#{nav_language}" for="lang"
+           class="text-white text-xs">Language</label>
+    <select id="lang"
+            name="lang"
+            onchange="this.form.submit()"
+            class="text-black text-xs hover:bg-input/80 py-2 pl-3 pr-8 rounded-lg">
+        <option th:selected="${#locale.toString().equals('en_US')}" value="en_US">English</option>
+        <option th:selected="${#locale.toString().equals('bg_BG')}" value="bg_BG">Български</option>
+    </select>
+</form>
+
+</body>
+</html>

@@ -37,42 +37,35 @@
         <li sec:authorize="hasRole('ROLE_USER')"
             class="group text-base font-medium relative block">
             <p th:text="#{nav_admin}">Admin</p>
-            <ul     th:classappend="${#locale.toString().equals('en_US')} ? 'left-[-38%]' : 'left-[-18%]'"
-                    class=" group-hover:block hidden absolute bg-primary w-22 rounded-lg top-full">
+            <ul th:classappend="${#locale.toString().equals('en_US')} ? 'left-[-38%]' : 'left-[-18%]'"
+                class=" group-hover:block hidden absolute bg-primary w-22 rounded-lg top-full">
                 <li class="px-4 py-2"><a th:text="#{nav_all_users}" th:href="@{/users}">All users</a></li>
-                <li class="px-4 pb-2"><a th:text="#{nav_statistics}"  th:href="@{/statistics}">Statistics</a></li>
+                <li class="px-4 pb-2"><a th:text="#{nav_statistics}" th:href="@{/statistics}">Statistics</a></li>
             </ul>
         </li>
     </ul>
     <div class="flex items-center space-x-4 order-2 md:order-3">
-        <form method="get">
-        <label th:text="#{nav_language}" for="lang" class="text-input-foreground text-xs">Language</label>
-            <select id="lang"
-                    name="lang"
-                    onchange="this.form.submit()"
-                    class="text-black text-xs hover:bg-input/80 py-2 pl-3 pr-8 rounded-lg">
-                <option th:selected="${#locale.toString().equals('en_US')}" value="en_US">English</option>
-                <option th:selected="${#locale.toString().equals('bg_BG')}" value="bg_BG">Български</option>
-            </select>
-        </form>
+        <form th:replace="~{/fragments/language::language(false)}"></form>
         <a sec:authorize="isAnonymous()" th:href="@{/users/register}"
-           th:text="#{nav_register}"
+           th:text="#{register_label}"
            class="text-base font-medium text-primary-foreground hover:text-primary-700">Register</a>
         <a sec:authorize="isAnonymous()" th:href="@{/users/login}"
-           th:text="#{nav_login}"
+           th:text="#{login_label}"
            class="text-base font-medium text-primary-foreground hover:text-primary-700">Login</a>
         <div sec:authorize="isAuthenticated()"
              class="group text-base font-medium relative block">
             <p th:text="#{nav_profile}">Profile</p>
-            <ul     th:classappend="${#locale.toString().equals('en_US')} ? 'left-[-38%]' : 'left-[-18%]'"
-                    class=" group-hover:block hidden absolute bg-primary w-22 rounded-lg top-full">
-                <li class="px-4 py-2"><a th:text="#{nav_edit}" th:href="@{/users/edit}">Edit data</a></li>
-                <li class="px-4 pb-2"><a th:text="#{nav_change_password}"  th:href="@{/users/change-password}">Change password</a></li>
+            <ul th:classappend="${#locale.toString().equals('en_US')} ? 'left-[-38%]' : 'left-[-18%]'"
+                class=" group-hover:block hidden absolute bg-primary w-22 rounded-lg top-full">
+                <li class="px-4 py-2"><a th:text="#{edit_label}" th:href="@{/users/edit}">Edit data</a></li>
+                <li class="px-4 pb-2"><a th:text="#{change_password_label}" th:href="@{/users/change-password}">Change
+                    password</a></li>
             </ul>
         </div>
         <form sec:authorize="isAuthenticated()"
               th:action="@{/logout}" th:method="post">
-            <button type="submit"  th:text="#{nav_logout}" class="text-base font-medium text-primary-foreground hover:text-primary-700">Logout
+            <button type="submit" th:text="#{nav_logout}"
+                    class="text-base font-medium text-primary-foreground hover:text-primary-700">Logout
             </button>
         </form>
     </div>
