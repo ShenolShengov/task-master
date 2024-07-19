@@ -8,6 +8,7 @@ import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.model.enums.UserRoles;
 import bg.softuni.taskmaster.repository.RoleRepository;
 import bg.softuni.taskmaster.repository.UserRepository;
+import bg.softuni.taskmaster.service.PictureService;
 import bg.softuni.taskmaster.service.UserHelperService;
 import bg.softuni.taskmaster.service.UserService;
 import jakarta.transaction.Transactional;
@@ -20,6 +21,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+
 @Service
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -30,14 +33,14 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
     private final UserHelperService userHelperService;
+    private final PictureService pictureService;
 
     @Override
-    public void register(UserRegisterDTO userRegisterDTO) {
+    public void register(UserRegisterDTO userRegisterDTO) throws IOException {
         User user = modelMapper.map(userRegisterDTO, User.class);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.getRoles().add(roleRepository.getByName(UserRoles.USER));
+        user.setPicture(pictureService.uploadPicture(userRegisterDTO.getProfilePicture(), userRegisterDTO.getUsername()));
         userRepository.save(user);
-
     }
 
     @Override

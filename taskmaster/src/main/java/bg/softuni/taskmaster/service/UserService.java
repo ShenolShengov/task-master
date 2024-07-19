@@ -4,11 +4,12 @@ import bg.softuni.taskmaster.model.dto.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 public interface UserService {
 
-    void register(UserRegisterDTO userRegisterDTO);
+    void register(UserRegisterDTO userRegisterDTO) throws IOException;
 
     UserInfoDTO getInfo(Long id);
 

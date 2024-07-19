@@ -10,6 +10,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.web.multipart.MultipartFile;
 
 @MatchPasswords(
         password = "password",
@@ -22,7 +23,7 @@ public class UserRegisterDTO {
 
     @NotNull(message = "{validation.user.username.length}")
     @Length(min = 2, max = 15, message = "{validation.user.username.length}")
-    @UniqueUsername(message ="{validation.user.username.unique}")
+    @UniqueUsername(message = "{validation.user.username.unique}")
     private String username;
 
     @NotNull(message = "{validation.user.full.name.length}")
@@ -31,7 +32,7 @@ public class UserRegisterDTO {
 
     @Email(message = "{validation.user.email.not.valid}")
     @NotEmpty(message = "{validation.user.email.not.valid}")
-    @UniqueEmail(message ="{validation.user.email.unique}")
+    @UniqueEmail(message = "{validation.user.email.unique}")
     private String email;
 
     @Positive(message = "{validation.user.age.positive}")
@@ -45,4 +46,6 @@ public class UserRegisterDTO {
     @NotNull(message = "{validation.user.password.length}")
     @Length(min = 5, max = 15, message = "{validation.user.password.length}")
     private String confirmPassword;
+
+    private MultipartFile profilePicture;
 }

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+
 @Controller
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -29,7 +31,7 @@ public class UserRegisterController {
 
     @PostMapping("/register")
     public String doRegister(@Valid UserRegisterDTO userRegisterDTO, BindingResult bindingResult,
-                             RedirectAttributes rAtt) {
+                             RedirectAttributes rAtt) throws IOException {
         if (bindingResult.hasErrors()) {
             rAtt.addFlashAttribute("registerData", userRegisterDTO);
             rAtt.addFlashAttribute("org.springframework.validation.BindingResult.registerData",

@@ -45,6 +45,9 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Set<Answer> answers;
 
+    @OneToOne
+    private Picture picture;
+
     public User() {
         this.roles = new LinkedHashSet<>();
         this.tasks = new LinkedHashSet<>();
