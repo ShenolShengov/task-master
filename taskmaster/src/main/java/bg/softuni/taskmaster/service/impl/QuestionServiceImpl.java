@@ -1,6 +1,6 @@
 package bg.softuni.taskmaster.service.impl;
 
-import bg.softuni.taskmaster.model.dto.QuestionAnswerDTO;
+import bg.softuni.taskmaster.model.dto.AnswerDTO;
 import bg.softuni.taskmaster.model.dto.QuestionAskDTO;
 import bg.softuni.taskmaster.model.dto.QuestionBaseInfoDTO;
 import bg.softuni.taskmaster.model.dto.QuestionDetailsInfoDTO;
@@ -59,23 +59,15 @@ public class QuestionServiceImpl implements QuestionService {
         return questionRepository.findAllByUserIdAndCreatedTimeDate(userId, questionCreatedTime, pageable).map(this::toBaseInfo);
     }
 
-    private static LinkedHashSet<String> mapToTags(String tags) {
+    private LinkedHashSet<String> mapToTags(String tags) {
         return Arrays.stream(tags.split("\\s+")).collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
-    @Override
-    public QuestionBaseInfoDTO toBaseInfo(Question question) {
+    private QuestionBaseInfoDTO toBaseInfo(Question question) {
         return modelMapper.map(question, QuestionBaseInfoDTO.class).setTags(mapToTags(question.getTags()));
     }
 
-    @Override
-    public void answer(QuestionAnswerDTO questionAnswerDTO, Long id) {
-        Answer answer = modelMapper.map(questionAnswerDTO, Answer.class);
-        answer.setQuestion(questionRepository.findById(id).orElseThrow(RuntimeException::new));
-        answer.setUser(userHelperService.getLoggedUser());
-        answerRepository.save(answer);
-        questionRepository.save(answer.getQuestion());
-    }
+
     @Override
     public Page<QuestionBaseInfoDTO> getAll(String searchQuery, Pageable pageable) {
         if (searchQuery.isEmpty()) {

@@ -1,8 +1,9 @@
 package bg.softuni.taskmaster.web.controller;
 
+import bg.softuni.taskmaster.model.dto.AnswerDTO;
 import bg.softuni.taskmaster.model.dto.QuestionAskDTO;
-import bg.softuni.taskmaster.model.dto.QuestionAnswerDTO;
 import bg.softuni.taskmaster.service.QuestionService;
+import bg.softuni.taskmaster.service.AnswerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class QuestionController {
 
     private final QuestionService questionService;
+    private final AnswerService answerService;
 
     @GetMapping
     public String getAll(Model model,
@@ -58,15 +60,15 @@ public class QuestionController {
     }
 
     @PostMapping("/answer/{id}")
-    public String answer(@PathVariable Long id, @Valid QuestionAnswerDTO questionAnswerDTO,
+    public String answer(@PathVariable Long id, @Valid AnswerDTO answerDTO,
                          BindingResult bindingResult, RedirectAttributes rAtt) {
         if (bindingResult.hasErrors()) {
-            rAtt.addFlashAttribute("questionAnswerData", questionAnswerDTO);
+            rAtt.addFlashAttribute("questionAnswerData", answerDTO);
             rAtt.addFlashAttribute("org.springframework.validation.BindingResult.questionAnswerData",
                     bindingResult);
             rAtt.addFlashAttribute("invalidData", true);
         } else {
-            questionService.answer(questionAnswerDTO, id);
+            answerService.answer(answerDTO, id);
             rAtt.addFlashAttribute("successfullyAddedComment", true);
         }
         return "redirect:/questions/" + id;
@@ -76,7 +78,7 @@ public class QuestionController {
     public String detailsView(@PathVariable Long id, Model model) {
         model.addAttribute("questionData", questionService.getDetailsInfoDTO(id));
         if (!model.containsAttribute("questionAnswerData")) {
-            model.addAttribute("questionAnswerData", new QuestionAnswerDTO());
+            model.addAttribute("questionAnswerData", new AnswerDTO());
         }
         return "questions-details";
     }

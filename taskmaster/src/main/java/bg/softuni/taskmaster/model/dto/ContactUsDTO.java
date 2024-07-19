@@ -7,9 +7,11 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
-public class ContactUsDTO {
+public class ContactUsDTO implements Serializable {
 
     @NotNull(message = "{validation.contacts.us.title.length}")
     @Length(min = 5, max = 200, message = "{validation.contacts.us.title.length}")

@@ -18,7 +18,7 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public void sendMail(ContactUsDTO contactUsDTO) {
+    public void contactUs(ContactUsDTO contactUsDTO) {
         restClient.post()
                 .uri("/send")
                 .body(contactUsDTO)

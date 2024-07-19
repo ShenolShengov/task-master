@@ -4,5 +4,5 @@ import bg.softuni.taskmaster.model.dto.ContactUsDTO;
 
 public interface ContactService {
 
-    void sendMail(ContactUsDTO contactUsDTO);
+    void contactUs(ContactUsDTO contactUsDTO);
 }

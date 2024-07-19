@@ -36,7 +36,7 @@ public class ContactController {
             rAtt.addFlashAttribute("invalidData", true);
             return "redirect:/contacts";
         }
-        contactService.sendMail(contactUsDTO);
+        contactService.contactUs(contactUsDTO);
         rAtt.addFlashAttribute("mailSent", true);
         return "redirect:/";
     }

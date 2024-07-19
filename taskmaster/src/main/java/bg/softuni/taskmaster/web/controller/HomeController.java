@@ -3,8 +3,6 @@ package bg.softuni.taskmaster.web.controller;
 import bg.softuni.taskmaster.service.QuestionService;
 import bg.softuni.taskmaster.service.TaskService;
 import bg.softuni.taskmaster.service.UserHelperService;
-import bg.softuni.taskmaster.service.UserService;
-import bg.softuni.taskmaster.utils.LocalDateUtils;
 import bg.softuni.taskmaster.utils.SortingUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,9 +26,6 @@ import static bg.softuni.taskmaster.utils.SortingUtils.checkForDefaultSorting;
 @RequiredArgsConstructor
 public class HomeController {
 
-    public static final String TASK_PREFIX = "task_";
-    private static final String QUESTION_PREFIX = "question_";
-    private final UserService userService;
     private final TaskService taskService;
     private final QuestionService questionService;
     private final UserHelperService userHelperService;
@@ -54,12 +49,12 @@ public class HomeController {
             return "index";
         }
         taskPageable = checkForDefaultSorting(taskSort, taskPageable);
-        taskDueDate = LocalDateUtils.orToday(taskDueDate);
-        SortingUtils.addSelectedSortOptions(model, taskSort, TASK_PREFIX);
+        taskDueDate = taskDueDate == null ? LocalDate.now() : taskDueDate;
+        SortingUtils.addSelectedSortOptions(model, taskSort, "task_");
         model.addAttribute("task_due_date", taskDueDate);
         model.addAttribute("userTasks", taskService.getTasksFor(taskDueDate, taskPageable));
 
-        SortingUtils.addSelectedSortOptions(model, questionSort, QUESTION_PREFIX);
+        SortingUtils.addSelectedSortOptions(model, questionSort, "question_");
         model.addAttribute("question_created_time", questionCreatedTime);
         model.addAttribute("userQuestions", questionService
                 .getQuestionsFrom(questionCreatedTime, questionPageable));

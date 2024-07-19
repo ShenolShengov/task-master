@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-public class QuestionAnswerDTO implements Serializable {
+public class AnswerDTO implements Serializable {
 
     @NotNull(message = "{validation.description.length}")
     @Length(min = 5, max = 2000, message = "{{validation.description.length}}")

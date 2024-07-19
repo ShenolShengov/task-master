@@ -12,6 +12,8 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.Serializable;
+
 @MatchPasswords(
         password = "password",
         confirmPassword = "confirmPassword",
@@ -19,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 )
 @Getter
 @Setter
-public class UserRegisterDTO {
+public class UserRegisterDTO implements Serializable {
 
     @NotNull(message = "{validation.user.username.length}")
     @Length(min = 2, max = 15, message = "{validation.user.username.length}")

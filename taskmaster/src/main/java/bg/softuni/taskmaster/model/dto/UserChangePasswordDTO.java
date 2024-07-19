@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @MatchPasswords(
@@ -15,7 +17,7 @@ import org.hibernate.validator.constraints.Length;
         confirmPassword = "confirmPassword",
         message = "{validation.user.passwords.not.match}"
 )
-public class UserChangePasswordDTO {
+public class UserChangePasswordDTO implements Serializable {
 
     @MatchLoggedUserPassword
     private String currentPassword;
