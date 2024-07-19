@@ -39,7 +39,10 @@ public class UserServiceImpl implements UserService {
     public void register(UserRegisterDTO userRegisterDTO) throws IOException {
         User user = modelMapper.map(userRegisterDTO, User.class);
         user.getRoles().add(roleRepository.getByName(UserRoles.USER));
-        user.setPicture(pictureService.uploadPicture(userRegisterDTO.getProfilePicture(), userRegisterDTO.getUsername()));
+        if (userRegisterDTO.getProfilePicture() != null) {
+            user.setProfilePicture(pictureService.createPicture(userRegisterDTO.getProfilePicture(),
+                    userRegisterDTO.getUsername()));
+        }
         userRepository.save(user);
     }
 
@@ -49,12 +52,14 @@ public class UserServiceImpl implements UserService {
     }
 
     private UserInfoDTO toInfo(User e) {
-        return modelMapper.map(e, UserInfoDTO.class);
+        UserInfoDTO userInfoDTO = modelMapper.map(e, UserInfoDTO.class);
+        userInfoDTO.setAdmin(userHelperService.isAdmin(e.getId()));
+        return userInfoDTO;
     }
 
     @Override
     public void edit(UserEditDTO userEditDTO) {
-        User user = userHelperService.getUser();
+        User user = userHelperService.getLoggedUser();
         BeanUtils.copyProperties(userEditDTO, user);
         userRepository.save(user);
     }
@@ -67,7 +72,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void changePassword(UserChangePasswordDTO changePasswordDTO) {
-        User user = userHelperService.getUser();
+        User user = userHelperService.getLoggedUser();
         user.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
         userRepository.save(user);
     }
@@ -83,6 +88,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEditDTO getCurrentUserEditData() {
-        return modelMapper.map(userHelperService.getUser(), UserEditDTO.class);
+        return modelMapper.map(userHelperService.getLoggedUser(), UserEditDTO.class);
     }
 }

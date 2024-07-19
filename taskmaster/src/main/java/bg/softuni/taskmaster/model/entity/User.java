@@ -46,7 +46,7 @@ public class User extends BaseEntity {
     private Set<Answer> answers;
 
     @OneToOne
-    private Picture picture;
+    private Picture profilePicture;
 
     public User() {
         this.roles = new LinkedHashSet<>();

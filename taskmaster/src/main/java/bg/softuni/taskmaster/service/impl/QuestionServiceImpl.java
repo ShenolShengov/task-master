@@ -36,7 +36,7 @@ public class QuestionServiceImpl implements QuestionService {
     public long ask(QuestionAskDTO questionAskDTO) {
         Question question = modelMapper.map(questionAskDTO, Question.class);
         question.setCreatedTime(LocalDateTime.now());
-        question.setUser(userHelperService.getUser());
+        question.setUser(userHelperService.getLoggedUser());
         return questionRepository.save(question).getId();
     }
 
@@ -51,7 +51,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public Page<QuestionBaseInfoDTO> getQuestionsFrom(LocalDate questionCreatedTime, Pageable pageable) {
-        Long userId = userHelperService.getUser().getId();
+        Long userId = userHelperService.getLoggedUser().getId();
         if (questionCreatedTime == null) {
             return questionRepository.findAllByUserId(userId, pageable).map(this::toBaseInfo);
         }
@@ -72,7 +72,7 @@ public class QuestionServiceImpl implements QuestionService {
     public void answer(QuestionAnswerDTO questionAnswerDTO, Long id) {
         Answer answer = modelMapper.map(questionAnswerDTO, Answer.class);
         answer.setQuestion(questionRepository.findById(id).orElseThrow(RuntimeException::new));
-        answer.setUser(userHelperService.getUser());
+        answer.setUser(userHelperService.getLoggedUser());
         answerRepository.save(answer);
         questionRepository.save(answer.getQuestion());
     }

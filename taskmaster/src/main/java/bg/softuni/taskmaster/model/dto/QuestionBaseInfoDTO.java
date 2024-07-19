@@ -13,7 +13,7 @@ public class QuestionBaseInfoDTO implements Serializable {
 
     private String id;
     private String title;
-    private String userUsername;
+    private UserAnswerDTO user;
     private String description;
     private String createdTime;
     private Set<String> tags;

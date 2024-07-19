@@ -15,7 +15,7 @@ public class QuestionDetailsInfoDTO implements Serializable {
     private String description;
     private String code;
     private String createdTime;
-    private String userUsername;
+    private UserAnswerDTO user;
     private Set<String> tags;
     private List<AnswerDetailsDTO> answers;
 

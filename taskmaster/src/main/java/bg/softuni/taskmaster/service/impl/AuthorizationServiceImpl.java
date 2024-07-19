@@ -5,7 +5,6 @@ import bg.softuni.taskmaster.model.enums.UserRoles;
 import bg.softuni.taskmaster.repository.RoleRepository;
 import bg.softuni.taskmaster.repository.UserRepository;
 import bg.softuni.taskmaster.service.AuthorizationService;
-import bg.softuni.taskmaster.service.RoleService;
 import bg.softuni.taskmaster.service.UserHelperService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

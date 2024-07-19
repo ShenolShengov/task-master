@@ -27,7 +27,12 @@
         </div>
         <div class="text-black px-4 py-2 flex flex-col  items-end">
             <p th:text="*{'asked ' + createdTime}" class="font-semibold ">asked May 9, 2012 at 4:09 </p>
-            <p th:text="*{'by ' + userUsername}" class="font-semibold text-black text-right ">by Shenol10</p>
+            <div class="flex gap-2 items-center">
+                <img aria-hidden="true" id="profilePicture" alt="profile-picture"
+                     th:src="*{user.getProfilePictureUrl()}"
+                     class="w-8 h-8 rounded-full object-cover "/>
+                <p th:text="*{'by ' + user.getUsername()}" class="font-semibold text-black text-right ">by Shenol10</p>
+            </div>
         </div>
 
     </div>
@@ -102,9 +107,14 @@
                         <div class="mt-4">
                             <p th:text="*{'answered ' + getCreatedTime}" class="font-semibold ">answered May 9,
                                 2012 at 4:09 </p>
-                            <p th:text="*{'by ' + getUserUsername()}"
-                               class="font-semibold text-black text-right ">by
-                                Shenol10</p>
+                            <div class="flex items-center justify-end gap-2">
+                                <img aria-hidden="true" alt="profile-picture"
+                                     th:src="*{user.getProfilePictureUrl()}"
+                                     class="w-8 h-8 rounded-full object-cover "/>
+                                <p th:text="*{'by ' + user.getUsername()}"
+                                   class="font-semibold text-black text-right ">by
+                                    Shenol10</p>
+                            </div>
                         </div>
                     </div>
                 </div>

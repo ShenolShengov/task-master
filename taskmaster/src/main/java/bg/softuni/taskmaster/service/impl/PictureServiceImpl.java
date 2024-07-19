@@ -18,11 +18,11 @@ public class PictureServiceImpl implements PictureService {
     private final PictureRepository pictureRepository;
 
     @Override
-    public Picture uploadPicture(MultipartFile pictureFile, String pictureName) throws IOException {
+    public Picture createPicture(MultipartFile pictureFile, String pictureName) throws IOException {
         if (pictureFile == null) {
             throw new RuntimeException();
         }
-        String pictureUrl = cloudinaryService.uploadImage(pictureFile, pictureName);
+        String pictureUrl = cloudinaryService.uploadPicture(pictureFile, pictureName);
         Picture picture = new Picture(pictureFile.getOriginalFilename(), pictureUrl);
         pictureRepository.save(picture);
         return picture;

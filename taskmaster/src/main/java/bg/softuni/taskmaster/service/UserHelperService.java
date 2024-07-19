@@ -1,7 +1,6 @@
 package bg.softuni.taskmaster.service;
 
 import bg.softuni.taskmaster.model.entity.User;
-import org.apache.tomcat.websocket.AuthenticationException;
 
 public interface UserHelperService {
 
@@ -11,13 +10,13 @@ public interface UserHelperService {
 
     boolean haseRole(String role);
 
-    boolean haseRole(String role, User user);
+    boolean haseRole(String role, Long id);
 
     boolean isAdmin();
 
-    boolean isAdmin(User user);
+    boolean isAdmin(Long id);
 
-    User getUser();
+    User getLoggedUser();
 
     User getUser(Long id);
 }

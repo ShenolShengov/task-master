@@ -17,6 +17,6 @@ public class NotMatchLoggedUserPasswordValidator implements ConstraintValidator<
         if (password == null || password.isEmpty()) {
             return true;
         }
-        return !passwordEncoder.matches(password, userHelperService.getUser().getPassword());
+        return !passwordEncoder.matches(password, userHelperService.getLoggedUser().getPassword());
     }
 }

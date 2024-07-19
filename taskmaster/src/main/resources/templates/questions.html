@@ -32,12 +32,15 @@
                     </div>
                     <p th:text="*{description}" class="text-black">I want to sort list. Please help me brothers :)</p>
                 </div>
-                <div class="px-4 py-2 flex flex-wrap gap-4">
+                <div class="px-4 py-2 flex flex-wrap gap-4 items-center">
                     <div th:each="tag: *{tags}" th:text="${tag}"
                          class="box-border bg-secondary text-xs text-secondary-foreground px-2 py-0.5 rounded-full">
                         windows-subsystem-for-linux
                     </div>
-                    <p th:text="*{userUsername + ' asked on ' + createdTime}" class="ml-auto text-black">
+                    <img aria-hidden="true" id="profilePicture" alt="profile-picture"
+                         th:src="*{user.getProfilePictureUrl()}"
+                         class="ml-auto w-8 h-8 rounded-full object-cover "/>
+                    <p th:text="*{user.getUsername() + ' asked on ' + createdTime}" class=" text-black">
                         Shenol asked on Sep 4, 2008 at 15:59</p>
                 </div>
             </div>

@@ -12,5 +12,5 @@ public class AnswerDetailsDTO implements Serializable {
     private String description;
     private String code;
     private String createdTime;
-    private String userUsername;
+    private UserAnswerDTO user;
 }

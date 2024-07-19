@@ -17,6 +17,6 @@ public class MatchLoggedUserPasswordValidator implements ConstraintValidator<Mat
         if (password == null || password.isEmpty()) {
             return false;
         }
-        return passwordEncoder.matches(password, userHelperService.getUser().getPassword());
+        return passwordEncoder.matches(password, userHelperService.getLoggedUser().getPassword());
     }
 }

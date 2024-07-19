@@ -54,9 +54,14 @@
            class="text-base font-medium text-primary-foreground hover:text-primary-700">Login</a>
         <div sec:authorize="isAuthenticated()"
              class="group text-base font-medium relative block">
-            <p th:text="#{nav_profile}">Profile</p>
-            <ul th:classappend="${#locale.toString().equals('en_US')} ? 'left-[-38%]' : 'left-[-18%]'"
-                class=" group-hover:block hidden absolute bg-primary w-22 rounded-lg top-full">
+            <img aria-hidden="true" id="profilePicture" alt="profile-picture"
+                 th:src="${@userHelperServiceImpl.getLoggedUser().getProfilePicture() == null}
+                     ? '/images/default-profile-picture.png'
+                     : ${@userHelperServiceImpl.getLoggedUser().getProfilePicture().getUrl()}"
+                 class="w-8 h-8 rounded-full object-cover "/>
+            <ul
+                    th:classappend="${#locale.toString().equals('en_US')} ? 'left-[-90%]' : 'left-[-130%]'"
+                    class="group-hover:block hidden absolute bg-primary w-22 rounded-lg top-full">
                 <li class="px-4 py-2"><a th:text="#{edit_label}" th:href="@{/users/edit}">Edit data</a></li>
                 <li class="px-4 pb-2"><a th:text="#{change_password_label}" th:href="@{/users/change-password}">Change
                     password</a></li>

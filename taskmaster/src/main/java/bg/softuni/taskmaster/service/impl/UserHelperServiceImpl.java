@@ -4,8 +4,6 @@ import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.repository.UserRepository;
 import bg.softuni.taskmaster.service.UserHelperService;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -33,8 +31,8 @@ public class UserHelperServiceImpl implements UserHelperService {
     }
 
     @Override
-    public boolean haseRole(String role, User user) {
-        return user.getRoles()
+    public boolean haseRole(String role, Long id) {
+        return getUser(id).getRoles()
                 .stream().anyMatch(e -> e.getName().name().equals(role));
     }
 
@@ -44,12 +42,12 @@ public class UserHelperServiceImpl implements UserHelperService {
     }
 
     @Override
-    public boolean isAdmin(User user) {
-        return haseRole("ADMIN", user);
+    public boolean isAdmin(Long id) {
+        return haseRole("ADMIN", id);
     }
 
     @Override
-    public User getUser() {
+    public User getLoggedUser() {
         return userRepository.findByUsername(getName())
                 .orElseThrow(RuntimeException::new);
     }
