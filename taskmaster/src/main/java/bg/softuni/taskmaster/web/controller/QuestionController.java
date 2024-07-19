@@ -27,7 +27,7 @@ public class QuestionController {
                          @RequestParam(required = false, defaultValue = "createdTime,asc")
                          String sort,
                          @RequestParam(name = "search_query", required = false, defaultValue = "") String searchQuery,
-                         @PageableDefault(size = 1, sort = "createdTime", direction = Sort.Direction.ASC)
+                         @PageableDefault(size = 5, sort = "createdTime", direction = Sort.Direction.ASC)
                          Pageable pageable) {
         model.addAttribute("sortDirection", sort.split(",")[1]);
         model.addAttribute("searchQuery", searchQuery);
