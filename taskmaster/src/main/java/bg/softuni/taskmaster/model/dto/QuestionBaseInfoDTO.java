@@ -13,9 +13,11 @@ public class QuestionBaseInfoDTO implements Serializable {
 
     private String id;
     private String title;
+    private String userUsername;
     private String description;
     private String createdTime;
     private Set<String> tags;
+    private Integer answers;
 
     public QuestionBaseInfoDTO() {
         this.tags = new LinkedHashSet<>();

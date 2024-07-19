@@ -53,10 +53,10 @@ public class QuestionServiceImpl implements QuestionService {
     public Page<QuestionBaseInfoDTO> getQuestionsFrom(LocalDate questionCreatedTime, Pageable pageable) {
         Long userId = userHelperService.getUser().getId();
         if (questionCreatedTime == null) {
-            return questionRepository.findAllByUserId(userId, pageable).map(this::getBaseInfoDTO);
+            return questionRepository.findAllByUserId(userId, pageable).map(this::toBaseInfo);
         }
 
-        return questionRepository.findAllByUserIdAndCreatedTimeDate(userId, questionCreatedTime, pageable).map(this::getBaseInfoDTO);
+        return questionRepository.findAllByUserIdAndCreatedTimeDate(userId, questionCreatedTime, pageable).map(this::toBaseInfo);
     }
 
     private static LinkedHashSet<String> mapToTags(String tags) {
@@ -64,7 +64,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public QuestionBaseInfoDTO getBaseInfoDTO(Question question) {
+    public QuestionBaseInfoDTO toBaseInfo(Question question) {
         return modelMapper.map(question, QuestionBaseInfoDTO.class).setTags(mapToTags(question.getTags()));
     }
 
@@ -75,5 +75,12 @@ public class QuestionServiceImpl implements QuestionService {
         answer.setUser(userHelperService.getUser());
         answerRepository.save(answer);
         questionRepository.save(answer.getQuestion());
+    }
+    @Override
+    public Page<QuestionBaseInfoDTO> getAll(String searchQuery, Pageable pageable) {
+        if (searchQuery.isEmpty()) {
+            return questionRepository.findAll(pageable).map(this::toBaseInfo);
+        }
+        return questionRepository.search(searchQuery, pageable).map(this::toBaseInfo);
     }
 }

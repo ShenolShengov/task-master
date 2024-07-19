@@ -32,7 +32,7 @@ public class Question extends BaseEntity {
     @SortParam
     private LocalDateTime createdTime;
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER)
     @OrderBy("createdTime desc")
     private List<Answer> answers;
 

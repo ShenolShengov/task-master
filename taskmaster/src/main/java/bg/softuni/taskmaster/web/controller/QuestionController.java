@@ -22,14 +22,17 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @GetMapping
-    public String questionsView(Model model,
-                                @RequestParam(required = false) Integer ignoredPage,
-                                @RequestParam(required = false, defaultValue = "createdTime,asc")
-                                String sort,
-                                @PageableDefault(sort = "createdTime", direction = Sort.Direction.ASC)
-                                Pageable pageable) {
-
+    public String getAll(Model model,
+                         @RequestParam(required = false) Integer ignoredPage,
+                         @RequestParam(required = false, defaultValue = "createdTime,asc")
+                         String sort,
+                         @RequestParam(name = "search_query", required = false, defaultValue = "") String searchQuery,
+                         @PageableDefault(size = 1, sort = "createdTime", direction = Sort.Direction.ASC)
+                         Pageable pageable) {
         model.addAttribute("sortDirection", sort.split(",")[1]);
+        model.addAttribute("searchQuery", searchQuery);
+        model.addAttribute("foundedQuestions",
+                questionService.getAll(searchQuery, pageable.previousOrFirst()));
         return "questions";
     }
 

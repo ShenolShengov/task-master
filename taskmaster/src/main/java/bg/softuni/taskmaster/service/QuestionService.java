@@ -14,11 +14,10 @@ import java.time.LocalDate;
 public interface QuestionService {
 
     long ask(QuestionAskDTO questionAskDTO);
+    void answer(QuestionAnswerDTO questionAnswerDTO, Long id);
 
     QuestionDetailsInfoDTO getDetailsInfoDTO(Long id);
     Page<QuestionBaseInfoDTO> getQuestionsFrom(LocalDate questionCreatedTime, Pageable pageable);
-    QuestionBaseInfoDTO getBaseInfoDTO(Question question);
-
-    void answer(QuestionAnswerDTO questionAnswerDTO, Long id);
-
+    QuestionBaseInfoDTO toBaseInfo(Question question);
+    Page<QuestionBaseInfoDTO> getAll(String searchQuery, Pageable pageable);
 }

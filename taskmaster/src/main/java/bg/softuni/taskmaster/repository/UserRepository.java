@@ -22,6 +22,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
            "CAST(u.age as string ) = :searchQuery")
     Page<User> findAllBySearchQuery(String searchQuery,
                                     Pageable pageable);
-
-
 }

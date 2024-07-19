@@ -42,8 +42,8 @@ public class UserController {
                          @RequestParam(required = false, defaultValue = ",asc")
                          String sort,
                          @PageableDefault(sort = "id", direction = Sort.Direction.ASC)
-                         Pageable pageable,
-                         @RequestParam(name = "search_query", required = false, defaultValue = "") String searchQuery
+                         @RequestParam(name = "search_query", required = false, defaultValue = "") String searchQuery,
+                         Pageable pageable
 
     ) {
         pageable = checkForDefaultSorting(sort, pageable);

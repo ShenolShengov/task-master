@@ -39,16 +39,16 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
     }
+
     @Override
     public UserInfoDTO getInfo(Long id) {
         return modelMapper.map(userHelperService.getUser(id), UserInfoDTO.class);
     }
 
     private UserInfoDTO toInfo(User e) {
-        UserInfoDTO infoDTO = modelMapper.map(e, UserInfoDTO.class);
-        infoDTO.setAdmin(userHelperService.isAdmin(e));
-        return infoDTO;
+        return modelMapper.map(e, UserInfoDTO.class);
     }
+
     @Override
     public void edit(UserEditDTO userEditDTO) {
         User user = userHelperService.getUser();

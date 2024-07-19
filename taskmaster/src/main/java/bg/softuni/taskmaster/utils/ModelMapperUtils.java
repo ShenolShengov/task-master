@@ -1,11 +1,11 @@
 package bg.softuni.taskmaster.utils;
 
-import bg.softuni.taskmaster.model.dto.AnswerDetailsDTO;
-import bg.softuni.taskmaster.model.dto.QuestionDetailsInfoDTO;
+import bg.softuni.taskmaster.model.dto.QuestionBaseInfoDTO;
 import bg.softuni.taskmaster.model.dto.UserRegisterDTO;
 import bg.softuni.taskmaster.model.entity.Answer;
 import bg.softuni.taskmaster.model.entity.Question;
 import bg.softuni.taskmaster.model.entity.User;
+import jakarta.transaction.Transactional;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.spi.ConditionalConverter;
@@ -14,10 +14,7 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 
 public class ModelMapperUtils {
 
@@ -27,7 +24,14 @@ public class ModelMapperUtils {
         modelMapper.typeMap(UserRegisterDTO.class, User.class)
                 .addMappings(m -> m.using(ModelMapperUtils.encodePasswordConverter())
                         .map(UserRegisterDTO::getPassword, User::setPassword));
+        modelMapper.typeMap(Question.class, QuestionBaseInfoDTO.class)
+                .addMappings(m -> m.using(collectionsToSizeConverter())
+                        .map(Question::getAnswers, QuestionBaseInfoDTO::setAnswers));
         return modelMapper;
+    }
+
+    private static Converter<List<Answer>, Integer> collectionsToSizeConverter() {
+        return context -> context.getSource().size();
     }
 
     private static ConditionalConverter<LocalDateTime, String> localDateTimeToStringConverter() {
