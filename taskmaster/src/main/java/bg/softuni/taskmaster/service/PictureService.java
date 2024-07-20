@@ -7,7 +7,9 @@ import java.io.IOException;
 
 public interface PictureService {
 
-    Picture createPicture(MultipartFile pictureFile, String pictureName) throws IOException;
+    Picture createPicture(MultipartFile pictureFile, String folder, String pictureName) throws IOException;
 
     Picture getDefultProfilePicture();
+
+    void deletePicture(Picture profilePicture) throws IOException;
 }

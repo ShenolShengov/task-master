@@ -14,6 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+
 import static bg.softuni.taskmaster.utils.SortingUtils.addSelectedSortOptions;
 import static bg.softuni.taskmaster.utils.SortingUtils.checkForDefaultSorting;
 
@@ -62,7 +64,7 @@ public class UserController {
 
     @PutMapping("/edit")
     public String editView(@Valid UserEditDTO userEditDTO, BindingResult bindingResult,
-                           RedirectAttributes rAtt) {
+                           RedirectAttributes rAtt) throws IOException {
         if (bindingResult.hasErrors()) {
             rAtt.addFlashAttribute("editData", userEditDTO);
             rAtt.addFlashAttribute("org.springframework.validation.BindingResult.editData",

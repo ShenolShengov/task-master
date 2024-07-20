@@ -12,7 +12,7 @@ public interface UserService {
 
     UserInfoDTO getInfo(Long id);
 
-    void edit(UserEditDTO userEditDTO);
+    void edit(UserEditDTO userEditDTO) throws IOException;
 
     void delete(Long id);
 

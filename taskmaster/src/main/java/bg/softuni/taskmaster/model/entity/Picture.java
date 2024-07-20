@@ -15,9 +15,11 @@ public class Picture extends BaseEntity {
 
     private String originalName;
     private String url;
+    private String publicId;
 
-    public Picture(String originalName, String url) {
+    public Picture(String originalName, String url, String publicId) {
         this.originalName = originalName;
         this.url = url;
+        this.publicId = publicId;
     }
 }

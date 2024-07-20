@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
 
@@ -33,4 +34,6 @@ public class UserEditDTO implements Serializable {
     @Positive(message = "{validation.user.age.positive}")
     @NotNull(message = "{validation.user.age.positive}")
     private Integer age;
+
+    private MultipartFile profilePicture;
 }

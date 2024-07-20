@@ -8,7 +8,8 @@
         <form th:method="put"
               th:action="@{/users/edit}"
               th:object="${editData}"
-              class="text-black">
+              class="text-black"
+              enctype="multipart/form-data">
             <div class="grid grid-cols-2 gap-6">
                 <div class="mb-4">
                     <label th:for="username" class="block text-base font-medium mb-2">Username</label>
@@ -65,6 +66,14 @@
                     </div>
                 </div>
             </div>
+            <div class="flex flex-col items-center justify-center w-full h-full mt-2 mb-6 ">
+                <img aria-hidden="true" id="profilePicturePreview" alt="profile-picture"
+                     th:src="${@userHelperServiceImpl.getLoggedUser().getProfilePicture().getUrl()}"
+                     class="w-24 h-24 rounded-full object-cover mb-4"/>
+                <input th:field="*{profilePicture}" type="file" id="profilePicture" class="hidden"/>
+                <label id="profilePicturePreviewLabel" th:for="profilePicture" class="cursor-pointer text-black">
+                    Upload from device </label>
+            </div>
             <button type="submit"
                     class="bg-primary text-primary-foreground py-3 px-4 rounded-lg hover:bg-primary/80 transition-colors duration-300 ml-0 mt-2">
                 Save changes
@@ -72,5 +81,19 @@
         </form>
     </div>
 </div>
+<script>
+    const profilePictureInput = document.getElementById('profilePicture');
+    const profilePicturePreview = document.getElementById('profilePicturePreview');
+    const profilePictureLabel = document.getElementById('profilePicturePreviewLabel');
+    profilePictureInput.onchange = () => {
+        if (profilePictureInput.files[0]) {
+            profilePicturePreview.src = URL.createObjectURL(profilePictureInput.files[0]);
+            profilePictureLabel.textContent = 'Change picture';
+        } else {
+            profilePicturePreview.src = '/images/default-profile-picture.png';
+            profilePictureLabel.textContent = 'Choose picture from device';
+        }
+    };
+</script>
 </body>
 </html>

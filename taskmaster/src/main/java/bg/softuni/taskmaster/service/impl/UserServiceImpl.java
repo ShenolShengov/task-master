@@ -4,6 +4,7 @@ import bg.softuni.taskmaster.model.dto.UserChangePasswordDTO;
 import bg.softuni.taskmaster.model.dto.UserEditDTO;
 import bg.softuni.taskmaster.model.dto.UserInfoDTO;
 import bg.softuni.taskmaster.model.dto.UserRegisterDTO;
+import bg.softuni.taskmaster.model.entity.Picture;
 import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.model.enums.UserRoles;
 import bg.softuni.taskmaster.repository.RoleRepository;
@@ -20,14 +21,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class UserServiceImpl implements UserService {
 
+    private static final String USERS_PROFILE_PICTURES_FOLDER = "users/profile-pictures";
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
@@ -39,14 +43,10 @@ public class UserServiceImpl implements UserService {
     public void register(UserRegisterDTO userRegisterDTO) throws IOException {
         User user = modelMapper.map(userRegisterDTO, User.class);
         user.getRoles().add(roleRepository.getByName(UserRoles.USER));
-        if (!userRegisterDTO.getProfilePicture().isEmpty()) {
-            user.setProfilePicture(pictureService.createPicture(userRegisterDTO.getProfilePicture(),
-                    userRegisterDTO.getUsername()));
-        } else {
-            user.setProfilePicture(pictureService.getDefultProfilePicture());
-        }
+        setProfilePicture(userRegisterDTO.getProfilePicture(), user);
         userRepository.save(user);
     }
+
 
     @Override
     public UserInfoDTO getInfo(Long id) {
@@ -60,11 +60,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void edit(UserEditDTO userEditDTO) {
+    public void edit(UserEditDTO userEditDTO) throws IOException {
         User user = userHelperService.getLoggedUser();
         BeanUtils.copyProperties(userEditDTO, user);
+        changeProfilePicture(userEditDTO, user);
         userRepository.save(user);
     }
+
 
     @Override
     @Transactional
@@ -91,5 +93,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEditDTO getCurrentUserEditData() {
         return modelMapper.map(userHelperService.getLoggedUser(), UserEditDTO.class);
+    }
+
+    private void changeProfilePicture(UserEditDTO userEditDTO, User user) throws IOException {
+        if (user.getProfilePicture().getId() == 1 && userEditDTO.getProfilePicture().isEmpty()) {
+            return;
+        }
+        Picture oldprofilePicture = user.getProfilePicture();
+        setProfilePicture(userEditDTO.getProfilePicture(), user);
+        if (oldprofilePicture.getId() != 1) pictureService.deletePicture(oldprofilePicture);
+    }
+
+    private void setProfilePicture(MultipartFile profilePicture, User user) throws IOException {
+        if (profilePicture.isEmpty()) {
+            user.setProfilePicture(pictureService.getDefultProfilePicture());
+        } else {
+            user.setProfilePicture(pictureService.createPicture(profilePicture, USERS_PROFILE_PICTURES_FOLDER, String.valueOf(UUID.randomUUID())));
+        }
+        userRepository.saveAndFlush(user);
     }
 }
