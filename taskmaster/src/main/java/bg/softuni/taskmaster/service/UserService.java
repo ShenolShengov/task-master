@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public interface UserService {
 
-    void register(UserRegisterEditDTO userRegisterEditDTO) throws IOException;
+    void register(UserRegisterDTO userRegisterDTO) throws IOException;
 
     UserInfoDTO getInfo(Long id);
 

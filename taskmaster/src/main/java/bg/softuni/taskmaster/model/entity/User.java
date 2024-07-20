@@ -45,7 +45,7 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Set<Answer> answers;
 
-    @OneToOne
+    @ManyToOne
     private Picture profilePicture;
 
     public User() {

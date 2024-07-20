@@ -55,4 +55,16 @@ public class TaskServiceImpl implements TaskService {
                 .map(e -> modelMapper.map(e, TaskInfoDTO.class))
                 .orElseThrow(NullPointerException::new);
     }
+
+    @Override
+    public void remove(Long id) {
+        taskRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean isActualUser(Long id) {
+        return taskRepository.findById(id)
+                .filter(e -> e.getUser().getId().equals(userHelperService.getLoggedUser().getId()))
+                .isPresent();
+    }
 }

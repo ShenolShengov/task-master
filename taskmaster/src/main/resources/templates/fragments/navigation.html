@@ -55,9 +55,7 @@
         <div sec:authorize="isAuthenticated()"
              class="group text-base font-medium relative block">
             <img aria-hidden="true" id="profilePicture" alt="profile-picture"
-                 th:src="${@userHelperServiceImpl.getLoggedUser().getProfilePicture() == null}
-                     ? '/images/default-profile-picture.png'
-                     : ${@userHelperServiceImpl.getLoggedUser().getProfilePicture().getUrl()}"
+                 th:src="${@userHelperServiceImpl.getLoggedUser().getProfilePicture().getUrl()}"
                  class="w-8 h-8 rounded-full object-cover "/>
             <ul
                     th:classappend="${#locale.toString().equals('en_US')} ? 'left-[-90%]' : 'left-[-130%]'"

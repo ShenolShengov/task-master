@@ -8,4 +8,6 @@ import java.io.IOException;
 public interface PictureService {
 
     Picture createPicture(MultipartFile pictureFile, String pictureName) throws IOException;
+
+    Picture getDefultProfilePicture();
 }

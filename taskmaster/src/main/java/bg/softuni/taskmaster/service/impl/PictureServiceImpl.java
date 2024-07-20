@@ -27,4 +27,9 @@ public class PictureServiceImpl implements PictureService {
         pictureRepository.save(picture);
         return picture;
     }
+
+    @Override
+    public Picture getDefultProfilePicture() {
+        return pictureRepository.findByOriginalName("default-profile-picture");
+    }
 }

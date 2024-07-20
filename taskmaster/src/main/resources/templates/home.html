@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head th:replace="~{/fragments/head::head}">
 </head>
 <body>
@@ -50,8 +50,9 @@
                     </select>
                 </div>
             </div>
-            <ul>
-                <li th:each="task: ${userTasks}" th:object="${task}" class="flex flex-col py-4 border-b border-card">
+            <ul id="user-tasks">
+                <li th:id="*{id + '-taks-section'}" th:each="task: ${userTasks}" th:object="${task}"
+                    class="flex flex-col py-4 border-b border-card">
                     <div class="flex items-center justify-between mb-2">
                         <span th:text="*{name}" class="text-black text-lg ">Task 3</span>
                         <span th:text="*{'Priority: ' + priority}" class="text-black">Priority: High</span>
@@ -64,12 +65,15 @@
                         <span th:if="!*{allDay}" th:text="*{'Start time: ' +startTime}" class="text-sm text-zinc-600">Start Time: 09:00 AM</span>
                         <span th:if="!*{allDay}" th:text="*{'End time: ' + endTime}" class="text-sm text-zinc-600">End Time: 10:00 AM</span>
                         <span th:if="*{allDay}" class="text-sm text-zinc-600">All day</span>
-                        <a th:href="@{/tasks/edit/{id}(id = *{id})}"  class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">
+                        <a th:href="@{/tasks/edit/{id}(id = *{id})}"
+                           class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">
                             Edit
                         </a>
-                        <button class="bg-destructive text-destructive-foreground py-1 px-2 rounded-lg shadow-md hover:bg-destructive/80">
-                            Remove
-                        </button>
+                        <form th:method="post" th:action="@{/tasks/remove/{id}(id = *{id})}">
+                            <button class="bg-destructive text-destructive-foreground py-1 px-2 rounded-lg shadow-md hover:bg-destructive/80"
+                                    type="submit">Remove
+                            </button>
+                        </form>
                     </div>
                 </li>
             </ul>
@@ -139,15 +143,22 @@
         </section>
     </main>
     <div class="flex gap-8">
-        <a th:href="@{/tasks/add-task}" class="add-task-btn bg-primary text-primary-foreground py-2 px-4 mt-8 rounded-lg shadow-md hover:bg-primary/80">
+        <a th:href="@{/tasks/add-task}"
+           class="add-task-btn bg-primary text-primary-foreground py-2 px-4 mt-8 rounded-lg shadow-md hover:bg-primary/80">
             Add New
             Task
         </a>
-        <a th:href="@{/questions/ask}" class="add-task-btn bg-primary text-primary-foreground py-2 px-4 mt-8 rounded-lg shadow-md hover:bg-primary/80">
+        <a th:href="@{/questions/ask}"
+           class="add-task-btn bg-primary text-primary-foreground py-2 px-4 mt-8 rounded-lg shadow-md hover:bg-primary/80">
             Ask Question
         </a>
     </div>
 </div>
+<script>
+    function deleteTask(id) {
+        console.log("Delete task with id" + id);
+    }
+</script>
 <footer th:replace="~{/fragments/footer::footer}"></footer>
 </body>
 <script th:src="@{/js/dates.js}"></script>

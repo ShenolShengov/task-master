@@ -12,8 +12,13 @@ public interface TaskService {
     void add(TaskAddEditDTO taskAddEditDTO);
 
     void edit(TaskAddEditDTO taskEditDTO);
+
+    void remove(Long id);
+
     Page<TaskInfoDTO> getTasksFor(LocalDate dueDate, Pageable pageable);
 
     TaskInfoDTO getInfo(Long id);
 
+
+    boolean isActualUser(Long id);
 }
