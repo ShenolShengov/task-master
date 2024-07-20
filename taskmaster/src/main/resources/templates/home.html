@@ -9,7 +9,7 @@
 </section>
 <div class="bg-background text-primary-foreground min-h-screen mx-2 flex flex-col items-center justify-center">
     <main class="container mx-auto mt-8 grid grid-cols-1  md:grid-cols-2">
-        <section id="my-tasks" class="w-[45em] bg-card rounded-lg p-6 shadow-md overflow-y-auto max-h-96">
+        <section id="my-tasks" class="max-w-[45em] bg-card rounded-lg p-6 shadow-md overflow-y-auto max-h-96">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-lg text-black font-semibold">My Tasks</h2>
                 <div class="flex items-center space-x-2">
@@ -64,9 +64,9 @@
                         <span th:if="!*{allDay}" th:text="*{'Start time: ' +startTime}" class="text-sm text-zinc-600">Start Time: 09:00 AM</span>
                         <span th:if="!*{allDay}" th:text="*{'End time: ' + endTime}" class="text-sm text-zinc-600">End Time: 10:00 AM</span>
                         <span th:if="*{allDay}" class="text-sm text-zinc-600">All day</span>
-                        <button class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">
+                        <a th:href="@{/tasks/edit/{id}(id = *{id})}"  class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">
                             Edit
-                        </button>
+                        </a>
                         <button class="bg-destructive text-destructive-foreground py-1 px-2 rounded-lg shadow-md hover:bg-destructive/80">
                             Remove
                         </button>

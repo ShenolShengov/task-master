@@ -2,7 +2,7 @@ package bg.softuni.taskmaster.utils;
 
 import bg.softuni.taskmaster.model.dto.QuestionBaseInfoDTO;
 import bg.softuni.taskmaster.model.dto.UserAnswerDTO;
-import bg.softuni.taskmaster.model.dto.UserRegisterDTO;
+import bg.softuni.taskmaster.model.dto.UserRegisterEditDTO;
 import bg.softuni.taskmaster.model.entity.Answer;
 import bg.softuni.taskmaster.model.entity.Question;
 import bg.softuni.taskmaster.model.entity.User;
@@ -22,9 +22,9 @@ public class ModelMapperUtils {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().getConverters().add(localDateTimeToStringConverter());
         modelMapper.getConfiguration().getConverters().add(profilePictureOrDefaultProfilePictureConverter());
-        modelMapper.typeMap(UserRegisterDTO.class, User.class)
+        modelMapper.typeMap(UserRegisterEditDTO.class, User.class)
                 .addMappings(m -> m.using(ModelMapperUtils.encodePasswordConverter())
-                        .map(UserRegisterDTO::getPassword, User::setPassword));
+                        .map(UserRegisterEditDTO::getPassword, User::setPassword));
 
         modelMapper.typeMap(Question.class, QuestionBaseInfoDTO.class)
                 .addMappings(m -> m.using(collectionsToSizeConverter())

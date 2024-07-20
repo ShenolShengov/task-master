@@ -21,7 +21,7 @@ import java.io.Serializable;
 )
 @Getter
 @Setter
-public class UserRegisterDTO implements Serializable {
+public class UserRegisterEditDTO implements Serializable {
 
     @NotNull(message = "{validation.user.username.length}")
     @Length(min = 2, max = 15, message = "{validation.user.username.length}")

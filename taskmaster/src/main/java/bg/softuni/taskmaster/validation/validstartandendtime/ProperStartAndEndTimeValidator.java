@@ -1,10 +1,10 @@
 package bg.softuni.taskmaster.validation.validstartandendtime;
 
-import bg.softuni.taskmaster.model.dto.TaskAddDTO;
+import bg.softuni.taskmaster.model.dto.TaskAddEditDTO;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class ProperStartAndEndTimeValidator implements ConstraintValidator<ProperStartAndEndTime, TaskAddDTO> {
+public class ProperStartAndEndTimeValidator implements ConstraintValidator<ProperStartAndEndTime, TaskAddEditDTO> {
 
     private String message;
 
@@ -15,7 +15,7 @@ public class ProperStartAndEndTimeValidator implements ConstraintValidator<Prope
     }
 
     @Override
-    public boolean isValid(TaskAddDTO value, ConstraintValidatorContext context) {
+    public boolean isValid(TaskAddEditDTO value, ConstraintValidatorContext context) {
         if (value == null || value.getStartTime() == null || value.getEndTime() == null) {
             return true;
         }

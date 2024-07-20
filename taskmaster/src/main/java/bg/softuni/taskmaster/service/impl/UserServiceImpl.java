@@ -3,7 +3,7 @@ package bg.softuni.taskmaster.service.impl;
 import bg.softuni.taskmaster.model.dto.UserChangePasswordDTO;
 import bg.softuni.taskmaster.model.dto.UserEditDTO;
 import bg.softuni.taskmaster.model.dto.UserInfoDTO;
-import bg.softuni.taskmaster.model.dto.UserRegisterDTO;
+import bg.softuni.taskmaster.model.dto.UserRegisterEditDTO;
 import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.model.enums.UserRoles;
 import bg.softuni.taskmaster.repository.RoleRepository;
@@ -36,12 +36,12 @@ public class UserServiceImpl implements UserService {
     private final PictureService pictureService;
 
     @Override
-    public void register(UserRegisterDTO userRegisterDTO) throws IOException {
-        User user = modelMapper.map(userRegisterDTO, User.class);
+    public void register(UserRegisterEditDTO userRegisterEditDTO) throws IOException {
+        User user = modelMapper.map(userRegisterEditDTO, User.class);
         user.getRoles().add(roleRepository.getByName(UserRoles.USER));
-        if (userRegisterDTO.getProfilePicture() != null) {
-            user.setProfilePicture(pictureService.createPicture(userRegisterDTO.getProfilePicture(),
-                    userRegisterDTO.getUsername()));
+        if (userRegisterEditDTO.getProfilePicture() != null) {
+            user.setProfilePicture(pictureService.createPicture(userRegisterEditDTO.getProfilePicture(),
+                    userRegisterEditDTO.getUsername()));
         }
         userRepository.save(user);
     }

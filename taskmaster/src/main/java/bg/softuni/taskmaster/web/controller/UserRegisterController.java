@@ -1,6 +1,6 @@
 package bg.softuni.taskmaster.web.controller;
 
-import bg.softuni.taskmaster.model.dto.UserRegisterDTO;
+import bg.softuni.taskmaster.model.dto.UserRegisterEditDTO;
 import bg.softuni.taskmaster.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,21 +24,21 @@ public class UserRegisterController {
     @GetMapping("/register")
     public String registerView(Model model) {
         if (!model.containsAttribute("registerData")) {
-            model.addAttribute("registerData", new UserRegisterDTO());
+            model.addAttribute("registerData", new UserRegisterEditDTO());
         }
         return "register";
     }
 
     @PostMapping("/register")
-    public String doRegister(@Valid UserRegisterDTO userRegisterDTO, BindingResult bindingResult,
+    public String doRegister(@Valid UserRegisterEditDTO userRegisterEditDTO, BindingResult bindingResult,
                              RedirectAttributes rAtt) throws IOException {
         if (bindingResult.hasErrors()) {
-            rAtt.addFlashAttribute("registerData", userRegisterDTO);
+            rAtt.addFlashAttribute("registerData", userRegisterEditDTO);
             rAtt.addFlashAttribute("org.springframework.validation.BindingResult.registerData",
                     bindingResult);
             return "redirect:/users/register";
         }
-        userService.register(userRegisterDTO);
+        userService.register(userRegisterEditDTO);
         return "redirect:/users/login";
     }
 }

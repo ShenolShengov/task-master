@@ -1,66 +1,132 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{/fragments/head::head}"></head>
-<body>
+<body class="bg-blue-500">
 <nav th:replace="~{/fragments/navigation::nav}"></nav>
-<div class="bg-blue-500 text-primary-foreground min-h-screen flex flex-col items-center justify-center">
-    <form class="bg-card p-8 rounded-lg shadow-lg w-full max-w-xl">
-        <h1 class="text-center text-4xl font-bold mb-6 text-black">Edit Task</h1>
+<div class=" mt-4 mb-4 text-primary-foreground min-h-screen flex flex-col items-center justify-center">
+    <form th:action="@{/tasks/edit/{id}(id = *{id})}"
+          th:method="post"
+          th:object="${taskData}"
+          class="bg-card p-8 rounded-lg shadow-lg w-full max-w-xl">
+        <h1 class="text-center text-4xl font-bold mb-6 text-black">Edit task</h1>
         <div class="grid grid-cols-2 gap-6">
             <div>
-                <label for="taskName" class="block text-sm font-medium text-black">Task Name</label>
-                <input id="taskName" type="text"
+                <label th:for="name" class="block text-sm font-medium text-black">Task Name</label>
+                <input th:field="*{name}" id="name" name="name" type="text"
                        class="text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring"
-                       placeholder="Enter task name" value="Task Name Example"/>
+                       placeholder="Enter task name"/>
+                <div th:errors="*{name}"
+                     class="text-sm text-destructive">
+                    <p>Username length must be between 5 and 15 symbols!</p>
+                </div>
             </div>
             <div>
-                <label for="taskCategory" class="block text-sm font-medium text-black">Category</label>
-                <input
-                        id="taskCategory"
-                        type="text"
-                        class="text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring"
-                        placeholder="Enter task category"
-                        value="Category Example"
-                />
+                <label th:for="category" class="block text-sm font-medium text-black">Category</label>
+                <input th:field="*{category}" id="category" list="popularCategory" type="text"
+                       class="text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring"
+                       placeholder="Enter task category"/>
+                <div th:errors="*{category}"
+                     class="text-sm text-destructive">
+                    <p>Username length must be between 5 and 15 symbols!</p>
+                </div>
             </div>
+            <datalist id="popularCategory">
+                <option>Personal</option>
+                <option>School</option>
+                <option>Work</option>
+                <option>Finance</option>
+                <option>Health</option>
+            </datalist>
         </div>
         <div class="grid grid-cols-2 gap-6 mt-6">
             <div>
-                <label for="taskPriority" class="block text-sm font-medium text-black">Priority</label>
-                <select id="taskPriority"
+                <label th:for="priority" class="block text-sm font-medium text-black">Priority</label>
+                <select th:field="*{priority}" id="priority"
                         class="text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring">
-                    <option value="low">Low</option>
-                    <option value="medium" selected>Medium</option>
-                    <option value="high">High</option>
+                    <option value="LOW">Low</option>
+                    <option value="MEDIUM">Medium</option>
+                    <option value="HIGH">High</option>
                 </select>
             </div>
             <div>
-                <label for="dueDate" class="block text-sm font-medium text-black">Due Date</label>
-                <input
-                        id="dueDate"
-                        type="date"
-                        min="today"
-                        class="text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring"
-                        placeholder="Select due date"
-                        value="2022-12-31"
-                />
+                <label th:for="dueDate" class="block text-sm font-medium text-black">Due Date</label>
+                <input th:field="*{dueDate}" id="dueDate" name="dueDate" type="date"
+                       class="min-today today text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring"
+                       placeholder="Select due date"/>
+                <div th:errors="*{dueDate}"
+                     class="text-sm text-destructive">
+                    <p>Username length must be between 5 and 15 symbols!</p>
+                </div>
+            </div>
+            <div id="start-time-div">
+                <label th:for="startTime" class="block text-sm font-medium text-black">Start</label>
+                <input th:field="*{startTime}"
+
+                       id="startTime" name="dueDate" type="time" min="today"
+                       class="text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring"
+                       placeholder="Select due date"/>
+                <div th:errors="*{startTime}"
+                     class="text-sm text-destructive">
+                    <p>Username length must be between 5 and 15 symbols!</p>
+                </div>
+            </div>
+            <div id="end-time-div">
+                <label th:for="endTime"
+                       class="block text-sm font-medium text-black">End</label>
+                <input th:field="*{endTime}"
+                       id="endTime" name="dueDate" type="time"
+                       class="text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring"
+                       placeholder="Select due date"/>
+                <div th:errors="*{endTime}"
+                     class="text-sm text-destructive">
+                    <p>Username length must be between 5 and 15 symbols!</p>
+                </div>
+            </div>
+            <div class="flex items-center">
+                <input th:field="*{allDay}" type="checkbox" id="allDay"
+                       class="mr-2 h-5 w-5 text-black border border-primary rounded focus:ring ring-primary"/>
+                <label th:for="allDay" class="text-black">All Day</label>
             </div>
         </div>
-        <label for="taskDescription" class="block text-sm font-medium mt-6 text-black">Notes</label>
-        <textarea id="taskDescription"
-                  class="text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring"
-                  rows="6" placeholder="Enter task notes">
-Task notes example for editing.</textarea
-        >
+        <label th:for="description" class="block text-sm font-medium mt-6 text-black">Notes</label>
+        <textarea th:field="*{description}" id="description"
+                  class="w-full mt-1 p-3 rounded-md text-black border border-input focus:outline-none focus:ring focus:ring-ring"
+                  rows="6" placeholder="Enter task notes"></textarea>
+        <div th:errors="*{description}"
+             class="text-sm text-destructive">
+            <p>Username length must be between 5 and 15 symbols!</p>
+        </div>
         <div class="flex justify-center">
-            <button type="submit"
+            <button type="submit" id="save-changes"
                     class="bg-primary text-primary-foreground mt-6 py-3 px-6 rounded-md hover:bg-primary/80 transition-colors">
-                Save Changes
+                Save changes
             </button>
         </div>
     </form>
 </div>
 <footer th:replace="~{/fragments/footer::footer}"></footer>
 <script th:src="@{/js/dates.js}"></script>
+<script>
+    let allDayCheckBox = document.getElementById("allDay");
+    let startTimeDiv = document.getElementById("start-time-div");
+    let endTimeDiv = document.getElementById("end-time-div");
+    if (allDayCheckBox.checked) {
+        startTimeDiv.classList.toggle('hidden');
+        endTimeDiv.classList.toggle('hidden');
+        document.getElementById("startTime").value = null;
+        document.getElementById("endTime").value = null;
+    }
+    allDayCheckBox.addEventListener("change", () => {
+        startTimeDiv.classList.toggle('hidden');
+        endTimeDiv.classList.toggle('hidden');
+    });
+    document.getElementById("save-changes").addEventListener('click', () => {
+        if (allDayCheckBox.checked) {
+            document.getElementById("startTime").value = '00:00';
+            document.getElementById("endTime").value = "23:59";
+        }
+    });
+
+</script>
 </body>
 </html>

@@ -16,7 +16,9 @@ import java.time.LocalTime;
 @Getter
 @Setter
 @ProperStartAndEndTime
-public class TaskAddDTO implements Serializable {
+public class TaskAddEditDTO implements Serializable {
+
+    private Long id;
 
     @NotNull(message = "{validation.task.name.length}")
     @Length(min = 5, max = 20, message = "{validation.task.name.length}")

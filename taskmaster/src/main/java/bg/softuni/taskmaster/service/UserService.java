@@ -5,11 +5,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.io.IOException;
-import java.time.LocalDate;
 
 public interface UserService {
 
-    void register(UserRegisterDTO userRegisterDTO) throws IOException;
+    void register(UserRegisterEditDTO userRegisterEditDTO) throws IOException;
 
     UserInfoDTO getInfo(Long id);
 
