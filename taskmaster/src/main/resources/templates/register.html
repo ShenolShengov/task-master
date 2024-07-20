@@ -88,6 +88,8 @@
                 <input th:field="*{profilePicture}" type="file" id="profilePicture" class="hidden"/>
                 <label id="profilePicturePreviewLabel" th:for="profilePicture" class="cursor-pointer text-black">
                     Upload from device </label>
+                <p class="mt-2">Or</p>
+                <button type="button" onclick="setDefaultPicture()" class="mt-2">Use default picture</button>
             </div>
             <button th:text="#{register_label}" type="submit"
                     class="w-full bg-primary text-primary-foreground py-2 rounded-lg hover:bg-primary/80 transition-colors duration-300">
@@ -96,19 +98,6 @@
         </form>
     </div>
 </div>
-<script>
-    const profilePictureInput = document.getElementById('profilePicture');
-    const profilePicturePreview = document.getElementById('profilePicturePreview');
-    const profilePictureLabel = document.getElementById('profilePicturePreviewLabel');
-    profilePictureInput.onchange = () => {
-        if (profilePictureInput.files[0]) {
-            profilePicturePreview.src = URL.createObjectURL(profilePictureInput.files[0]);
-            profilePictureLabel.textContent = 'Change picture';
-        } else {
-            profilePicturePreview.src = '/images/default-profile-picture.png';
-            profilePictureLabel.textContent = 'Choose picture from device';
-        }
-    };
-</script>
+<script th:src="@{/js/profile-picture.js}"></script>
 </body>
 </html>
