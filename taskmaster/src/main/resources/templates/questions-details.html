@@ -13,17 +13,9 @@
                 "document.getElementById('myImage').src= " command to change it but there is no image shows after I
                 click the image. The same image is loading properly using the tag. The same button works if I use a link
                 direct taken from google. Below I have pasted the code. Any suggestions are appreciated.</p>
-            <pre class="pl-4 pr-4 mt-4 box-border overflow-scroll bg-code rounded-lg">
-                <code th:text="*{code}" class="text-black pl-2">
-@GetMapping("/ask")
-    public String askView(Model model) {
-        if (!model.containsAttribute("askQuestionData")) {
-            model.addAttribute("askQuestionData", new AskQuestionDTO());
-        }
-        return "ask-question";
-    }
-                </code>
-                </pre>
+            <pre th:text="*{code}" th:if="*{!code.isBlank()}"
+                 class="font-mono text-black pt-4 pb-4 pl-4 pr-4 mt-4 box-border overflow-scroll bg-code rounded-lg">
+            </pre>
         </div>
         <div class="text-black px-4 py-2 flex flex-col  items-end">
             <p th:text="*{'asked ' + createdTime}" class="font-semibold ">asked May 9, 2012 at 4:09 </p>

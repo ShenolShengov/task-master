@@ -6,6 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Stream;
+
 @Component
 @RequiredArgsConstructor
 public class Test implements CommandLineRunner {
@@ -14,7 +17,7 @@ public class Test implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        String generate = cloudinary.url().secure(true).generate("users/profile-pictures/default-profile-picture");
-        System.out.println(generate);
+        Integer biggestNumber = Stream.of(1, 2, 7, 4, 6, 5).max(Integer::compareTo).get();
+        System.out.println(biggestNumber);
     }
 }

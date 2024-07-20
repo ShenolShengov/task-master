@@ -1,6 +1,6 @@
 package bg.softuni.taskmaster.model.dto;
 
-import jakarta.validation.constraints.NotEmpty;
+import bg.softuni.taskmaster.validation.validtagscountandnotdiplicates.ValidTagsCountAndNotDuplicates;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,14 +13,14 @@ import java.io.Serializable;
 public class QuestionAskDTO implements Serializable {
 
     @NotNull(message = "{validation.title.length}")
-    @Length(min = 5, max = 20, message = "{validation.title.length}")
+    @Length(min = 5, max = 50, message = "{validation.title.length}")
     private String title;
 
-    @NotEmpty(message = "{validation.question.tags.not.empty}")
+    @ValidTagsCountAndNotDuplicates
     private String tags;
 
     @NotNull(message = "{validation.description.length}")
-    @Length(min = 5, max = 2000, message = "{{validation.description.length}}")
+    @Length(min = 5, max = 2000, message = "{validation.description.length}")
     private String description;
 
     @NotNull(message = "{validation.question.answer.code.length}")
