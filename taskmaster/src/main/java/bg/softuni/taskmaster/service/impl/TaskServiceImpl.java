@@ -62,9 +62,10 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public boolean isActualUser(Long id) {
-        return taskRepository.findById(id)
+    public boolean isActualUserOrAdmin(Long id) {
+        boolean isPresent = taskRepository.findById(id)
                 .filter(e -> e.getUser().getId().equals(userHelperService.getLoggedUser().getId()))
                 .isPresent();
+        return isPresent || userHelperService.isAdmin();
     }
 }

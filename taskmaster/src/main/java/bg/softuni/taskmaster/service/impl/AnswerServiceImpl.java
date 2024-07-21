@@ -26,4 +26,17 @@ public class AnswerServiceImpl implements AnswerService {
         answer.setUser(userHelperService.getLoggedUser());
         answerRepository.save(answer);
     }
+
+    @Override
+    public boolean isActualUserOrAdmin(Long id) {
+        boolean isPresent = answerRepository.findById(id)
+                .filter(e -> e.getUser().getId().equals(userHelperService.getLoggedUser().getId()))
+                .isPresent();
+        return isPresent || userHelperService.isAdmin();
+    }
+
+    @Override
+    public void delete(Long id) {
+        answerRepository.deleteById(id);
+    }
 }

@@ -13,9 +13,13 @@ public interface QuestionService {
 
     long ask(QuestionAskDTO questionAskDTO);
 
+    void  delete(Long id);
+
     QuestionDetailsInfoDTO getDetailsInfoDTO(Long id);
 
     Page<QuestionBaseInfoDTO> getQuestionsFrom(LocalDate questionCreatedTime, Pageable pageable);
 
     Page<QuestionBaseInfoDTO> getAll(String searchQuery, Pageable pageable);
+
+    boolean isActualUserOrAdmin(Long id);
 }

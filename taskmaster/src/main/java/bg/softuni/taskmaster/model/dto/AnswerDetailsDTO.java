@@ -9,6 +9,7 @@ import java.io.Serializable;
 @Setter
 public class AnswerDetailsDTO implements Serializable {
 
+    private Long id;
     private String description;
     private String code;
     private String createdTime;

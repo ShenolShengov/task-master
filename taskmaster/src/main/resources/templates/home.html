@@ -69,9 +69,9 @@
                            class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">
                             Edit
                         </a>
-                        <form th:method="post" th:action="@{/tasks/remove/{id}(id = *{id})}">
+                        <form th:method="delete" th:action="@{/tasks/{id}(id = *{id})}">
                             <button class="bg-destructive text-destructive-foreground py-1 px-2 rounded-lg shadow-md hover:bg-destructive/80"
-                                    type="submit">Remove
+                                    type="submit">Delete
                             </button>
                         </form>
                     </div>
@@ -126,16 +126,20 @@
                         <div class="flex items-center justify-between mb-4">
                             <span th:text="*{title}" class="text-black font-semibold">Question 3</span>
                             <span th:text="*{'Tags: ' + tags}" class="text-black">Priority: High</span>
-                            <span th:text="*{'Answers: 4'}" class="text-black">Category: Personal</span>
+                            <span th:text="*{answers + ' Answer/s'}" class="text-black">Answer/s: 5</span>
                         </div>
                         <p th:text="*{description}" class="text-sm text-zinc-600 mb-4">Notes: Consectetur adipiscing
                             elit, sed do eiusmod tempor
                             incididunt ut labore et dolore magna aliqua.</p>
                         <div class="flex items-center justify-between">
                             <span th:text="*{'Ask on ' + createdTime}" class="text-sm text-zinc-600">Ask on ...</span>
-                            <button class="bg-destructive text-destructive-foreground py-1 px-2 rounded-lg shadow-md hover:bg-destructive/80">
-                                Remove
-                            </button>
+                            <form th:method="delete"
+                                  th:action="@{/questions/{id}(id = *{id})}">
+                                <button type="submit"
+                                        class="ml-auto delete-comment-button bg-destructive text-destructive-foreground px-2 py-1 rounded-lg font-semibold">
+                                    Delete
+                                </button>
+                            </form>
                         </div>
                     </a>
                 </li>

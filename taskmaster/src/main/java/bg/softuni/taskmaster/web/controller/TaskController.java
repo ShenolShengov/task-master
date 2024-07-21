@@ -40,7 +40,7 @@ public class TaskController {
 
     @GetMapping("edit/{id}")
     public String editTask(@PathVariable Long id, Model model) {
-        if (!taskService.isActualUser(id)) {
+        if (!taskService.isActualUserOrAdmin(id)) {
             return "redirect:/";
         }
         if (!model.containsAttribute("haveData")) {
@@ -52,7 +52,7 @@ public class TaskController {
     @PostMapping("/edit/{id}")
     public String doEditTask(@Valid TaskAddEditDTO taskEditDTO, BindingResult bindingResult,
                              RedirectAttributes rAtt, @PathVariable Long id) {
-        if (!taskService.isActualUser(id)) {
+        if (!taskService.isActualUserOrAdmin(id)) {
             return "redirect:/";
         }
         if (bindingResult.hasErrors()) {
@@ -66,9 +66,9 @@ public class TaskController {
         return "redirect:/";
     }
 
-    @PostMapping("/remove/{id}")
+    @DeleteMapping("/{id}")
     public String remove(@PathVariable Long id) {
-        if (!taskService.isActualUser(id)) {
+        if (!taskService.isActualUserOrAdmin(id)) {
             return "redirect:/";
         }
         taskService.remove(id);

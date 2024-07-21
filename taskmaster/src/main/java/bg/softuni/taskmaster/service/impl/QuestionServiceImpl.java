@@ -37,6 +37,11 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    public void delete(Long id) {
+        questionRepository.deleteById(id);
+    }
+
+    @Override
     @Transactional
     public QuestionDetailsInfoDTO getDetailsInfoDTO(Long id) {
         return questionRepository.findById(id)
@@ -70,5 +75,12 @@ public class QuestionServiceImpl implements QuestionService {
             return questionRepository.findAll(pageable).map(this::toBaseInfo);
         }
         return questionRepository.search(searchQuery, pageable).map(this::toBaseInfo);
+    }
+
+    @Override
+    public boolean isActualUserOrAdmin(Long id) {
+        boolean isPresent = questionRepository.findById(id)
+                .isPresent();
+        return isPresent || userHelperService.isAdmin();
     }
 }

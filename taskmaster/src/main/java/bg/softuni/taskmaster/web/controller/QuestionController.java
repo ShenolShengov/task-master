@@ -82,4 +82,12 @@ public class QuestionController {
         }
         return "questions-details";
     }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable Long id) {
+        if (questionService.isActualUserOrAdmin(id)) {
+            questionService.delete(id);
+        }
+        return "redirect:/";
+    }
 }

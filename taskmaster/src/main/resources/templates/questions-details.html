@@ -28,11 +28,17 @@
         </div>
 
     </div>
-    <div class="self-start ml-48 flex gap-2 mt-6 mb-2">
+    <div class="self-start w-[75%]  ml-48 flex items-baseline gap-2 mt-6 mb-2">
         <div th:each="tag : *{tags}"
              th:text="${tag}"
              class=" bg-primary text-primary-foreground px-3 py-1 rounded-full">Tag
         </div>
+        <form th:method="delete"
+              th:action="@{/questions/{id}(id = *{id})}"
+              th:if="${questionData.user.getUsername() == @userHelperServiceImpl.getName || @userHelperServiceImpl.isAdmin()}"
+              class="ml-auto delete-comment-button bg-destructive text-destructive-foreground px-2 py-1 rounded-lg font-semibold">
+            <button type="submit">Delete</button>
+        </form>
     </div>
 
     <form th:method="post" th:action="@{/questions/answer/{id}(id = *{id})}"
@@ -63,9 +69,11 @@
         </div>
     </form>
     <div class="bg-card shadow-lg rounded-lg overflow-hidden w-full md:w-3/4 mt-4 relative">
-        <div class="p-4">
+        <div class="p-4" id="answers">
             <div class="flex gap-6 items-baseline">
-                <h2 th:text="*{answers.size() + ' Answers'}" class="text-black font-bold text-2xl mb-2">3 Answer</h2>
+                <h2 th:text="*{answers.size() + ' Answer/s'}" id="answersCount"
+                    class="text-black font-bold text-2xl mb-2">3
+                    Answer</h2>
                 <div class="mb-6 flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
                     <select class="px-4 py-2 rounded-lg text-black focus:outline-none focus:ring focus:ring-primary">
                         <option value="" selected disabled hidden>Sort by</option>
@@ -76,27 +84,24 @@
                 </div>
             </div>
             <div th:if="${invalidData}" id="invalidDataScroll"></div>
-            <div th:each="answer: *{answers}" class="comment-container border-solid border-black border-b-2 pb-4">
+            <div th:each="answer: *{answers}" th:id="${answer.id + '-answer-section'}"
+                 class="comment-container border-solid border-black border-b-2 pb-4">
                 <div th:object="${answer}">
                     <p th:text="*{getDescription}" class="text-black mt-2">Great job on completing this task!
                         Great
                         job on completing this task!</p>
-                    <pre class="pl-4 pr-4 mt-4 box-border overflow-scroll bg-code rounded-lg">
-                <code th:text="*{getCode}" class="text-black pl-2">
-@GetMapping("/ask")
-    public String askView(Model model) {
-        if (!model.containsAttribute("askQuestionData")) {
-            model.addAttribute("askQuestionData", new AskQuestionDTO());
-        }
-        return "ask-question";
-    }
-                </code>
-                </pre>
-                    <div class="text-black  flex justify-between items-center">
-                        <button class="mt-6 delete-comment-button bg-destructive text-destructive-foreground px-2 py-1 rounded-lg font-semibold">
+                    <pre th:text="*{code}" th:if="*{!code.isBlank()}"
+                         class="font-mono text-black pt-4 pb-4 pl-4 pr-4 mt-4 box-border overflow-scroll bg-code rounded-lg">
+                    </pre>
+                    <div class="text-black flex justify-between items-center">
+                        <button
+                                th:if="${answer.user.getUsername() == @userHelperServiceImpl.getName || @userHelperServiceImpl.isAdmin()}"
+                                th:data-id="*{id}"
+                                onclick="deleteAnswer(this.dataset.id)"
+                                class="mt-6 delete-comment-button bg-destructive text-destructive-foreground px-2 py-1 rounded-lg font-semibold">
                             Delete
                         </button>
-                        <div class="mt-4">
+                        <div class="mt-4 ml-auto">
                             <p th:text="*{'answered ' + getCreatedTime}" class="font-semibold ">answered May 9,
                                 2012 at 4:09 </p>
                             <div class="flex items-center justify-end gap-2">
@@ -116,6 +121,7 @@
     </div>
 </div>
 <footer th:replace="~{/fragments/footer::footer}"></footer>
+<script th:inline="javascript" th:replace="~{/fragments/csrf::csrf}"></script>
 </body>
 <script>
 
@@ -125,6 +131,31 @@
         invalidDataScroller.scrollIntoView({block: "end", behavior: "smooth"});
     } else if (addedCommentScroller != null) {
         addedCommentScroller.scrollIntoView({block: "end", behavior: "smooth"});
+    }
+
+    function removeAnswerSection(id) {
+        document.getElementById('answers')
+            .removeChild(document.getElementById(id + '-answer-section'));
+    }
+
+    function updateAnswerCount() {
+        let answersCountLabel = document.getElementById('answersCount');
+        answersCountLabel.textContent = (Number(answersCountLabel.textContent.split(' ')[0]) - 1) + ' Answer/s';
+    }
+
+    function deleteAnswer(id) {
+        let isDeleted = true;
+        console.log(id);
+        fetch('http://localhost:8080/answers/' + id,
+            {
+                method: 'DELETE',
+                headers: getHeaderWithCsrf()
+            })
+            .catch(() => isDeleted = false);
+        if (isDeleted) {
+            removeAnswerSection(id);
+            updateAnswerCount();
+        }
     }
 </script>
 </html>
