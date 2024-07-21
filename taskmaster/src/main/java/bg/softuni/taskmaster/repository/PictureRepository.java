@@ -4,5 +4,5 @@ import bg.softuni.taskmaster.model.entity.Picture;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PictureRepository extends JpaRepository<Picture, Long> {
-    Picture findByOriginalName(String originalName);
+    Picture searchById(Long id);
 }

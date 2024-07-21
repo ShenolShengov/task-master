@@ -18,19 +18,18 @@ public class PictureServiceImpl implements PictureService {
     private final PictureRepository pictureRepository;
 
     @Override
-    public Picture createPicture(MultipartFile pictureFile, String folder, String pictureName) throws IOException {
+    public Picture createPictureOrGetDefault(MultipartFile pictureFile, String folder) throws IOException {
         if (pictureFile == null) {
-            throw new RuntimeException();
+            return getDefultProfilePicture();
         }
-        String pictureUrl = cloudinaryService.uploadPicture(pictureFile, folder, pictureName);
-        String publicId = folder + '/' + pictureName;
+        String publicId = cloudinaryService.uploadPicture(pictureFile, folder);
+        String pictureUrl = cloudinaryService.getUrl(publicId);
         Picture picture = new Picture(pictureFile.getOriginalFilename(), pictureUrl, publicId);
         return pictureRepository.save(picture);
     }
 
-    @Override
-    public Picture getDefultProfilePicture() {
-        return pictureRepository.findByOriginalName("default-profile-picture");
+    private Picture getDefultProfilePicture() {
+        return pictureRepository.searchById(1L);
     }
 
     @Override

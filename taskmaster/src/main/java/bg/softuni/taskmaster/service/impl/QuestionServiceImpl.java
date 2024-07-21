@@ -1,12 +1,9 @@
 package bg.softuni.taskmaster.service.impl;
 
-import bg.softuni.taskmaster.model.dto.AnswerDTO;
 import bg.softuni.taskmaster.model.dto.QuestionAskDTO;
 import bg.softuni.taskmaster.model.dto.QuestionBaseInfoDTO;
 import bg.softuni.taskmaster.model.dto.QuestionDetailsInfoDTO;
-import bg.softuni.taskmaster.model.entity.Answer;
 import bg.softuni.taskmaster.model.entity.Question;
-import bg.softuni.taskmaster.repository.AnswerRepository;
 import bg.softuni.taskmaster.repository.QuestionRepository;
 import bg.softuni.taskmaster.service.QuestionService;
 import bg.softuni.taskmaster.service.UserHelperService;
@@ -28,7 +25,6 @@ import java.util.stream.Collectors;
 public class QuestionServiceImpl implements QuestionService {
 
     private final QuestionRepository questionRepository;
-    private final AnswerRepository answerRepository;
     private final UserHelperService userHelperService;
     private final ModelMapper modelMapper;
 
