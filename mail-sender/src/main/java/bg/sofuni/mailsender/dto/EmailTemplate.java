@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum EmailTemplate {
 
     REGISTRATION_USER("registration-user-email"),
-    REGISTRATION_ADMIN("registration-admin-email");
+    REGISTRATION_ADMIN("registration-admin-email"),
+    CONTACT_US("contact-us-email");
 
     private final String emailTemplateName;
 

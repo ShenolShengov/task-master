@@ -1,10 +1,8 @@
 package bg.sofuni.mailsender.service.impl;
 
-import bg.sofuni.mailsender.config.MailConfig;
 import bg.sofuni.mailsender.dto.EmailParam;
 import bg.sofuni.mailsender.dto.EmailTemplate;
 import bg.sofuni.mailsender.dto.Payload;
-import bg.sofuni.mailsender.dto.SendMailDTO;
 import bg.sofuni.mailsender.service.MailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import java.time.LocalDateTime;
 import java.util.EnumMap;
 
 @Service
@@ -24,8 +21,6 @@ public class MailServiceImpl implements MailService {
 
     private final TemplateEngine templateEngine;
     private final JavaMailSender mailSender;
-    private final MailConfig mailConfig;
-
 
     @Override
     public void send(Payload payload) throws MessagingException {

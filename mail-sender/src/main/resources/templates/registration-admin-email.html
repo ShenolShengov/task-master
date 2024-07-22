@@ -22,15 +22,15 @@
         <ul>
             <li>
                 <strong>Name: </strong>
-                <p th:text="${USERNAME}"></p>
+                <p th:assert="${USERNAME} != null" th:text="${USERNAME}"></p>
             </li>
             <li>
                 <strong>Email: </strong>
-                <p class="inline" th:text="${EMAIL}"></p>
+                <p th:assert="${EMAIL} != null" class="inline" th:text="${EMAIL}"></p>
             </li>
             <li>
                 <strong>Joined: </strong>
-                <p th:text="${JOINED_TIME}"></p>
+                <p th:assert="${JOINED_TIME} != null" th:text="${JOINED_TIME}"></p>
 
             </li>
         </ul>

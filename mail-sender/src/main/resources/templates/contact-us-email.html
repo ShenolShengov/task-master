@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New User Registration Notification</title>
+</head>
+<body>
+<div>
+    <div th:assert="${EMAIL} != null" th:text="${'User email: ' + EMAIL}"></div>
+    <div th:assert="${TITLE} != null" th:text="${'User email title: ' + TITLE}"></div>
+    <div>User message: </div>
+    <div th:assert="${MESSAGE} != null" th:text="${MESSAGE}"></div>
+</div>
+</body>
+</html>

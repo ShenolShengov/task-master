@@ -1,4 +1,4 @@
-package bg.sofuni.mailsender.dto;
+package bg.softuni.taskmaster.model.enums;
 
 public enum EmailParam {
 
