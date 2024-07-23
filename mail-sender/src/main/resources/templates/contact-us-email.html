@@ -9,8 +9,11 @@
 <div>
     <div th:assert="${EMAIL} != null" th:text="${'User email: ' + EMAIL}"></div>
     <div th:assert="${TITLE} != null" th:text="${'User email title: ' + TITLE}"></div>
-    <div>User message: </div>
+    <div>User message:</div>
     <div th:assert="${MESSAGE} != null" th:text="${MESSAGE}"></div>
+</div>
+<div>
+    <p>&copy; 2024 TaskMaster. All rights reserved.</p>
 </div>
 </body>
 </html>

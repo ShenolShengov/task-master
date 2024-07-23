@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Question Has Been Answered</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 10px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .content {
+            margin: 20px 0;
+        }
+
+        .footer {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 12px;
+            color: #777777;
+        }
+
+        .question, .answer {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .meta {
+            font-size: 14px;
+            color: #555555;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Your Question Has Been Answered</h1>
+    </div>
+    <div>
+        <p th:assert="${USERNAME != null}" th:text="${'Dear, ' + USERNAME}">Dear ,</p>
+        <p>Your question has received a new answer!</p>
+        <div>
+            <strong th:assert="${QUESTION_NAME != null}"
+                    th:text="${'Question name: ' + QUESTION_NAME}">Question name:</strong>
+            <br>
+        </div>
+        <div>
+            <strong th:assert="${ANSWER_USERNAME != null}"
+                    th:text="${'Answer from: ' + ANSWER_USERNAME}">Answer from: </strong>
+        </div>
+        <div>
+            <p>You can view answer on the site. </p>
+        </div>
+        <div>
+            <p>
+                Link to question: <a th:assert="${QUESTION_LINK != null}" th:href="${QUESTION_LINK}"></a>
+            </p>
+        </div>
+        <p>If you have any further questions or need additional help, feel free to reach out to our support team.</p>
+        <p>Best regards,<br>The TaskMaster Team</p>
+    </div>
+    <div>
+        <p>&copy; 2024 TaskMaster. All rights reserved.</p>
+        <!--        <p>If you have any questions, please contact us at <a href="mailto:support@yourcompany.com">support@yourcompany.com</a>.</p>-->
+    </div>
+</div>
+</body>
+</html>
+<!--todo can show answer on this template. For naw only notice-->
