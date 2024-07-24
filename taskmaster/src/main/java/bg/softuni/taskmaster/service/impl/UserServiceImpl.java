@@ -47,4 +47,9 @@ public class UserServiceImpl implements UserService {
         }
         return userRepository.findAllBySearchQuery(searchQuery, pageable).map(this::toInfo);
     }
+
+    @Override
+    public boolean exists(Long id) {
+        return userRepository.existsById(id);
+    }
 }

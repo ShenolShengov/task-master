@@ -1,8 +1,11 @@
 package bg.softuni.taskmaster.web.controller;
 
+import bg.softuni.taskmaster.events.AccountDeletionEvent;
+import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.service.UserHelperService;
 import bg.softuni.taskmaster.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -26,6 +29,7 @@ public class UserController {
 
     private final UserService userService;
     private final UserHelperService userHelperService;
+    private final ApplicationEventPublisher publisher;
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
@@ -48,8 +52,10 @@ public class UserController {
 
     @DeleteMapping("/close-account")
     public String closeAccount() {
-        userService.delete(userHelperService.getLoggedUser().getId());
+        User loggedUser = userHelperService.getLoggedUser();
+        userService.delete(loggedUser.getId());
         SecurityContextHolder.getContext().setAuthentication(null);//todo ask for this
+        publisher.publishEvent(new AccountDeletionEvent(this, loggedUser.getUsername(), loggedUser.getEmail()));
         return "redirect:/";
     }
 }
