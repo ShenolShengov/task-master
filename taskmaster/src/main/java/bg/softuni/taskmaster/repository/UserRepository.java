@@ -22,4 +22,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
            "CAST(u.age as string ) = :searchQuery")
     Page<User> findAllBySearchQuery(String searchQuery,
                                     Pageable pageable);
+
+
+    @Query("SELECT COUNT(u) FROM User u WHERE SIZE(u.roles) = 2")
+    Long countAdminUsers();
+
+    //todo think about add collection of user in Role entity
+
+    @Query("SELECT COUNT(u) FROM User u WHERE SIZE(u.roles) = 1")
+    Long countRegularUser();
 }

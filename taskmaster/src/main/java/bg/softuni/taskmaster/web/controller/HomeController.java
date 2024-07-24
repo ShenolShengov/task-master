@@ -1,6 +1,7 @@
 package bg.softuni.taskmaster.web.controller;
 
 import bg.softuni.taskmaster.service.QuestionService;
+import bg.softuni.taskmaster.service.StatisticsService;
 import bg.softuni.taskmaster.service.TaskService;
 import bg.softuni.taskmaster.service.UserHelperService;
 import bg.softuni.taskmaster.utils.SortingUtils;
@@ -29,6 +30,7 @@ public class HomeController {
     private final TaskService taskService;
     private final QuestionService questionService;
     private final UserHelperService userHelperService;
+    private final StatisticsService statisticsService;
 
     @GetMapping("/")
     @PreAuthorize("hasRole('Admin')")
@@ -69,7 +71,8 @@ public class HomeController {
     }
 
     @GetMapping("/statistics")
-    public String statisticsView() {
+    public String statisticsView(Model model) {
+        model.addAttribute("statisticsData", statisticsService.getStatistics());
         return "statistics";
     }
 

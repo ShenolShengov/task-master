@@ -1,10 +1,13 @@
 google.charts.load("current", {packages: ["corechart"]});
 google.charts.setOnLoadCallback(drawUserChart);
+
 function drawUserChart() {
+    const adminUserCount = Number(document.getElementById('admin-users-count').textContent);
+    const regularUserCount = Number(document.getElementById('regular-users-count').textContent);
     var data = google.visualization.arrayToDataTable([
         ['Users', 'Users Count'],
-        ['Regular', 57],
-        ['Admin', 33],
+        ['Regular', regularUserCount],
+        ['Admin', adminUserCount],
     ]);
 
     var options = {
@@ -19,15 +22,18 @@ function drawUserChart() {
 
 google.charts.load("current", {packages: ["corechart"]});
 google.charts.setOnLoadCallback(drawTaskChart);
+
 function drawTaskChart() {
+    const taskCount = Number(document.getElementById('tasks-count').textContent);
+    const questionsCount = Number(document.getElementById('questions-count').textContent);
     var data = google.visualization.arrayToDataTable([
-        ['Tasks', 'Tasks Count'],
-        ['Personal', 57],
-        ['Open', 33],
+        ['Tasks and questions', 'Count'],
+        ['Tasks', taskCount],
+        ['Questions', questionsCount],
     ]);
 
     var options = {
-        title: 'Task Type',
+        title: 'Ratio between tasks and questions',
         pieHole: 0.4,
 
     };
@@ -36,7 +42,7 @@ function drawTaskChart() {
     chart.draw(data, options);
 }
 
-$(window).resize(function(){
+$(window).resize(function () {
     drawUserChart();
     drawTaskChart();
 });
