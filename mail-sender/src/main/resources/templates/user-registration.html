@@ -9,8 +9,7 @@
 <body>
 <div>
     <div class="p-6">
-        <h1 th:assert="${USERNAME} != null" th:text="${'Hi ' + USERNAME}"
-            class="text-xl font-semibold text-gray-800">Hi [User's First Name],</h1>
+        <h1 th:assert="${USERNAME} != null" th:text="${'Hi ' + USERNAME}">Hi [User's First Name],</h1>
         <p>Welcome to <strong>TaskMaster</strong>! We’re excited to have you.</p>
         <p>TaskMaster offers a wide range of features to help you manage your tasks efficiently and connect with others.
             Whether you're looking to save tasks for better organization or ask questions on our forum for community
@@ -20,7 +19,7 @@
         <p>We're committed to providing you with the best experience possible. If you ever need assistance or have any
             questions, our team is here to support you.</p>
         <p>Thank you for joining us! We look forward to helping you stay organized and connected.</p>
-        <div class="text-center mt-6">
+        <div>
             <a href="http://localhost:8080">Get Started</a>
         </div>
     </div>

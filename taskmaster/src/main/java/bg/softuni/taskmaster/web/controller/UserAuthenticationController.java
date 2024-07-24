@@ -1,5 +1,6 @@
 package bg.softuni.taskmaster.web.controller;
 
+import bg.softuni.taskmaster.events.RegistrationAlterEvent;
 import bg.softuni.taskmaster.events.RegistrationEvent;
 import bg.softuni.taskmaster.model.dto.UserRegisterDTO;
 import bg.softuni.taskmaster.service.AuthenticationService;
@@ -44,6 +45,8 @@ public class UserAuthenticationController {
         }
         authenticationService.register(userRegisterDTO);
         publisher.publishEvent(new RegistrationEvent(this, userRegisterDTO.getUsername(),
+                userRegisterDTO.getEmail()));
+        publisher.publishEvent(new RegistrationAlterEvent(this, userRegisterDTO.getUsername(),
                 userRegisterDTO.getEmail()));
         return "redirect:/users/login";
     }
