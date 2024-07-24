@@ -6,7 +6,7 @@ import org.springframework.context.ApplicationEvent;
 @Getter
 public class AccountDeletionEvent extends ApplicationEvent {
 
-    public final String username;
+    private final String username;
     private final String email;
 
     public AccountDeletionEvent(Object source, String username, String email) {

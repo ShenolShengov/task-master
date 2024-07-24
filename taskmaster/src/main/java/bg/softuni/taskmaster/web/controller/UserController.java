@@ -4,6 +4,7 @@ import bg.softuni.taskmaster.events.AccountDeletionEvent;
 import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.service.UserHelperService;
 import bg.softuni.taskmaster.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Pageable;
@@ -51,10 +52,10 @@ public class UserController {
     }
 
     @DeleteMapping("/close-account")
-    public String closeAccount() {
+    public String closeAccount(HttpServletRequest request) {
         User loggedUser = userHelperService.getLoggedUser();
         userService.delete(loggedUser.getId());
-        SecurityContextHolder.getContext().setAuthentication(null);//todo ask for this
+        request.getSession().invalidate();
         publisher.publishEvent(new AccountDeletionEvent(this, loggedUser.getUsername(), loggedUser.getEmail()));
         return "redirect:/";
     }
