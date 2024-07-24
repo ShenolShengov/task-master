@@ -33,7 +33,6 @@ public class HomeController {
     private final StatisticsService statisticsService;
 
     @GetMapping("/")
-    @PreAuthorize("hasRole('Admin')")
     public String indexView(Model model,
                             @RequestParam(name = "task_due_date", required = false) LocalDate taskDueDate,
                             @RequestParam(name = "task_sort", defaultValue = ",asc") String taskSort,
@@ -71,12 +70,14 @@ public class HomeController {
     }
 
     @GetMapping("/statistics")
+    @PreAuthorize("hasRole('ADMIN')")
     public String statisticsView(Model model) {
         model.addAttribute("statisticsData", statisticsService.getStatistics());
         return "statistics";
     }
 
     @GetMapping("/email-history")
+    @PreAuthorize("hasRole('ADMIN')")
     public String emailHistoryView(Model model) {
         model.addAttribute("founded",
                 new PageImpl<>(List.of(), PageRequest.of(0, 5), 0));

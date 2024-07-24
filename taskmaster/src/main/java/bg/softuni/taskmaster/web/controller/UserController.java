@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +28,7 @@ public class UserController {
     private final UserHelperService userHelperService;
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public String getAll(Model model,
                          @RequestParam(required = false) Integer ignoredPage,
                          @RequestParam(required = false, defaultValue = ",asc")

@@ -12,4 +12,6 @@ public class GlobalExceptionHandler {
     public String returnToHome() {
         return ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString();
     }
+
+
 }

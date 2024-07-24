@@ -7,6 +7,7 @@ import bg.softuni.taskmaster.repository.TaskRepository;
 import bg.softuni.taskmaster.repository.UserRepository;
 import bg.softuni.taskmaster.service.StatisticsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,6 +20,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     private final AnswerRepository answerRepository;
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public StatisticsDTO getStatistics() {
         StatisticsDTO statisticsDTO = new StatisticsDTO();
         statisticsDTO.setUsersCount(userRepository.count());

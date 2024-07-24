@@ -34,7 +34,7 @@
         <li><a th:href="@{/contacts}"
                th:text="#{nav_contacts}"
                class="text-base font-medium hover:text-primary-700">Contacts</a></li>
-        <li sec:authorize="hasRole('ROLE_USER')"
+        <li sec:authorize="hasRole('USER')"
             class="group text-base font-medium relative block">
             <p th:text="#{nav_admin}">Admin</p>
             <ul th:classappend="${#locale.toString().equals('en_US')} ? 'left-[-38%]' : 'left-[-18%]'"
