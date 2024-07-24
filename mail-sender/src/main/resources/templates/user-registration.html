@@ -8,9 +8,6 @@
 </head>
 <body>
 <div>
-    <div>
-        <h1>Welcome to TaskMaster!</h1>
-    </div>
     <div class="p-6">
         <h1 th:assert="${USERNAME} != null" th:text="${'Hi ' + USERNAME}"
             class="text-xl font-semibold text-gray-800">Hi [User's First Name],</h1>
@@ -24,7 +21,7 @@
             questions, our team is here to support you.</p>
         <p>Thank you for joining us! We look forward to helping you stay organized and connected.</p>
         <div class="text-center mt-6">
-            <a href="#">Get Started</a>
+            <a href="http://localhost:8080">Get Started</a>
         </div>
     </div>
     <div>

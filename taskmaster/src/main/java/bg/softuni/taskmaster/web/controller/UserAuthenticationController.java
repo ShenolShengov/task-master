@@ -1,9 +1,11 @@
 package bg.softuni.taskmaster.web.controller;
 
+import bg.softuni.taskmaster.events.RegistrationEvent;
 import bg.softuni.taskmaster.model.dto.UserRegisterDTO;
 import bg.softuni.taskmaster.service.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +23,7 @@ import java.io.IOException;
 public class UserAuthenticationController {
 
     private final AuthenticationService authenticationService;
+    private final ApplicationEventPublisher publisher;
 
     @GetMapping("/register")
     public String registerView(Model model) {
@@ -40,6 +43,8 @@ public class UserAuthenticationController {
             return "redirect:/users/register";
         }
         authenticationService.register(userRegisterDTO);
+        publisher.publishEvent(new RegistrationEvent(this, userRegisterDTO.getUsername(),
+                userRegisterDTO.getEmail()));
         return "redirect:/users/login";
     }
 

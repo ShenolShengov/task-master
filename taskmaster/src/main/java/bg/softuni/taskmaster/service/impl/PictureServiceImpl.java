@@ -19,7 +19,7 @@ public class PictureServiceImpl implements PictureService {
 
     @Override
     public Picture createPictureOrGetDefault(MultipartFile pictureFile, String folder) throws IOException {
-        if (pictureFile == null) {
+        if (pictureFile.isEmpty()) {
             return getDefultProfilePicture();
         }
         String publicId = cloudinaryService.uploadPicture(pictureFile, folder);

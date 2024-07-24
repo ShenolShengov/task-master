@@ -16,7 +16,8 @@ public class UserHelperServiceImpl implements UserHelperService {
 
     @Override
     public boolean isAuthenticated() {
-        return haseRole("USER");
+        return getAuthentication().getAuthorities()
+                .stream().anyMatch(e -> e.getAuthority().equals("ROLE_USER"));
     }
 
     @Override

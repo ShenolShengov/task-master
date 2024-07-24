@@ -9,6 +9,10 @@
         p {
             display: inline;
         }
+
+        li {
+            margin-bottom: 1em;
+        }
     </style>
 </head>
 <body>
@@ -29,16 +33,16 @@
                 <p th:assert="${EMAIL} != null" class="inline" th:text="${EMAIL}"></p>
             </li>
             <li>
-                <strong>Joined: </strong>
+                <strong>Joined on: </strong>
                 <p th:assert="${JOINED_TIME} != null" th:text="${JOINED_TIME}"></p>
 
             </li>
         </ul>
-        <p class="mt-4 text-gray-600">Please review and manage their account as necessary.</p>
-        <p class="mt-4 text-gray-600">Thank you!</p>
+        <p>Please review and manage their account as necessary.</p>
+        <p>Thank you!</p>
     </div>
-    <div class="bg-gray-100 text-gray-600 text-center py-4 text-sm">
-        <p>Best regards,<br>TaskMaster Admin Team</p>
+    <div>
+        <p>Best regards,<br>TaskMaster Team</p>
     </div>
     <div>
         <p>&copy; 2024 TaskMaster. All rights reserved.</p>

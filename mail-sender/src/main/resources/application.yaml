@@ -26,9 +26,6 @@ spring:
           outh: true
           starttls:
             enable: true
-mail:
-  api:
-    from: ${mail}
 
 server:
   port: 8081
