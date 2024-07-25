@@ -10,8 +10,7 @@ import org.springframework.stereotype.Service;
 import static bg.softuni.taskmaster.model.enums.EmailParam.EMAIL;
 import static bg.softuni.taskmaster.model.enums.EmailParam.MESSAGE;
 import static bg.softuni.taskmaster.model.enums.EmailTemplate.CONTACT_US;
-import static bg.softuni.taskmaster.utils.EmailUtils.APP_MAIL;
-import static bg.softuni.taskmaster.utils.EmailUtils.toParams;
+import static bg.softuni.taskmaster.utils.EmailUtils.*;
 
 @Service
 @RequiredArgsConstructor
@@ -21,9 +20,12 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public void contactUs(ContactUsDTO contactUsDTO) {
-        //todo extract subject in EmailUtils
-        Payload payload = emailService.createPayload(APP_MAIL, APP_MAIL, "[Contact us] - " + contactUsDTO.getTitle()
+        Payload payload = emailService.createPayload(APP_MAIL, APP_MAIL, getSubject(contactUsDTO.getTitle())
                 , CONTACT_US, toParams(EMAIL, contactUsDTO.getEmail(), MESSAGE, contactUsDTO.getMessage()));
         emailService.send(payload);
+    }
+
+    private static String getSubject(String title) {
+        return String.format(CONTACT_US_SUBJECT, title);
     }
 }
