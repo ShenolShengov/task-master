@@ -1,10 +1,9 @@
 package bg.softuni.taskmaster.web.controller;
 
-import bg.softuni.taskmaster.events.ContactUsEvent;
 import bg.softuni.taskmaster.model.dto.ContactUsDTO;
+import bg.softuni.taskmaster.service.ContactService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,7 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 public class ContactController {
 
-    private final ApplicationEventPublisher eventPublisher;
+    private final ContactService contactService;
 
     @GetMapping
     public String contactsView(Model model) {
@@ -37,8 +36,7 @@ public class ContactController {
             rAtt.addFlashAttribute("invalidData", true);
             return "redirect:/contacts";
         }
-        eventPublisher.publishEvent(new ContactUsEvent(this, contactUsDTO.getTitle(),
-                contactUsDTO.getMessage(), contactUsDTO.getEmail()));
+        contactService.contactUs(contactUsDTO);
         rAtt.addFlashAttribute("mailSent", true);
         return "redirect:/";
     }

@@ -15,6 +15,8 @@ public class EmailUtils {
     public static final String REGISTRATION_SUBJECT = "Welcome to " + APP_NAME + ", %s!";
     public static final String REGISTRATION_ALTER_SUBJECT = "[Alter] - New registration";
     public static final String ACCOUNT_DELETION_SUBJECT = "Account Deletion: %s";
+    public static final String CHANGE_PASSWORD_SUBJECT = "Your Password Has Been Successfully Changed";
+    public static final String ANSWER_TO_QUESTION_SUBJECT = "New answer to question - %s";
 
     public static EnumMap<EmailParam, String> toParams(Object... params) {
         return IntStream.iterate(0, e -> e + 1 < params.length, e -> e + 2)

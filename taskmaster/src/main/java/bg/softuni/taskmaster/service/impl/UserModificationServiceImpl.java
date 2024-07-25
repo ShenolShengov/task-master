@@ -1,5 +1,6 @@
 package bg.softuni.taskmaster.service.impl;
 
+import bg.softuni.taskmaster.events.ChangePasswordEvent;
 import bg.softuni.taskmaster.model.dto.UserChangePasswordDTO;
 import bg.softuni.taskmaster.model.dto.UserEditDTO;
 import bg.softuni.taskmaster.model.entity.Picture;
@@ -9,8 +10,8 @@ import bg.softuni.taskmaster.service.PictureService;
 import bg.softuni.taskmaster.service.UserHelperService;
 import bg.softuni.taskmaster.service.UserModificationService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class UserModificationServiceImpl implements UserModificationService {
     private final PasswordEncoder passwordEncoder;
     private final UserHelperService userHelperService;
     private final PictureService pictureService;
-    private final ModelMapper modelMapper;
+    private final ApplicationEventPublisher publisher;
 
     @Override
     public void edit(UserEditDTO userEditDTO) throws IOException {
@@ -41,11 +42,15 @@ public class UserModificationServiceImpl implements UserModificationService {
         User user = userHelperService.getLoggedUser();
         user.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
         userRepository.save(user);
+        publisher.publishEvent(new ChangePasswordEvent(this, user.getUsername(), user.getEmail()));
     }
 
     @Override
     public UserEditDTO getCurrentUserEditData() {
-        return modelMapper.map(userHelperService.getLoggedUser(), UserEditDTO.class);
+        UserEditDTO userEditDTO = new UserEditDTO();
+        User loggedUser = userHelperService.getLoggedUser();
+        BeanUtils.copyProperties(loggedUser, userEditDTO);
+        return userEditDTO;
     }
 
     private void changeProfilePicture(UserEditDTO userEditDTO, User user) throws IOException {

@@ -30,7 +30,6 @@ public class UserController {
 
     private final UserService userService;
     private final UserHelperService userHelperService;
-    private final ApplicationEventPublisher publisher;
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
@@ -53,10 +52,8 @@ public class UserController {
 
     @DeleteMapping("/close-account")
     public String closeAccount(HttpServletRequest request) {
-        User loggedUser = userHelperService.getLoggedUser();
-        userService.delete(loggedUser.getId());
+        userService.delete(userHelperService.getLoggedUser().getId());
         request.getSession().invalidate();
-        publisher.publishEvent(new AccountDeletionEvent(this, loggedUser.getUsername(), loggedUser.getEmail()));
         return "redirect:/";
     }
 }

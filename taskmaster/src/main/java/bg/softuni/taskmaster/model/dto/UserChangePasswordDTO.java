@@ -1,7 +1,7 @@
 package bg.softuni.taskmaster.model.dto;
 
-import bg.softuni.taskmaster.validation.matchloggeduserpassword.MatchLoggedUserPassword;
 import bg.softuni.taskmaster.validation.matchfield.MatchPasswords;
+import bg.softuni.taskmaster.validation.matchloggeduserpassword.MatchLoggedUserPassword;
 import bg.softuni.taskmaster.validation.notmatchloggeduserpassword.NotMatchLoggedUserPassword;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

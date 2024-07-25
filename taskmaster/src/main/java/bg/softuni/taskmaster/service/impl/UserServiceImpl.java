@@ -1,5 +1,7 @@
 package bg.softuni.taskmaster.service.impl;
 
+import bg.softuni.taskmaster.events.AccountDeletionEvent;
+import bg.softuni.taskmaster.exceptions.UserNotFoundException;
 import bg.softuni.taskmaster.model.dto.UserInfoDTO;
 import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.repository.UserRepository;
@@ -8,6 +10,7 @@ import bg.softuni.taskmaster.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,6 +24,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final UserHelperService userHelperService;
+    private final ApplicationEventPublisher publisher;
 
     @Override
     public UserInfoDTO getInfo(Long id) {
@@ -36,7 +40,10 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void delete(Long id) {
-        userRepository.deleteById(id);
+        User user = userRepository.findById(id)
+                .orElseThrow(UserNotFoundException::new);
+        userRepository.delete(user);
+        publisher.publishEvent(new AccountDeletionEvent(this, user.getUsername(), user.getEmail()));
     }
 
 
