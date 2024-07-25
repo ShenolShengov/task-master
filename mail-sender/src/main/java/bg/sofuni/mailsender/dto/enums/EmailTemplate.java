@@ -1,4 +1,4 @@
-package bg.sofuni.mailsender.dto;
+package bg.sofuni.mailsender.dto.enums;
 
 import lombok.Getter;
 

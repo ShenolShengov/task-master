@@ -1,17 +1,14 @@
 package bg.softuni.taskmaster.web.controller;
 
-import bg.softuni.taskmaster.service.QuestionService;
-import bg.softuni.taskmaster.service.StatisticsService;
-import bg.softuni.taskmaster.service.TaskService;
-import bg.softuni.taskmaster.service.UserHelperService;
+import bg.softuni.taskmaster.model.dto.MailHistoryInfoDTO;
+import bg.softuni.taskmaster.service.*;
 import bg.softuni.taskmaster.utils.SortingUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import static bg.softuni.taskmaster.utils.SortingUtils.checkForDefaultSorting;
 
@@ -31,6 +27,7 @@ public class HomeController {
     private final QuestionService questionService;
     private final UserHelperService userHelperService;
     private final StatisticsService statisticsService;
+    private final EmailService emailService;
 
     @GetMapping("/")
     public String indexView(Model model,
@@ -78,9 +75,15 @@ public class HomeController {
 
     @GetMapping("/email-history")
     @PreAuthorize("hasRole('ADMIN')")
-    public String emailHistoryView(Model model) {
-        model.addAttribute("founded",
-                new PageImpl<>(List.of(), PageRequest.of(0, 5), 0));
+    public String emailHistoryView(Model model,
+                                   @RequestParam(required = false) Integer ignoredPage,
+                                   @RequestParam(required = false, defaultValue = "asc")
+                                   String sort,
+                                   @PageableDefault(sort = "date", direction = Sort.Direction.DESC)
+                                   Pageable pageable) {
+        PagedModel<MailHistoryInfoDTO> history = emailService.history(pageable);
+        model.addAttribute("history", history);
+        model.addAttribute("sortDirection", sort);
         return "mail-history";
     }
 
