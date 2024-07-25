@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -14,7 +14,7 @@ public class TaskInfoDTO implements Serializable {
     private String name;
     private String category;
     private String priority;
-    private LocalDateTime dueDate;
+    private LocalDate dueDate;
     private String description;
     private String startTime;
     private String endTime;

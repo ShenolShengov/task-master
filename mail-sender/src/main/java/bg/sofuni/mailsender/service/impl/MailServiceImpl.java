@@ -1,8 +1,8 @@
 package bg.sofuni.mailsender.service.impl;
 
+import bg.sofuni.mailsender.dto.Payload;
 import bg.sofuni.mailsender.dto.enums.EmailParam;
 import bg.sofuni.mailsender.dto.enums.EmailTemplate;
-import bg.sofuni.mailsender.dto.Payload;
 import bg.sofuni.mailsender.enity.MailHistory;
 import bg.sofuni.mailsender.repository.MailHistoryRepository;
 import bg.sofuni.mailsender.service.MailService;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.EnumMap;
 
 @Service
@@ -33,7 +33,7 @@ public class MailServiceImpl implements MailService {
         MimeMessage mimeMessage = getMimeMessage(payload);
         mailSender.send(mimeMessage);
         MailHistory mailHistory = modelMapper.map(payload, MailHistory.class);
-        mailHistory.setDate(LocalDateTime.now());
+        mailHistory.setDate(Instant.now());
         mailHistoryRepository.save(mailHistory);
     }
 

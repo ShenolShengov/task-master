@@ -7,7 +7,7 @@
     <div class="">
         <div class="flex justify-between items-center mb-6">
             <span class="text-lg text-gray-600">Emails sent today: <strong>5</strong></span>
-            <h1 class="text-3xl font-bold text-center flex-grow">Email History</h1>
+            <h1 class="text-3xl font-bold text-center flex-grow">Mail History</h1>
             <div class="text-right flex items-center space-x-4">
                 <select class="text-sm p-2 border rounded-lg">
                     <option>Today</option>
@@ -17,8 +17,8 @@
                 </select>
                 <select onchange="sort('date', this.value)"
                         class="px-4 py-2 pr-8 rounded-lg text-black  focus:outline-none focus:ring focus:ring-primary">
-                    <option th:selected="${sortDirection.equals('asc')}" value="asc">Newest First</option>
-                    <option th:selected="${sortDirection.equals('desc')}" value="desc">Oldest First</option>
+                    <option th:selected="${sortDirection.equals('desc')}" value="desc">Newest First</option>
+                    <option th:selected="${sortDirection.equals('asc')}" value="asc">Oldest First</option>
                 </select>
             </div>
         </div>
@@ -34,76 +34,30 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="mailHistory : ${history.getContent()}" th:object="${mailHistory}">
-                <td th:text="*{template}" class="px-5 py-5 border-b border-gray-200  bg-white text-sm truncate">Welcome to our
+            <tr th:each="mailHistory : ${history}" th:object="${mailHistory}">
+                <td th:text="*{template}" class="px-5 py-5 border-b border-gray-200  bg-white text-sm truncate">Welcome
+                    to our
                     service
                 </td>
-                <td th:text="*{date}" class="px-5 py-5 border-b border-gray-200  bg-white text-sm whitespace-nowrap">2024-07-16 14:30</td>
-                <td th:text="*{from}" class="px-5 py-5 border-b border-gray-200  bg-white text-sm">admin@example.com</td>
+                <td th:text="*{#temporals.format(date, 'dd-MM-yyyy  kk:mm')}"
+                    class="px-5 py-5 border-b border-gray-200  bg-white text-sm whitespace-nowrap">
+                    2024-07-16 14:30
+                </td>
+                <td th:text="*{from}" class="px-5 py-5 border-b border-gray-200  bg-white text-sm">admin@example.com
+                </td>
                 <td th:text="*{to}" class="px-5 py-5 border-b border-gray-200  bg-white text-sm">user@example.com</td>
 
             </tr>
-            <tr>
-                <td class="px-5 py-5 border-b border-gray-200  bg-white text-sm truncate">Welcome to our
-                    service
-                </td>
-                <td class="px-5 py-5 border-b border-gray-200  bg-white text-sm whitespace-nowrap">2024-07-16 14:30</td>
-                <td class="px-5 py-5 border-b border-gray-200  bg-white text-sm">admin@example.com</td>
-                <td class="px-5 py-5 border-b border-gray-200  bg-white text-sm">user@example.com</td>
-
-            </tr>
-            <tr>
-                <td class="px-5 py-5 border-b border-gray-200  bg-white text-sm truncate">Welcome to our
-                    service
-                </td>
-                <td class="px-5 py-5 border-b border-gray-200  bg-white text-sm whitespace-nowrap">2024-07-16 14:30</td>
-                <td class="px-5 py-5 border-b border-gray-200  bg-white text-sm">admin@example.com</td>
-                <td class="px-5 py-5 border-b border-gray-200  bg-white text-sm">user@example.com</td>
-
-            </tr>
-            <tr>
-                <td class="px-5 py-5 border-b border-gray-200  bg-white text-sm truncate">Welcome to our
-                    service
-                </td>
-                <td class="px-5 py-5 border-b border-gray-200  bg-white text-sm whitespace-nowrap">2024-07-16 14:30</td>
-                <td class="px-5 py-5 border-b border-gray-200  bg-white text-sm">admin@example.com</td>
-                <td class="px-5 py-5 border-b border-gray-200  bg-white text-sm">user@example.com</td>
-
-            </tr>
-            <tr>
-                <td class="px-5 py-5 border-b border-gray-200  bg-white text-sm truncate">Welcome to our
-                    service
-                </td>
-                <td class="px-5 py-5 border-b border-gray-200  bg-white text-sm whitespace-nowrap">2024-07-16 14:30</td>
-                <td class="px-5 py-5 border-b border-gray-200  bg-white text-sm">admin@example.com</td>
-                <td class="px-5 py-5 border-b border-gray-200  bg-white text-sm">user@example.com</td>
-
-            </tr>
-            <tr>
-                <td class="px-5 py-5 border-b border-gray-200  bg-white text-sm truncate">Welcome to our
-                    service
-                </td>
-                <td class="px-5 py-5 border-b border-gray-200  bg-white text-sm whitespace-nowrap">2024-07-16 14:30</td>
-                <td class="px-5 py-5 border-b border-gray-200  bg-white text-sm">admin@example.com</td>
-                <td class="px-5 py-5 border-b border-gray-200  bg-white text-sm">user@example.com</td>
-
-            </tr>
-            <tr>
-                <td class="px-5 py-5 border-b border-gray-200  bg-white text-sm truncate">Welcome to our
-                    service
-                </td>
-                <td class="px-5 py-5 border-b border-gray-200  bg-white text-sm whitespace-nowrap">2024-07-16 14:30</td>
-                <td class="px-5 py-5 border-b border-gray-200  bg-white text-sm">admin@example.com</td>
-                <td class="px-5 py-5 border-b border-gray-200  bg-white text-sm">user@example.com</td>
-
-            </tr>
-
             </tbody>
         </table>
         <div class="flex justify-end items-center gap-4 mt-6">
             <button class="bg-red-500 mr-auto text-white px-4 py-2 rounded-lg hover:bg-red-600">Clear History</button>
-            <button class="text-sm p-2 border rounded-lg bg-gray-200 hover:bg-gray-300">Previous</button>
-            <button class="text-sm p-2 border rounded-lg bg-gray-200 hover:bg-gray-300">Next</button>
+            <button onclick="prevPage()" th:if="${!history.isFirst()}"
+                    class="text-sm p-2 border rounded-lg bg-gray-200 hover:bg-gray-300">Previous
+            </button>
+            <button onclick="nextPage()" th:if="${!history.isLast()}"
+                    class="text-sm p-2 border rounded-lg bg-gray-200 hover:bg-gray-300">Next
+            </button>
         </div>
     </div>
 </div>

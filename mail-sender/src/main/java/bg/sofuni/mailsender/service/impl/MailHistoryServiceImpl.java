@@ -5,7 +5,6 @@ import bg.sofuni.mailsender.repository.MailHistoryRepository;
 import bg.sofuni.mailsender.service.MailHistoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +16,6 @@ public class MailHistoryServiceImpl implements MailHistoryService {
 
     @Override
     public Page<MailHistory> history(Pageable pageable) {
-        return mailHistoryRepository.findAll(PageRequest.of(0, 20));
+        return mailHistoryRepository.findAll(pageable);
     }
 }

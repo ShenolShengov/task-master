@@ -1,11 +1,13 @@
 package bg.softuni.taskmaster.model.entity;
 
-import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "answers")
@@ -20,7 +22,7 @@ public class Answer extends BaseEntity {
     private String code;
 
     @Column(nullable = false)
-    private LocalDateTime createdTime;
+    private Instant createdTime;
 
     @ManyToOne(optional = false)
     private User user;
@@ -29,6 +31,6 @@ public class Answer extends BaseEntity {
     private Question question;
 
     public Answer() {
-        this.createdTime = LocalDateTime.now();
+        this.createdTime = Instant.now();
     }
 }

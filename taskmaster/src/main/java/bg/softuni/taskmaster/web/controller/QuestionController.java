@@ -26,12 +26,12 @@ public class QuestionController {
     @GetMapping
     public String getAll(Model model,
                          @RequestParam(required = false) Integer ignoredPage,
-                         @RequestParam(required = false, defaultValue = "asc")
+                         @RequestParam(required = false, defaultValue = "createdTime,desc")
                          String sort,
                          @RequestParam(name = "search_query", required = false, defaultValue = "") String searchQuery,
-                         @PageableDefault(size = 5, sort = "createdTime", direction = Sort.Direction.ASC)
+                         @PageableDefault(size = 5, sort = "createdTime", direction = Sort.Direction.DESC)
                          Pageable pageable) {
-        model.addAttribute("sortDirection", sort);
+        model.addAttribute("sortDirection", sort.split(",")[1]);
         model.addAttribute("searchQuery", searchQuery);
         model.addAttribute("foundedQuestions",
                 questionService.getAll(searchQuery, pageable.previousOrFirst()));

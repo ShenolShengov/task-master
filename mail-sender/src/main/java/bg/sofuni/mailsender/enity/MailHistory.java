@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "mail_history")
@@ -22,7 +22,7 @@ public class MailHistory {
     private EmailTemplate template;
 
     @Column(nullable = false)
-    private LocalDateTime date;
+    private Instant date;
 
     @Column(nullable = false, name = "`from`")
     private String from;

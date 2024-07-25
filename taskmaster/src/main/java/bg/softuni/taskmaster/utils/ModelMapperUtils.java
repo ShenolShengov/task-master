@@ -11,7 +11,8 @@ import org.modelmapper.spi.ConditionalConverter;
 import org.modelmapper.spi.MappingContext;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -34,16 +35,17 @@ public class ModelMapperUtils {
         return context -> context.getSource().size();
     }
 
-    private static ConditionalConverter<LocalDateTime, String> localDateTimeToStringConverter() {
+    private static ConditionalConverter<Instant, String> localDateTimeToStringConverter() {
         return new ConditionalConverter<>() {
             @Override
             public MatchResult match(Class<?> sourceType, Class<?> destinationType) {
-                return LocalDateTime.class.isAssignableFrom(sourceType) && String.class.isAssignableFrom(destinationType) ? MatchResult.FULL : MatchResult.NONE;
+                return Instant.class.isAssignableFrom(sourceType) && String.class.isAssignableFrom(destinationType) ? MatchResult.FULL : MatchResult.NONE;
             }
 
             @Override
-            public String convert(MappingContext<LocalDateTime, String> context) {
-                return context.getSource().format(DateTimeFormatter.ofPattern("MMM dd, yyyy 'at' kk:mm"));
+            public String convert(MappingContext<Instant, String> context) {
+                return DateTimeFormatter.ofPattern("MMM dd, yyyy 'at' kk:mm").withZone(ZoneId.systemDefault())
+                        .format(context.getSource());
             }
         };
     }

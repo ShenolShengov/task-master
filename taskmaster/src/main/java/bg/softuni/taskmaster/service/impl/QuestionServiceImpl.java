@@ -15,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.stream.Collectors;
@@ -31,7 +30,6 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public long ask(QuestionAskDTO questionAskDTO) {
         Question question = modelMapper.map(questionAskDTO, Question.class);
-        question.setCreatedTime(LocalDateTime.now());
         question.setUser(userHelperService.getLoggedUser());
         return questionRepository.save(question).getId();
     }

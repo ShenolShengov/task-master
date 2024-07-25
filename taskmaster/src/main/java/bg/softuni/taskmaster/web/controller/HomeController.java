@@ -5,10 +5,10 @@ import bg.softuni.taskmaster.service.*;
 import bg.softuni.taskmaster.utils.SortingUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.hateoas.PagedModel;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -73,17 +73,17 @@ public class HomeController {
         return "statistics";
     }
 
-    @GetMapping("/email-history")
+    @GetMapping("/mail-history")
     @PreAuthorize("hasRole('ADMIN')")
     public String emailHistoryView(Model model,
                                    @RequestParam(required = false) Integer ignoredPage,
-                                   @RequestParam(required = false, defaultValue = "asc")
+                                   @RequestParam(required = false, defaultValue = "date,desc")
                                    String sort,
                                    @PageableDefault(sort = "date", direction = Sort.Direction.DESC)
                                    Pageable pageable) {
-        PagedModel<MailHistoryInfoDTO> history = emailService.history(pageable);
+        Page<MailHistoryInfoDTO> history = emailService.history(pageable.previousOrFirst());
         model.addAttribute("history", history);
-        model.addAttribute("sortDirection", sort);
+        model.addAttribute("sortDirection", sort.split(",")[1]);
         return "mail-history";
     }
 
