@@ -27,7 +27,8 @@ public class MailController {
     @GetMapping("/history")
     public ResponseEntity<PagedModel<MailHistory>> mailHistory(@RequestParam(required = false) Integer ignoredPage,
                                                                @RequestParam(required = false) String ignoredSort,
-                                                               @RequestParam(required = false) String filterByDate,
+                                                               @RequestParam(required = false, defaultValue = "today")
+                                                               String filterByDate,
                                                                @PageableDefault(sort = "date", direction = Sort.Direction.DESC)
                                                                Pageable pageable
     ) {
