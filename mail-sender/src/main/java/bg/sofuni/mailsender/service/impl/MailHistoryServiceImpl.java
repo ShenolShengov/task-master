@@ -23,8 +23,9 @@ public class MailHistoryServiceImpl implements MailHistoryService {
 
 
     @Override
-    public Page<MailHistory> history(Pageable pageable) {
-        return mailHistoryRepository.findAll(pageable);
+    public Page<MailHistory> history(Instant filterByDate, Pageable pageable) {
+        if (filterByDate.equals(Instant.MIN)) return mailHistoryRepository.findAll(pageable);
+        return mailHistoryRepository.findAllByDateGreaterThanEqual(filterByDate, pageable);
     }
 
     @Override

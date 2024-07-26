@@ -2,20 +2,25 @@ package bg.softuni.taskmaster.web.controller;
 
 import bg.softuni.taskmaster.model.dto.MailHistoryInfoDTO;
 import bg.softuni.taskmaster.service.*;
+import bg.softuni.taskmaster.utils.InstantUtils;
 import bg.softuni.taskmaster.utils.SortingUtils;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Date;
 
 import static bg.softuni.taskmaster.utils.SortingUtils.checkForDefaultSorting;
 
@@ -79,11 +84,14 @@ public class HomeController {
                                    @RequestParam(required = false) Integer ignoredPage,
                                    @RequestParam(required = false, defaultValue = "date,desc")
                                    String sort,
+                                   @RequestParam(required = false, defaultValue = "today") String filterByDate,
                                    @PageableDefault(sort = "date", direction = Sort.Direction.DESC)
                                    Pageable pageable) {
-        Page<MailHistoryInfoDTO> history = emailService.history(pageable.previousOrFirst());
+
+        Page<MailHistoryInfoDTO> history = emailService.history(InstantUtils.toInstant(filterByDate), pageable.previousOrFirst());
         model.addAttribute("history", history);
         model.addAttribute("sortDirection", sort.split(",")[1]);
+        model.addAttribute("filterByDate", filterByDate);
         return "mail-history";
     }
 

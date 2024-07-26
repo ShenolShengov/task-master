@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
+import java.time.Instant;
 import java.util.EnumMap;
 
 @Service
@@ -38,10 +39,11 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public Page<MailHistoryInfoDTO> history(Pageable pageable) {
+    public Page<MailHistoryInfoDTO> history(Instant filterByDate, Pageable pageable) {
         PageResponseDTO<MailHistoryInfoDTO> pageResponseDTO = restClient.get().uri(u -> u.path("/history")
                         .queryParam("page", pageable.getPageNumber())
                         .queryParam("sort", pageable.getSort().toString().replace(": ", ","))
+                        .queryParam("filterByDate", filterByDate)
                         .build()
                 )
                 .accept(MediaType.APPLICATION_JSON)

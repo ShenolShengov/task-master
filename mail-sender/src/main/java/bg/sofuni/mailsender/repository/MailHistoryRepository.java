@@ -2,6 +2,8 @@ package bg.sofuni.mailsender.repository;
 
 import bg.sofuni.mailsender.enity.MailHistory;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,5 +18,7 @@ public interface MailHistoryRepository extends JpaRepository<MailHistory, Long> 
     @Modifying
     @Query("DELETE FROM MailHistory mh WHERE mh.date < :olderThan")
     void deleteOldHistory(Instant olderThan);
+
+    Page<MailHistory> findAllByDateGreaterThanEqual(Instant date, Pageable pageable);
 
 }
