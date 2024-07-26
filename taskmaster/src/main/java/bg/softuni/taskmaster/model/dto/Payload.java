@@ -4,13 +4,14 @@ import bg.softuni.taskmaster.model.enums.EmailParam;
 import bg.softuni.taskmaster.model.enums.EmailTemplate;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.EnumMap;
 
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
-public class Payload {
+public class Payload implements Serializable {
 
     private String from;
     private String to;

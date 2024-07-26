@@ -1,4 +1,4 @@
-package bg.softuni.taskmaster.validation.validstartandendtime;
+package bg.softuni.taskmaster.validation.properstartandendtime;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

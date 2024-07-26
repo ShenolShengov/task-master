@@ -2,7 +2,7 @@ package bg.softuni.taskmaster.events.listeners;
 
 import bg.softuni.taskmaster.events.RegistrationEvent;
 import bg.softuni.taskmaster.model.dto.Payload;
-import bg.softuni.taskmaster.service.EmailService;
+import bg.softuni.taskmaster.service.MailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -15,13 +15,13 @@ import static bg.softuni.taskmaster.utils.EmailUtils.*;
 @RequiredArgsConstructor
 public class RegistrationListener {
 
-    private final EmailService emailService;
+    private final MailService mailService;
 
     @EventListener
     public void handleRegistration(RegistrationEvent event) {
-        Payload payload = emailService.createPayload(APP_MAIL, event.getEmail(), getSubject(event.getUsername()), USER_REGISTRATION,
+        Payload payload = mailService.createPayload(APP_MAIL, event.getEmail(), getSubject(event.getUsername()), USER_REGISTRATION,
                 toParams(USERNAME, event.getUsername()));
-        emailService.send(payload);
+        mailService.send(payload);
     }
 
     private String getSubject(String username) {

@@ -5,8 +5,6 @@ import bg.softuni.taskmaster.repository.UserRepository;
 import bg.softuni.taskmaster.service.UserHelperService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 

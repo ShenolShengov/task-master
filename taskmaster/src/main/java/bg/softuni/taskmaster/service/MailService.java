@@ -7,15 +7,18 @@ import bg.softuni.taskmaster.model.enums.EmailTemplate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.time.Instant;
 import java.util.EnumMap;
 
-public interface EmailService {
+public interface MailService {
 
     void send(Payload contactUsDTO);
 
     Payload createPayload(String from, String to, String subject, EmailTemplate template,
                           EnumMap<EmailParam, String> params);
 
-    Page<MailHistoryInfoDTO> history(Instant filterByDate, Pageable pageable);
+    Page<MailHistoryInfoDTO> history(String filterByDate, Pageable pageable);
+
+    void deleteHistory();
+
+    boolean hasHistory();
 }

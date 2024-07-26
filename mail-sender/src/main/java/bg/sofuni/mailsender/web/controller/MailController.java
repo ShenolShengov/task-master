@@ -15,8 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
-
 @RestController
 @RequestMapping("/api/")
 @RequiredArgsConstructor
@@ -29,12 +27,16 @@ public class MailController {
     @GetMapping("/history")
     public ResponseEntity<PagedModel<MailHistory>> mailHistory(@RequestParam(required = false) Integer ignoredPage,
                                                                @RequestParam(required = false) String ignoredSort,
-                                                               @RequestParam(required = false) Instant filterByDate,
+                                                               @RequestParam(required = false) String filterByDate,
                                                                @PageableDefault(sort = "date", direction = Sort.Direction.DESC)
                                                                Pageable pageable
     ) {
-        if (filterByDate == null) filterByDate = Instant.MIN;
         return ResponseEntity.ok(new PagedModel<>(mailHistoryService.history(filterByDate, pageable)));
+    }
+
+    @GetMapping("/hasHistory")
+    public ResponseEntity<Boolean> hasHistory() {
+        return ResponseEntity.ok(mailHistoryService.hasHistory());
     }
 
     @PostMapping("/send")
@@ -45,5 +47,12 @@ public class MailController {
         }
         mailService.send(payload);
         return ResponseEntity.ok(payload);
+    }
+
+
+    @DeleteMapping("/history")
+    public ResponseEntity<Void> deleteHistory() {
+        mailHistoryService.deleteHistory();
+        return ResponseEntity.noContent().build();
     }
 }

@@ -9,7 +9,11 @@ import java.util.List;
 
 public interface MailHistoryService {
 
-    Page<MailHistory> history(Instant filterByDate, Pageable pageable);
+    Page<MailHistory> history(String filterByDate, Pageable pageable);
 
     void deleteOldHistory();
+
+    void deleteHistory();
+
+    Boolean hasHistory();
 }

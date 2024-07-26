@@ -1,6 +1,6 @@
 package bg.softuni.taskmaster.model.dto;
 
-import bg.softuni.taskmaster.validation.validstartandendtime.ProperStartAndEndTime;
+import bg.softuni.taskmaster.validation.properstartandendtime.ProperStartAndEndTime;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

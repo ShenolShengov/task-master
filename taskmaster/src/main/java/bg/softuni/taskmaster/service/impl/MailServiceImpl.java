@@ -5,7 +5,7 @@ import bg.softuni.taskmaster.model.dto.PageResponseDTO;
 import bg.softuni.taskmaster.model.dto.Payload;
 import bg.softuni.taskmaster.model.enums.EmailParam;
 import bg.softuni.taskmaster.model.enums.EmailTemplate;
-import bg.softuni.taskmaster.service.EmailService;
+import bg.softuni.taskmaster.service.MailService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
@@ -15,16 +15,15 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
-import java.time.Instant;
 import java.util.EnumMap;
 
 @Service
-public class EmailServiceImpl implements EmailService {
+public class MailServiceImpl implements MailService {
 
 
     private final RestClient restClient;
 
-    public EmailServiceImpl(@Qualifier("mail-rest-client") RestClient restClient) {
+    public MailServiceImpl(@Qualifier("mail-rest-client") RestClient restClient) {
         this.restClient = restClient;
     }
 
@@ -39,7 +38,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public Page<MailHistoryInfoDTO> history(Instant filterByDate, Pageable pageable) {
+    public Page<MailHistoryInfoDTO> history(String filterByDate, Pageable pageable) {
         PageResponseDTO<MailHistoryInfoDTO> pageResponseDTO = restClient.get().uri(u -> u.path("/history")
                         .queryParam("page", pageable.getPageNumber())
                         .queryParam("sort", pageable.getSort().toString().replace(": ", ","))
@@ -51,6 +50,17 @@ public class EmailServiceImpl implements EmailService {
                 .body(new ParameterizedTypeReference<>() {
                 });
         return new PageImpl<>(pageResponseDTO.getContent(), pageable, pageResponseDTO.getPage().totalElements());
+    }
+
+    @Override
+    public void deleteHistory() {
+        restClient.delete().uri("/history").retrieve();
+    }
+
+    @Override
+    public boolean hasHistory() {
+        return Boolean.TRUE.equals(restClient.get().uri("/hasHistory")
+                .retrieve().body(Boolean.class));
     }
 
 }

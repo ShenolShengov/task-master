@@ -1,4 +1,4 @@
-package bg.softuni.taskmaster.validation.validstartandendtime;
+package bg.softuni.taskmaster.validation.properstartandendtime;
 
 import bg.softuni.taskmaster.model.dto.TaskAddEditDTO;
 import jakarta.validation.ConstraintValidator;

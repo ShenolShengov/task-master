@@ -1,10 +1,13 @@
 package bg.softuni.taskmaster.model.dto;
 
-import jakarta.persistence.OrderBy;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter

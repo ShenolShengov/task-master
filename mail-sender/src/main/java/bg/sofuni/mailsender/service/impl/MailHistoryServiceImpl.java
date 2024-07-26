@@ -3,6 +3,7 @@ package bg.sofuni.mailsender.service.impl;
 import bg.sofuni.mailsender.enity.MailHistory;
 import bg.sofuni.mailsender.repository.MailHistoryRepository;
 import bg.sofuni.mailsender.service.MailHistoryService;
+import bg.sofuni.mailsender.utils.InstantUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -23,14 +24,30 @@ public class MailHistoryServiceImpl implements MailHistoryService {
 
 
     @Override
-    public Page<MailHistory> history(Instant filterByDate, Pageable pageable) {
-        if (filterByDate.equals(Instant.MIN)) return mailHistoryRepository.findAll(pageable);
-        return mailHistoryRepository.findAllByDateGreaterThanEqual(filterByDate, pageable);
+    public Page<MailHistory> history(String filterByDate, Pageable pageable) {
+        if (filterByDate.equals("all")) {
+            return mailHistoryRepository.findAll(pageable);
+        }
+        Instant date = InstantUtils.toInstant(filterByDate);
+        if (filterByDate.equals("today") || filterByDate.equals("yesterday")) {
+            return mailHistoryRepository.findAllFor(date, pageable);
+        }
+        return mailHistoryRepository.findAllByDateAfter(date, pageable);
     }
 
     @Override
     public void deleteOldHistory() {
         Instant deleteBefore = Instant.now().minus(retentionPeriod);
         mailHistoryRepository.deleteOldHistory(deleteBefore);
+    }
+
+    @Override
+    public void deleteHistory() {
+        mailHistoryRepository.deleteAll();
+    }
+
+    @Override
+    public Boolean hasHistory() {
+        return mailHistoryRepository.count() > 0;
     }
 }

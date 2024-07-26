@@ -19,6 +19,10 @@ public interface MailHistoryRepository extends JpaRepository<MailHistory, Long> 
     @Query("DELETE FROM MailHistory mh WHERE mh.date < :olderThan")
     void deleteOldHistory(Instant olderThan);
 
-    Page<MailHistory> findAllByDateGreaterThanEqual(Instant date, Pageable pageable);
 
+    @Query("SELECT mh FROM MailHistory mh WHERE DATE(mh.date) >= DATE(:date)")
+    Page<MailHistory> findAllByDateAfter(Instant date, Pageable pageable);
+
+    @Query("SELECT mh FROM MailHistory mh WHERE DATE(mh.date) = DATE(:date)")
+    Page<MailHistory> findAllFor(Instant date, Pageable pageable);
 }
