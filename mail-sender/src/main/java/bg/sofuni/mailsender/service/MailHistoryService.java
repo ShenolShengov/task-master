@@ -9,4 +9,6 @@ import java.util.List;
 public interface MailHistoryService {
 
     Page<MailHistory> history(Pageable pageable);
+
+    void deleteOldHistory();
 }
