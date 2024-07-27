@@ -1,13 +1,14 @@
-package bg.sofuni.emailsender;
+package bg.sofuni.mailsender;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MailSenderApplicationTests {
+class MailSenderApplicationTest {
 
-	@Test
-	void contextLoads() {
-	}
+
+    @Test
+    void contextLoads() {
+    }
 
 }

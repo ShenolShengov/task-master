@@ -1,7 +1,7 @@
 package bg.sofuni.mailsender.web.controller;
 
+import bg.sofuni.mailsender.dto.MailHistoryInfoDTO;
 import bg.sofuni.mailsender.dto.Payload;
-import bg.sofuni.mailsender.enity.MailHistory;
 import bg.sofuni.mailsender.service.MailHistoryService;
 import bg.sofuni.mailsender.service.MailService;
 import bg.sofuni.mailsender.utils.UrlUtils;
@@ -32,12 +32,12 @@ public class MailController {
 
 
     @GetMapping("/history")
-    public ResponseEntity<PagedModel<MailHistory>> mailHistory(@RequestParam(required = false) Integer ignoredPage,
-                                                               @RequestParam(required = false) String ignoredSort,
-                                                               @RequestParam(required = false, defaultValue = "today")
-                                                               String filterByDate,
-                                                               @PageableDefault(sort = "date", direction = Sort.Direction.DESC)
-                                                               Pageable pageable
+    public ResponseEntity<PagedModel<MailHistoryInfoDTO>> mailHistory(@RequestParam(required = false) Integer ignoredPage,
+                                                                      @RequestParam(required = false) String ignoredSort,
+                                                                      @RequestParam(required = false, defaultValue = "today")
+                                                                      String filterByDate,
+                                                                      @PageableDefault(sort = "date", direction = Sort.Direction.DESC)
+                                                                      Pageable pageable
     ) {
         return ResponseEntity.ok(new PagedModel<>(mailHistoryService.history(filterByDate, pageable)));
     }
@@ -62,13 +62,13 @@ public class MailController {
     }
 
     @PostMapping("/send")
-    public ResponseEntity<Payload> send(@RequestBody @Valid Payload payload,
-                                        BindingResult bindingResult) throws MessagingException {
+    public ResponseEntity<Void> send(@RequestBody @Valid Payload payload,
+                                     BindingResult bindingResult) throws MessagingException {
         if (bindingResult.hasErrors()) {
             ResponseEntity.badRequest().build();
         }
         mailService.send(payload);
-        return ResponseEntity.ok(payload);
+        return ResponseEntity.ok().build();
     }
 
 

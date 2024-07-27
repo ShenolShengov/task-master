@@ -1,12 +1,12 @@
 package bg.sofuni.mailsender.service;
 
-import bg.sofuni.mailsender.enity.MailHistory;
+import bg.sofuni.mailsender.dto.MailHistoryInfoDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface MailHistoryService {
 
-    Page<MailHistory> history(String filterByDate, Pageable pageable);
+    Page<MailHistoryInfoDTO> history(String filterByDate, Pageable pageable);
 
     void deleteOldHistory();
 
