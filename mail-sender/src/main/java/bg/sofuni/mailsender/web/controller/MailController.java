@@ -4,16 +4,21 @@ import bg.sofuni.mailsender.dto.Payload;
 import bg.sofuni.mailsender.enity.MailHistory;
 import bg.sofuni.mailsender.service.MailHistoryService;
 import bg.sofuni.mailsender.service.MailService;
+import bg.sofuni.mailsender.web.ErrorInfo;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.query.sqm.PathElementException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/api/")
@@ -50,6 +55,12 @@ public class MailController {
         return ResponseEntity.ok(payload);
     }
 
+    @ExceptionHandler({PathElementException.class, InvalidDataAccessApiUsageException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorInfo returnToHome() {
+        String url = ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString();
+        return new ErrorInfo(url, HttpStatus.BAD_REQUEST, "Invalid sort property");
+    }
 
     @DeleteMapping("/history")
     public ResponseEntity<Void> deleteHistory() {
