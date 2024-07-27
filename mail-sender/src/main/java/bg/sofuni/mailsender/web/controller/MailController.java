@@ -4,6 +4,7 @@ import bg.sofuni.mailsender.dto.Payload;
 import bg.sofuni.mailsender.enity.MailHistory;
 import bg.sofuni.mailsender.service.MailHistoryService;
 import bg.sofuni.mailsender.service.MailService;
+import bg.sofuni.mailsender.utils.UrlUtils;
 import bg.sofuni.mailsender.web.ErrorInfo;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
@@ -19,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.thymeleaf.exceptions.TemplateAssertionException;
 
 @RestController
 @RequestMapping("/api/")
@@ -40,29 +42,38 @@ public class MailController {
         return ResponseEntity.ok(new PagedModel<>(mailHistoryService.history(filterByDate, pageable)));
     }
 
+    @ExceptionHandler({PathElementException.class, InvalidDataAccessApiUsageException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorInfo handleExceptionOnFiltering() {
+        String url = ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString();
+        return new ErrorInfo(url, HttpStatus.BAD_REQUEST, "Invalid sort property");
+    }
+
+
     @GetMapping("/hasHistory")
     public ResponseEntity<Boolean> hasHistory() {
         return ResponseEntity.ok(mailHistoryService.hasHistory());
+    }
+
+    @ExceptionHandler(TemplateAssertionException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorInfo handleExceptionOnSend() {
+        return new ErrorInfo(UrlUtils.currentUrl(), HttpStatus.BAD_REQUEST, "Invalid params");
     }
 
     @PostMapping("/send")
     public ResponseEntity<Payload> send(@RequestBody @Valid Payload payload,
                                         BindingResult bindingResult) throws MessagingException {
         if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().build();
+            ResponseEntity.badRequest().build();
         }
         mailService.send(payload);
         return ResponseEntity.ok(payload);
     }
 
-    @ExceptionHandler({PathElementException.class, InvalidDataAccessApiUsageException.class})
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorInfo returnToHome() {
-        String url = ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString();
-        return new ErrorInfo(url, HttpStatus.BAD_REQUEST, "Invalid sort property");
-    }
 
     @DeleteMapping("/history")
+
     public ResponseEntity<Void> deleteHistory() {
         mailHistoryService.deleteHistory();
         return ResponseEntity.noContent().build();
