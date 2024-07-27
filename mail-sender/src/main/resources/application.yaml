@@ -16,6 +16,7 @@ spring:
     hibernate:
       ddl-auto: update
   mail:
+    sendEmails: true
     host: smtp.gmail.com
     port: 587
     username: ${mail}

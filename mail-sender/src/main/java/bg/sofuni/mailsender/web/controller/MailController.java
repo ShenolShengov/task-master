@@ -65,7 +65,7 @@ public class MailController {
     public ResponseEntity<Void> send(@RequestBody @Valid Payload payload,
                                      BindingResult bindingResult) throws MessagingException {
         if (bindingResult.hasErrors()) {
-            ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().build();
         }
         mailService.send(payload);
         return ResponseEntity.ok().build();

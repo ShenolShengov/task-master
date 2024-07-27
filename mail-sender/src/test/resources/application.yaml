@@ -10,6 +10,19 @@ spring:
         show_sql: true
     hibernate:
       ddl-auto: update
+  mail:
+    sendEmails: false
+    host: smtp.gmail.com
+    port: 587
+    username:
+    password:
+    properties:
+      mail:
+        smtp:
+          outh: true
+          starttls:
+            enable: true
+
 history:
   retention:
     period: P365D

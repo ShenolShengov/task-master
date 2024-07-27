@@ -22,8 +22,8 @@ import java.util.Optional;
 import static bg.sofuni.mailsender.dto.enums.EmailTemplate.CONTACT_US;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -47,11 +47,54 @@ class MailControllerIT {
         mailHistoryRepository.save(getMailHistoryBeforeDays(5));
         mailHistoryRepository.save(getMailHistoryBeforeDays(24));
         mailHistoryRepository.save(getMailHistoryBeforeDays(30));
+        mailHistoryRepository.save(getMailHistoryBeforeDays(120));
     }
 
     @AfterEach
     void tearDown() {
         mailHistoryRepository.deleteAll();
+    }
+
+
+
+
+    @Test
+    public void test_sendWithValidPayload() throws Exception {
+        mailHistoryRepository.deleteAll();
+        mockMvc.perform(post("/api/send")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(getValidTestPayloadJson()))
+                .andExpect(status().isOk());
+        assertEquals(1, mailHistoryRepository.count());
+    }
+
+    @Test
+    public void test_sendWithInValidPayload() throws Exception {
+        mockMvc.perform(post("/api/send")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void test_sendWithInValidParams() throws Exception {
+        mockMvc.perform(post("/api/send")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(getTestPayloadWithInvalidParamsJson()))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value("BAD_REQUEST"))
+                .andExpect(jsonPath("$.reason").value("Invalid params"));
+    }
+
+
+    @Test
+    public void test_mailHistoryOnBadFiltering() throws Exception {
+        mockMvc.perform(get("/api/history")
+                        .queryParam("sort", "wrongValue"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -67,40 +110,6 @@ class MailControllerIT {
         assertTrue(secondFound.isPresent());
         assertMailHistoryEquals(getTodayMailHistory(), firstFound.get());
         assertMailHistoryEquals(getTodayMailHistory(), secondFound.get());
-
-    }
-
-    @Test
-    public void test_mailHistoryOnBadFiltering() throws Exception {
-        mockMvc.perform(get("/api/history")
-                        .queryParam("sort", "wrongValue"))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    public void test_sendWithValidPayload() throws Exception {
-        mailHistoryRepository.deleteAll();
-        mockMvc.perform(post("/api/send")
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(getTestPayloadJson()))
-                .andExpect(status().isOk());
-        assertEquals(1, mailHistoryRepository.count());
-    }
-
-    private String getTestPayloadJson() {
-        return """
-                {
-                    "from" : "shenolShengov41@gmail.com",
-                    "to" : "shenolShengov41@gmail.com",
-                    "subject" : "Test email",
-                    "template" : "CONTACT_US",
-                    "params": {
-                        "EMAIL": "test@gmail.com",
-                        "MESSAGE": "Test message"
-                    }
-                }
-                """;
     }
 
     @Test
@@ -152,6 +161,22 @@ class MailControllerIT {
     }
 
     @Test
+    public void test_MailHistoryAll() throws Exception {
+        MvcResult result = getHistory("all");
+        String body = result.getResponse().getContentAsString();
+        assertEquals(9, (int) JsonPath.read(body, "$.content.length()"));
+
+        Optional<MailHistory> firstFound = getMailHistoryFromBody(body, 0);
+        Optional<MailHistory> secondFound = getMailHistoryFromBody(body, 8);
+
+        assertTrue(firstFound.isPresent());
+        assertTrue(secondFound.isPresent());
+        assertMailHistoryEquals(getTodayMailHistory(), firstFound.get());
+        assertMailHistoryEquals(getMailHistoryBeforeDays(120), secondFound.get());
+
+    }
+
+    @Test
     public void test_hasHistory() throws Exception {
         String body = getHasHistory().getContentAsString();
         assertEquals("true", body);
@@ -198,4 +223,32 @@ class MailControllerIT {
         return getMailHistoryBeforeDays(0);
     }
 
+    private String getValidTestPayloadJson() {
+        return """
+                {
+                    "from" : "shenolShengov41@gmail.com",
+                    "to" : "shenolShengov41@gmail.com",
+                    "subject" : "Test email",
+                    "template" : "CONTACT_US",
+                    "params": {
+                        "EMAIL": "test@gmail.com",
+                        "MESSAGE": "Test message"
+                    }
+                }
+                """;
+    }
+
+    private String getTestPayloadWithInvalidParamsJson() {
+        return """
+                {
+                    "from" : "shenolShengov41@gmail.com",
+                    "to" : "shenolShengov41@gmail.com",
+                    "subject" : "Test email",
+                    "template" : "CONTACT_US",
+                    "params": {
+                        "EMAIL": "test@gmail.com"
+                    }
+                }
+                """;
+    }
 }
