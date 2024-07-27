@@ -38,8 +38,8 @@ public class UserController {
                          Pageable pageable
 
     ) {
+        addSelectedSortOptions(model, sort, "asc");
         pageable = checkForDefaultSorting(sort, pageable);
-        addSelectedSortOptions(model, sort);
         model.addAttribute("searchQuery", searchQuery);
         model.addAttribute("foundedUsers",
                 userService.getAll(searchQuery, pageable.previousOrFirst()));

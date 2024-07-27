@@ -33,7 +33,7 @@ public class HomeController {
     @GetMapping("/")
     public String indexView(Model model,
                             @RequestParam(name = "task_due_date", required = false) LocalDate taskDueDate,
-                            @RequestParam(name = "task_sort", defaultValue = ",asc") String taskSort,
+                            @RequestParam(name = "task_sort", defaultValue = ",desc") String taskSort,
                             @Qualifier("task")
                             @PageableDefault(size = Integer.MAX_VALUE, sort = "id", direction = Sort.Direction.ASC)
                             Pageable taskPageable,
@@ -49,11 +49,11 @@ public class HomeController {
         }
         taskPageable = checkForDefaultSorting(taskSort, taskPageable);
         taskDueDate = taskDueDate == null ? LocalDate.now() : taskDueDate;
-        SortingUtils.addSelectedSortOptions(model, taskSort, "task_");
+        SortingUtils.addSelectedSortOptions(model, taskSort, "task_", "desc");
         model.addAttribute("task_due_date", taskDueDate);
         model.addAttribute("userTasks", taskService.getTasksFor(taskDueDate, taskPageable));
 
-        SortingUtils.addSelectedSortOptions(model, questionSort, "question_");
+        SortingUtils.addSelectedSortOptions(model, questionSort, "question_", "desc");
         model.addAttribute("question_created_time", questionCreatedTime);
         model.addAttribute("userQuestions", questionService
                 .getQuestionsFrom(questionCreatedTime, questionPageable));
@@ -86,7 +86,7 @@ public class HomeController {
 
         Page<MailHistoryInfoDTO> history = mailService.history(filterByDate, pageable.previousOrFirst());
         model.addAttribute("history", history);
-        model.addAttribute("sortDirection", sort.split(",")[1]);
+        SortingUtils.addSelectedSortOptions(model, sort, "desc");
         model.addAttribute("filterByDate", filterByDate);
         model.addAttribute("hasHistory", mailService.hasHistory());
         return "mail-history";

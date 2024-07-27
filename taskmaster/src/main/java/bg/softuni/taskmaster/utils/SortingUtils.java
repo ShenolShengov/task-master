@@ -28,12 +28,6 @@ public class SortingUtils {
         return StringUtils.capitalize(field.replaceAll("(.)([A-Z])", "$1 $2"));
     }
 
-    public static void addSelectedSortOptions(Model model, String sort, String prefix) {
-        String[] sortTokens = sort.split(",");
-        model.addAttribute(prefix + "sortProperties", sortTokens[0]);
-        model.addAttribute(prefix + "sortDirection", sortTokens[1]);
-    }
-
     public static Pageable checkForDefaultSorting(String sort, Pageable pageable) {
         if (sort.startsWith(",")) {
             pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
@@ -42,7 +36,15 @@ public class SortingUtils {
         return pageable;
     }
 
-    public static void addSelectedSortOptions(Model model, String sort) {
-        addSelectedSortOptions(model, sort, "");
+    public static void addSelectedSortOptions(Model model, String sort, String prefix, String defaultSortDirection) {
+        String[] sortTokens = sort.split(",");
+        model.addAttribute(prefix + "sortProperties", sortTokens[0]);
+        model.addAttribute(prefix + "sortDirection", sortTokens.length == 2 ? sortTokens[1] :
+                defaultSortDirection);
+    }
+
+
+    public static void addSelectedSortOptions(Model model, String sort, String defaultSortDirection) {
+        addSelectedSortOptions(model, sort, "", defaultSortDirection);
     }
 }

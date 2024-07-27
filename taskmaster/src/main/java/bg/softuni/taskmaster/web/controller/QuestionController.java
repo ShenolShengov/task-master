@@ -4,6 +4,7 @@ import bg.softuni.taskmaster.model.dto.AnswerDTO;
 import bg.softuni.taskmaster.model.dto.QuestionAskDTO;
 import bg.softuni.taskmaster.service.QuestionService;
 import bg.softuni.taskmaster.service.AnswerService;
+import bg.softuni.taskmaster.utils.SortingUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +32,7 @@ public class QuestionController {
                          @RequestParam(name = "search_query", required = false, defaultValue = "") String searchQuery,
                          @PageableDefault(size = 5, sort = "createdTime", direction = Sort.Direction.DESC)
                          Pageable pageable) {
-        model.addAttribute("sortDirection", sort.split(",")[1]);
+        SortingUtils.addSelectedSortOptions(model, sort, "desc");
         model.addAttribute("searchQuery", searchQuery);
         model.addAttribute("foundedQuestions",
                 questionService.getAll(searchQuery, pageable.previousOrFirst()));

@@ -83,7 +83,7 @@
                 </div>
             </div>
             <div class="flex items-center">
-                <input th:field="*{allDay}" type="checkbox" id="allDay"
+                <input th:field="*{allDay}" type="checkbox" id="allDay" onchange="onChangeAllDay()"
                        class="mr-2 h-5 w-5 text-black border border-primary rounded focus:ring ring-primary"/>
                 <label th:for="allDay" class="text-black">All Day</label>
             </div>
@@ -98,6 +98,7 @@
         </div>
         <div class="flex justify-center">
             <button type="submit" id="add-task"
+                    onclick="onAddTask()"
                     class="bg-primary text-primary-foreground mt-6 py-3 px-6 rounded-md hover:bg-primary/80 transition-colors">
                 Add task
             </button>
@@ -106,21 +107,6 @@
 </div>
 <footer th:replace="~{/fragments/footer::footer}"></footer>
 <script th:src="@{/js/dates.js}"></script>
-<script>
-    let allDayCheckBox = document.getElementById("allDay");
-    let startTimeDiv = document.getElementById("start-time-div");
-    let endTimeDiv = document.getElementById("end-time-div");
-    allDayCheckBox.addEventListener("change", () => {
-        startTimeDiv.classList.toggle('hidden');
-        endTimeDiv.classList.toggle('hidden');
-    });
-    document.getElementById("add-task").addEventListener('click', () => {
-        if (allDayCheckBox.checked) {
-            document.getElementById("startTime").value = '00:00';
-            document.getElementById("endTime").value = "23:59";
-        }
-    });
-
-</script>
+<script th:src="@{/js/add-task.js}"></script>
 </body>
 </html>
