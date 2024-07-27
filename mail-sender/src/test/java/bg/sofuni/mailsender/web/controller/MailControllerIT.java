@@ -56,7 +56,19 @@ class MailControllerIT {
     }
 
 
+    @Test
+    public void test_deleteHistory() throws Exception {
+        mockMvc.perform(delete("/api/history"))
+                .andExpect(status().isNoContent());
+        assertEquals(0, mailHistoryRepository.count());
+    }
 
+    @Test
+    public void test_deleteOldHistory() throws Exception {
+        mockMvc.perform(delete("/api/history"))
+                .andExpect(status().isNoContent());
+        assertEquals(0, mailHistoryRepository.count());
+    }
 
     @Test
     public void test_sendWithValidPayload() throws Exception {

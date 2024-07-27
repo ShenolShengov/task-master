@@ -73,7 +73,6 @@ public class MailController {
 
 
     @DeleteMapping("/history")
-
     public ResponseEntity<Void> deleteHistory() {
         mailHistoryService.deleteHistory();
         return ResponseEntity.noContent().build();
