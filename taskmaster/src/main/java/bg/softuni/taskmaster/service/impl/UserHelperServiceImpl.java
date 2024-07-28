@@ -1,5 +1,6 @@
 package bg.softuni.taskmaster.service.impl;
 
+import bg.softuni.taskmaster.exceptions.UserNotFoundException;
 import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.repository.UserRepository;
 import bg.softuni.taskmaster.service.UserHelperService;
@@ -49,13 +50,13 @@ public class UserHelperServiceImpl implements UserHelperService {
     @Override
     public User getLoggedUser() {
         return userRepository.findByUsername(getName())
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(UserNotFoundException::new);
     }
 
     @Override
     public User getUser(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(UserNotFoundException::new);
     }
 
     private static Authentication getAuthentication() {

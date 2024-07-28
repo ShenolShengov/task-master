@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserInfoDTO getInfo(Long id) {
-        return modelMapper.map(userHelperService.getUser(id), UserInfoDTO.class);
+        return toInfo(userHelperService.getUser(id));
     }
 
     private UserInfoDTO toInfo(User e) {
