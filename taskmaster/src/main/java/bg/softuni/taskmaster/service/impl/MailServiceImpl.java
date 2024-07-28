@@ -7,6 +7,7 @@ import bg.softuni.taskmaster.model.enums.EmailParam;
 import bg.softuni.taskmaster.model.enums.EmailTemplate;
 import bg.softuni.taskmaster.service.MailService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -23,13 +24,18 @@ public class MailServiceImpl implements MailService {
 
     private final RestClient restClient;
 
+    @Value("${mail.api.sendEmails}")
+    private boolean sendEmails;
+
     public MailServiceImpl(@Qualifier("mail-rest-client") RestClient restClient) {
         this.restClient = restClient;
     }
 
     @Override
     public void send(Payload payload) {
-        restClient.post().uri("/send").body(payload).retrieve();
+        if (sendEmails) {
+            restClient.post().uri("/send").body(payload).retrieve();
+        }
     }
 
     @Override
