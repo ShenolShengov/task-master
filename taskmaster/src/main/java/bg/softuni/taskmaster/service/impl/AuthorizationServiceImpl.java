@@ -46,6 +46,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
     private void removeAdminRoleFromAuthentication() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null) return;
         List<GrantedAuthority> updatedAuthorities = new ArrayList<>(auth.getAuthorities());
         updatedAuthorities.remove(new SimpleGrantedAuthority("ROLE_ADMIN"));
         Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), updatedAuthorities);
@@ -54,6 +55,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
     private static void addAdminRoleFromAuthentication() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null) return;
         List<GrantedAuthority> updatedAuthorities = new ArrayList<>(auth.getAuthorities());
         updatedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), updatedAuthorities);
