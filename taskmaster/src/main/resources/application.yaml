@@ -10,7 +10,6 @@ spring:
     password: ${db_password}
   jpa:
     open-in-view: false
-    defer-datasource-initialization: true
     properties:
       hibernate:
         format_sql: true
