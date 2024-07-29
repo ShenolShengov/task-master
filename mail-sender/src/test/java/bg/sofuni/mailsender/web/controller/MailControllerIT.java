@@ -7,17 +7,12 @@ import jakarta.mail.internet.MimeMessage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
-import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -30,8 +25,8 @@ import java.util.Optional;
 import static bg.sofuni.mailsender.dto.enums.EmailTemplate.CONTACT_US;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -51,8 +46,6 @@ class MailControllerIT {
     @SpyBean
     private JavaMailSender javaMailSender;
 
-    private final ArgumentCaptor<MimeMessage> mimeMessageArgumentCaptor = ArgumentCaptor.forClass(MimeMessage.class);
-
     @BeforeEach
     void setUp() {
         mailHistoryRepository.save(getTodayMailHistory());
@@ -64,7 +57,7 @@ class MailControllerIT {
         mailHistoryRepository.save(getMailHistoryBeforeDays(24));
         mailHistoryRepository.save(getMailHistoryBeforeDays(30));
         mailHistoryRepository.save(getMailHistoryBeforeDays(120));
-        doNothing().when(javaMailSender).send(mimeMessageArgumentCaptor.capture());
+        doNothing().when(javaMailSender).send(any(MimeMessage.class));
     }
 
     @AfterEach
@@ -95,6 +88,8 @@ class MailControllerIT {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(getValidTestPayloadJson()))
                 .andExpect(status().isOk());
+
+        verify(javaMailSender).send(any(MimeMessage.class));
         assertEquals(1, mailHistoryRepository.count());
     }
 
@@ -105,6 +100,8 @@ class MailControllerIT {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{}"))
                 .andExpect(status().isBadRequest());
+        verifyNoInteractions(javaMailSender);
+
     }
 
     @Test
@@ -116,6 +113,7 @@ class MailControllerIT {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value("BAD_REQUEST"))
                 .andExpect(jsonPath("$.reason").value("Invalid params"));
+        verifyNoInteractions(javaMailSender);
     }
 
 
