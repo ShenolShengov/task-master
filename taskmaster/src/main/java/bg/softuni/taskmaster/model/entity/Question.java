@@ -44,4 +44,15 @@ public class Question extends BaseEntity {
         this.answers = new ArrayList<>();
         this.createdTime = Instant.now();
     }
+
+    public Question(String title, String tags, String description, String code,
+                    List<Answer> answers, User user) {
+        this();
+        this.title = title;
+        this.tags = tags;
+        this.description = description;
+        this.code = code;
+        this.answers = answers;
+        this.user = user;
+    }
 }

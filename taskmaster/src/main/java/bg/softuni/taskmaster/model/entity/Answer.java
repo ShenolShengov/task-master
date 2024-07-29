@@ -30,7 +30,16 @@ public class Answer extends BaseEntity {
     @ManyToOne(optional = false)
     private Question question;
 
+
     public Answer() {
         this.createdTime = Instant.now();
+    }
+
+    public Answer(String description, String code, User user, Question question) {
+        this();
+        this.description = description;
+        this.code = code;
+        this.user = user;
+        this.question = question;
     }
 }

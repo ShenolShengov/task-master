@@ -54,7 +54,6 @@ public class QuestionServiceImpl implements QuestionService {
         if (questionCreatedTime == null) {
             return questionRepository.findAllByUserId(userId, pageable).map(this::toBaseInfo);
         }
-
         return questionRepository.findAllByUserIdAndCreatedTimeDate(userId, questionCreatedTime, pageable).map(this::toBaseInfo);
     }
 

@@ -28,7 +28,8 @@ public class UserHelperServiceImpl implements UserHelperService {
 
     @Override
     public boolean haseRole(String role) {
-        return haseRole(role, getLoggedUser().getId());
+        return getAuthentication().getAuthorities()
+                .stream().anyMatch(e -> e.getAuthority().equals("ROLE_ADMIN"));
     }
 
     @Override
