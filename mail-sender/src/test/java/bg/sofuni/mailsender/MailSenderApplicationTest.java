@@ -11,4 +11,8 @@ class MailSenderApplicationTest {
     void contextLoads() {
     }
 
+    @Test
+    public void applicationContextTest() {
+        MailSenderApplication.main(new String[]{});
+    }
 }

@@ -3,13 +3,21 @@ package bg.sofuni.mailsender.web.controller;
 import bg.sofuni.mailsender.enity.MailHistory;
 import bg.sofuni.mailsender.repository.MailHistoryRepository;
 import com.jayway.jsonpath.JsonPath;
+import jakarta.mail.internet.MimeMessage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -22,6 +30,8 @@ import java.util.Optional;
 import static bg.sofuni.mailsender.dto.enums.EmailTemplate.CONTACT_US;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,6 +47,12 @@ class MailControllerIT {
     @Autowired
     private MailHistoryRepository mailHistoryRepository;
 
+
+    @SpyBean
+    private JavaMailSender javaMailSender;
+
+    private final ArgumentCaptor<MimeMessage> mimeMessageArgumentCaptor = ArgumentCaptor.forClass(MimeMessage.class);
+
     @BeforeEach
     void setUp() {
         mailHistoryRepository.save(getTodayMailHistory());
@@ -48,6 +64,7 @@ class MailControllerIT {
         mailHistoryRepository.save(getMailHistoryBeforeDays(24));
         mailHistoryRepository.save(getMailHistoryBeforeDays(30));
         mailHistoryRepository.save(getMailHistoryBeforeDays(120));
+        doNothing().when(javaMailSender).send(mimeMessageArgumentCaptor.capture());
     }
 
     @AfterEach

@@ -10,7 +10,6 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -29,15 +28,10 @@ public class MailServiceImpl implements MailService {
     private final ModelMapper modelMapper;
     private final MailHistoryRepository mailHistoryRepository;
 
-    @Value("${spring.mail.sendEmails}")
-    private boolean sendEmails;
-
     @Override
     public void send(Payload payload) throws MessagingException {
         MimeMessage mimeMessage = getMimeMessage(payload);
-        if (sendEmails) {
-            mailSender.send(mimeMessage);
-        }
+        mailSender.send(mimeMessage);
         MailHistory mailHistory = modelMapper.map(payload, MailHistory.class);
         mailHistory.setDate(Instant.now());
         mailHistoryRepository.save(mailHistory);
