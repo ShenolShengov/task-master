@@ -1,15 +1,19 @@
 package bg.softuni.taskmaster.web.controller;
 
+import bg.softuni.taskmaster.model.dto.Payload;
 import bg.softuni.taskmaster.model.entity.Role;
 import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.model.enums.UserRoles;
 import bg.softuni.taskmaster.repository.RoleRepository;
 import bg.softuni.taskmaster.repository.UserRepository;
+import bg.softuni.taskmaster.service.MailService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -19,6 +23,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,14 +35,20 @@ class UserRestControllerIT {
 
     @Autowired
     public MockMvc mockMvc;
+
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private RoleRepository roleRepository;
+
+    @MockBean
+    private MailService mailService;
 
     @AfterEach
     void tearDown() {
         userRepository.deleteAll();
+        doNothing().when(mailService).send(any(Payload.class));
     }
 
     @Test

@@ -1,14 +1,18 @@
 package bg.softuni.taskmaster.service.impl;
 
 import bg.softuni.taskmaster.exceptions.UserNotFoundException;
+import bg.softuni.taskmaster.model.dto.Payload;
 import bg.softuni.taskmaster.model.dto.UserInfoDTO;
 import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.repository.UserRepository;
+import bg.softuni.taskmaster.service.MailService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +20,8 @@ import org.springframework.data.domain.Pageable;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 
 @SpringBootTest
 class UserServiceImplIT {
@@ -28,6 +34,9 @@ class UserServiceImplIT {
 
     private User savedUser;
 
+    @MockBean
+    private MailService mailService;
+
     @BeforeEach
     void setUp() {
         savedUser = userRepository.save(getTestUser());
@@ -36,6 +45,7 @@ class UserServiceImplIT {
     @AfterEach
     void tearDown() {
         userRepository.deleteAll();
+        doNothing().when(mailService).send(any(Payload.class));
     }
 
     @Test

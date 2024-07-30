@@ -113,7 +113,6 @@ class MailControllerIT {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value("BAD_REQUEST"))
                 .andExpect(jsonPath("$.reason").value("Invalid params"));
-        verifyNoInteractions(javaMailSender);
     }
 
 

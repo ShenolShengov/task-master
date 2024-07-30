@@ -9,8 +9,8 @@ import java.util.EnumMap;
 
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
+@EqualsAndHashCode
 public class Payload implements Serializable {
 
     private String from;
