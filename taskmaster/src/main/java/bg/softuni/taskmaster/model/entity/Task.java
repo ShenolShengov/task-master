@@ -3,7 +3,9 @@ package bg.softuni.taskmaster.model.entity;
 import bg.softuni.taskmaster.anottation.SortParam;
 import bg.softuni.taskmaster.model.enums.TaskPriorities;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
@@ -13,6 +15,8 @@ import java.time.LocalTime;
 @Table(name = "tasks")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Task extends BaseEntity {
 
 
@@ -47,8 +51,4 @@ public class Task extends BaseEntity {
 
     @ManyToOne(optional = false)
     private User user;
-
-    public Task() {
-
-    }
 }

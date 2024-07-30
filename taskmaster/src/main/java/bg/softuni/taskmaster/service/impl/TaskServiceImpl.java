@@ -38,6 +38,7 @@ public class TaskServiceImpl implements TaskService {
         Task currentTask = taskRepository.findById(taskEditDTO.getId())
                 .orElseThrow(NullPointerException::new);
         BeanUtils.copyProperties(taskEditDTO, currentTask);
+        currentTask.setPriority(TaskPriorities.valueOf(taskEditDTO.getPriority()));
         taskRepository.save(currentTask);
     }
 

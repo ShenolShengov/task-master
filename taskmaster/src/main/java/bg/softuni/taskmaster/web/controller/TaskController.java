@@ -17,7 +17,7 @@ public class TaskController {
 
     private final TaskService taskService;
 
-    @GetMapping("/add-task")
+    @GetMapping("/add")
     public String addTaskView(Model model) {
         if (!model.containsAttribute("addTaskData")) {
             model.addAttribute("addTaskData", new TaskAddEditDTO());
@@ -25,23 +25,23 @@ public class TaskController {
         return "add-task";
     }
 
-    @PostMapping("/add-task")
+    @PostMapping("/add")
     public String doAddTask(@Valid TaskAddEditDTO taskAddEditDTO, BindingResult bindingResult,
                             RedirectAttributes rAtt) {
         if (bindingResult.hasErrors()) {
             rAtt.addFlashAttribute("addTaskData", taskAddEditDTO);
             rAtt.addFlashAttribute("org.springframework.validation.BindingResult.addTaskData",
                     bindingResult);
-            return "redirect:/tasks/add-task";
+            return "redirect:/tasks/add";
         }
         taskService.add(taskAddEditDTO);
-        return "redirect:/";
+        return redirectToHome();
     }
 
     @GetMapping("edit/{id}")
     public String editTask(@PathVariable Long id, Model model) {
         if (!taskService.isActualUserOrAdmin(id)) {
-            return "redirect:/";
+            return redirectToHome();
         }
         if (!model.containsAttribute("haveData")) {
             model.addAttribute("taskData", taskService.getInfo(id));
@@ -49,11 +49,12 @@ public class TaskController {
         return "edit-task";
     }
 
+
     @PostMapping("/edit/{id}")
     public String doEditTask(@Valid TaskAddEditDTO taskEditDTO, BindingResult bindingResult,
                              RedirectAttributes rAtt, @PathVariable Long id) {
         if (!taskService.isActualUserOrAdmin(id)) {
-            return "redirect:/";
+            return redirectToHome();
         }
         if (bindingResult.hasErrors()) {
             rAtt.addFlashAttribute("taskData", taskEditDTO);
@@ -63,15 +64,19 @@ public class TaskController {
             return "redirect:/tasks/edit/" + id;
         }
         taskService.edit(taskEditDTO);
-        return "redirect:/";
+        return redirectToHome();
     }
 
     @DeleteMapping("/{id}")
-    public String remove(@PathVariable Long id) {
+    public String delete(@PathVariable Long id) {
         if (!taskService.isActualUserOrAdmin(id)) {
-            return "redirect:/";
+            return redirectToHome();
         }
         taskService.remove(id);
+        return redirectToHome();
+    }
+
+    private static String redirectToHome() {
         return "redirect:/";
     }
 }

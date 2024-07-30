@@ -33,10 +33,6 @@ class AuthorizationServiceImplTest {
     private UserHelperService userHelperService;
 
     private AuthorizationServiceImpl authorizationService;
-
-    @Captor
-    public ArgumentCaptor<User> userArgumentCaptor;
-
     @BeforeEach
     void setUp() {
         this.authorizationService = new AuthorizationServiceImpl(roleRepository, userRepository, userHelperService);

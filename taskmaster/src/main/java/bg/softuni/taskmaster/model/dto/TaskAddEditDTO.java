@@ -29,6 +29,7 @@ public class TaskAddEditDTO implements Serializable {
     private String category;
 
     @NotEmpty(message = "{validation.task.priority.not.null}")
+    //todo add Validation for valid priority
     private String priority;
 
     @NotNull(message = "{validation.task.dueDate.not.null}")
