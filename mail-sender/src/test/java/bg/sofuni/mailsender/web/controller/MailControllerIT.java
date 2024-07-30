@@ -194,7 +194,6 @@ class MailControllerIT {
 
         Optional<MailHistory> firstFound = getMailHistoryFromBody(body, 0);
         Optional<MailHistory> secondFound = getMailHistoryFromBody(body, 8);
-
         assertTrue(firstFound.isPresent());
         assertTrue(secondFound.isPresent());
         assertMailHistoryEquals(getTodayMailHistory(), firstFound.get());

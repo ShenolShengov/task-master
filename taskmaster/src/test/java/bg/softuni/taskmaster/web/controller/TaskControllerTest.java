@@ -55,8 +55,8 @@ class TaskControllerTest {
         Picture profilePicture = addDefaultProfilePicture();
         User saveUser = userRepository.save(getTestUser(profilePicture));
         testTask = taskRepository.save(new Task("test",
-                "category", HIGH, LocalDate.now(), LocalTime.now(),
-                LocalTime.now().plusHours(1), false, "desc", saveUser));
+                "category", HIGH, LocalDate.now(), LocalTime.now().withNano(0),
+                LocalTime.now().plusHours(1).withNano(0), false, "desc", saveUser));
 
         userRepository.save(getTestUser(profilePicture)
                 .setUsername("otherMockUser").setEmail("other@gmail.com"));

@@ -66,7 +66,7 @@ class AnswerRestControllerIT {
 
     @Test
     @WithMockUser("mockUser")
-    public void test_Delete() throws Exception {
+    public void test_DeleteWithActualUser() throws Exception {
         mockMvc.perform(delete(ServletUriComponentsBuilder
                         .fromPath("/answers/{id}").build(testAnswer.getId()))
                         .with(csrf()))
@@ -83,6 +83,7 @@ class AnswerRestControllerIT {
                         .with(csrf()))
                 .andExpect(status().isNoContent());
         assertEquals(0, answerRepository.count());
+        assertEquals(0, testQuestion.getAnswers().size());
     }
 
     @Test
