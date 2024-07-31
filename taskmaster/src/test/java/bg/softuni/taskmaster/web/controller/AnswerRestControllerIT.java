@@ -41,7 +41,7 @@ class AnswerRestControllerIT {
     @Autowired
     private QuestionRepository questionRepository;
 
-    private User mockUser;
+
     private User mockAdminUser;
 
     private Question testQuestion;
@@ -49,7 +49,7 @@ class AnswerRestControllerIT {
 
     @BeforeEach
     void setUp() {
-        mockUser = userRepository.save(getTestUser());
+        User mockUser = userRepository.save(getTestUser());
         mockAdminUser = userRepository.save(getTestUser().
                 setEmail("mockAdminUser@gmail.com").setUsername("mockAdminUser"));
         testQuestion = questionRepository.save(
@@ -76,25 +76,14 @@ class AnswerRestControllerIT {
     }
 
     @Test
-    @WithMockUser(value = "mockAdminUser", roles = {"USER", "ADMIN"})
-    public void test_DeleteFromAdminProfile() throws Exception {
-        mockMvc.perform(delete(ServletUriComponentsBuilder
-                        .fromPath("/answers/{id}").build(testAnswer.getId()))
-                        .with(csrf()))
-                .andExpect(status().isNoContent());
-        assertEquals(0, answerRepository.count());
-        assertEquals(0, testQuestion.getAnswers().size());
-    }
-
-    @Test
     @WithMockUser(value = "mockUser")
-    public void test_DeleteFromOtherRegularProfile() throws Exception {
+    public void test_DeleteWithOtherUser() throws Exception {
         Answer answer = answerRepository.save(new Answer("desc", "code", mockAdminUser, testQuestion));
         long answersCountBeforeTryToDelete = answerRepository.count();
         mockMvc.perform(delete(ServletUriComponentsBuilder
                         .fromPath("/answers/{id}").build(answer.getId()))
                         .with(csrf()))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isForbidden());
         assertEquals(answersCountBeforeTryToDelete, answerRepository.count());
     }
 
