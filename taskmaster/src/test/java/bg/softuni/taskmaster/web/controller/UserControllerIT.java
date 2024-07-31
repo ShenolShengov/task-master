@@ -1,12 +1,9 @@
 package bg.softuni.taskmaster.web.controller;
 
 import bg.softuni.taskmaster.model.dto.Payload;
-import bg.softuni.taskmaster.model.entity.Picture;
-import bg.softuni.taskmaster.model.entity.User;
-import bg.softuni.taskmaster.repository.PictureRepository;
 import bg.softuni.taskmaster.repository.UserRepository;
 import bg.softuni.taskmaster.service.MailService;
-import bg.softuni.taskmaster.service.UserHelperService;
+import bg.softuni.taskmaster.utils.UserTestUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,10 +14,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Set;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -36,32 +32,26 @@ class UserControllerIT {
     private UserRepository userRepository;
 
 
-    @Autowired
-    private PictureRepository pictureRepository;
-
     @MockBean
     private MailService mailService;
 
     @Autowired
     private MockMvc mockMvc;
 
+
     @BeforeEach
     void setUp() {
-        Picture profilePicture = pictureRepository.save(new Picture("default", "defaultUrl",
-                "defaultPublicId"));
-        userRepository.save(new User("mockUser", "MockUser", "mock@gmail.com",
-                20, "password", Set.of(), Set.of(), Set.of(), Set.of(),
-                profilePicture));
+        UserTestUtils.getOrSaveMockUserFromDB("mockUser", "mock@gmail.com", true);
         doNothing().when(mailService).send(any(Payload.class));
     }
 
     @AfterEach
     void tearDown() {
-        userRepository.deleteAll();
+        UserTestUtils.clearDB();
     }
 
     @Test
-    @WithMockUser(value = "mockUser")
+    @WithMockUser(value = "mockUser", roles = {"USER", "ADMIN"})
     public void test_CloseAccount() throws Exception {
         mockMvc.perform(delete("/users/close-account")
                         .with(csrf()))
@@ -70,7 +60,7 @@ class UserControllerIT {
     }
 
     @Test
-    @WithMockUser(value = "mockUser", roles = "ADMIN")
+    @WithMockUser(value = "mockUser", roles = {"USER", "ADMIN"})
     public void test_GetAll_With_Invalid_Sort() throws Exception {
         mockMvc.perform(get("/users")
                         .queryParam("sort", "wrongSort"))
@@ -79,7 +69,7 @@ class UserControllerIT {
     }
 
     @Test
-    @WithMockUser(value = "mockUser", roles = "ADMIN")
+    @WithMockUser(value = "mockUser", roles = {"USER", "ADMIN"})
     public void test_GetAll() throws Exception {
         mockMvc.perform(get("/users"))
                 .andExpect(status().isOk())

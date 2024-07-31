@@ -1,11 +1,9 @@
 package bg.softuni.taskmaster.web.controller;
 
-import bg.softuni.taskmaster.model.entity.Picture;
 import bg.softuni.taskmaster.model.entity.Task;
-import bg.softuni.taskmaster.model.entity.User;
-import bg.softuni.taskmaster.repository.PictureRepository;
 import bg.softuni.taskmaster.repository.TaskRepository;
-import bg.softuni.taskmaster.repository.UserRepository;
+import bg.softuni.taskmaster.utils.TaskTestUtils;
+import bg.softuni.taskmaster.utils.UserTestUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,11 +20,10 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Optional;
-import java.util.Set;
 
-import static bg.softuni.taskmaster.model.enums.TaskPriorities.HIGH;
+import static bg.softuni.taskmaster.utils.TaskTestUtils.getTestTask;
+import static bg.softuni.taskmaster.utils.UserTestUtils.getOrSaveMockUserFromDB;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -35,16 +32,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
-class TaskControllerTest {
+class TaskControllerIT {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PictureRepository pictureRepository;
 
     @Autowired
     private TaskRepository taskRepository;
@@ -52,23 +43,14 @@ class TaskControllerTest {
 
     @BeforeEach
     void setUp() {
-        Picture profilePicture = addDefaultProfilePicture();
-        User saveUser = userRepository.save(getTestUser(profilePicture));
-        testTask = taskRepository.save(new Task("test",
-                "category", HIGH, LocalDate.now(), LocalTime.now().withNano(0),
-                LocalTime.now().plusHours(1).withNano(0), false, "desc", saveUser));
-
-        userRepository.save(getTestUser(profilePicture)
-                .setUsername("otherMockUser").setEmail("other@gmail.com"));
-        userRepository.save(getTestUser(profilePicture)
-                .setUsername("mockAdminUser").setEmail("admin@gmail.com"));
+        testTask = getTestTask(getOrSaveMockUserFromDB("mockUser", "mock@gmail.com"), true);
+        getOrSaveMockUserFromDB("otherMockUser", "other@gmail.com");
     }
 
     @AfterEach
     void tearDown() {
-        userRepository.deleteAll();
-        pictureRepository.deleteAll();
-        taskRepository.deleteAll();
+        UserTestUtils.clearDB();
+        TaskTestUtils.clearDB();
     }
 
     @Test
@@ -209,15 +191,5 @@ class TaskControllerTest {
         map.add("allDay", "false");
         map.add("description", "Test desc");
         return map;
-    }
-
-    private Picture addDefaultProfilePicture() {
-        return pictureRepository.
-                save(new Picture("default", "defUrl", "defUrlId"));
-    }
-
-    private static User getTestUser(Picture profilePicture) {
-        return new User("mockUser", "test", "test@gmail", 2, "pass",
-                Set.of(), Set.of(), Set.of(), Set.of(), profilePicture);
     }
 }
