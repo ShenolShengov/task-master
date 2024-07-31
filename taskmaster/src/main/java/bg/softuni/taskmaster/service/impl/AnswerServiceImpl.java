@@ -12,6 +12,7 @@ import bg.softuni.taskmaster.service.UserHelperService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -46,14 +47,14 @@ public class AnswerServiceImpl implements AnswerService {
     //todo
 
     @Override
-    public boolean isActualUserOrAdmin(Long id) {
-        boolean isPresent = answerRepository.findById(id)
-                .filter(e -> e.getUser().getId().equals(userHelperService.getLoggedUser().getId()))
+    public boolean isActualUser(Long id) {
+        return answerRepository.findById(id)
+                .filter(e -> e.getUser().getUsername().equals(userHelperService.getUsername()))
                 .isPresent();
-        return isPresent || userHelperService.isAdmin();
     }
 
     @Override
+    @PreAuthorize("@answerServiceImpl.isActualUser(#id) || @userHelperServiceImpl.isAdmin()")
     public void delete(Long id) {
         answerRepository.deleteById(id);
     }

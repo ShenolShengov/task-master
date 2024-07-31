@@ -6,7 +6,9 @@ import bg.softuni.taskmaster.repository.UserRepository;
 import bg.softuni.taskmaster.service.UserHelperService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,7 +24,7 @@ public class UserHelperServiceImpl implements UserHelperService {
     }
 
     @Override
-    public String getName() {
+    public String getUsername() {
         return getAuthentication().getName();
     }
 
@@ -50,9 +52,10 @@ public class UserHelperServiceImpl implements UserHelperService {
 
     @Override
     public User getLoggedUser() {
-        return userRepository.findByUsername(getName())
+        return userRepository.findByUsername(getUsername())
                 .orElseThrow(UserNotFoundException::new);
     }
+
 
     @Override
     public User getUser(Long id) {

@@ -26,7 +26,7 @@ public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, St
             return true;
         }
         return userRepository.findByEmail(email)
-                .filter(e -> !checkForCurrentUser || !e.getId().equals(userHelperService.getLoggedUser().getId()))
+                .filter(e -> !checkForCurrentUser || !e.getUsername().equals(userHelperService.getUsername()))
                 .isEmpty();
     }
 }

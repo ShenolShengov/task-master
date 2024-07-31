@@ -50,11 +50,12 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public Page<QuestionBaseInfoDTO> getQuestionsFrom(LocalDate questionCreatedTime, Pageable pageable) {
-        Long userId = userHelperService.getLoggedUser().getId();
         if (questionCreatedTime == null) {
-            return questionRepository.findAllByUserId(userId, pageable).map(this::toBaseInfo);
+            return questionRepository.findAllByUserUsername(userHelperService.getUsername(), pageable)
+                    .map(this::toBaseInfo);
         }
-        return questionRepository.findAllByUserIdAndCreatedTimeDate(userId, questionCreatedTime, pageable).map(this::toBaseInfo);
+        return questionRepository.findAllByUserUsernameAndCreatedTimeDate(userHelperService.getUsername(),
+                questionCreatedTime, pageable).map(this::toBaseInfo);
     }
 
     private LinkedHashSet<String> mapToTags(String tags) {

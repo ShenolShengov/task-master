@@ -35,7 +35,7 @@
         </div>
         <form th:method="delete"
               th:action="@{/questions/{id}(id = *{id})}"
-              th:if="${questionData.user.getUsername() == @userHelperServiceImpl.getName || @userHelperServiceImpl.isAdmin()}"
+              th:if="${questionData.user.getUsername() == @userHelperServiceImpl.username || @userHelperServiceImpl.isAdmin()}"
               class="ml-auto delete-comment-button bg-destructive text-destructive-foreground px-2 py-1 rounded-lg font-semibold">
             <button type="submit">Delete</button>
         </form>
@@ -87,7 +87,7 @@
                     </pre>
                     <div class="text-black flex justify-between items-center">
                         <button
-                                th:if="${answer.user.getUsername() == @userHelperServiceImpl.getName || @userHelperServiceImpl.isAdmin()}"
+                                th:if="${answer.user.getUsername() == @userHelperServiceImpl.username || @userHelperServiceImpl.isAdmin()}"
                                 th:data-id="*{id}"
                                 onclick="deleteAnswer(this.dataset.id)"
                                 class="mt-6 delete-comment-button bg-destructive text-destructive-foreground px-2 py-1 rounded-lg font-semibold">

@@ -18,7 +18,7 @@ public class AnswerRestController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Answer> delete(@PathVariable Long id) {
-        if (!answerService.isActualUserOrAdmin(id)) {
+        if (!answerService.isActualUser(id)) {
             return ResponseEntity.badRequest().build();
         }
         answerService.delete(id);

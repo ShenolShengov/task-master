@@ -12,11 +12,12 @@ import java.time.LocalDate;
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
-    Page<Question> findAllByUserId(Long userId, Pageable pageable);
+    Page<Question> findAllByUserUsername(String userUsername, Pageable pageable);
 
 
-    @Query("SELECT q FROM Question q JOIN q.user u WHERE  CAST(q.createdTime AS date) = :createdTime AND u.id = :userId")
-    Page<Question> findAllByUserIdAndCreatedTimeDate(Long userId, LocalDate createdTime, Pageable pageable);
+    @Query("SELECT q FROM Question q JOIN q.user u WHERE  " +
+           "CAST(q.createdTime AS date) = :createdTime AND u.username = :userUsername")
+    Page<Question> findAllByUserUsernameAndCreatedTimeDate(String userUsername, LocalDate createdTime, Pageable pageable);
 
     @Query("SELECT q FROM Question q WHERE " +
            "q.title like CONCAT('%', :searchQuery, '%') OR " +

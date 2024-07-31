@@ -45,7 +45,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Transactional
     public Page<TaskInfoDTO> getTasksFor(LocalDate dueDate, Pageable pageable) {
-        return taskRepository.findAllByUserIdAndDueDate(userHelperService.getLoggedUser().getId(), dueDate, pageable)
+        return taskRepository.findAllByUserUsernameAndDueDate(userHelperService.getUsername(), dueDate, pageable)
                 .map(e -> modelMapper.map(e, TaskInfoDTO.class));
     }
 
@@ -65,7 +65,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public boolean isActualUserOrAdmin(Long id) {
         boolean isPresent = taskRepository.findById(id)
-                .filter(e -> e.getUser().getId().equals(userHelperService.getLoggedUser().getId()))
+                .filter(e -> e.getUser().getUsername().equals(userHelperService.getUsername()))
                 .isPresent();
         return isPresent || userHelperService.isAdmin();
     }

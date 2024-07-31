@@ -6,7 +6,7 @@ public interface UserHelperService {
 
     boolean isAuthenticated();
 
-    String getName();
+    String getUsername();
 
     boolean haseRole(String role);
 
