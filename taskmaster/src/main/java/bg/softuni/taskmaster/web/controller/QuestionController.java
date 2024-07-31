@@ -62,6 +62,7 @@ public class QuestionController {
     }
 
     @PostMapping("/answer/{id}")
+    @PreAuthorize("@questionServiceImpl.isExists(#id)")
     public String answer(@PathVariable Long id, @Valid AnswerDTO answerDTO,
                          BindingResult bindingResult, RedirectAttributes rAtt) {
         if (bindingResult.hasErrors()) {

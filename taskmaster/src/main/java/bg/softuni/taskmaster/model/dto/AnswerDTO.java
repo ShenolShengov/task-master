@@ -1,7 +1,9 @@
 package bg.softuni.taskmaster.model.dto;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
@@ -9,6 +11,8 @@ import java.io.Serializable;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class AnswerDTO implements Serializable {
 
     @NotNull(message = "{validation.description.length}")

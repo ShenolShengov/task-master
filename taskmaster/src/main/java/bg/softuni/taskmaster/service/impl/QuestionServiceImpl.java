@@ -83,4 +83,9 @@ public class QuestionServiceImpl implements QuestionService {
                 .filter(e -> e.getUser().getUsername().equals(userHelperService.getUsername()))
                 .isPresent();
     }
+
+    @Override
+    public boolean isExists(Long id) {
+        return questionRepository.existsById(id);
+    }
 }

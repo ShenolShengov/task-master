@@ -22,4 +22,6 @@ public interface QuestionService {
     Page<QuestionBaseInfoDTO> getAll(String searchQuery, Pageable pageable);
 
     boolean isActualUser(Long id);
+
+    boolean isExists(Long id);
 }

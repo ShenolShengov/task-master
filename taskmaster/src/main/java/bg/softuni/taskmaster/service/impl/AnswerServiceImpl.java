@@ -9,12 +9,14 @@ import bg.softuni.taskmaster.repository.AnswerRepository;
 import bg.softuni.taskmaster.repository.QuestionRepository;
 import bg.softuni.taskmaster.service.AnswerService;
 import bg.softuni.taskmaster.service.UserHelperService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import static bg.softuni.taskmaster.utils.EmailUtils.LINK_TO_QUESTION;
 
 @Service
 @RequiredArgsConstructor
@@ -27,24 +29,22 @@ public class AnswerServiceImpl implements AnswerService {
     private final ApplicationEventPublisher publisher;
 
     @Override
+    @Transactional
     public void answer(AnswerDTO answerDTO, Long questionId) {
         Answer answer = modelMapper.map(answerDTO, Answer.class);
-        Question question = questionRepository.findById(questionId).orElseThrow(RuntimeException::new);
+        Question question = questionRepository.getReferenceById(questionId);
         User loggedUser = userHelperService.getLoggedUser();
         answer.setQuestion(question);
         answer.setUser(loggedUser);
         answerRepository.save(answer);
         publisher.publishEvent(new AnswerToQuestionEvent(this, question.getUser().getEmail(),
-                question.getUser().getUsername(), question.getTitle(), getLinkFor(questionId), loggedUser.getUsername()));
+                question.getUser().getUsername(), question.getTitle(),
+                getLinkFor(questionId), loggedUser.getUsername()));
     }
 
     private String getLinkFor(Long questionId) {
-        return ServletUriComponentsBuilder
-                .fromCurrentContextPath()
-                .path("/questions/{id}")
-                .buildAndExpand(questionId).toUriString();
+        return String.format(LINK_TO_QUESTION, questionId);
     }
-    //todo
 
     @Override
     public boolean isActualUser(Long id) {

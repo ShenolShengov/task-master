@@ -20,6 +20,8 @@ public class EmailUtils {
     public static final String CHANGE_PASSWORD_SUBJECT = "Your Password Has Been Successfully Changed";
     public static final String ANSWER_TO_QUESTION_SUBJECT = "New answer to question - %s";
 
+    public static final String LINK_TO_QUESTION = "http://localhost:8080/questions/%s";
+
     public static EnumMap<EmailParam, String> toParams(Object... params) {
         return IntStream.iterate(0, e -> e + 1 < params.length, e -> e + 2)
                 .collect(

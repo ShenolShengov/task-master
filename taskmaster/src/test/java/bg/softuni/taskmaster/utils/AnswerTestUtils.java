@@ -1,5 +1,6 @@
 package bg.softuni.taskmaster.utils;
 
+import bg.softuni.taskmaster.model.dto.AnswerDTO;
 import bg.softuni.taskmaster.model.entity.Answer;
 import bg.softuni.taskmaster.model.entity.Question;
 import bg.softuni.taskmaster.model.entity.User;
@@ -23,6 +24,10 @@ public class AnswerTestUtils {
 
     public static void setAnswerRepository(AnswerRepository answerRepository) {
         AnswerTestUtils.answerRepository = answerRepository;
+    }
+
+    public static AnswerDTO getTestAnswerDTO() {
+        return new AnswerDTO("Test desc", "testCode");
     }
 
     public static void clearDB() {
