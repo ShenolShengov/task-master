@@ -54,7 +54,7 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    @PreAuthorize("@answerServiceImpl.isActualUser(#id) || @userHelperServiceImpl.isAdmin()")
+    @PreAuthorize("@answerServiceImpl.isActualUser(#id) || hasRole('ADMIN')")
     public void delete(Long id) {
         answerRepository.deleteById(id);
     }

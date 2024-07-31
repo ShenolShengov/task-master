@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
@@ -38,6 +39,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public Page<MailHistoryInfoDTO> history(String filterByDate, Pageable pageable) {
         PageResponseDTO<MailHistoryInfoDTO> pageResponseDTO = restClient.get().uri(u -> u.path("/history")
                         .queryParam("page", pageable.getPageNumber())
@@ -53,11 +55,13 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteHistory() {
         restClient.delete().uri("/history").retrieve();
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public boolean hasHistory() {
         return Boolean.TRUE.equals(restClient.get().uri("/hasHistory")
                 .retrieve().body(Boolean.class));

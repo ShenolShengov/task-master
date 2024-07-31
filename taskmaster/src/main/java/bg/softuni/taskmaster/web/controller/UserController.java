@@ -28,7 +28,6 @@ public class UserController {
     private final UserHelperService userHelperService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public String getAll(Model model,
                          @RequestParam(required = false) Integer ignoredPage,
                          @RequestParam(required = false, defaultValue = ",asc")

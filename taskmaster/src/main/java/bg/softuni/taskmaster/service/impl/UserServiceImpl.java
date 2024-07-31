@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +40,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    @PreAuthorize("@userHelperServiceImpl.loggedUser.id.equals(#id)  ||  hasRole('ADMIN')")
+    //todo think how to don't call db
     public void delete(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(UserNotFoundException::new);
@@ -48,6 +51,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public Page<UserInfoDTO> getAll(String searchQuery, Pageable pageable) {
         if (searchQuery.isEmpty()) {
             return userRepository.findAll(pageable).map(this::toInfo);

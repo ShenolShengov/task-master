@@ -68,14 +68,12 @@ public class HomeController {
     }
 
     @GetMapping("/statistics")
-    @PreAuthorize("hasRole('ADMIN')")
     public String statisticsView(Model model) {
         model.addAttribute("statisticsData", statisticsService.getStatistics());
         return "statistics";
     }
 
     @GetMapping("/mail-history")
-    @PreAuthorize("hasRole('ADMIN')")
     public String emailHistoryView(Model model,
                                    @RequestParam(required = false) Integer ignoredPage,
                                    @RequestParam(required = false, defaultValue = "date,desc")
@@ -93,7 +91,6 @@ public class HomeController {
     }
 
     @DeleteMapping("/mail-history")
-    @PreAuthorize("hasRole('ADMIN')")
     public String deleteMailHistory() {
         mailService.deleteHistory();
         return "redirect:/mail-history";
