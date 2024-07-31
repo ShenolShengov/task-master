@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -34,6 +35,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @PreAuthorize("@taskServiceImpl.isActualUser(#id)")
     public void edit(TaskAddEditDTO taskEditDTO) {
         Task currentTask = taskRepository.findById(taskEditDTO.getId())
                 .orElseThrow(NullPointerException::new);
@@ -50,6 +52,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @PreAuthorize("@taskServiceImpl.isActualUser(#id)")
     public TaskInfoDTO getInfo(Long id) {
         return taskRepository
                 .findById(id)
@@ -58,15 +61,15 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @PreAuthorize("@taskServiceImpl.isActualUser(#id)")
     public void remove(Long id) {
         taskRepository.deleteById(id);
     }
 
     @Override
-    public boolean isActualUserOrAdmin(Long id) {
-        boolean isPresent = taskRepository.findById(id)
+    public boolean isActualUser(Long id) {
+        return taskRepository.findById(id)
                 .filter(e -> e.getUser().getUsername().equals(userHelperService.getUsername()))
                 .isPresent();
-        return isPresent || userHelperService.isAdmin();
     }
 }

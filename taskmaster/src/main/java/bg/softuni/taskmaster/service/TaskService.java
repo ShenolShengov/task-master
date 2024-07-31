@@ -20,5 +20,5 @@ public interface TaskService {
     TaskInfoDTO getInfo(Long id);
 
 
-    boolean isActualUserOrAdmin(Long id);
+    boolean isActualUser(Long id);
 }

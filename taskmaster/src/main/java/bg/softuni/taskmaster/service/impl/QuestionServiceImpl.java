@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -35,6 +36,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    @PreAuthorize("@questionServiceImpl.isActualUser(#id)")
     public void delete(Long id) {
         questionRepository.deleteById(id);
     }
@@ -76,9 +78,9 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public boolean isActualUserOrAdmin(Long id) {
-        boolean isPresent = questionRepository.findById(id)
+    public boolean isActualUser(Long id) {
+        return questionRepository.findById(id)
+                .filter(e -> e.getUser().getUsername().equals(userHelperService.getUsername()))
                 .isPresent();
-        return isPresent || userHelperService.isAdmin();
     }
 }

@@ -40,9 +40,6 @@ public class TaskController {
 
     @GetMapping("edit/{id}")
     public String editTask(@PathVariable Long id, Model model) {
-        if (!taskService.isActualUserOrAdmin(id)) {
-            return redirectToHome();
-        }
         if (!model.containsAttribute("haveData")) {
             model.addAttribute("taskData", taskService.getInfo(id));
         }
@@ -53,9 +50,6 @@ public class TaskController {
     @PostMapping("/edit/{id}")
     public String doEditTask(@Valid TaskAddEditDTO taskEditDTO, BindingResult bindingResult,
                              RedirectAttributes rAtt, @PathVariable Long id) {
-        if (!taskService.isActualUserOrAdmin(id)) {
-            return redirectToHome();
-        }
         if (bindingResult.hasErrors()) {
             rAtt.addFlashAttribute("taskData", taskEditDTO);
             rAtt.addFlashAttribute("org.springframework.validation.BindingResult.taskData",
@@ -69,9 +63,6 @@ public class TaskController {
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable Long id) {
-        if (!taskService.isActualUserOrAdmin(id)) {
-            return redirectToHome();
-        }
         taskService.remove(id);
         return redirectToHome();
     }

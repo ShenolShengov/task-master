@@ -13,7 +13,7 @@ public interface QuestionService {
 
     long ask(QuestionAskDTO questionAskDTO);
 
-    void  delete(Long id);
+    void delete(Long id);
 
     QuestionDetailsInfoDTO getDetailsInfoDTO(Long id);
 
@@ -21,5 +21,5 @@ public interface QuestionService {
 
     Page<QuestionBaseInfoDTO> getAll(String searchQuery, Pageable pageable);
 
-    boolean isActualUserOrAdmin(Long id);
+    boolean isActualUser(Long id);
 }
