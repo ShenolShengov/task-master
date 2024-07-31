@@ -8,10 +8,6 @@ public interface UserHelperService {
 
     String getUsername();
 
-    boolean haseRole(String role);
-
-    boolean haseRole(String role, Long id);
-
     boolean isAdmin();
 
     boolean isAdmin(Long id);

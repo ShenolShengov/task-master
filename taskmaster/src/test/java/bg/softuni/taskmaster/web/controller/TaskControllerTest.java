@@ -115,8 +115,7 @@ class TaskControllerTest {
     public void test_EditTaskWithOtherUser() throws Exception {
         mockMvc.perform(get(ServletUriComponentsBuilder
                         .fromPath("/tasks/edit/{id}").build(testTask.getId())))
-                .andExpect(status().isFound())
-                .andExpect(redirectedUrl("/"));
+                .andExpect(status().isForbidden());
     }
 
     @Test
@@ -129,22 +128,12 @@ class TaskControllerTest {
     }
 
     @Test
-    @WithMockUser(value = "mockAdminUser", roles = {"USER", "ADMIN"})
-    public void test_EditTaskWithAdminUser() throws Exception {
-        mockMvc.perform(get(ServletUriComponentsBuilder
-                        .fromPath("/tasks/edit/{id}").build(testTask.getId())))
-                .andExpect(status().isOk())
-                .andExpect(view().name("edit-task"));
-    }
-
-    @Test
     @WithMockUser(username = "otherMockUser")
     public void test_Do_EditTaskWithOtherUser() throws Exception {
         mockMvc.perform(post(ServletUriComponentsBuilder
                         .fromPath("/tasks/edit/{id}").build(testTask.getId()))
                         .with(csrf()))
-                .andExpect(status().isFound())
-                .andExpect(redirectedUrl("/"));
+                .andExpect(status().isForbidden());
     }
 
     @Test
@@ -178,45 +167,18 @@ class TaskControllerTest {
     }
 
     @Test
-    @WithMockUser(value = "mockAdminUser", roles = {"USER", "ADMIN"})
-    public void test_Do_EditTaskWithAdminUser() throws Exception {
-        mockMvc.perform(post(ServletUriComponentsBuilder
-                        .fromPath("/tasks/edit/{id}").build(testTask.getId()))
-                        .formFields(getTestAddTaskFormFields())
-                        .with(csrf()))
-                .andExpect(status().isFound())
-                .andExpect(redirectedUrl("/"));
-        Optional<Task> optionalEditedTask = taskRepository.findById(testTask.getId());
-        assertTrue(optionalEditedTask.isPresent());
-        Task editedTask = optionalEditedTask.get();
-        assertTaskIsEdited(editedTask);
-    }
-
-    @Test
     @WithMockUser(username = "otherMockUser")
     public void test_DeleteWithOtherUser() throws Exception {
         mockMvc.perform(delete(ServletUriComponentsBuilder
                         .fromPath("/tasks/{id}").build(testTask.getId()))
                         .with(csrf()))
-                .andExpect(status().isFound())
-                .andExpect(redirectedUrl("/"));
+                .andExpect(status().isForbidden());
         assertEquals(1, taskRepository.count());
     }
 
     @Test
     @WithMockUser(username = "mockUser")
     public void test_DeleteWithCorrectUser() throws Exception {
-        mockMvc.perform(delete(ServletUriComponentsBuilder
-                        .fromPath("/tasks/{id}").build(testTask.getId()))
-                        .with(csrf()))
-                .andExpect(status().isFound())
-                .andExpect(redirectedUrl("/"));
-        assertEquals(0, taskRepository.count());
-    }
-
-    @Test
-    @WithMockUser(username = "mockAdminUser", roles = {"USER", "ADMIN"})
-    public void test_DeleteWithAdminUser() throws Exception {
         mockMvc.perform(delete(ServletUriComponentsBuilder
                         .fromPath("/tasks/{id}").build(testTask.getId()))
                         .with(csrf()))

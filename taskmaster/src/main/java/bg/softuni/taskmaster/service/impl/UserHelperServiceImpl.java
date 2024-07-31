@@ -2,13 +2,12 @@ package bg.softuni.taskmaster.service.impl;
 
 import bg.softuni.taskmaster.exceptions.UserNotFoundException;
 import bg.softuni.taskmaster.model.entity.User;
+import bg.softuni.taskmaster.model.enums.UserRoles;
 import bg.softuni.taskmaster.repository.UserRepository;
 import bg.softuni.taskmaster.service.UserHelperService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,25 +28,15 @@ public class UserHelperServiceImpl implements UserHelperService {
     }
 
     @Override
-    public boolean haseRole(String role) {
+    public boolean isAdmin() {
         return getAuthentication().getAuthorities()
                 .stream().anyMatch(e -> e.getAuthority().equals("ROLE_ADMIN"));
     }
 
     @Override
-    public boolean haseRole(String role, Long id) {
-        return getUser(id).getRoles()
-                .stream().anyMatch(e -> e.getName().name().equals(role));
-    }
-
-    @Override
-    public boolean isAdmin() {
-        return haseRole("ADMIN");
-    }
-
-    @Override
     public boolean isAdmin(Long id) {
-        return haseRole("ADMIN", id);
+        return getUser(id).getRoles()
+                .stream().anyMatch(e -> e.getName().equals(UserRoles.ADMIN));
     }
 
     @Override

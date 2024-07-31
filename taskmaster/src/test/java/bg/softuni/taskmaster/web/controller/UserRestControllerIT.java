@@ -150,8 +150,10 @@ class UserRestControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "mockUser")
+    @WithMockUser(username = "otherMockUser")
     public void test_deleteWhenNotHaveAuthorities() throws Exception {
+        userRepository.save(getTestUserWithoutAdminRole().setUsername("otherMockUser")
+                .setEmail("other@me.co"));
         Long savedUserId = userRepository.save(getTestUserWithoutAdminRole()).getId();
         mockMvc.perform(delete(ServletUriComponentsBuilder
                         .fromPath("/users/api/{id}")
@@ -165,7 +167,7 @@ class UserRestControllerIT {
         HashSet<Role> roles = new HashSet<>();
         roles.add(roleRepository.getByName(UserRoles.ADMIN));
         roles.add(roleRepository.getByName(UserRoles.USER));
-        return new User("Test", "Test Testing", "test@gmail.com",
+        return new User("mockUser", "Test Testing", "test@gmail.com",
                 20, "pass", roles, Set.of(), Set.of(), Set.of(), null);
     }
 

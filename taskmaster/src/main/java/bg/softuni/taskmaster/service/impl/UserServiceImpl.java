@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    @PreAuthorize("@userHelperServiceImpl.loggedUser.id.equals(#id)  ||  hasRole('ADMIN')")
+    @PreAuthorize("@userHelperServiceImpl.getLoggedUser().id.equals(#id)  ||  hasRole('ADMIN')")
     //todo think how to don't call db
     public void delete(Long id) {
         User user = userRepository.findById(id)

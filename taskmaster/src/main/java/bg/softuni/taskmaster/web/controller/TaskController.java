@@ -4,6 +4,7 @@ import bg.softuni.taskmaster.model.dto.TaskAddEditDTO;
 import bg.softuni.taskmaster.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -48,6 +49,7 @@ public class TaskController {
 
 
     @PostMapping("/edit/{id}")
+    @PreAuthorize("@taskServiceImpl.isActualUser(#taskEditDTO.id)")
     public String doEditTask(@Valid TaskAddEditDTO taskEditDTO, BindingResult bindingResult,
                              RedirectAttributes rAtt, @PathVariable Long id) {
         if (bindingResult.hasErrors()) {

@@ -35,7 +35,6 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    @PreAuthorize("@taskServiceImpl.isActualUser(#id)")
     public void edit(TaskAddEditDTO taskEditDTO) {
         Task currentTask = taskRepository.findById(taskEditDTO.getId())
                 .orElseThrow(NullPointerException::new);

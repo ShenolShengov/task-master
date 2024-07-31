@@ -12,10 +12,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.Set;
 
@@ -60,11 +60,12 @@ class UserServiceImplIT {
     }
 
     @Test
-    void test_GetInfoWith_InValid_Id() {
+    void test_GetInfoWith_NotValid_Id() {
         assertThrows(UserNotFoundException.class, () -> userService.getInfo(-4L));
     }
 
     @Test
+    @WithMockUser(username = "mockUser")
     public void test_deleteWith_Valid_Id() {
         assertEquals(1, userRepository.count());
         userService.delete(savedUser.getId());
@@ -72,7 +73,8 @@ class UserServiceImplIT {
     }
 
     @Test
-    public void test_deleteWith_InValid_Id() {
+    @WithMockUser(roles = {"USER", "ADMIN"})
+    public void test_deleteWith_NotValid_Id() {
         assertThrows(UserNotFoundException.class, () -> userService.delete(8L));
     }
 
@@ -84,14 +86,16 @@ class UserServiceImplIT {
     }
 
     @Test
-    public void test_getAll_With_Empty_SearchQuery() {
+    @WithMockUser(roles = {"USER", "ADMIN"})
+    public void test_getAll_With_EmptySearchQuery() {
         addTestData();
         Page<UserInfoDTO> all = userService.getAll("", getPageable());
         assertEquals(5, all.getTotalElements());
     }
 
     @Test
-    public void test_getAll_With_NotEmpty_SearchQuery() {
+    @WithMockUser(roles = {"USER", "ADMIN"})
+    public void test_getAll_With_NotEmptySearchQuery() {
         addTestData();
         assertEquals(1, userService.getAll("iv@com.me", getPageable()).getTotalElements());
         assertEquals(1, userService.getAll("Shenol", getPageable()).getTotalElements());
@@ -112,7 +116,7 @@ class UserServiceImplIT {
     }
 
     private static User getTestUser() {
-        return new User("test", "Testov", "test@", 20, "pass",
+        return new User("mockUser", "Testov", "test@", 20, "pass",
                 Set.of(), Set.of(), Set.of(), Set.of(),
                 null);
     }
