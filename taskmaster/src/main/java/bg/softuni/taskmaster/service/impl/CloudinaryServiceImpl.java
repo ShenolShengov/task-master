@@ -24,6 +24,7 @@ public class CloudinaryServiceImpl implements CloudinaryService {
         options.put("folder", folder);
         return (String) cloudinary.uploader().upload(file.getBytes(), options).get("public_id");
     }
+
     @Override
     public void deletePicture(String publicId) throws IOException {
         cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
