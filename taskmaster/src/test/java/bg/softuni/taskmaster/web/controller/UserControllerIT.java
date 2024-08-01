@@ -31,7 +31,6 @@ class UserControllerIT {
     @Autowired
     private UserRepository userRepository;
 
-
     @MockBean
     private MailService mailService;
 
@@ -41,7 +40,7 @@ class UserControllerIT {
 
     @BeforeEach
     void setUp() {
-        UserTestUtils.getOrSaveMockUserFromDB("mockUser", "mock@gmail.com", true);
+        UserTestUtils.getOrSaveTestUserFromDB("mockUser", "mock@gmail.com", true);
         doNothing().when(mailService).send(any(Payload.class));
     }
 

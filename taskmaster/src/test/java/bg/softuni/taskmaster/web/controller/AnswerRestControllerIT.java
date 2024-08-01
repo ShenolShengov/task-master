@@ -17,7 +17,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import static bg.softuni.taskmaster.utils.UserTestUtils.getOrSaveMockUserFromDB;
+import static bg.softuni.taskmaster.utils.UserTestUtils.getOrSaveTestUserFromDB;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -40,7 +40,7 @@ class AnswerRestControllerIT {
 
     @BeforeEach
     void setUp() {
-        User mockUser = getOrSaveMockUserFromDB("mockUser", "mock@gmail.com");
+        User mockUser = getOrSaveTestUserFromDB("testUser", "test@gmail.com");
         testQuestion = QuestionTestUtils.getTestQuestion(mockUser, true);
         testAnswer = AnswerTestUtils.getTestAnswer(mockUser, testQuestion, true);
     }
@@ -55,7 +55,7 @@ class AnswerRestControllerIT {
 
 
     @Test
-    @WithMockUser("mockUser")
+    @WithMockUser("testUser")
     public void test_DeleteWithActualUser() throws Exception {
         mockMvc.perform(delete(ServletUriComponentsBuilder
                         .fromPath("/answers/{id}").build(testAnswer.getId()))
@@ -66,10 +66,10 @@ class AnswerRestControllerIT {
     }
 
     @Test
-    @WithMockUser(value = "mockUser")
+    @WithMockUser(value = "testUser")
     public void test_DeleteWithOtherUser() throws Exception {
         Answer answer = AnswerTestUtils.getTestAnswer(
-                getOrSaveMockUserFromDB("otherUser", "mockAdmin@gmail.com"),
+                getOrSaveTestUserFromDB("otherUser", "otherUser@gmail.com"),
                 testQuestion, true);
 
         long answersCountBeforeTryToDelete = answerRepository.count();

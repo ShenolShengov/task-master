@@ -24,32 +24,32 @@ class StatisticsServiceImplTest {
     public static final long QUESTIONS_COUNT = 57L;
     public static final long ANSWERS_COUNT = 123L;
     @Mock
-    private UserRepository userRepository;
+    private UserRepository mockUserRepository;
     @Mock
-    private TaskRepository taskRepository;
+    private TaskRepository mockTaskRepository;
     @Mock
-    private QuestionRepository questionRepository;
+    private QuestionRepository mockQuestionRepository;
     @Mock
-    private AnswerRepository answerRepository;
+    private AnswerRepository mockAnswerRepository;
 
-    private  StatisticsServiceImpl statisticsService;
+    private StatisticsServiceImpl statisticsServiceToTest;
 
     @BeforeEach
     void setUp() {
-        statisticsService = new StatisticsServiceImpl(userRepository, taskRepository,
-                questionRepository, answerRepository);
+        statisticsServiceToTest = new StatisticsServiceImpl(mockUserRepository, mockTaskRepository,
+                mockQuestionRepository, mockAnswerRepository);
     }
 
     @Test
     public void test_GetStatistics() {
-        when(userRepository.count()).thenReturn(ALL_USERS_COUNT);
-        when(userRepository.countAdminUsers()).thenReturn(ADMIN_USERS_COUNT);
-        when(userRepository.countRegularUser()).thenReturn(REGULAR_USERS_COUNT);
-        when(taskRepository.count()).thenReturn(TASKS_COUNT);
-        when(questionRepository.count()).thenReturn(QUESTIONS_COUNT);
-        when(answerRepository.count()).thenReturn(ANSWERS_COUNT);
+        when(mockUserRepository.count()).thenReturn(ALL_USERS_COUNT);
+        when(mockUserRepository.countAdminUsers()).thenReturn(ADMIN_USERS_COUNT);
+        when(mockUserRepository.countRegularUser()).thenReturn(REGULAR_USERS_COUNT);
+        when(mockTaskRepository.count()).thenReturn(TASKS_COUNT);
+        when(mockQuestionRepository.count()).thenReturn(QUESTIONS_COUNT);
+        when(mockAnswerRepository.count()).thenReturn(ANSWERS_COUNT);
 
-        StatisticsDTO statistics = statisticsService.getStatistics();
+        StatisticsDTO statistics = statisticsServiceToTest.getStatistics();
 
         assertEquals(ALL_USERS_COUNT, statistics.getUsersCount());
         assertEquals(ADMIN_USERS_COUNT, statistics.getAdminUsersCount());

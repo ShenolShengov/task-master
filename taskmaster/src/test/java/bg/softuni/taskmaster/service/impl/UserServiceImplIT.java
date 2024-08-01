@@ -6,6 +6,7 @@ import bg.softuni.taskmaster.model.dto.UserInfoDTO;
 import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.repository.UserRepository;
 import bg.softuni.taskmaster.service.MailService;
+import bg.softuni.taskmaster.utils.UserTestUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,8 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import java.util.Set;
-
+import static bg.softuni.taskmaster.utils.UserTestUtils.getOrSaveTestUserFromDB;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -32,30 +32,30 @@ class UserServiceImplIT {
     @Autowired
     private UserServiceImpl userService;
 
-    private User savedUser;
+    private User testUser;
 
     @MockBean
-    private MailService mailService;
+    private MailService mockMailService;
 
     @BeforeEach
     void setUp() {
-        savedUser = userRepository.save(getTestUser());
+        testUser = getOrSaveTestUserFromDB("testUser", "test@com.me");
+        doNothing().when(mockMailService).send(any(Payload.class));
     }
 
     @AfterEach
     void tearDown() {
-        userRepository.deleteAll();
-        doNothing().when(mailService).send(any(Payload.class));
+        UserTestUtils.clearDB();
     }
 
     @Test
     void test_GetInfoWith_Valid_Id() {
-        UserInfoDTO info = userService.getInfo(savedUser.getId());
-        assertEquals(savedUser.getId(), info.getId());
-        assertEquals(savedUser.getUsername(), info.getUsername());
-        assertEquals(savedUser.getFullName(), info.getFullName());
-        assertEquals(savedUser.getAge(), info.getAge());
-        assertEquals(savedUser.getEmail(), info.getEmail());
+        UserInfoDTO info = userService.getInfo(testUser.getId());
+        assertEquals(testUser.getId(), info.getId());
+        assertEquals(testUser.getUsername(), info.getUsername());
+        assertEquals(testUser.getFullName(), info.getFullName());
+        assertEquals(testUser.getAge(), info.getAge());
+        assertEquals(testUser.getEmail(), info.getEmail());
         assertFalse(info.isAdmin());
     }
 
@@ -65,10 +65,10 @@ class UserServiceImplIT {
     }
 
     @Test
-    @WithMockUser(username = "mockUser")
+    @WithMockUser(username = "testUser")
     public void test_deleteWith_Valid_Id() {
         assertEquals(1, userRepository.count());
-        userService.delete(savedUser.getId());
+        userService.delete(testUser.getId());
         assertEquals(0, userRepository.count());
     }
 
@@ -81,7 +81,7 @@ class UserServiceImplIT {
 
     @Test
     public void test_Exist() {
-        assertTrue(userService.exists(savedUser.getId()));
+        assertTrue(userService.exists(testUser.getId()));
         assertFalse(userService.exists(7L));
     }
 
@@ -98,8 +98,8 @@ class UserServiceImplIT {
     public void test_getAll_With_NotEmptySearchQuery() {
         addTestData();
         assertEquals(1, userService.getAll("iv@com.me", getPageable()).getTotalElements());
-        assertEquals(1, userService.getAll("Shenol", getPageable()).getTotalElements());
-        assertEquals(1, userService.getAll("Nikolay Nikolaev", getPageable()).getTotalElements());
+        assertEquals(1, userService.getAll("Tomas", getPageable()).getTotalElements());
+        assertEquals(1, userService.getAll("Nikolay Nikol", getPageable()).getTotalElements());
         assertEquals(2, userService.getAll("24", getPageable()).getTotalElements());
     }
 
@@ -108,16 +108,12 @@ class UserServiceImplIT {
     }
 
     private void addTestData() {
-        userRepository.save(getTestUser().setUsername("Shenol").setEmail("sh@com.me"));
-        userRepository.save(getTestUser().setUsername("Ivan").setEmail("iv@com.me"));
-        userRepository.save(getTestUser().setUsername("Georgi").setAge(24).setEmail("ge@com.me"));
-        userRepository.save(getTestUser().setUsername("Nikolay").setFullName("Nikolay Nikolaev").
-                setAge(24).setEmail("ni@com.me"));
+        getOrSaveTestUserFromDB("Tomas", "to@com.me");
+        getOrSaveTestUserFromDB("Ivan", "iv@com.me");
+        getOrSaveTestUserFromDB("Georgi", "ge@com.me", 24);
+        getOrSaveTestUserFromDB("Nikolay", "ni@com.me", "Nikolay Nikol", 24,
+                false);
     }
 
-    private static User getTestUser() {
-        return new User("mockUser", "Testov", "test@", 20, "pass",
-                Set.of(), Set.of(), Set.of(), Set.of(),
-                null);
-    }
+
 }

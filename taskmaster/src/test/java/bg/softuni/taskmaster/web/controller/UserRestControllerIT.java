@@ -31,8 +31,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class UserRestControllerIT {
 
-
     public static final int NOT_VALID_USER_ID = 24;
+
     @Autowired
     public MockMvc mockMvc;
 
@@ -41,17 +41,18 @@ class UserRestControllerIT {
 
 
     @MockBean
-    private MailService mailService;
+    private MailService mockMailService;
 
-    private User mockUser;
-    private User mockAdminUser;
+    private User testUser;
+
+    private User testAdminUser;
 
     @BeforeEach
     void setUp() {
-        mockUser = UserTestUtils.getOrSaveMockUserFromDB("mockUser", "mock@gmail.com");
-        mockAdminUser = UserTestUtils.getOrSaveMockUserFromDB("mockAdminUser", "mockAdmin@gmail.com",
+        testUser = UserTestUtils.getOrSaveTestUserFromDB("testUser", "testUser@gmail.com");
+        testAdminUser = UserTestUtils.getOrSaveTestUserFromDB("testAdminUser", "testAdmin@gmail.com",
                 true);
-        doNothing().when(mailService).send(any(Payload.class));
+        doNothing().when(mockMailService).send(any(Payload.class));
     }
 
     @AfterEach
@@ -61,21 +62,21 @@ class UserRestControllerIT {
 
 
     @Test
-    @WithMockUser(username = "mockAdminUser", roles = {"ADMIN", "USER"})
+    @WithMockUser(username = "testAdminUser", roles = {"ADMIN", "USER"})
     public void test_MakeAdmin() throws Exception {
         mockMvc.perform(patch(ServletUriComponentsBuilder
                         .fromPath("/users/api/make-admin/{id}")
-                        .build(mockUser.getId()))
+                        .build(testUser.getId()))
                         .with(csrf()))
                 .andExpect(status().isOk());
-        Optional<User> optionalSavedUser = userRepository.findById(mockUser.getId());
+        Optional<User> optionalSavedUser = userRepository.findById(testUser.getId());
         assertTrue(optionalSavedUser.isPresent());
         User savedUser = optionalSavedUser.get();
         assertTrue(savedUser.getRoles().stream().anyMatch(e -> e.getName().equals(UserRoles.ADMIN)));
     }
 
     @Test
-    @WithMockUser(username = "mockAdminUser", roles = {"ADMIN", "USER"})
+    @WithMockUser(username = "testAdminUser", roles = {"ADMIN", "USER"})
     public void test_MakeAdminWithInvalidId() throws Exception {
         mockMvc.perform(patch(ServletUriComponentsBuilder
                         .fromPath("/users/api/make-admin/{id}")
@@ -85,24 +86,24 @@ class UserRestControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "mockUser")
+    @WithMockUser(username = "testUser")
     public void test_MakeAdminWhenNotHaveAuthorities() throws Exception {
         mockMvc.perform(patch(ServletUriComponentsBuilder
                         .fromPath("/users/api/make-admin/{id}")
-                        .build(mockUser.getId()))
+                        .build(testUser.getId()))
                         .with(csrf()))
                 .andExpect(status().isForbidden());
     }
 
     @Test
-    @WithMockUser(username = "mockAdminUser", roles = {"ADMIN", "USER"})
+    @WithMockUser(username = "testAdminUser", roles = {"ADMIN", "USER"})
     public void test_RemoveAdmin() throws Exception {
         mockMvc.perform(patch(ServletUriComponentsBuilder
                         .fromPath("/users/api/remove-admin/{id}")
-                        .build(mockAdminUser.getId()))
+                        .build(testAdminUser.getId()))
                         .with(csrf()))
                 .andExpect(status().isOk());
-        Optional<User> optionalSavedUser = userRepository.findById(mockAdminUser.getId());
+        Optional<User> optionalSavedUser = userRepository.findById(testAdminUser.getId());
         assertTrue(optionalSavedUser.isPresent());
         User savedUser = optionalSavedUser.get();
         assertTrue(savedUser.getRoles().stream().noneMatch(e -> e.getName().equals(UserRoles.ADMIN)));
@@ -110,7 +111,7 @@ class UserRestControllerIT {
 
 
     @Test
-    @WithMockUser(username = "mockAdminUser", roles = {"ADMIN", "USER"})
+    @WithMockUser(username = "testAdminUser", roles = {"ADMIN", "USER"})
     public void test_RemoveAdminWithInvalidId() throws Exception {
         mockMvc.perform(patch(ServletUriComponentsBuilder
                         .fromPath("/users/api/remove-admin/{id}")
@@ -120,31 +121,31 @@ class UserRestControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "mockUser")
+    @WithMockUser(username = "testUser")
     public void test_RemoveAdminWhenNotHaveAuthorities() throws Exception {
         mockMvc.perform(patch(ServletUriComponentsBuilder
                         .fromPath("/users/api/remove-admin/{id}")
-                        .build(mockUser.getId()))
+                        .build(testUser.getId()))
                         .with(csrf()))
                 .andExpect(status().isForbidden());
     }
 
 
     @Test
-    @WithMockUser(username = "mockUser", roles = {"ADMIN", "USER"})
+    @WithMockUser(username = "testUser", roles = {"ADMIN", "USER"})
     public void test_delete() throws Exception {
         mockMvc.perform(delete(ServletUriComponentsBuilder
                         .fromPath("/users/api/{id}")
-                        .build(mockUser.getId()))
+                        .build(testUser.getId()))
                         .with(csrf()))
                 .andExpect(status().isOk());
 
-        assertTrue(userRepository.findById(mockUser.getId()).isEmpty());
+        assertTrue(userRepository.findById(testUser.getId()).isEmpty());
     }
 
 
     @Test
-    @WithMockUser(username = "mockAdminUser", roles = {"ADMIN", "USER"})
+    @WithMockUser(username = "testAdminUser", roles = {"ADMIN", "USER"})
     public void test_deleteWithInvalidId() throws Exception {
         mockMvc.perform(delete(ServletUriComponentsBuilder
                         .fromPath("/users/api/{id}")
@@ -154,12 +155,12 @@ class UserRestControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "otherMockUser")
+    @WithMockUser(username = "otherTestUser")
     public void test_deleteWhenNotHaveAuthorities() throws Exception {
-        UserTestUtils.getOrSaveMockUserFromDB("otherMockUser", "other@gmail.com");
+        UserTestUtils.getOrSaveTestUserFromDB("otherTestUser", "other@gmail.com");
         mockMvc.perform(delete(ServletUriComponentsBuilder
                         .fromPath("/users/api/{id}")
-                        .build(mockUser.getId()))
+                        .build(testUser.getId()))
                         .with(csrf()))
                 .andExpect(status().isForbidden());
     }

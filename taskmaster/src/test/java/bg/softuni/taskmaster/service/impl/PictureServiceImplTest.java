@@ -31,12 +31,12 @@ class PictureServiceImplTest {
     public static final String URL = FOLDER + "/" + PUBLIC_ID;
     public static final String ORIGINAL_NAME = "";
     @Mock
-    private CloudinaryService cloudinaryService;
+    private CloudinaryService mockCloudinaryService;
 
     @Mock
-    private PictureRepository pictureRepository;
+    private PictureRepository mockPictureRepository;
 
-    private PictureServiceImpl pictureService;
+    private PictureServiceImpl pictureServiceToTest;
 
     private Picture testPicture;
 
@@ -45,34 +45,34 @@ class PictureServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        this.pictureService = new PictureServiceImpl(pictureRepository, cloudinaryService);
-        this.testPicture = getProfilePicture(false);
+        this.pictureServiceToTest = new PictureServiceImpl(mockPictureRepository, mockCloudinaryService);
+        this.testPicture = getPicture(false);
     }
 
     @Test
     public void test_DeletePicture() throws IOException {
-        doNothing().when(cloudinaryService).deletePicture(anyString());
-        pictureService.deletePicture(testPicture);
-        verify(pictureRepository).delete(testPicture);
-        verify(cloudinaryService).deletePicture(testPicture.getPublicId());
+        doNothing().when(mockCloudinaryService).deletePicture(anyString());
+        pictureServiceToTest.deletePicture(testPicture);
+        verify(mockPictureRepository).delete(testPicture);
+        verify(mockCloudinaryService).deletePicture(testPicture.getPublicId());
     }
 
     @Test
     public void test_CreatePictureOrGetDefault_ShouldReturn_Default_WithEmptyMultipartFile() throws IOException {
-        when(pictureRepository.readById(1L)).thenReturn(testPicture);
-        Picture actualPicture = pictureService.createPictureOrGetDefault(getEmptyMultipartFile(), "testFolder");
+        when(mockPictureRepository.readById(1L)).thenReturn(testPicture);
+        Picture actualPicture = pictureServiceToTest.createPictureOrGetDefault(getEmptyMultipartFile(), "testFolder");
         assertSame(testPicture, actualPicture);
     }
 
     @Test
     public void test_CreatePictureOrGetDefault_Should_Successfully_CreatePicture() throws IOException {
-        when(cloudinaryService.uploadPicture(any(MultipartFile.class), eq(FOLDER)))
+        when(mockCloudinaryService.uploadPicture(any(MultipartFile.class), eq(FOLDER)))
                 .thenReturn(PUBLIC_ID);
-        when(cloudinaryService.getUrl(PUBLIC_ID))
+        when(mockCloudinaryService.getUrl(PUBLIC_ID))
                 .thenReturn(URL);
 
-        pictureService.createPictureOrGetDefault(getMultipartPicture(), FOLDER);
-        verify(pictureRepository).save(pictureCaptor.capture());
+        pictureServiceToTest.createPictureOrGetDefault(getMultipartPicture(), FOLDER);
+        verify(mockPictureRepository).save(pictureCaptor.capture());
         Picture actualSavedPicture = pictureCaptor.getValue();
         assertEquals(ORIGINAL_NAME, actualSavedPicture.getOriginalName());
         assertEquals(PUBLIC_ID, actualSavedPicture.getPublicId());

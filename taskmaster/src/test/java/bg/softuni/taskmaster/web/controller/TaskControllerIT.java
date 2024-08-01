@@ -23,7 +23,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import static bg.softuni.taskmaster.utils.TaskTestUtils.getTestTask;
-import static bg.softuni.taskmaster.utils.UserTestUtils.getOrSaveMockUserFromDB;
+import static bg.softuni.taskmaster.utils.UserTestUtils.getOrSaveTestUserFromDB;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -43,8 +43,8 @@ class TaskControllerIT {
 
     @BeforeEach
     void setUp() {
-        testTask = getTestTask(getOrSaveMockUserFromDB("mockUser", "mock@gmail.com"), true);
-        getOrSaveMockUserFromDB("otherMockUser", "other@gmail.com");
+        testTask = getTestTask(getOrSaveTestUserFromDB("testUser", "mock@gmail.com"), true);
+        getOrSaveTestUserFromDB("otherTestUser", "other@gmail.com");
     }
 
     @AfterEach
@@ -54,7 +54,7 @@ class TaskControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "mockUser")
+    @WithMockUser(username = "testUser")
     public void test_addTaskView() throws Exception {
         mockMvc.perform(get("/tasks/add"))
                 .andExpect(status().isOk())
@@ -63,7 +63,7 @@ class TaskControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "mockUser")
+    @WithMockUser(username = "testUser")
     public void test_DoAddTaskWithValidDTO() throws Exception {
         taskRepository.deleteAll();
         mockMvc.perform(post("/tasks/add")
@@ -76,7 +76,7 @@ class TaskControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "mockUser")
+    @WithMockUser(username = "testUser")
     public void test_DoAddTaskWithInValidDTO() throws Exception {
         taskRepository.deleteAll();
         mockMvc.perform(post("/tasks/add")
@@ -93,7 +93,7 @@ class TaskControllerIT {
 
 
     @Test
-    @WithMockUser("otherMockUser")
+    @WithMockUser("otherTestUser")
     public void test_EditTaskWithOtherUser() throws Exception {
         mockMvc.perform(get(ServletUriComponentsBuilder
                         .fromPath("/tasks/edit/{id}").build(testTask.getId())))
@@ -101,7 +101,7 @@ class TaskControllerIT {
     }
 
     @Test
-    @WithMockUser("mockUser")
+    @WithMockUser("testUser")
     public void test_EditTaskWithCorrectUser() throws Exception {
         mockMvc.perform(get(ServletUriComponentsBuilder
                         .fromPath("/tasks/edit/{id}").build(testTask.getId())))
@@ -110,7 +110,7 @@ class TaskControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "otherMockUser")
+    @WithMockUser(username = "otherTestUser")
     public void test_Do_EditTaskWithOtherUser() throws Exception {
         mockMvc.perform(post(ServletUriComponentsBuilder
                         .fromPath("/tasks/edit/{id}").build(testTask.getId()))
@@ -119,7 +119,7 @@ class TaskControllerIT {
     }
 
     @Test
-    @WithMockUser("mockUser")
+    @WithMockUser("testUser")
     public void test_Do_EditTaskWithCorrectUserButWrongData() throws Exception {
         mockMvc.perform(post(ServletUriComponentsBuilder
                         .fromPath("/tasks/edit/{id}").build(testTask.getId()))
@@ -134,7 +134,7 @@ class TaskControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "mockUser")
+    @WithMockUser(username = "testUser")
     public void test_Do_EditTaskWithCorrectUser() throws Exception {
         mockMvc.perform(post(ServletUriComponentsBuilder
                         .fromPath("/tasks/edit/{id}").build(testTask.getId()))
@@ -149,7 +149,7 @@ class TaskControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "otherMockUser")
+    @WithMockUser(username = "otherTestUser")
     public void test_DeleteWithOtherUser() throws Exception {
         mockMvc.perform(delete(ServletUriComponentsBuilder
                         .fromPath("/tasks/{id}").build(testTask.getId()))
@@ -159,7 +159,7 @@ class TaskControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "mockUser")
+    @WithMockUser(username = "testUser")
     public void test_DeleteWithCorrectUser() throws Exception {
         mockMvc.perform(delete(ServletUriComponentsBuilder
                         .fromPath("/tasks/{id}").build(testTask.getId()))

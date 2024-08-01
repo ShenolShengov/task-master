@@ -18,7 +18,7 @@ public class PictureTestUtils {
     public static PictureRepository pictureRepository;
 
 
-    public static Picture getProfilePicture(boolean fromDB) {
+    public static Picture getPicture(boolean fromDB) {
         Picture profilePicture = new Picture("defaultProfilePicture", "defaultUrl", "publicId");
         if (!fromDB) return profilePicture;
         Optional<Picture> defaultPicture = pictureRepository.findById(1L);

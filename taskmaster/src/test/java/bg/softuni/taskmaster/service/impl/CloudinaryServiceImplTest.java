@@ -27,29 +27,29 @@ class CloudinaryServiceImplTest {
     public static final String PUBLIC_ID = "TestPublicId";
     public static final String FOLDER = "testFolder";
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-    private Cloudinary cloudinary;
+    private Cloudinary mockCloudinary;
 
-    private CloudinaryServiceImpl cloudinaryService;
+    private CloudinaryServiceImpl cloudinaryServiceToTest;
 
     @BeforeEach
     void setUp() {
-        this.cloudinaryService = new CloudinaryServiceImpl(cloudinary);
+        this.cloudinaryServiceToTest = new CloudinaryServiceImpl(mockCloudinary);
     }
 
     @Test
     public void test_GetUrl() {
-        when(cloudinary.url().secure(true).generate(anyString()))
+        when(mockCloudinary.url().secure(true).generate(anyString()))
                 .thenReturn(URL);
-        String actualUrl = cloudinaryService.getUrl(PUBLIC_ID);
+        String actualUrl = cloudinaryServiceToTest.getUrl(PUBLIC_ID);
         assertEquals(URL, actualUrl);
     }
 
     @Test
     public void test_DeletePicture() throws IOException {
-        when(cloudinary.uploader().destroy(PUBLIC_ID, ObjectUtils.emptyMap()))
+        when(mockCloudinary.uploader().destroy(PUBLIC_ID, ObjectUtils.emptyMap()))
                 .thenReturn(ObjectUtils.emptyMap());
-        cloudinaryService.deletePicture(PUBLIC_ID);
-        verify(cloudinary.uploader()).destroy(PUBLIC_ID, ObjectUtils.emptyMap());
+        cloudinaryServiceToTest.deletePicture(PUBLIC_ID);
+        verify(mockCloudinary.uploader()).destroy(PUBLIC_ID, ObjectUtils.emptyMap());
     }
 
     @Test
@@ -57,10 +57,10 @@ class CloudinaryServiceImplTest {
     public void test_UploadPicture() throws IOException {
         MultipartFile testMultipartPicture = PictureTestUtils.getMultipartPicture();
         Map<Object, Object> testOptions = (Map<Object, Object>) ObjectUtils.asMap("folder", FOLDER);
-        when(cloudinary.uploader().upload(testMultipartPicture.getBytes(),
+        when(mockCloudinary.uploader().upload(testMultipartPicture.getBytes(),
                 testOptions).get("public_id"))
                 .thenReturn(PUBLIC_ID);
-        String actualPublicId = cloudinaryService.uploadPicture(testMultipartPicture, FOLDER);
+        String actualPublicId = cloudinaryServiceToTest.uploadPicture(testMultipartPicture, FOLDER);
         assertEquals(PUBLIC_ID, actualPublicId);
     }
 }

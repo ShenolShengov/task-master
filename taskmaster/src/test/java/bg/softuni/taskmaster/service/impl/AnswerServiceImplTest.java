@@ -23,7 +23,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import java.util.Optional;
 
 import static bg.softuni.taskmaster.utils.AnswerTestUtils.getTestAnswerDTO;
-import static bg.softuni.taskmaster.utils.UserTestUtils.getMockUser;
+import static bg.softuni.taskmaster.utils.UserTestUtils.getTestUser;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -34,17 +34,17 @@ class AnswerServiceImplTest {
 
     public static final long TEST_QUESTION_ID = 1L;
     public static final long ANSWER_TEST_ID = 1L;
+    private AnswerServiceImpl answerServiceToTest;
     @Mock
-    private AnswerRepository answerRepository;
+    private AnswerRepository mockAnswerRepository;
     @Mock
-    private UserHelperService userHelperService;
+    private UserHelperService mockUserHelperService;
 
     @Mock
-    private QuestionRepository questionRepository;
+    private QuestionRepository mockQuestionRepository;
 
     @Mock
-    private ApplicationEventPublisher publisher;
-    private AnswerServiceImpl answerService;
+    private ApplicationEventPublisher mockPublisher;
 
     @Captor
     public ArgumentCaptor<Answer> answerCaptor = ArgumentCaptor.forClass(Answer.class);
@@ -52,54 +52,54 @@ class AnswerServiceImplTest {
     @Captor
     public ArgumentCaptor<Long> longCaptor = ArgumentCaptor.forClass(Long.class);
 
-    private User mockUser;
+    private User testUser;
 
-    private Question mockQuestion;
+    private Question testQuestion;
 
     @BeforeEach
     void setUp() {
-        this.answerService = new AnswerServiceImpl(answerRepository, new ModelMapper(),
-                userHelperService, questionRepository, publisher);
-        mockUser = getMockUser("mockUser", "mock@me.com", false);
-        mockQuestion = QuestionTestUtils.getTestQuestion(mockUser, false);
+        this.answerServiceToTest = new AnswerServiceImpl(mockAnswerRepository, new ModelMapper(),
+                mockUserHelperService, mockQuestionRepository, mockPublisher);
+        testUser = getTestUser("testUser", "test@me.com", false);
+        testQuestion = QuestionTestUtils.getTestQuestion(testUser, false);
 
     }
 
     @Test
     public void test_Answer() {
-        doNothing().when(publisher).publishEvent(any(ApplicationEvent.class));
-        when(userHelperService.getLoggedUser())
-                .thenReturn(mockUser);
-        when(questionRepository.getReferenceById(1L))
-                .thenReturn(mockQuestion
+        doNothing().when(mockPublisher).publishEvent(any(ApplicationEvent.class));
+        when(mockUserHelperService.getLoggedUser())
+                .thenReturn(testUser);
+        when(mockQuestionRepository.getReferenceById(1L))
+                .thenReturn(testQuestion
                 );
 
         AnswerDTO answerDTO = getTestAnswerDTO();
-        answerService.answer(answerDTO, TEST_QUESTION_ID);
-        verify(answerRepository).save(answerCaptor.capture());
+        answerServiceToTest.answer(answerDTO, TEST_QUESTION_ID);
+        verify(mockAnswerRepository).save(answerCaptor.capture());
         Answer saveAnswer = answerCaptor.getValue();
         assertEquals(answerDTO.getCode(), saveAnswer.getCode());
         assertEquals(answerDTO.getDescription(), saveAnswer.getDescription());
-        verify(publisher).publishEvent(any(ApplicationEvent.class));
+        verify(mockPublisher).publishEvent(any(ApplicationEvent.class));
     }
 
     @Test
     public void test_IsActualUser() {
-        when(answerRepository.findById(ANSWER_TEST_ID))
-                .thenReturn(Optional.of(AnswerTestUtils.getTestAnswer(mockUser, mockQuestion, false)));
-        when(userHelperService.getUsername()).thenReturn(mockUser.getUsername());
-        assertTrue(answerService.isActualUser(ANSWER_TEST_ID));
+        when(mockAnswerRepository.findById(ANSWER_TEST_ID))
+                .thenReturn(Optional.of(AnswerTestUtils.getTestAnswer(testUser, testQuestion, false)));
+        when(mockUserHelperService.getUsername()).thenReturn(testUser.getUsername());
+        assertTrue(answerServiceToTest.isActualUser(ANSWER_TEST_ID));
 
-        when(userHelperService.getUsername()).thenReturn("otherMockUser");
-        assertFalse(answerService.isActualUser(ANSWER_TEST_ID));
+        when(mockUserHelperService.getUsername()).thenReturn("otherTestUser");
+        assertFalse(answerServiceToTest.isActualUser(ANSWER_TEST_ID));
 
     }
 
     @Test
     public void test_Delete() {
 
-        answerService.delete(TEST_QUESTION_ID);
-        verify(answerRepository).deleteById(longCaptor.capture());
+        answerServiceToTest.delete(TEST_QUESTION_ID);
+        verify(mockAnswerRepository).deleteById(longCaptor.capture());
         assertEquals(TEST_QUESTION_ID, longCaptor.getValue());
     }
 }
