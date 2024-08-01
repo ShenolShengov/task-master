@@ -19,7 +19,7 @@ public class UserTestUtils {
         User user = new User(username, email, "mock@gmail.com", 20, "password",
                 new HashSet<>(List.of(RoleTestUtils.getRole(UserRoles.USER, false))),
                 Set.of(), Set.of(), Set.of(),
-                PictureTestUtils.getDefaultProfilePicture(false));
+                PictureTestUtils.getProfilePicture(false));
         if (isAdmin) {
             user.getRoles().add(RoleTestUtils.getRole(UserRoles.ADMIN, false));
         }
@@ -32,7 +32,7 @@ public class UserTestUtils {
                     User user = new User(username, "Mock mocker", email, 20, "password",
                             new HashSet<>(List.of(RoleTestUtils.getRole(UserRoles.USER, true))),
                             new HashSet<>(), new HashSet<>(), new HashSet<>(),
-                            PictureTestUtils.getDefaultProfilePicture(true));
+                            PictureTestUtils.getProfilePicture(true));
                     if (isAdmin) {
                         user.getRoles().add(RoleTestUtils.getRole(UserRoles.ADMIN, true));
                     }

@@ -14,13 +14,13 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class PictureServiceImpl implements PictureService {
 
-    private final CloudinaryService cloudinaryService;
     private final PictureRepository pictureRepository;
+    private final CloudinaryService cloudinaryService;
 
     @Override
     public Picture createPictureOrGetDefault(MultipartFile pictureFile, String folder) throws IOException {
         if (pictureFile.isEmpty()) {
-            return getDefultProfilePicture();
+            return getDefaultPicture();
         }
         String publicId = cloudinaryService.uploadPicture(pictureFile, folder);
         String pictureUrl = cloudinaryService.getUrl(publicId);
@@ -28,8 +28,8 @@ public class PictureServiceImpl implements PictureService {
         return pictureRepository.save(picture);
     }
 
-    private Picture getDefultProfilePicture() {
-        return pictureRepository.searchById(1L);
+    private Picture getDefaultPicture() {
+        return pictureRepository.readById(1L);
     }
 
     @Override
