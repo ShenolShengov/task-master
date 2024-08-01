@@ -68,8 +68,8 @@ class TaskControllerIT {
         taskRepository.deleteAll();
         mockMvc.perform(post("/tasks/add")
                         .with(csrf())
-                        .header("Content-Type", MediaType.APPLICATION_FORM_URLENCODED)
-                        .formFields(getTestAddTaskFormFields()))
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .formFields(getTestAddTaskDTOFormFields()))
                 .andExpect(status().isFound())
                 .andExpect(redirectedUrl("/"));
         assertEquals(1, taskRepository.count());
@@ -81,7 +81,7 @@ class TaskControllerIT {
         taskRepository.deleteAll();
         mockMvc.perform(post("/tasks/add")
                         .with(csrf())
-                        .header("Content-Type", MediaType.APPLICATION_FORM_URLENCODED)
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .formFields(new LinkedMultiValueMap<>()))
                 .andExpect(status().isFound())
                 .andExpect(redirectedUrl("/tasks/add"))
@@ -138,7 +138,7 @@ class TaskControllerIT {
     public void test_Do_EditTaskWithCorrectUser() throws Exception {
         mockMvc.perform(post(ServletUriComponentsBuilder
                         .fromPath("/tasks/edit/{id}").build(testTask.getId()))
-                        .formFields(getTestAddTaskFormFields())
+                        .formFields(getTestAddTaskDTOFormFields())
                         .with(csrf()))
                 .andExpect(status().isFound())
                 .andExpect(redirectedUrl("/"));
@@ -180,7 +180,7 @@ class TaskControllerIT {
         assertNotEquals(testTask.getDescription(), editedTask.getDescription());
     }
 
-    private MultiValueMap<String, String> getTestAddTaskFormFields() {
+    private MultiValueMap<String, String> getTestAddTaskDTOFormFields() {
         LinkedMultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("Name", "Test task");
         map.add("category", "Personal");

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -40,9 +41,9 @@ class AnswerRestControllerIT {
 
     @BeforeEach
     void setUp() {
-        User mockUser = getOrSaveTestUserFromDB("testUser", "test@gmail.com");
-        testQuestion = QuestionTestUtils.getTestQuestion(mockUser, true);
-        testAnswer = AnswerTestUtils.getTestAnswer(mockUser, testQuestion, true);
+        User testUser = getOrSaveTestUserFromDB("testUser", "test@gmail.com");
+        testQuestion = QuestionTestUtils.getTestQuestion(testUser, true);
+        testAnswer = AnswerTestUtils.getTestAnswer(testUser, testQuestion, true);
     }
 
 
@@ -56,6 +57,7 @@ class AnswerRestControllerIT {
 
     @Test
     @WithMockUser("testUser")
+    @DirtiesContext//todo think about this (how cna you remove this)
     public void test_DeleteWithActualUser() throws Exception {
         mockMvc.perform(delete(ServletUriComponentsBuilder
                         .fromPath("/answers/{id}").build(testAnswer.getId()))

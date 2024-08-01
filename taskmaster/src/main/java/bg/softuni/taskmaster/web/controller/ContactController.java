@@ -28,7 +28,7 @@ public class ContactController {
     }
 
     @PostMapping
-    public String doContacts(@Valid ContactUsDTO contactUsDTO, BindingResult bindingResult, RedirectAttributes rAtt) {
+    public String contactUs(@Valid ContactUsDTO contactUsDTO, BindingResult bindingResult, RedirectAttributes rAtt) {
         if (bindingResult.hasErrors()) {
             rAtt.addFlashAttribute("contactData", contactUsDTO);
             rAtt.addFlashAttribute("org.springframework.validation.BindingResult.contactData",
