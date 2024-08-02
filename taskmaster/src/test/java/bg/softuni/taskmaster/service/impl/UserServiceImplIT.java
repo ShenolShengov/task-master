@@ -18,7 +18,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import static bg.softuni.taskmaster.utils.UserTestUtils.getOrSaveTestUserFromDB;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -32,6 +31,8 @@ class UserServiceImplIT {
     @Autowired
     private UserServiceImpl userService;
 
+    @Autowired
+    private UserTestUtils userTestUtils;
     private User testUser;
 
     @MockBean
@@ -39,13 +40,13 @@ class UserServiceImplIT {
 
     @BeforeEach
     void setUp() {
-        testUser = getOrSaveTestUserFromDB("testUser", "test@com.me");
+        testUser = userTestUtils.getOrSaveTestUserFromDB("testUser", "test@com.me");
         doNothing().when(mockMailService).send(any(Payload.class));
     }
 
     @AfterEach
     void tearDown() {
-        UserTestUtils.clearDB();
+        userTestUtils.clearDB();
     }
 
     @Test
@@ -108,10 +109,10 @@ class UserServiceImplIT {
     }
 
     private void addTestData() {
-        getOrSaveTestUserFromDB("Tomas", "to@com.me");
-        getOrSaveTestUserFromDB("Ivan", "iv@com.me");
-        getOrSaveTestUserFromDB("Georgi", "ge@com.me", 24);
-        getOrSaveTestUserFromDB("Nikolay", "ni@com.me", "Nikolay Nikol", 24,
+        userTestUtils.getOrSaveTestUserFromDB("Tomas", "to@com.me");
+        userTestUtils.getOrSaveTestUserFromDB("Ivan", "iv@com.me");
+        userTestUtils.getOrSaveTestUserFromDB("Georgi", "ge@com.me", 24);
+        userTestUtils.getOrSaveTestUserFromDB("Nikolay", "ni@com.me", "Nikolay Nikol", 24,
                 false);
     }
 

@@ -14,7 +14,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -40,6 +39,9 @@ class UserRestControllerIT {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserTestUtils userTestUtils;
+
     @MockBean
     private MailService mockMailService;
 
@@ -49,15 +51,15 @@ class UserRestControllerIT {
 
     @BeforeEach
     void setUp() {
-        testUser = UserTestUtils.getOrSaveTestUserFromDB("testUser", "testUser@gmail.com");
-        testAdminUser = UserTestUtils.getOrSaveTestUserFromDB("testAdminUser", "testAdmin@gmail.com",
+        testUser = userTestUtils.getOrSaveTestUserFromDB("testUser", "testUser@gmail.com");
+        testAdminUser = userTestUtils.getOrSaveTestUserFromDB("testAdminUser", "testAdmin@gmail.com",
                 true);
         doNothing().when(mockMailService).send(any(Payload.class));
     }
 
     @AfterEach
     void tearDown() {
-        UserTestUtils.clearDB();
+        userTestUtils.clearDB();
     }
 
 
@@ -157,7 +159,7 @@ class UserRestControllerIT {
     @Test
     @WithMockUser(username = "otherTestUser")
     public void test_deleteWhenNotHaveAuthorities() throws Exception {
-        UserTestUtils.getOrSaveTestUserFromDB("otherTestUser", "other@gmail.com");
+        userTestUtils.getOrSaveTestUserFromDB("otherTestUser", "other@gmail.com");
         mockMvc.perform(delete(ServletUriComponentsBuilder
                         .fromPath("/users/api/{id}")
                         .build(testUser.getId()))

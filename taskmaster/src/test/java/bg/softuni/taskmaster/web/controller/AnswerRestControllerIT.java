@@ -18,7 +18,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import static bg.softuni.taskmaster.utils.UserTestUtils.getOrSaveTestUserFromDB;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -34,6 +33,14 @@ class AnswerRestControllerIT {
     @Autowired
     private AnswerRepository answerRepository;
 
+    @Autowired
+    private UserTestUtils userTestUtils;
+
+    @Autowired
+    private QuestionTestUtils questionTestUtils;
+
+    @Autowired
+    private AnswerTestUtils answerTestUtils;
     private Question testQuestion;
 
     private Answer testAnswer;
@@ -41,17 +48,17 @@ class AnswerRestControllerIT {
 
     @BeforeEach
     void setUp() {
-        User testUser = getOrSaveTestUserFromDB("testUser", "test@gmail.com");
-        testQuestion = QuestionTestUtils.getTestQuestion(testUser, true);
-        testAnswer = AnswerTestUtils.getTestAnswer(testUser, testQuestion, true);
+        User testUser = userTestUtils.getOrSaveTestUserFromDB("testUser", "test@gmail.com");
+        testQuestion = questionTestUtils.saveTestQuestion(testUser);
+        testAnswer = answerTestUtils.saveTestAnswer(testUser, testQuestion);
     }
 
 
     @AfterEach
     void tearDown() {
-        AnswerTestUtils.clearDB();
-        UserTestUtils.clearDB();
-        QuestionTestUtils.clearDB();
+        answerTestUtils.clearDB();
+        userTestUtils.clearDB();
+        questionTestUtils.clearDB();
     }
 
 
@@ -70,9 +77,9 @@ class AnswerRestControllerIT {
     @Test
     @WithMockUser(value = "testUser")
     public void test_DeleteWithOtherUser() throws Exception {
-        Answer answer = AnswerTestUtils.getTestAnswer(
-                getOrSaveTestUserFromDB("otherUser", "otherUser@gmail.com"),
-                testQuestion, true);
+        Answer answer = answerTestUtils.saveTestAnswer(
+                userTestUtils.getOrSaveTestUserFromDB("otherUser", "otherUser@gmail.com"),
+                testQuestion);
 
         long answersCountBeforeTryToDelete = answerRepository.count();
         mockMvc.perform(delete(ServletUriComponentsBuilder

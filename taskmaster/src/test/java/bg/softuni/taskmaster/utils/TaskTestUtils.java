@@ -14,23 +14,25 @@ import static bg.softuni.taskmaster.model.enums.TaskPriorities.HIGH;
 @Component
 public class TaskTestUtils {
 
-    private static TaskRepository taskRepository;
+    private final TaskRepository taskRepository;
 
-    public static Task getTestTask(User user, boolean persistToDB) {
-        Task task = new Task("test",
+    public TaskTestUtils(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
+
+    public static Task getTestTask(User user) {
+        return new Task("test",
                 "category", HIGH, LocalDate.now(), LocalTime.of(9, 0).withNano(0),
                 LocalTime.of(10, 0).withNano(0), false, "desc", user);
-        if (!persistToDB) {
-            return task;
-        }
-        return taskRepository.save(task);
+
     }
 
-    public static void setTaskRepository(TaskRepository taskRepository) {
-        TaskTestUtils.taskRepository = taskRepository;
+    public Task saveTask(User user) {
+        return taskRepository.save(getTestTask(user));
     }
 
-    public static void clearDB() {
+
+    public void clearDB() {
         taskRepository.deleteAll();
     }
 }

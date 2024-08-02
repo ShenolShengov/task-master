@@ -13,58 +13,64 @@ import java.util.Set;
 @Component
 public class UserTestUtils {
 
-    public static final String TEST_FULL_NAME = "Test full name";
-    private static UserRepository userRepository;
+    public final String TEST_FULL_NAME = "Test full name";
+    private final UserRepository userRepository;
+
+    private final PictureTestUtils pictureTestUtils;
+
+    private final RoleTestUtils roleTestUtils;
+
+    public UserTestUtils(UserRepository userRepository, PictureTestUtils pictureTestUtils, RoleTestUtils roleTestUtils) {
+        this.userRepository = userRepository;
+        this.pictureTestUtils = pictureTestUtils;
+        this.roleTestUtils = roleTestUtils;
+    }
 
     public static User getTestUser(String username, String email, boolean isAdmin) {
         User user = new User(username, "Test full name", email, 20, "password",
-                new HashSet<>(List.of(RoleTestUtils.getRole(UserRoles.USER, false))),
+                new HashSet<>(List.of(RoleTestUtils.getTestRole(UserRoles.USER))),
                 Set.of(), Set.of(), Set.of(),
-                PictureTestUtils.getPicture(false));
+                null);
         if (isAdmin) {
-            user.getRoles().add(RoleTestUtils.getRole(UserRoles.ADMIN, false));
+            user.getRoles().add(RoleTestUtils.getTestRole(UserRoles.ADMIN));
         }
         return user;
     }
 
 
-    public static User getOrSaveTestUserFromDB(String username, String email, String fullName, Integer age, boolean isAdmin) {
+    public User getOrSaveTestUserFromDB(String username, String email, String fullName, Integer age, boolean isAdmin) {
         Optional<User> optionalUser = userRepository.findByUsername(username);
         return optionalUser.orElseGet(() -> {
                     User user = new User(username, fullName, email, age, "password",
-                            new HashSet<>(List.of(RoleTestUtils.getRole(UserRoles.USER, true))),
+                            new HashSet<>(List.of(roleTestUtils.getRole(UserRoles.USER))),
                             new HashSet<>(), new HashSet<>(), new HashSet<>(),
-                            PictureTestUtils.getPicture(true));
+                            pictureTestUtils.saveOrGetPicture());
                     if (isAdmin) {
-                        user.getRoles().add(RoleTestUtils.getRole(UserRoles.ADMIN, true));
+                        user.getRoles().add(roleTestUtils.getRole(UserRoles.ADMIN));
                     }
                     return userRepository.save(user);
                 }
         );
     }
 
-    public static User getOrSaveTestUserFromDB(String username, String email, boolean isAdmin) {
+    public User getOrSaveTestUserFromDB(String username, String email, boolean isAdmin) {
         return getOrSaveTestUserFromDB(username, email, TEST_FULL_NAME, 20, isAdmin);
     }
 
-    public static User getOrSaveTestUserFromDB(String username, String email, String fullName) {
+    public User getOrSaveTestUserFromDB(String username, String email, String fullName) {
         return getOrSaveTestUserFromDB(username, email, fullName, 20, false);
     }
 
-    public static User getOrSaveTestUserFromDB(String username, String email, Integer age) {
+    public User getOrSaveTestUserFromDB(String username, String email, Integer age) {
         return getOrSaveTestUserFromDB(username, email, TEST_FULL_NAME, age, false);
     }
 
-    public static User getOrSaveTestUserFromDB(String username, String email) {
+    public User getOrSaveTestUserFromDB(String username, String email) {
         return getOrSaveTestUserFromDB(username, email, false);
     }
 
 
-    public static void setUserRepository(UserRepository userRepository) {
-        UserTestUtils.userRepository = userRepository;
-    }
-
-    public static void clearDB() {
+    public void clearDB() {
         userRepository.deleteAll();
     }
 }

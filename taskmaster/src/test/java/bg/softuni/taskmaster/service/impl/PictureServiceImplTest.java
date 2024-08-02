@@ -46,7 +46,7 @@ class PictureServiceImplTest {
     @BeforeEach
     void setUp() {
         this.pictureServiceToTest = new PictureServiceImpl(mockPictureRepository, mockCloudinaryService);
-        this.testPicture = getPicture(false);
+        this.testPicture = getTestPicture();
     }
 
     @Test

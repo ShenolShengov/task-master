@@ -8,17 +8,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class RoleTestUtils {
 
-    private static RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
+
+    public RoleTestUtils(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
+    }
 
 
-    public static Role getRole(UserRoles name, boolean fromDB) {
-        if (fromDB) {
-            return roleRepository.getByName(name);
-        }
+    public static Role getTestRole(UserRoles name) {
         return new Role(name);
     }
 
-    public static void setRoleRepository(RoleRepository roleRepository) {
-        RoleTestUtils.roleRepository = roleRepository;
+    public Role getRole(UserRoles name) {
+        return roleRepository.getByName(name);
     }
+
 }

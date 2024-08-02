@@ -22,7 +22,6 @@ import org.springframework.context.ApplicationEventPublisher;
 
 import java.util.Optional;
 
-import static bg.softuni.taskmaster.utils.AnswerTestUtils.getTestAnswerDTO;
 import static bg.softuni.taskmaster.utils.UserTestUtils.getTestUser;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -35,6 +34,7 @@ class AnswerServiceImplTest {
     public static final long TEST_QUESTION_ID = 1L;
     public static final long ANSWER_TEST_ID = 1L;
     private AnswerServiceImpl answerServiceToTest;
+
     @Mock
     private AnswerRepository mockAnswerRepository;
     @Mock
@@ -61,7 +61,7 @@ class AnswerServiceImplTest {
         this.answerServiceToTest = new AnswerServiceImpl(mockAnswerRepository, new ModelMapper(),
                 mockUserHelperService, mockQuestionRepository, mockPublisher);
         testUser = getTestUser("testUser", "test@me.com", false);
-        testQuestion = QuestionTestUtils.getTestQuestion(testUser, false);
+        testQuestion = QuestionTestUtils.getTestQuestion(testUser);
 
     }
 
@@ -86,7 +86,7 @@ class AnswerServiceImplTest {
     @Test
     public void test_IsActualUser() {
         when(mockAnswerRepository.findById(ANSWER_TEST_ID))
-                .thenReturn(Optional.of(AnswerTestUtils.getTestAnswer(testUser, testQuestion, false)));
+                .thenReturn(Optional.of(AnswerTestUtils.getTestAnswer(testUser, testQuestion)));
         when(mockUserHelperService.getUsername()).thenReturn(testUser.getUsername());
         assertTrue(answerServiceToTest.isActualUser(ANSWER_TEST_ID));
 
@@ -97,9 +97,12 @@ class AnswerServiceImplTest {
 
     @Test
     public void test_Delete() {
-
         answerServiceToTest.delete(TEST_QUESTION_ID);
         verify(mockAnswerRepository).deleteById(longCaptor.capture());
         assertEquals(TEST_QUESTION_ID, longCaptor.getValue());
+    }
+
+    public AnswerDTO getTestAnswerDTO() {
+        return new AnswerDTO("Test desc", "testCode");
     }
 }

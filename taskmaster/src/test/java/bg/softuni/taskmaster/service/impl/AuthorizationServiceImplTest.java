@@ -34,7 +34,7 @@ class AuthorizationServiceImplTest {
         this.authorizationServiceToTest = new AuthorizationServiceImpl(mockRoleRepository,
                 mockUserRepository, mockUserHelperService);
         when(mockRoleRepository.getByName(UserRoles.ADMIN))
-                .thenReturn(RoleTestUtils.getRole(UserRoles.ADMIN, false));
+                .thenReturn(RoleTestUtils.getTestRole(UserRoles.ADMIN));
     }
 
     @Test

@@ -20,7 +20,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import static bg.softuni.taskmaster.utils.UserTestUtils.getOrSaveTestUserFromDB;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -42,6 +41,9 @@ class ContactControllerIT {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private UserTestUtils userTestUtils;
+
     @MockBean
     private ContactService mockContactService;
 
@@ -50,12 +52,12 @@ class ContactControllerIT {
 
     @BeforeEach
     void setUp() {
-        getOrSaveTestUserFromDB("testUser", "test@gmail.com");
+        userTestUtils.getOrSaveTestUserFromDB("testUser", "test@gmail.com");
     }
 
     @AfterEach
     void tearDown() {
-        UserTestUtils.clearDB();
+        userTestUtils.clearDB();
     }
 
     @Test

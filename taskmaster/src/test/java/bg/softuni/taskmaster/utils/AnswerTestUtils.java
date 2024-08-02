@@ -1,6 +1,5 @@
 package bg.softuni.taskmaster.utils;
 
-import bg.softuni.taskmaster.model.dto.AnswerDTO;
 import bg.softuni.taskmaster.model.entity.Answer;
 import bg.softuni.taskmaster.model.entity.Question;
 import bg.softuni.taskmaster.model.entity.User;
@@ -10,27 +9,22 @@ import org.springframework.stereotype.Component;
 @Component
 public class AnswerTestUtils {
 
-    private static AnswerRepository answerRepository;
+    private final AnswerRepository answerRepository;
 
-    public static Answer getTestAnswer(User user, Question question, boolean persisToDB) {
-
-        Answer answer = new Answer("Test desc", "code", user, question);
-        if (!persisToDB) {
-            return answer;
-        }
-
-        return answerRepository.save(answer);
+    public AnswerTestUtils(AnswerRepository answerRepository) {
+        this.answerRepository = answerRepository;
     }
 
-    public static void setAnswerRepository(AnswerRepository answerRepository) {
-        AnswerTestUtils.answerRepository = answerRepository;
+    public static Answer getTestAnswer(User user, Question question) {
+        return new Answer("Test desc", "code", user, question);
     }
 
-    public static AnswerDTO getTestAnswerDTO() {
-        return new AnswerDTO("Test desc", "testCode");
+    public Answer saveTestAnswer(User user, Question question) {
+        return answerRepository.save(getTestAnswer(user, question));
     }
 
-    public static void clearDB() {
+
+    public void clearDB() {
         answerRepository.deleteAll();
     }
 }

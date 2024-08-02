@@ -10,25 +10,24 @@ import java.util.ArrayList;
 @Component
 public class QuestionTestUtils {
 
-    private static QuestionRepository questionRepository;
+    private final QuestionRepository questionRepository;
+
+    public QuestionTestUtils(QuestionRepository questionRepository) {
+        this.questionRepository = questionRepository;
+    }
 
 
-    public static Question getTestQuestion(User user, boolean persistToDB) {
-        Question question = new Question("Test title", "tags", "desc", "code",
+    public Question saveTestQuestion(User user) {
+        return questionRepository.save(getTestQuestion(user));
+    }
+
+    public static Question getTestQuestion(User user) {
+        return new Question("Test title", "tags", "desc", "code",
                 new ArrayList<>(),
                 user);
-        if (!persistToDB) {
-            return question;
-        }
-
-        return questionRepository.save(question);
     }
 
-    public static void setQuestionRepository(QuestionRepository questionRepository) {
-        QuestionTestUtils.questionRepository = questionRepository;
-    }
-
-    public static void clearDB() {
+    public void clearDB() {
         questionRepository.deleteAll();
     }
 }

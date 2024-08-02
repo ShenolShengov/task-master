@@ -1,6 +1,7 @@
 package bg.softuni.taskmaster.web.controller;
 
 import bg.softuni.taskmaster.model.entity.Task;
+import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.repository.TaskRepository;
 import bg.softuni.taskmaster.utils.TaskTestUtils;
 import bg.softuni.taskmaster.utils.UserTestUtils;
@@ -22,8 +23,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import static bg.softuni.taskmaster.utils.TaskTestUtils.getTestTask;
-import static bg.softuni.taskmaster.utils.UserTestUtils.getOrSaveTestUserFromDB;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -39,18 +38,25 @@ class TaskControllerIT {
 
     @Autowired
     private TaskRepository taskRepository;
+
+    @Autowired
+    private UserTestUtils userTestUtils;
+
+    @Autowired
+    private TaskTestUtils taskTestUtils;
     private Task testTask;
 
     @BeforeEach
     void setUp() {
-        testTask = getTestTask(getOrSaveTestUserFromDB("testUser", "mock@gmail.com"), true);
-        getOrSaveTestUserFromDB("otherTestUser", "other@gmail.com");
+        User testUser = userTestUtils.getOrSaveTestUserFromDB("testUser", "mock@gmail.com");
+        testTask = taskTestUtils.saveTask(testUser);
+        userTestUtils.getOrSaveTestUserFromDB("otherTestUser", "other@gmail.com");
     }
 
     @AfterEach
     void tearDown() {
-        UserTestUtils.clearDB();
-        TaskTestUtils.clearDB();
+        userTestUtils.clearDB();
+        taskTestUtils.clearDB();
     }
 
     @Test

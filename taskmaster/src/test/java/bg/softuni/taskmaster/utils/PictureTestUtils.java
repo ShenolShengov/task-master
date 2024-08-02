@@ -13,17 +13,24 @@ import java.util.Optional;
 @Component
 public class PictureTestUtils {
 
-    public static final String TEST_PICTURE_PATHNAME = "D:\\Temp\\TaskMaster\\taskmaster\\src\\test\\resources\\" +
-                                                       "static\\images\\testPicture.png";
-    public static PictureRepository pictureRepository;
+    private static final String TEST_PICTURE_PATHNAME = "D:\\Temp\\TaskMaster\\taskmaster\\src\\test\\resources\\" +
+                                                        "static\\images\\testPicture.png";
+    private final PictureRepository pictureRepository;
+
+    public PictureTestUtils(PictureRepository pictureRepository) {
+        this.pictureRepository = pictureRepository;
+    }
 
 
-    public static Picture getPicture(boolean fromDB) {
-        Picture profilePicture = new Picture("defaultProfilePicture", "defaultUrl", "publicId");
-        if (!fromDB) return profilePicture;
+    public Picture saveOrGetPicture() {
+        Picture profilePicture = getTestPicture();
         Optional<Picture> defaultPicture = pictureRepository.findById(1L);
         return defaultPicture.orElseGet(() -> pictureRepository
                 .save(profilePicture));
+    }
+
+    public static Picture getTestPicture() {
+        return new Picture("defaultProfilePicture", "defaultUrl", "publicId");
     }
 
 
@@ -37,7 +44,4 @@ public class PictureTestUtils {
         return new MockMultipartFile("emptyPicture", new byte[]{});
     }
 
-    public static void setPictureRepository(PictureRepository pictureRepository) {
-        PictureTestUtils.pictureRepository = pictureRepository;
-    }
 }
