@@ -35,13 +35,13 @@ class UserServiceImplIT {
     private UserTestUtils userTestUtils;
     private User testUser;
 
-    @MockBean
-    private MailService mockMailService;
+//    @MockBean
+//    private MailService mockMailService;
 
     @BeforeEach
     void setUp() {
         testUser = userTestUtils.getOrSaveTestUserFromDB("testUser", "test@com.me");
-        doNothing().when(mockMailService).send(any(Payload.class));
+//        doNothing().when(mockMailService).send(any(Payload.class));
     }
 
     @AfterEach

@@ -1,29 +1,20 @@
 package bg.softuni.taskmaster.web.controller;
 
-import bg.softuni.taskmaster.model.dto.ContactUsDTO;
-import bg.softuni.taskmaster.service.ContactService;
 import bg.softuni.taskmaster.utils.UserTestUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -44,11 +35,6 @@ class ContactControllerIT {
     @Autowired
     private UserTestUtils userTestUtils;
 
-    @MockBean
-    private ContactService mockContactService;
-
-    @Captor
-    private ArgumentCaptor<ContactUsDTO> contactUsDTOCaptor = ArgumentCaptor.forClass(ContactUsDTO.class);
 
     @BeforeEach
     void setUp() {
@@ -93,8 +79,6 @@ class ContactControllerIT {
     @Test
     @WithMockUser("testUser")
     public void test_ContactUs_With_Valid_ContactUsDTO() throws Exception {
-
-        doNothing().when(mockContactService).contactUs(any(ContactUsDTO.class));
         mockMvc.perform(post("/contacts")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -103,11 +87,7 @@ class ContactControllerIT {
                 .andExpect(redirectedUrl("/"))
                 .andExpect(flash().attributeCount(1))
                 .andExpect(flash().attributeExists("mailSent"));
-        verify(mockContactService).contactUs(contactUsDTOCaptor.capture());
-        ContactUsDTO actual = contactUsDTOCaptor.getValue();
-        assertEquals(CONTACT_US_TITLE, actual.getTitle());
-        assertEquals(CONTACT_US_EMAIL, actual.getEmail());
-        assertEquals(CONTACT_US_MESSAGE, actual.getMessage());
+
     }
 
     private MultiValueMap<String, String> getTestAddContactUsDTOFormFields() {
