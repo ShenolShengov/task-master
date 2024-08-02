@@ -40,17 +40,17 @@ public class MailServiceImpl implements MailService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
+    @SuppressWarnings("unchecked")
     public Page<MailHistoryInfoDTO> history(String filterByDate, Pageable pageable) {
-        PageResponseDTO<MailHistoryInfoDTO> pageResponseDTO = restClient.get().uri(u -> u.path("/history")
-                        .queryParam("page", pageable.getPageNumber())
-                        .queryParam("sort", pageable.getSort().toString().replace(": ", ","))
-                        .queryParam("filterByDate", filterByDate)
-                        .build()
-                )
-                .accept(MediaType.APPLICATION_JSON)
-                .retrieve()
-                .body(new ParameterizedTypeReference<>() {
-                });
+        PageResponseDTO<MailHistoryInfoDTO> pageResponseDTO =
+                restClient.get().uri(u -> u.path("/history")
+                                .queryParam("page", pageable.getPageNumber())
+                                .queryParam("sort", pageable.getSort().toString().replace(": ", ","))
+                                .queryParam("filterByDate", filterByDate)
+                                .build()
+                        )
+                        .retrieve()
+                        .body(PageResponseDTO.class);
         return new PageImpl<>(pageResponseDTO.getContent(), pageable, pageResponseDTO.getPage().totalElements());
     }
 

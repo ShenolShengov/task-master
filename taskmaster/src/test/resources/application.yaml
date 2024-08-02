@@ -17,14 +17,13 @@ spring:
         enabled: true
 mail:
   api:
-    sendEmails: false
     baseUrl: http://localhost:8081/api
 
 
 cloudinary:
-  cloud_name:
-  api_key:
-  api_secret:
+  cloud_name: ''
+  api_key: ''
+  api_secret: ''
 logging:
   level:
     org.hibernate.SQL: DEBUG
