@@ -1,9 +1,11 @@
 package bg.softuni.taskmaster.web.controller;
 
+import bg.softuni.taskmaster.exceptions.TaskNotFoundException;
 import bg.softuni.taskmaster.model.dto.TaskAddEditDTO;
 import bg.softuni.taskmaster.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -65,11 +67,18 @@ public class TaskController {
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable Long id) {
-        taskService.remove(id);
+        taskService.delete(id);
         return redirectToHome();
     }
 
     private static String redirectToHome() {
         return "redirect:/";
+    }
+
+    @ExceptionHandler(TaskNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleQuestionNotFoundException(Model model) {
+        model.addAttribute("type", "Task");
+        return "objectNotFound";
     }
 }

@@ -1,5 +1,6 @@
 package bg.softuni.taskmaster.service.impl;
 
+import bg.softuni.taskmaster.exceptions.QuestionNotFoundException;
 import bg.softuni.taskmaster.model.dto.AnswerDTO;
 import bg.softuni.taskmaster.model.entity.Answer;
 import bg.softuni.taskmaster.model.entity.Question;
@@ -70,8 +71,8 @@ class AnswerServiceImplTest {
         doNothing().when(mockPublisher).publishEvent(any(ApplicationEvent.class));
         when(mockUserHelperService.getLoggedUser())
                 .thenReturn(testUser);
-        when(mockQuestionRepository.getReferenceById(1L))
-                .thenReturn(testQuestion
+        when(mockQuestionRepository.findById(1L))
+                .thenReturn(Optional.of(testQuestion)
                 );
 
         AnswerDTO answerDTO = getTestAnswerDTO();
@@ -81,6 +82,12 @@ class AnswerServiceImplTest {
         assertEquals(answerDTO.getCode(), saveAnswer.getCode());
         assertEquals(answerDTO.getDescription(), saveAnswer.getDescription());
         verify(mockPublisher).publishEvent(any(ApplicationEvent.class));
+    }
+
+    @Test
+    public void test_Answer_With_NotValidQuestionId() {
+        AnswerDTO answerDTO = getTestAnswerDTO();
+        assertThrows(QuestionNotFoundException.class, () -> answerServiceToTest.answer(answerDTO, TEST_QUESTION_ID));
     }
 
     @Test

@@ -1,6 +1,7 @@
 package bg.softuni.taskmaster.service.impl;
 
 import bg.softuni.taskmaster.events.AnswerToQuestionEvent;
+import bg.softuni.taskmaster.exceptions.AnswerNotFoundException;
 import bg.softuni.taskmaster.exceptions.QuestionNotFoundException;
 import bg.softuni.taskmaster.model.dto.AnswerDTO;
 import bg.softuni.taskmaster.model.entity.Answer;
@@ -47,9 +48,8 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public boolean isActualUser(Long id) {
-        return answerRepository.findById(id)
-                .filter(e -> e.getUser().getUsername().equals(userHelperService.getUsername()))
-                .isPresent();
+        Answer answer = answerRepository.findById(id).orElseThrow(AnswerNotFoundException::new);
+        return answer.getUser().getUsername().equals(userHelperService.getUsername());
     }
 
     @Override

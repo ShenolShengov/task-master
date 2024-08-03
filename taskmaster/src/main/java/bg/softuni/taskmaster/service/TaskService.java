@@ -13,7 +13,7 @@ public interface TaskService {
 
     void edit(TaskAddEditDTO taskEditDTO);
 
-    void remove(Long id);
+    void delete(Long id);
 
     Page<TaskInfoDTO> getTasksFor(LocalDate dueDate, Pageable pageable);
 

@@ -1,5 +1,6 @@
 package bg.softuni.taskmaster.service.impl;
 
+import bg.softuni.taskmaster.exceptions.TaskNotFoundException;
 import bg.softuni.taskmaster.model.dto.TaskAddEditDTO;
 import bg.softuni.taskmaster.model.dto.TaskInfoDTO;
 import bg.softuni.taskmaster.model.entity.Task;
@@ -37,7 +38,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void edit(TaskAddEditDTO taskEditDTO) {
         Task currentTask = taskRepository.findById(taskEditDTO.getId())
-                .orElseThrow(NullPointerException::new);
+                .orElseThrow(TaskNotFoundException::new);
         BeanUtils.copyProperties(taskEditDTO, currentTask);
         currentTask.setPriority(TaskPriorities.valueOf(taskEditDTO.getPriority()));
         taskRepository.save(currentTask);
@@ -56,19 +57,19 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository
                 .findById(id)
                 .map(e -> modelMapper.map(e, TaskInfoDTO.class))
-                .orElseThrow(NullPointerException::new);
+                .orElseThrow(TaskNotFoundException::new);
     }
 
     @Override
     @PreAuthorize("@taskServiceImpl.isActualUser(#id)")
-    public void remove(Long id) {
-        taskRepository.deleteById(id);
+    public void delete(Long id) {
+        Task task = taskRepository.findById(id).orElseThrow(TaskNotFoundException::new);
+        taskRepository.delete(task);
     }
 
     @Override
     public boolean isActualUser(Long id) {
-        return taskRepository.findById(id)
-                .filter(e -> e.getUser().getUsername().equals(userHelperService.getUsername()))
-                .isPresent();
+        Task task = taskRepository.findById(id).orElseThrow(TaskNotFoundException::new);
+        return task.getUser().getUsername().equals(userHelperService.getUsername());
     }
 }

@@ -23,5 +23,4 @@ public interface QuestionService {
 
     boolean isActualUser(Long id);
 
-    boolean isExists(Long id);
 }

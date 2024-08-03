@@ -41,7 +41,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     @PreAuthorize("@userHelperServiceImpl.getLoggedUser().id.equals(#id)  ||  hasRole('ADMIN')")
-    //todo think how to don't call db
     public void delete(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(UserNotFoundException::new);
@@ -53,9 +52,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @PreAuthorize("hasRole('ADMIN')")
     public Page<UserInfoDTO> getAll(String searchQuery, Pageable pageable) {
-        if (searchQuery.isEmpty()) {
-            return userRepository.findAll(pageable).map(this::toInfo);
-        }
         return userRepository.findAllBySearchQuery(searchQuery, pageable).map(this::toInfo);
     }
 

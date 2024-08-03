@@ -1,10 +1,12 @@
 package bg.softuni.taskmaster.service.impl;
 
 import bg.softuni.taskmaster.exceptions.QuestionNotFoundException;
+import bg.softuni.taskmaster.exceptions.TaskNotFoundException;
 import bg.softuni.taskmaster.model.dto.QuestionAskDTO;
 import bg.softuni.taskmaster.model.dto.QuestionBaseInfoDTO;
 import bg.softuni.taskmaster.model.dto.QuestionDetailsInfoDTO;
 import bg.softuni.taskmaster.model.entity.Question;
+import bg.softuni.taskmaster.model.entity.Task;
 import bg.softuni.taskmaster.repository.QuestionRepository;
 import bg.softuni.taskmaster.service.QuestionService;
 import bg.softuni.taskmaster.service.UserHelperService;
@@ -73,21 +75,13 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public Page<QuestionBaseInfoDTO> getAll(String searchQuery, Pageable pageable) {
-        if (searchQuery.isEmpty()) {
-            return questionRepository.findAll(pageable).map(this::toBaseInfo);
-        }
         return questionRepository.search(searchQuery, pageable).map(this::toBaseInfo);
     }
 
     @Override
     public boolean isActualUser(Long id) {
-        return questionRepository.findById(id)
-                .filter(e -> e.getUser().getUsername().equals(userHelperService.getUsername()))
-                .isPresent();
+        Question question = questionRepository.findById(id).orElseThrow(QuestionNotFoundException::new);
+        return question.getUser().getUsername().equals(userHelperService.getUsername());
     }
 
-    @Override
-    public boolean isExists(Long id) {
-        return questionRepository.existsById(id);
-    }
 }

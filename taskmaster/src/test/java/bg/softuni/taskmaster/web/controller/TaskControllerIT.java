@@ -99,14 +99,6 @@ class TaskControllerIT {
 
 
     @Test
-    @WithMockUser("otherTestUser")
-    public void test_EditTaskWithOtherUser() throws Exception {
-        mockMvc.perform(get(ServletUriComponentsBuilder
-                        .fromPath("/tasks/edit/{id}").build(testTask.getId())))
-                .andExpect(status().isForbidden());
-    }
-
-    @Test
     @WithMockUser("testUser")
     public void test_EditTaskWithCorrectUser() throws Exception {
         mockMvc.perform(get(ServletUriComponentsBuilder
@@ -117,11 +109,35 @@ class TaskControllerIT {
 
     @Test
     @WithMockUser("otherTestUser")
-    public void test_Do_EditTaskWithOtherUser() throws Exception {
+    public void test_EditTaskWithOtherUser() throws Exception {
+        mockMvc.perform(get(ServletUriComponentsBuilder
+                        .fromPath("/tasks/edit/{id}").build(testTask.getId())))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser("testUser")
+    public void test_EditTaskWithInvalidId() throws Exception {
+        mockMvc.perform(get(ServletUriComponentsBuilder
+                        .fromPath("/tasks/edit/{id}").build(-2)))
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("objectNotFound"));
+    }
+
+
+    @Test
+    @WithMockUser("testUser")
+    public void test_Do_EditTaskWithCorrectUser() throws Exception {
         mockMvc.perform(post(ServletUriComponentsBuilder
                         .fromPath("/tasks/edit/{id}").build(testTask.getId()))
+                        .formFields(getTestAddTaskDTOFormFields())
                         .with(csrf()))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isFound())
+                .andExpect(redirectedUrl("/"));
+        Optional<Task> optionalEditedTask = taskRepository.findById(testTask.getId());
+        assertTrue(optionalEditedTask.isPresent());
+        Task editedTask = optionalEditedTask.get();
+        assertTaskIsEdited(editedTask);
     }
 
     @Test
@@ -140,18 +156,22 @@ class TaskControllerIT {
     }
 
     @Test
-    @WithMockUser("testUser")
-    public void test_Do_EditTaskWithCorrectUser() throws Exception {
+    @WithMockUser("otherTestUser")
+    public void test_Do_EditTaskWithOtherUser() throws Exception {
         mockMvc.perform(post(ServletUriComponentsBuilder
                         .fromPath("/tasks/edit/{id}").build(testTask.getId()))
-                        .formFields(getTestAddTaskDTOFormFields())
                         .with(csrf()))
-                .andExpect(status().isFound())
-                .andExpect(redirectedUrl("/"));
-        Optional<Task> optionalEditedTask = taskRepository.findById(testTask.getId());
-        assertTrue(optionalEditedTask.isPresent());
-        Task editedTask = optionalEditedTask.get();
-        assertTaskIsEdited(editedTask);
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser("testUser")
+    public void test_Do_EditTaskWithInvalidId() throws Exception {
+        mockMvc.perform(post(ServletUriComponentsBuilder
+                        .fromPath("/tasks/edit/{id}").build(-2))
+                        .with(csrf()))
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("objectNotFound"));
     }
 
     @Test
@@ -161,6 +181,17 @@ class TaskControllerIT {
                         .fromPath("/tasks/{id}").build(testTask.getId()))
                         .with(csrf()))
                 .andExpect(status().isForbidden());
+        assertEquals(1, taskRepository.count());
+    }
+
+    @Test
+    @WithMockUser("otherTestUser")
+    public void test_DeleteWithInvalidId() throws Exception {
+        mockMvc.perform(delete(ServletUriComponentsBuilder
+                        .fromPath("/tasks/{id}").build(-2))
+                        .with(csrf()))
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("objectNotFound"));
         assertEquals(1, taskRepository.count());
     }
 

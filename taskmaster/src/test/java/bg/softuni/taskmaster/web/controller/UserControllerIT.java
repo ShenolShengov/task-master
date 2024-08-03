@@ -92,6 +92,22 @@ class UserControllerIT {
 
     @Test
     @WithMockUser(username = "testUser", roles = {"USER", "ADMIN"})
+    public void test_GetAll_WithDefaultSort_And_Empty_SearchQuery() throws Exception {
+        addTestUsers();
+        mockMvc.perform(get("/users"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("users"))
+                .andExpect(model().attributeExists("sortProperties", "sortDirection",
+                        "searchQuery", "foundedUsers"))
+                .andExpect(model().attribute("searchQuery", Matchers.equalTo("")))
+                .andExpect(model().attribute("sortProperties", Matchers.equalTo("")))
+                .andExpect(model().attribute("sortDirection", Matchers.equalTo("asc")))
+                .andExpect(model().attribute("foundedUsers",
+                        hasProperty("content", Matchers.hasSize(4))));
+    }
+
+    @Test
+    @WithMockUser(username = "testUser", roles = {"USER", "ADMIN"})
     public void test_GetAll_With_NotValidSort() throws Exception {
         addTestUsers();
         mockMvc.perform(get("/users")

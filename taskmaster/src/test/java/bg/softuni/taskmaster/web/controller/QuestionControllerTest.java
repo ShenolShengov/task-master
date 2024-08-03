@@ -97,6 +97,23 @@ class QuestionControllerTest {
 
     @Test
     @WithMockUser("testUser")
+    public void test_GetAll_WithDefaultSort_And_Empty_SearchQuery() throws Exception {
+        addTestQuestions();
+        mockMvc.perform(get("/questions"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("questions"))
+                .andExpect(model().attributeExists("sortProperties", "sortDirection",
+                        "searchQuery", "foundedQuestions"))
+                .andExpect(model().attribute("searchQuery", Matchers.equalTo("")))
+                .andExpect(model().attribute("sortProperties", Matchers.equalTo("createdTime")))
+                .andExpect(model().attribute("sortDirection", Matchers.equalTo("desc")))
+                .andExpect(model().attribute("foundedQuestions",
+                        hasProperty("totalElements", equalTo(7L))));
+
+    }
+
+    @Test
+    @WithMockUser("testUser")
     public void test_GetAll_With_NotValidSort() throws Exception {
         addTestQuestions();
         mockMvc.perform(get("/questions")
@@ -182,7 +199,8 @@ class QuestionControllerTest {
     public void test_detailsView_With_InvalidId() throws Exception {
         mockMvc.perform(get(ServletUriComponentsBuilder.fromPath("/questions/{id}")
                         .build(-2L)))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("objectNotFound"));
     }
 
     @Test
@@ -214,7 +232,8 @@ class QuestionControllerTest {
         mockMvc.perform(delete(ServletUriComponentsBuilder.fromPath("/questions/{id}")
                         .build(-2L))
                         .with(csrf()))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("objectNotFound"));
         assertEquals(1, questionRepository.count());
     }
 

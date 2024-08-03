@@ -64,7 +64,6 @@ public class QuestionController {
     }
 
     @PostMapping("/answer/{id}")
-    @PreAuthorize("@questionServiceImpl.isExists(#id)")
     public String answer(@PathVariable Long id, @Valid AnswerDTO answerDTO,
                          BindingResult bindingResult, RedirectAttributes rAtt) {
         if (bindingResult.hasErrors()) {
@@ -96,7 +95,8 @@ public class QuestionController {
 
     @ExceptionHandler(QuestionNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String handleQuestionNotFoundException() {
-        return "questionNotFound";
+    public String handleQuestionNotFoundException(Model model) {
+        model.addAttribute("type", "Question");
+        return "objectNotFound";
     }
 }
