@@ -57,7 +57,7 @@ class StatisticsControllerIT {
     }
 
     @Test
-    @WithMockUser(value = "testUser", roles = {"USER", "ADMIN"})
+    @WithMockUser(username = "testUser", roles = {"USER", "ADMIN"})
     public void test_StatisticsView() throws Exception {
         mockMvc.perform(get("/statistics"))
                 .andExpect(status().isOk())

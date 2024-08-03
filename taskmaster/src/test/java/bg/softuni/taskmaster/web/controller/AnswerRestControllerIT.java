@@ -73,7 +73,7 @@ class AnswerRestControllerIT {
     }
 
     @Test
-    @WithMockUser(value = "testUser")
+    @WithMockUser("testUser")
     public void test_DeleteWithOtherUser() throws Exception {
         Answer answer = answerTestDataUtils.saveTestAnswer(
                 userTestDataUtils.saveTestUser("otherUser", "otherUser@gmail.com"),

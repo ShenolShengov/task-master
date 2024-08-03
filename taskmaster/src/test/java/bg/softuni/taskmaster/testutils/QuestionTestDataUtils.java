@@ -16,13 +16,20 @@ public class QuestionTestDataUtils {
         this.questionRepository = questionRepository;
     }
 
-
     public Question saveTestQuestion(User user) {
         return questionRepository.save(getTestQuestion(user));
     }
 
+    public Question saveTestQuestion(User user, String title, String tags, String description, String code) {
+        return questionRepository.save(getTestQuestion(user, title, tags, description, code));
+    }
+
     public static Question getTestQuestion(User user) {
-        return new Question("Test title", "tags", "desc", "code",
+        return getTestQuestion(user, "Test title", "tags", "desc", "code");
+    }
+
+    public static Question getTestQuestion(User user, String title, String tags, String description, String code) {
+        return new Question(title, tags, description, code,
                 new ArrayList<>(),
                 user);
     }

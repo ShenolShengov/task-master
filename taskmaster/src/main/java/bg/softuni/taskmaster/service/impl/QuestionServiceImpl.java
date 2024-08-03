@@ -36,7 +36,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    @PreAuthorize("@questionServiceImpl.isActualUser(#id)")
+    @PreAuthorize("@questionServiceImpl.isActualUser(#id) || hasRole('ADMIN')")
     public void delete(Long id) {
         questionRepository.deleteById(id);
     }

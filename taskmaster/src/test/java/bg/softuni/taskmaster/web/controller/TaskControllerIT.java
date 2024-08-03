@@ -60,7 +60,7 @@ class TaskControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "testUser")
+    @WithMockUser("testUser")
     public void test_addTaskView() throws Exception {
         mockMvc.perform(get("/tasks/add"))
                 .andExpect(status().isOk())
@@ -69,7 +69,7 @@ class TaskControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "testUser")
+    @WithMockUser("testUser")
     public void test_DoAddTaskWithValidDTO() throws Exception {
         taskRepository.deleteAll();
         mockMvc.perform(post("/tasks/add")
@@ -82,7 +82,7 @@ class TaskControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "testUser")
+    @WithMockUser("testUser")
     public void test_DoAddTaskWithInValidDTO() throws Exception {
         taskRepository.deleteAll();
         mockMvc.perform(post("/tasks/add")
@@ -116,7 +116,7 @@ class TaskControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "otherTestUser")
+    @WithMockUser("otherTestUser")
     public void test_Do_EditTaskWithOtherUser() throws Exception {
         mockMvc.perform(post(ServletUriComponentsBuilder
                         .fromPath("/tasks/edit/{id}").build(testTask.getId()))
@@ -140,7 +140,7 @@ class TaskControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "testUser")
+    @WithMockUser("testUser")
     public void test_Do_EditTaskWithCorrectUser() throws Exception {
         mockMvc.perform(post(ServletUriComponentsBuilder
                         .fromPath("/tasks/edit/{id}").build(testTask.getId()))
@@ -155,7 +155,7 @@ class TaskControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "otherTestUser")
+    @WithMockUser("otherTestUser")
     public void test_DeleteWithOtherUser() throws Exception {
         mockMvc.perform(delete(ServletUriComponentsBuilder
                         .fromPath("/tasks/{id}").build(testTask.getId()))
@@ -165,7 +165,7 @@ class TaskControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "testUser")
+    @WithMockUser("testUser")
     public void test_DeleteWithCorrectUser() throws Exception {
         mockMvc.perform(delete(ServletUriComponentsBuilder
                         .fromPath("/tasks/{id}").build(testTask.getId()))

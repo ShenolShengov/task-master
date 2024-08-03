@@ -7,7 +7,7 @@ import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.model.enums.UserRoles;
 import bg.softuni.taskmaster.repository.RoleRepository;
 import bg.softuni.taskmaster.repository.UserRepository;
-import bg.softuni.taskmaster.service.AuthenticationService;
+import bg.softuni.taskmaster.service.UserAuthenticationService;
 import bg.softuni.taskmaster.service.PictureService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -21,7 +21,7 @@ import static bg.softuni.taskmaster.utils.PictureUtils.USERS_PROFILE_PICTURES_FO
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationServiceImpl implements AuthenticationService {
+public class UserAuthenticationServiceImpl implements UserAuthenticationService {
 
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;

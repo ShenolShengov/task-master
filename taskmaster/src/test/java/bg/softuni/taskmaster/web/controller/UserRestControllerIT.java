@@ -79,7 +79,7 @@ class UserRestControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "testUser")
+    @WithMockUser("testUser")
     public void test_MakeAdminWhenNotHaveAuthorities() throws Exception {
         mockMvc.perform(patch(ServletUriComponentsBuilder
                         .fromPath("/users/api/make-admin/{id}")

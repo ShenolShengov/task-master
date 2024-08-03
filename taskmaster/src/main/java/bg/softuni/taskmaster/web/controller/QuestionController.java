@@ -49,8 +49,8 @@ public class QuestionController {
     }
 
     @PostMapping("/ask")
-    public String doRegister(@Valid QuestionAskDTO questionAskDTO, BindingResult bindingResult,
-                             RedirectAttributes rAtt) {
+    public String ask(@Valid QuestionAskDTO questionAskDTO, BindingResult bindingResult,
+                      RedirectAttributes rAtt) {
         if (bindingResult.hasErrors()) {
             rAtt.addFlashAttribute("askQuestionData", questionAskDTO);
             rAtt.addFlashAttribute("org.springframework.validation.BindingResult.askQuestionData",
@@ -83,7 +83,7 @@ public class QuestionController {
         if (!model.containsAttribute("questionAnswerData")) {
             model.addAttribute("questionAnswerData", new AnswerDTO());
         }
-        return "questions-details";
+        return "question-details";
     }
 
     @DeleteMapping("/{id}")

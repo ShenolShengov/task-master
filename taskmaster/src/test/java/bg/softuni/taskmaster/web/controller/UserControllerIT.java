@@ -2,6 +2,7 @@ package bg.softuni.taskmaster.web.controller;
 
 import bg.softuni.taskmaster.repository.UserRepository;
 import bg.softuni.taskmaster.testutils.UserTestDataUtils;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,18 +12,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 class UserControllerIT {
 
 
+    public static final String TEST_SORT_PROPERTIES = "age";
+    public static final String TEST_SORT_DIRECTION = "desc";
+    private static final String TEST_USER_SEARCH_QUERY = "Test test";
     @Autowired
     private UserRepository userRepository;
 
@@ -44,7 +48,7 @@ class UserControllerIT {
     }
 
     @Test
-    @WithMockUser(value = "mockUser", roles = {"USER", "ADMIN"})
+    @WithMockUser(username = "mockUser", roles = {"USER", "ADMIN"})
     public void test_CloseAccount() throws Exception {
         mockMvc.perform(delete("/users/close-account")
                         .with(csrf()))
@@ -53,7 +57,7 @@ class UserControllerIT {
     }
 
     @Test
-    @WithMockUser(value = "mockUser", roles = {"USER", "ADMIN"})
+    @WithMockUser(username = "mockUser", roles = {"USER", "ADMIN"})
     public void test_GetAll_With_Invalid_Sort() throws Exception {
         mockMvc.perform(get("/users")
                         .queryParam("sort", "wrongSort"))
@@ -62,11 +66,45 @@ class UserControllerIT {
     }
 
     @Test
-    @WithMockUser(value = "mockUser", roles = {"USER", "ADMIN"})
+    @WithMockUser(username = "mockUser", roles = {"USER", "ADMIN"})
     public void test_GetAll() throws Exception {
-        mockMvc.perform(get("/users"))
+        addTestUsers();
+        mockMvc.perform(get("/users")
+                        .param("page", "1")
+                        .param("sort", TEST_SORT_PROPERTIES + "," + TEST_SORT_DIRECTION)
+                        .param("search_query", TEST_USER_SEARCH_QUERY))
                 .andExpect(status().isOk())
-                .andExpect(model().attributeExists("sortProperties", "sortDirection", "foundedUsers"));
+                .andExpect(view().name("users"))
+                .andExpect(model().attributeExists("sortProperties", "sortDirection",
+                        "searchQuery", "foundedUsers"))
+                .andExpect(model().attribute("searchQuery", Matchers.equalTo(TEST_USER_SEARCH_QUERY)))
+                .andExpect(model().attribute("sortProperties", Matchers.equalTo(TEST_SORT_PROPERTIES)))
+                .andExpect(model().attribute("sortDirection", Matchers.equalTo(TEST_SORT_DIRECTION)))
+                .andExpect(model().attribute("foundedUsers",
+                        hasProperty("content", Matchers.hasSize(3))))
+                .andExpect(model().attribute("foundedUsers",
+                        hasProperty("content", hasItem(
+                                allOf(
+                                        hasProperty("fullName", equalTo(TEST_USER_SEARCH_QUERY))
+                                )
+                        ))));
+    }
+
+    @Test
+    @WithMockUser(username = "mockUser", roles = {"USER", "ADMIN"})
+    public void test_GetAll_With_NotValidSort() throws Exception {
+        addTestUsers();
+        mockMvc.perform(get("/users")
+                        .param("page", "1")
+                        .param("sort", TEST_SORT_PROPERTIES + "mess" + "," + TEST_SORT_DIRECTION)
+                        .param("search_query", TEST_USER_SEARCH_QUERY))
+                .andExpect(status().isFound());
+    }
+
+    private void addTestUsers() {
+        userTestDataUtils.saveTestUser("testUserAgain", "ttA@me.com", "Test test");
+        userTestDataUtils.saveTestUser("otherTestUser", "oth@me.com", "Test test");
+        userTestDataUtils.saveTestUser("anotherTestUser", "an@m.com", "Test test");
     }
 
 }

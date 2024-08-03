@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,7 +41,7 @@ public class UserController {
         model.addAttribute("searchQuery", searchQuery);
         model.addAttribute("foundedUsers",
                 userService.getAll(searchQuery, pageable.previousOrFirst()));
-        return "all-users";
+        return "users";
     }
 
     @DeleteMapping("/close-account")
