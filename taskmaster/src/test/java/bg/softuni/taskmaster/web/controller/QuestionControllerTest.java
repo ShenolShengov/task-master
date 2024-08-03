@@ -179,6 +179,14 @@ class QuestionControllerTest {
 
     @Test
     @WithMockUser("testUser")
+    public void test_detailsView_With_InvalidId() throws Exception {
+        mockMvc.perform(get(ServletUriComponentsBuilder.fromPath("/questions/{id}")
+                        .build(-2L)))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @WithMockUser("testUser")
     public void test_Delete() throws Exception {
         mockMvc.perform(delete(ServletUriComponentsBuilder.fromPath("/questions/{id}")
                         .build(testQuestion.getId()))
@@ -190,12 +198,23 @@ class QuestionControllerTest {
 
     @Test
     @WithMockUser("otherUser")
-    public void test_DeleteWithOtherUser() throws Exception {
+    public void test_Delete_WithOtherUser() throws Exception {
         userTestDataUtils.saveTestUser("otherUser", "other@me.com");
         mockMvc.perform(delete(ServletUriComponentsBuilder.fromPath("/questions/{id}")
                         .build(testQuestion.getId()))
                         .with(csrf()))
                 .andExpect(status().isForbidden());
+        assertEquals(1, questionRepository.count());
+    }
+
+    @Test
+    @WithMockUser(username = "testAdminUser", roles = {"USER", "ADMIN"})
+    public void test_Delete_With_InvalidId() throws Exception {
+        userTestDataUtils.saveTestUser("testAdminUser", "admin@me.com");
+        mockMvc.perform(delete(ServletUriComponentsBuilder.fromPath("/questions/{id}")
+                        .build(-2L))
+                        .with(csrf()))
+                .andExpect(status().isNotFound());
         assertEquals(1, questionRepository.count());
     }
 

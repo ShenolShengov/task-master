@@ -1,5 +1,6 @@
 package bg.softuni.taskmaster.service.impl;
 
+import bg.softuni.taskmaster.exceptions.QuestionNotFoundException;
 import bg.softuni.taskmaster.model.dto.QuestionAskDTO;
 import bg.softuni.taskmaster.model.dto.QuestionBaseInfoDTO;
 import bg.softuni.taskmaster.model.dto.QuestionDetailsInfoDTO;
@@ -38,7 +39,8 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     @PreAuthorize("@questionServiceImpl.isActualUser(#id) || hasRole('ADMIN')")
     public void delete(Long id) {
-        questionRepository.deleteById(id);
+        Question question = questionRepository.findById(id).orElseThrow(QuestionNotFoundException::new);
+        questionRepository.delete(question);
     }
 
     @Override
@@ -47,7 +49,7 @@ public class QuestionServiceImpl implements QuestionService {
         return questionRepository.findById(id)
                 .map(e -> modelMapper.map(e, QuestionDetailsInfoDTO.class)
                         .setTags(mapToTags(e.getTags())))
-                .orElseThrow(NullPointerException::new);
+                .orElseThrow(QuestionNotFoundException::new);
     }
 
     @Override

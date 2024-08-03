@@ -39,7 +39,7 @@ class UserControllerIT {
 
     @BeforeEach
     void setUp() {
-        userTestDataUtils.saveTestUser("mockUser", "mock@gmail.com", true);
+        userTestDataUtils.saveTestUser("testUser", "mock@gmail.com", true);
     }
 
     @AfterEach
@@ -48,7 +48,7 @@ class UserControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "mockUser", roles = {"USER", "ADMIN"})
+    @WithMockUser(username = "testUser", roles = {"USER", "ADMIN"})
     public void test_CloseAccount() throws Exception {
         mockMvc.perform(delete("/users/close-account")
                         .with(csrf()))
@@ -57,7 +57,7 @@ class UserControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "mockUser", roles = {"USER", "ADMIN"})
+    @WithMockUser(username = "testUser", roles = {"USER", "ADMIN"})
     public void test_GetAll_With_Invalid_Sort() throws Exception {
         mockMvc.perform(get("/users")
                         .queryParam("sort", "wrongSort"))
@@ -66,7 +66,7 @@ class UserControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "mockUser", roles = {"USER", "ADMIN"})
+    @WithMockUser(username = "testUser", roles = {"USER", "ADMIN"})
     public void test_GetAll() throws Exception {
         addTestUsers();
         mockMvc.perform(get("/users")
@@ -91,7 +91,7 @@ class UserControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "mockUser", roles = {"USER", "ADMIN"})
+    @WithMockUser(username = "testUser", roles = {"USER", "ADMIN"})
     public void test_GetAll_With_NotValidSort() throws Exception {
         addTestUsers();
         mockMvc.perform(get("/users")

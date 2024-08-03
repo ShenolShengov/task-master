@@ -1,6 +1,7 @@
 package bg.softuni.taskmaster.service.impl;
 
 import bg.softuni.taskmaster.events.AnswerToQuestionEvent;
+import bg.softuni.taskmaster.exceptions.QuestionNotFoundException;
 import bg.softuni.taskmaster.model.dto.AnswerDTO;
 import bg.softuni.taskmaster.model.entity.Answer;
 import bg.softuni.taskmaster.model.entity.Question;
@@ -9,7 +10,6 @@ import bg.softuni.taskmaster.repository.AnswerRepository;
 import bg.softuni.taskmaster.repository.QuestionRepository;
 import bg.softuni.taskmaster.service.AnswerService;
 import bg.softuni.taskmaster.service.UserHelperService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
@@ -29,10 +29,9 @@ public class AnswerServiceImpl implements AnswerService {
     private final ApplicationEventPublisher publisher;
 
     @Override
-    @Transactional
     public void answer(AnswerDTO answerDTO, Long questionId) {
         Answer answer = modelMapper.map(answerDTO, Answer.class);
-        Question question = questionRepository.getReferenceById(questionId);
+        Question question = questionRepository.findById(questionId).orElseThrow(QuestionNotFoundException::new);
         User loggedUser = userHelperService.getLoggedUser();
         answer.setQuestion(question);
         answer.setUser(loggedUser);
