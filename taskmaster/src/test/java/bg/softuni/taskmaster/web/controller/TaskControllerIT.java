@@ -48,9 +48,9 @@ class TaskControllerIT {
 
     @BeforeEach
     void setUp() {
-        User testUser = userTestDataUtils.getOrSaveTestUserFromDB("testUser", "mock@gmail.com");
-        testTask = taskTestDataUtils.saveTask(testUser);
-        userTestDataUtils.getOrSaveTestUserFromDB("otherTestUser", "other@gmail.com");
+        User testUser = userTestDataUtils.saveTestUser("testUser", "mock@gmail.com");
+        testTask = taskTestDataUtils.saveTestTask(testUser);
+        userTestDataUtils.saveTestUser("otherTestUser", "other@gmail.com");
     }
 
     @AfterEach

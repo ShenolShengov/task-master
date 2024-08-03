@@ -13,7 +13,7 @@ import java.util.Set;
 @Component
 public class UserTestDataUtils {
 
-    public final String TEST_FULL_NAME = "Test full name";
+    private final String TEST_FULL_NAME = "Test full name";
     private final UserRepository userRepository;
 
     private final PictureTestDataUtils pictureTestDataUtils;
@@ -38,7 +38,7 @@ public class UserTestDataUtils {
     }
 
 
-    public User getOrSaveTestUserFromDB(String username, String email, String fullName, Integer age, boolean isAdmin) {
+    public User saveTestUser(String username, String email, String fullName, Integer age, boolean isAdmin) {
         Optional<User> optionalUser = userRepository.findByUsername(username);
         return optionalUser.orElseGet(() -> {
                     User user = new User(username, fullName, email, age, "password",
@@ -53,20 +53,20 @@ public class UserTestDataUtils {
         );
     }
 
-    public User getOrSaveTestUserFromDB(String username, String email, boolean isAdmin) {
-        return getOrSaveTestUserFromDB(username, email, TEST_FULL_NAME, 20, isAdmin);
+    public User saveTestUser(String username, String email, boolean isAdmin) {
+        return saveTestUser(username, email, TEST_FULL_NAME, 20, isAdmin);
     }
 
-    public User getOrSaveTestUserFromDB(String username, String email, String fullName) {
-        return getOrSaveTestUserFromDB(username, email, fullName, 20, false);
+    public User saveTestUser(String username, String email, String fullName) {
+        return saveTestUser(username, email, fullName, 20, false);
     }
 
-    public User getOrSaveTestUserFromDB(String username, String email, Integer age) {
-        return getOrSaveTestUserFromDB(username, email, TEST_FULL_NAME, age, false);
+    public User saveTestUser(String username, String email, Integer age) {
+        return saveTestUser(username, email, TEST_FULL_NAME, age, false);
     }
 
-    public User getOrSaveTestUserFromDB(String username, String email) {
-        return getOrSaveTestUserFromDB(username, email, false);
+    public User saveTestUser(String username, String email) {
+        return saveTestUser(username, email, false);
     }
 
 

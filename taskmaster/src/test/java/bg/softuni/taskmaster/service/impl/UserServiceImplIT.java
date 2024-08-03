@@ -36,7 +36,7 @@ class UserServiceImplIT {
 
     @BeforeEach
     void setUp() {
-        testUser = userTestDataUtils.getOrSaveTestUserFromDB("testUser", "test@com.me");
+        testUser = userTestDataUtils.saveTestUser("testUser", "test@com.me");
 //        doNothing().when(mockMailService).send(any(Payload.class));
     }
 
@@ -105,10 +105,10 @@ class UserServiceImplIT {
     }
 
     private void addTestData() {
-        userTestDataUtils.getOrSaveTestUserFromDB("Tomas", "to@com.me");
-        userTestDataUtils.getOrSaveTestUserFromDB("Ivan", "iv@com.me");
-        userTestDataUtils.getOrSaveTestUserFromDB("Georgi", "ge@com.me", 24);
-        userTestDataUtils.getOrSaveTestUserFromDB("Nikolay", "ni@com.me", "Nikolay Nikol", 24,
+        userTestDataUtils.saveTestUser("Tomas", "to@com.me");
+        userTestDataUtils.saveTestUser("Ivan", "iv@com.me");
+        userTestDataUtils.saveTestUser("Georgi", "ge@com.me", 24);
+        userTestDataUtils.saveTestUser("Nikolay", "ni@com.me", "Nikolay Nikol", 24,
                 false);
     }
 

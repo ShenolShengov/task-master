@@ -43,8 +43,8 @@ class UserRestControllerIT {
 
     @BeforeEach
     void setUp() {
-        testUser = userTestDataUtils.getOrSaveTestUserFromDB("testUser", "testUser@gmail.com");
-        testAdminUser = userTestDataUtils.getOrSaveTestUserFromDB("testAdminUser", "testAdmin@gmail.com",
+        testUser = userTestDataUtils.saveTestUser("testUser", "testUser@gmail.com");
+        testAdminUser = userTestDataUtils.saveTestUser("testAdminUser", "testAdmin@gmail.com",
                 true);
     }
 
@@ -150,7 +150,7 @@ class UserRestControllerIT {
     @Test
     @WithMockUser(username = "otherTestUser")
     public void test_deleteWhenNotHaveAuthorities() throws Exception {
-        userTestDataUtils.getOrSaveTestUserFromDB("otherTestUser", "other@gmail.com");
+        userTestDataUtils.saveTestUser("otherTestUser", "other@gmail.com");
         mockMvc.perform(delete(ServletUriComponentsBuilder
                         .fromPath("/users/api/{id}")
                         .build(testUser.getId()))

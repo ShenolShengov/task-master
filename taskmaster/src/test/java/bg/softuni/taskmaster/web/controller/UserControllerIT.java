@@ -35,7 +35,7 @@ class UserControllerIT {
 
     @BeforeEach
     void setUp() {
-        userTestDataUtils.getOrSaveTestUserFromDB("mockUser", "mock@gmail.com", true);
+        userTestDataUtils.saveTestUser("mockUser", "mock@gmail.com", true);
     }
 
     @AfterEach

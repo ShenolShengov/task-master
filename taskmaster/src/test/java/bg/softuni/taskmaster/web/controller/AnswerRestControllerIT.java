@@ -47,7 +47,7 @@ class AnswerRestControllerIT {
 
     @BeforeEach
     void setUp() {
-        User testUser = userTestDataUtils.getOrSaveTestUserFromDB("testUser", "test@gmail.com");
+        User testUser = userTestDataUtils.saveTestUser("testUser", "test@gmail.com");
         testQuestion = questionTestDataUtils.saveTestQuestion(testUser);
         testAnswer = answerTestDataUtils.saveTestAnswer(testUser, testQuestion);
     }
@@ -76,7 +76,7 @@ class AnswerRestControllerIT {
     @WithMockUser(value = "testUser")
     public void test_DeleteWithOtherUser() throws Exception {
         Answer answer = answerTestDataUtils.saveTestAnswer(
-                userTestDataUtils.getOrSaveTestUserFromDB("otherUser", "otherUser@gmail.com"),
+                userTestDataUtils.saveTestUser("otherUser", "otherUser@gmail.com"),
                 testQuestion);
 
         long answersCountBeforeTryToDelete = answerRepository.count();

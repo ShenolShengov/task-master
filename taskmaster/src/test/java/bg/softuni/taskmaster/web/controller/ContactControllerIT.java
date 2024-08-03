@@ -38,7 +38,7 @@ class ContactControllerIT {
 
     @BeforeEach
     void setUp() {
-        userTestDataUtils.getOrSaveTestUserFromDB("testUser", "test@gmail.com");
+        userTestDataUtils.saveTestUser("testUser", "test@gmail.com");
     }
 
     @AfterEach

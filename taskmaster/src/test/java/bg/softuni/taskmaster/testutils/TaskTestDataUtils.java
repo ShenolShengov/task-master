@@ -27,7 +27,7 @@ public class TaskTestDataUtils {
 
     }
 
-    public Task saveTask(User user) {
+    public Task saveTestTask(User user) {
         return taskRepository.save(getTestTask(user));
     }
 
