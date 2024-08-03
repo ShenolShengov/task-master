@@ -87,4 +87,12 @@ class AnswerRestControllerIT {
         assertEquals(answersCountBeforeTryToDelete, answerRepository.count());
     }
 
+    @Test
+    @WithMockUser("testUser")
+    public void test_WithInvalid_Id() throws Exception {
+        mockMvc.perform(delete(ServletUriComponentsBuilder
+                        .fromPath("/answers/{id}").build(-4L))
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
 }

@@ -1,6 +1,5 @@
 package bg.softuni.taskmaster.web.controller;
 
-import bg.softuni.taskmaster.model.entity.Answer;
 import bg.softuni.taskmaster.service.AnswerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,10 @@ public class AnswerRestController {
     private final AnswerService answerService;
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Answer> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        if (!answerService.exist(id)) {
+            return ResponseEntity.badRequest().build();
+        }
         answerService.delete(id);
         return ResponseEntity.noContent().build();
     }
