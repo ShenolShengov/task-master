@@ -1,6 +1,6 @@
 package bg.softuni.taskmaster.web.controller;
 
-import bg.softuni.taskmaster.utils.UserTestUtils;
+import bg.softuni.taskmaster.testutils.UserTestDataUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,17 +33,17 @@ class ContactControllerIT {
     private MockMvc mockMvc;
 
     @Autowired
-    private UserTestUtils userTestUtils;
+    private UserTestDataUtils userTestDataUtils;
 
 
     @BeforeEach
     void setUp() {
-        userTestUtils.getOrSaveTestUserFromDB("testUser", "test@gmail.com");
+        userTestDataUtils.getOrSaveTestUserFromDB("testUser", "test@gmail.com");
     }
 
     @AfterEach
     void tearDown() {
-        userTestUtils.clearDB();
+        userTestDataUtils.clearDB();
     }
 
     @Test

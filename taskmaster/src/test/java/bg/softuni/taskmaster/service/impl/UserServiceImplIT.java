@@ -1,18 +1,15 @@
 package bg.softuni.taskmaster.service.impl;
 
 import bg.softuni.taskmaster.exceptions.UserNotFoundException;
-import bg.softuni.taskmaster.model.dto.Payload;
 import bg.softuni.taskmaster.model.dto.UserInfoDTO;
 import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.repository.UserRepository;
-import bg.softuni.taskmaster.service.MailService;
-import bg.softuni.taskmaster.utils.UserTestUtils;
+import bg.softuni.taskmaster.testutils.UserTestDataUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +17,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
 
 @SpringBootTest
 class UserServiceImplIT {
@@ -32,7 +28,7 @@ class UserServiceImplIT {
     private UserServiceImpl userService;
 
     @Autowired
-    private UserTestUtils userTestUtils;
+    private UserTestDataUtils userTestDataUtils;
     private User testUser;
 
 //    @MockBean
@@ -40,13 +36,13 @@ class UserServiceImplIT {
 
     @BeforeEach
     void setUp() {
-        testUser = userTestUtils.getOrSaveTestUserFromDB("testUser", "test@com.me");
+        testUser = userTestDataUtils.getOrSaveTestUserFromDB("testUser", "test@com.me");
 //        doNothing().when(mockMailService).send(any(Payload.class));
     }
 
     @AfterEach
     void tearDown() {
-        userTestUtils.clearDB();
+        userTestDataUtils.clearDB();
     }
 
     @Test
@@ -109,10 +105,10 @@ class UserServiceImplIT {
     }
 
     private void addTestData() {
-        userTestUtils.getOrSaveTestUserFromDB("Tomas", "to@com.me");
-        userTestUtils.getOrSaveTestUserFromDB("Ivan", "iv@com.me");
-        userTestUtils.getOrSaveTestUserFromDB("Georgi", "ge@com.me", 24);
-        userTestUtils.getOrSaveTestUserFromDB("Nikolay", "ni@com.me", "Nikolay Nikol", 24,
+        userTestDataUtils.getOrSaveTestUserFromDB("Tomas", "to@com.me");
+        userTestDataUtils.getOrSaveTestUserFromDB("Ivan", "iv@com.me");
+        userTestDataUtils.getOrSaveTestUserFromDB("Georgi", "ge@com.me", 24);
+        userTestDataUtils.getOrSaveTestUserFromDB("Nikolay", "ni@com.me", "Nikolay Nikol", 24,
                 false);
     }
 

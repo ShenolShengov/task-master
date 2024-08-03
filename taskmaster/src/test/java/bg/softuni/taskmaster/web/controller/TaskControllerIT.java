@@ -3,8 +3,8 @@ package bg.softuni.taskmaster.web.controller;
 import bg.softuni.taskmaster.model.entity.Task;
 import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.repository.TaskRepository;
-import bg.softuni.taskmaster.utils.TaskTestUtils;
-import bg.softuni.taskmaster.utils.UserTestUtils;
+import bg.softuni.taskmaster.testutils.TaskTestDataUtils;
+import bg.softuni.taskmaster.testutils.UserTestDataUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,23 +40,23 @@ class TaskControllerIT {
     private TaskRepository taskRepository;
 
     @Autowired
-    private UserTestUtils userTestUtils;
+    private UserTestDataUtils userTestDataUtils;
 
     @Autowired
-    private TaskTestUtils taskTestUtils;
+    private TaskTestDataUtils taskTestDataUtils;
     private Task testTask;
 
     @BeforeEach
     void setUp() {
-        User testUser = userTestUtils.getOrSaveTestUserFromDB("testUser", "mock@gmail.com");
-        testTask = taskTestUtils.saveTask(testUser);
-        userTestUtils.getOrSaveTestUserFromDB("otherTestUser", "other@gmail.com");
+        User testUser = userTestDataUtils.getOrSaveTestUserFromDB("testUser", "mock@gmail.com");
+        testTask = taskTestDataUtils.saveTask(testUser);
+        userTestDataUtils.getOrSaveTestUserFromDB("otherTestUser", "other@gmail.com");
     }
 
     @AfterEach
     void tearDown() {
-        userTestUtils.clearDB();
-        taskTestUtils.clearDB();
+        userTestDataUtils.clearDB();
+        taskTestDataUtils.clearDB();
     }
 
     @Test

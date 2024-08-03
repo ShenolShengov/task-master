@@ -1,4 +1,4 @@
-package bg.softuni.taskmaster.utils;
+package bg.softuni.taskmaster.testutils;
 
 import bg.softuni.taskmaster.model.entity.Answer;
 import bg.softuni.taskmaster.model.entity.Question;
@@ -7,11 +7,11 @@ import bg.softuni.taskmaster.repository.AnswerRepository;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AnswerTestUtils {
+public class AnswerTestDataUtils {
 
     private final AnswerRepository answerRepository;
 
-    public AnswerTestUtils(AnswerRepository answerRepository) {
+    public AnswerTestDataUtils(AnswerRepository answerRepository) {
         this.answerRepository = answerRepository;
     }
 

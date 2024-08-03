@@ -1,4 +1,4 @@
-package bg.softuni.taskmaster.utils;
+package bg.softuni.taskmaster.testutils;
 
 import bg.softuni.taskmaster.model.entity.Picture;
 import bg.softuni.taskmaster.repository.PictureRepository;
@@ -11,13 +11,13 @@ import java.io.IOException;
 import java.util.Optional;
 
 @Component
-public class PictureTestUtils {
+public class PictureTestDataUtils {
 
     private static final String TEST_PICTURE_PATHNAME = "D:\\Temp\\TaskMaster\\taskmaster\\src\\test\\resources\\" +
                                                         "static\\images\\testPicture.png";
     private final PictureRepository pictureRepository;
 
-    public PictureTestUtils(PictureRepository pictureRepository) {
+    public PictureTestDataUtils(PictureRepository pictureRepository) {
         this.pictureRepository = pictureRepository;
     }
 

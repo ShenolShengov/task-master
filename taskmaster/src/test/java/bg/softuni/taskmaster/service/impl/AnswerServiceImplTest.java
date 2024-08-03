@@ -7,8 +7,8 @@ import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.repository.AnswerRepository;
 import bg.softuni.taskmaster.repository.QuestionRepository;
 import bg.softuni.taskmaster.service.UserHelperService;
-import bg.softuni.taskmaster.utils.AnswerTestUtils;
-import bg.softuni.taskmaster.utils.QuestionTestUtils;
+import bg.softuni.taskmaster.testutils.AnswerTestDataUtils;
+import bg.softuni.taskmaster.testutils.QuestionTestDataUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +22,7 @@ import org.springframework.context.ApplicationEventPublisher;
 
 import java.util.Optional;
 
-import static bg.softuni.taskmaster.utils.UserTestUtils.getTestUser;
+import static bg.softuni.taskmaster.testutils.UserTestDataUtils.getTestUser;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -61,7 +61,7 @@ class AnswerServiceImplTest {
         this.answerServiceToTest = new AnswerServiceImpl(mockAnswerRepository, new ModelMapper(),
                 mockUserHelperService, mockQuestionRepository, mockPublisher);
         testUser = getTestUser("testUser", "test@me.com", false);
-        testQuestion = QuestionTestUtils.getTestQuestion(testUser);
+        testQuestion = QuestionTestDataUtils.getTestQuestion(testUser);
 
     }
 
@@ -86,7 +86,7 @@ class AnswerServiceImplTest {
     @Test
     public void test_IsActualUser() {
         when(mockAnswerRepository.findById(ANSWER_TEST_ID))
-                .thenReturn(Optional.of(AnswerTestUtils.getTestAnswer(testUser, testQuestion)));
+                .thenReturn(Optional.of(AnswerTestDataUtils.getTestAnswer(testUser, testQuestion)));
         when(mockUserHelperService.getUsername()).thenReturn(testUser.getUsername());
         assertTrue(answerServiceToTest.isActualUser(ANSWER_TEST_ID));
 

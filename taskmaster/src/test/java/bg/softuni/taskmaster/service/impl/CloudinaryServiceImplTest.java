@@ -1,6 +1,6 @@
 package bg.softuni.taskmaster.service.impl;
 
-import bg.softuni.taskmaster.utils.PictureTestUtils;
+import bg.softuni.taskmaster.testutils.PictureTestDataUtils;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,7 +55,7 @@ class CloudinaryServiceImplTest {
     @Test
     @SuppressWarnings("unchecked")
     public void test_UploadPicture() throws IOException {
-        MultipartFile testMultipartPicture = PictureTestUtils.getMultipartPicture();
+        MultipartFile testMultipartPicture = PictureTestDataUtils.getMultipartPicture();
         Map<Object, Object> testOptions = (Map<Object, Object>) ObjectUtils.asMap("folder", FOLDER);
         when(mockCloudinary.uploader().upload(testMultipartPicture.getBytes(),
                 testOptions).get("public_id"))

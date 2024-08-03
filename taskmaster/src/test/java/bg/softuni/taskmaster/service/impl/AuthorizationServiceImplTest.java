@@ -5,14 +5,14 @@ import bg.softuni.taskmaster.model.enums.UserRoles;
 import bg.softuni.taskmaster.repository.RoleRepository;
 import bg.softuni.taskmaster.repository.UserRepository;
 import bg.softuni.taskmaster.service.UserHelperService;
-import bg.softuni.taskmaster.utils.RoleTestUtils;
+import bg.softuni.taskmaster.testutils.RoleTestDataUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static bg.softuni.taskmaster.utils.UserTestUtils.getTestUser;
+import static bg.softuni.taskmaster.testutils.UserTestDataUtils.getTestUser;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -34,7 +34,7 @@ class AuthorizationServiceImplTest {
         this.authorizationServiceToTest = new AuthorizationServiceImpl(mockRoleRepository,
                 mockUserRepository, mockUserHelperService);
         when(mockRoleRepository.getByName(UserRoles.ADMIN))
-                .thenReturn(RoleTestUtils.getTestRole(UserRoles.ADMIN));
+                .thenReturn(RoleTestDataUtils.getTestRole(UserRoles.ADMIN));
     }
 
     @Test

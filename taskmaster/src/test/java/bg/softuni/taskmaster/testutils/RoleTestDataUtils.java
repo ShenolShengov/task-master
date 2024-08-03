@@ -1,4 +1,4 @@
-package bg.softuni.taskmaster.utils;
+package bg.softuni.taskmaster.testutils;
 
 import bg.softuni.taskmaster.model.entity.Role;
 import bg.softuni.taskmaster.model.enums.UserRoles;
@@ -6,11 +6,11 @@ import bg.softuni.taskmaster.repository.RoleRepository;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RoleTestUtils {
+public class RoleTestDataUtils {
 
     private final RoleRepository roleRepository;
 
-    public RoleTestUtils(RoleRepository roleRepository) {
+    public RoleTestDataUtils(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
     }
 

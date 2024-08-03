@@ -4,9 +4,9 @@ import bg.softuni.taskmaster.model.entity.Answer;
 import bg.softuni.taskmaster.model.entity.Question;
 import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.repository.AnswerRepository;
-import bg.softuni.taskmaster.utils.AnswerTestUtils;
-import bg.softuni.taskmaster.utils.QuestionTestUtils;
-import bg.softuni.taskmaster.utils.UserTestUtils;
+import bg.softuni.taskmaster.testutils.AnswerTestDataUtils;
+import bg.softuni.taskmaster.testutils.QuestionTestDataUtils;
+import bg.softuni.taskmaster.testutils.UserTestDataUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,13 +33,13 @@ class AnswerRestControllerIT {
     private AnswerRepository answerRepository;
 
     @Autowired
-    private UserTestUtils userTestUtils;
+    private UserTestDataUtils userTestDataUtils;
 
     @Autowired
-    private QuestionTestUtils questionTestUtils;
+    private QuestionTestDataUtils questionTestDataUtils;
 
     @Autowired
-    private AnswerTestUtils answerTestUtils;
+    private AnswerTestDataUtils answerTestDataUtils;
     private Question testQuestion;
 
     private Answer testAnswer;
@@ -47,17 +47,17 @@ class AnswerRestControllerIT {
 
     @BeforeEach
     void setUp() {
-        User testUser = userTestUtils.getOrSaveTestUserFromDB("testUser", "test@gmail.com");
-        testQuestion = questionTestUtils.saveTestQuestion(testUser);
-        testAnswer = answerTestUtils.saveTestAnswer(testUser, testQuestion);
+        User testUser = userTestDataUtils.getOrSaveTestUserFromDB("testUser", "test@gmail.com");
+        testQuestion = questionTestDataUtils.saveTestQuestion(testUser);
+        testAnswer = answerTestDataUtils.saveTestAnswer(testUser, testQuestion);
     }
 
 
     @AfterEach
     void tearDown() {
-        answerTestUtils.clearDB();
-        userTestUtils.clearDB();
-        questionTestUtils.clearDB();
+        answerTestDataUtils.clearDB();
+        userTestDataUtils.clearDB();
+        questionTestDataUtils.clearDB();
     }
 
 
@@ -75,8 +75,8 @@ class AnswerRestControllerIT {
     @Test
     @WithMockUser(value = "testUser")
     public void test_DeleteWithOtherUser() throws Exception {
-        Answer answer = answerTestUtils.saveTestAnswer(
-                userTestUtils.getOrSaveTestUserFromDB("otherUser", "otherUser@gmail.com"),
+        Answer answer = answerTestDataUtils.saveTestAnswer(
+                userTestDataUtils.getOrSaveTestUserFromDB("otherUser", "otherUser@gmail.com"),
                 testQuestion);
 
         long answersCountBeforeTryToDelete = answerRepository.count();

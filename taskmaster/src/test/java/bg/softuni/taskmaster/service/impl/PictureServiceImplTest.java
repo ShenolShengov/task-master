@@ -14,8 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-import static bg.softuni.taskmaster.utils.PictureTestUtils.*;
-import static bg.softuni.taskmaster.utils.PictureTestUtils.getMultipartPicture;
+import static bg.softuni.taskmaster.testutils.PictureTestDataUtils.*;
+import static bg.softuni.taskmaster.testutils.PictureTestDataUtils.getMultipartPicture;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;

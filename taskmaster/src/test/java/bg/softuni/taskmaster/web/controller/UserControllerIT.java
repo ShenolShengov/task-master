@@ -1,7 +1,7 @@
 package bg.softuni.taskmaster.web.controller;
 
 import bg.softuni.taskmaster.repository.UserRepository;
-import bg.softuni.taskmaster.utils.UserTestUtils;
+import bg.softuni.taskmaster.testutils.UserTestDataUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ class UserControllerIT {
     private UserRepository userRepository;
 
     @Autowired
-    private UserTestUtils userTestUtils;
+    private UserTestDataUtils userTestDataUtils;
 
     @Autowired
     private MockMvc mockMvc;
@@ -35,12 +35,12 @@ class UserControllerIT {
 
     @BeforeEach
     void setUp() {
-        userTestUtils.getOrSaveTestUserFromDB("mockUser", "mock@gmail.com", true);
+        userTestDataUtils.getOrSaveTestUserFromDB("mockUser", "mock@gmail.com", true);
     }
 
     @AfterEach
     void tearDown() {
-        userTestUtils.clearDB();
+        userTestDataUtils.clearDB();
     }
 
     @Test

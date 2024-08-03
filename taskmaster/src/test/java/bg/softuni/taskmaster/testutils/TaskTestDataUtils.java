@@ -1,4 +1,4 @@
-package bg.softuni.taskmaster.utils;
+package bg.softuni.taskmaster.testutils;
 
 
 import bg.softuni.taskmaster.model.entity.Task;
@@ -12,11 +12,11 @@ import java.time.LocalTime;
 import static bg.softuni.taskmaster.model.enums.TaskPriorities.HIGH;
 
 @Component
-public class TaskTestUtils {
+public class TaskTestDataUtils {
 
     private final TaskRepository taskRepository;
 
-    public TaskTestUtils(TaskRepository taskRepository) {
+    public TaskTestDataUtils(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
 

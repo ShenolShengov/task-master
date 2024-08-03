@@ -1,4 +1,4 @@
-package bg.softuni.taskmaster.utils;
+package bg.softuni.taskmaster.testutils;
 
 import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.model.enums.UserRoles;
@@ -11,28 +11,28 @@ import java.util.Optional;
 import java.util.Set;
 
 @Component
-public class UserTestUtils {
+public class UserTestDataUtils {
 
     public final String TEST_FULL_NAME = "Test full name";
     private final UserRepository userRepository;
 
-    private final PictureTestUtils pictureTestUtils;
+    private final PictureTestDataUtils pictureTestDataUtils;
 
-    private final RoleTestUtils roleTestUtils;
+    private final RoleTestDataUtils roleTestDataUtils;
 
-    public UserTestUtils(UserRepository userRepository, PictureTestUtils pictureTestUtils, RoleTestUtils roleTestUtils) {
+    public UserTestDataUtils(UserRepository userRepository, PictureTestDataUtils pictureTestDataUtils, RoleTestDataUtils roleTestDataUtils) {
         this.userRepository = userRepository;
-        this.pictureTestUtils = pictureTestUtils;
-        this.roleTestUtils = roleTestUtils;
+        this.pictureTestDataUtils = pictureTestDataUtils;
+        this.roleTestDataUtils = roleTestDataUtils;
     }
 
     public static User getTestUser(String username, String email, boolean isAdmin) {
         User user = new User(username, "Test full name", email, 20, "password",
-                new HashSet<>(List.of(RoleTestUtils.getTestRole(UserRoles.USER))),
+                new HashSet<>(List.of(RoleTestDataUtils.getTestRole(UserRoles.USER))),
                 Set.of(), Set.of(), Set.of(),
                 null);
         if (isAdmin) {
-            user.getRoles().add(RoleTestUtils.getTestRole(UserRoles.ADMIN));
+            user.getRoles().add(RoleTestDataUtils.getTestRole(UserRoles.ADMIN));
         }
         return user;
     }
@@ -42,11 +42,11 @@ public class UserTestUtils {
         Optional<User> optionalUser = userRepository.findByUsername(username);
         return optionalUser.orElseGet(() -> {
                     User user = new User(username, fullName, email, age, "password",
-                            new HashSet<>(List.of(roleTestUtils.getRole(UserRoles.USER))),
+                            new HashSet<>(List.of(roleTestDataUtils.getRole(UserRoles.USER))),
                             new HashSet<>(), new HashSet<>(), new HashSet<>(),
-                            pictureTestUtils.saveOrGetPicture());
+                            pictureTestDataUtils.saveOrGetPicture());
                     if (isAdmin) {
-                        user.getRoles().add(roleTestUtils.getRole(UserRoles.ADMIN));
+                        user.getRoles().add(roleTestDataUtils.getRole(UserRoles.ADMIN));
                     }
                     return userRepository.save(user);
                 }

@@ -3,7 +3,7 @@ package bg.softuni.taskmaster.web.controller;
 import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.model.enums.UserRoles;
 import bg.softuni.taskmaster.repository.UserRepository;
-import bg.softuni.taskmaster.utils.UserTestUtils;
+import bg.softuni.taskmaster.testutils.UserTestDataUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +35,7 @@ class UserRestControllerIT {
     private UserRepository userRepository;
 
     @Autowired
-    private UserTestUtils userTestUtils;
+    private UserTestDataUtils userTestDataUtils;
 
     private User testUser;
 
@@ -43,14 +43,14 @@ class UserRestControllerIT {
 
     @BeforeEach
     void setUp() {
-        testUser = userTestUtils.getOrSaveTestUserFromDB("testUser", "testUser@gmail.com");
-        testAdminUser = userTestUtils.getOrSaveTestUserFromDB("testAdminUser", "testAdmin@gmail.com",
+        testUser = userTestDataUtils.getOrSaveTestUserFromDB("testUser", "testUser@gmail.com");
+        testAdminUser = userTestDataUtils.getOrSaveTestUserFromDB("testAdminUser", "testAdmin@gmail.com",
                 true);
     }
 
     @AfterEach
     void tearDown() {
-        userTestUtils.clearDB();
+        userTestDataUtils.clearDB();
     }
 
 
@@ -150,7 +150,7 @@ class UserRestControllerIT {
     @Test
     @WithMockUser(username = "otherTestUser")
     public void test_deleteWhenNotHaveAuthorities() throws Exception {
-        userTestUtils.getOrSaveTestUserFromDB("otherTestUser", "other@gmail.com");
+        userTestDataUtils.getOrSaveTestUserFromDB("otherTestUser", "other@gmail.com");
         mockMvc.perform(delete(ServletUriComponentsBuilder
                         .fromPath("/users/api/{id}")
                         .build(testUser.getId()))
