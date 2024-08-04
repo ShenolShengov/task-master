@@ -3,7 +3,7 @@
 <body class="bg-blue-500 mb-6 mt-6">
 <form th:replace="~{/fragments/language::language(true)}"></form>
 <div class="text-primary-foreground min-h-screen flex items-center justify-center">
-    <div class="bg-card w-full max-w-md p-8 rounded-lg shadow-lg">
+    <div class="bg-card w-full max-w-md p-8 pb-0 rounded-lg shadow-lg">
         <h2 th:text="#{register_label}" class="text-black text-2xl font-bold mb-6">Register</h2>
         <form class="text-black"
               th:method="post"
@@ -95,6 +95,10 @@
                     class="w-full bg-primary text-primary-foreground py-2 rounded-lg hover:bg-primary/80 transition-colors duration-300">
                 Register
             </button>
+            <p class="text-muted-foreground text-sm mt-4">
+                Already have an account?
+                <a th:href="@{/users/login}" class="text-black hover:text-gray-600">Log in</a>
+            </p>
         </form>
     </div>
 </div>
