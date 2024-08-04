@@ -1,7 +1,6 @@
 package bg.softuni.taskmaster.web;
 
 import bg.softuni.taskmaster.exceptions.ObjectNotFoundException;
-import bg.softuni.taskmaster.exceptions.TaskNotFoundException;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
@@ -23,6 +22,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleQuestionNotFoundException(ObjectNotFoundException ex, Model model) {
         model.addAttribute("type", ex.getType());
-        return "objectNotFound";
+        return "object-not-found";
     }
+
+    @ExceptionHandler({Exception.class, Error.class})
+    public String handleUnexpectedException() {
+        return "unexpected-error";
+    }
+
 }
