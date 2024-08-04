@@ -5,7 +5,7 @@ if (allDayCheckBox.checked) {
     onChangeAllDay();
 }
 
-function onAddTask() {
+function onAddEditTask() {
     if (allDayCheckBox.checked) {
         document.getElementById("startTime").value = '00:00';
         document.getElementById("endTime").value = "23:59";

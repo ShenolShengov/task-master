@@ -62,15 +62,20 @@
                         eiusmod tempor
                         incididunt ut labore et dolore magna aliqua.</p>
                     <div class="flex items-center justify-between">
-                        <span th:if="!*{allDay}" th:text="*{'Start time: ' +startTime}" class="text-sm text-zinc-600">Start Time: 09:00 AM</span>
-                        <span th:if="!*{allDay}" th:text="*{'End time: ' + endTime}" class="text-sm text-zinc-600">End Time: 10:00 AM</span>
+                        <span th:if="!*{allDay}" th:text="*{'Start time: ' +startTime}" class="text-sm text-zinc-600">
+                            Start Time: 09:00 AM
+                        </span>
+                        <span th:if="!*{allDay}" th:text="*{'End time: ' + endTime}" class="text-sm text-zinc-600">
+                            End Time: 10:00 AM
+                        </span>
                         <span th:if="*{allDay}" class="text-sm text-zinc-600">All day</span>
                         <a th:href="@{/tasks/edit/{id}(id = *{id})}"
                            class="bg-secondary text-secondary-foreground py-1 px-2 rounded-lg shadow-md hover:bg-secondary/80">
                             Edit
                         </a>
                         <form th:method="delete" th:action="@{/tasks/{id}(id = *{id})}">
-                            <button class="bg-destructive text-destructive-foreground py-1 px-2 rounded-lg shadow-md hover:bg-destructive/80"
+                            <button class="bg-destructive text-destructive-foreground py-1 px-2 rounded-lg shadow-md
+                                           hover:bg-destructive/80"
                                     type="submit">Delete
                             </button>
                         </form>
@@ -94,7 +99,8 @@
                            class="text-black border border-card px-2 py-1 rounded-lg"/>
                     <label for="questionSortProperty" class="text-base text-primary">Sort by:</label>
                     <select
-                            onchange="sortWithPrefix('question_',this.value, getElementById('questionSortDirection').value)"
+                            onchange="sortWithPrefix('question_',this.value,
+                             getElementById('questionSortDirection').value)"
                             id="questionSortProperty"
                             class="bg-input text-zinc-600 border border-input rounded-md px-4 py-2 pr-8">
                         <option th:each="option: ${@sortingUtils.getSortingFields('Question')}"
@@ -105,7 +111,8 @@
                         </option>
                     </select>
                     <select
-                            onchange="sortWithPrefix('question_' ,getElementById('questionSortProperty').value,this.value)"
+                            onchange="sortWithPrefix('question_',
+                            ('questionSortProperty').value,this.value)"
                             id="questionSortDirection"
                             class="bg-input text-zinc-600 border border-input rounded-md px-4 py-2 pr-8">
                         <option th:selected="${question_sortDirection.equals('asc')}"
@@ -136,7 +143,8 @@
                             <form th:method="delete"
                                   th:action="@{/questions/{id}(id = *{id})}">
                                 <button type="submit"
-                                        class="ml-auto delete-comment-button bg-destructive text-destructive-foreground px-2 py-1 rounded-lg font-semibold">
+                                        class="ml-auto delete-comment-button bg-destructive
+                                        text-destructive-foreground px-2 py-1 rounded-lg font-semibold">
                                     Delete
                                 </button>
                             </form>

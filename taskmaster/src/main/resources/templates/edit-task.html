@@ -17,17 +17,17 @@
                        placeholder="Enter task name"/>
                 <div th:errors="*{name}"
                      class="text-sm text-destructive">
-                    <p>Username length must be between 5 and 15 symbols!</p>
+                    <p>Task name error message</p>
                 </div>
             </div>
             <div>
                 <label th:for="category" class="block text-sm font-medium text-black">Category</label>
-                <input th:field="*{category}" id="category" list="popularCategory" type="text"
+                <input th:field="*{category}" id="category" name="category" list="popularCategory" type="text"
                        class="text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring"
                        placeholder="Enter task category"/>
                 <div th:errors="*{category}"
                      class="text-sm text-destructive">
-                    <p>Username length must be between 5 and 15 symbols!</p>
+                    <p>Task category error message</p>
                 </div>
             </div>
             <datalist id="popularCategory">
@@ -41,12 +41,16 @@
         <div class="grid grid-cols-2 gap-6 mt-6">
             <div>
                 <label th:for="priority" class="block text-sm font-medium text-black">Priority</label>
-                <select th:field="*{priority}" id="priority"
+                <select th:field="*{priority}" id="priority" name="priority"
                         class="text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring">
                     <option value="LOW">Low</option>
                     <option value="MEDIUM">Medium</option>
                     <option value="HIGH">High</option>
                 </select>
+                <div th:errors="*{priority}"
+                     class="text-sm text-destructive">
+                    <p>Task Priority error message</p>
+                </div>
             </div>
             <div>
                 <label th:for="dueDate" class="block text-sm font-medium text-black">Due Date</label>
@@ -55,49 +59,50 @@
                        placeholder="Select due date"/>
                 <div th:errors="*{dueDate}"
                      class="text-sm text-destructive">
-                    <p>Username length must be between 5 and 15 symbols!</p>
+                    <p>Task dueDate error message</p>
                 </div>
             </div>
             <div id="start-time-div">
                 <label th:for="startTime" class="block text-sm font-medium text-black">Start</label>
                 <input th:field="*{startTime}"
 
-                       id="startTime" name="dueDate" type="time" min="today"
+                       id="startTime" name="startTime" type="time" min="today"
                        class="text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring"
                        placeholder="Select due date"/>
                 <div th:errors="*{startTime}"
                      class="text-sm text-destructive">
-                    <p>Username length must be between 5 and 15 symbols!</p>
+                    <p>Task start time error message</p>
                 </div>
             </div>
             <div id="end-time-div">
                 <label th:for="endTime"
                        class="block text-sm font-medium text-black">End</label>
                 <input th:field="*{endTime}"
-                       id="endTime" name="dueDate" type="time"
+                       id="endTime" name="endTime" type="time"
                        class="text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring"
                        placeholder="Select due date"/>
                 <div th:errors="*{endTime}"
                      class="text-sm text-destructive">
-                    <p>Username length must be between 5 and 15 symbols!</p>
+                    <p>Task end time error message</p>
                 </div>
             </div>
             <div class="flex items-center">
-                <input th:field="*{allDay}" type="checkbox" id="allDay"
+                <input th:field="*{allDay}" type="checkbox" id="allDay" onchange="onChangeAllDay()"
                        class="mr-2 h-5 w-5 text-black border border-primary rounded focus:ring ring-primary"/>
                 <label th:for="allDay" class="text-black">All Day</label>
             </div>
         </div>
         <label th:for="description" class="block text-sm font-medium mt-6 text-black">Notes</label>
-        <textarea th:field="*{description}" id="description"
+        <textarea th:field="*{description}" id="description" name="description"
                   class="w-full mt-1 p-3 rounded-md text-black border border-input focus:outline-none focus:ring focus:ring-ring"
                   rows="6" placeholder="Enter task notes"></textarea>
         <div th:errors="*{description}"
              class="text-sm text-destructive">
-            <p>Username length must be between 5 and 15 symbols!</p>
+            <p>Task description error message</p>
         </div>
         <div class="flex justify-center">
             <button type="submit" id="save-changes"
+                    onclick="onAddEditTask()"
                     class="bg-primary text-primary-foreground mt-6 py-3 px-6 rounded-md hover:bg-primary/80 transition-colors">
                 Save changes
             </button>
@@ -106,27 +111,6 @@
 </div>
 <footer th:replace="~{/fragments/footer::footer}"></footer>
 <script th:src="@{/js/dates.js}"></script>
-<script>
-    let allDayCheckBox = document.getElementById("allDay");
-    let startTimeDiv = document.getElementById("start-time-div");
-    let endTimeDiv = document.getElementById("end-time-div");
-    if (allDayCheckBox.checked) {
-        startTimeDiv.classList.toggle('hidden');
-        endTimeDiv.classList.toggle('hidden');
-        document.getElementById("startTime").value = null;
-        document.getElementById("endTime").value = null;
-    }
-    allDayCheckBox.addEventListener("change", () => {
-        startTimeDiv.classList.toggle('hidden');
-        endTimeDiv.classList.toggle('hidden');
-    });
-    document.getElementById("save-changes").addEventListener('click', () => {
-        if (allDayCheckBox.checked) {
-            document.getElementById("startTime").value = '00:00';
-            document.getElementById("endTime").value = "23:59";
-        }
-    });
-
-</script>
+<script th:src="@{/js/add-edit-task.js}"></script>
 </body>
 </html>

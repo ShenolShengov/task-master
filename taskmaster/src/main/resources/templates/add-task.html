@@ -17,7 +17,7 @@
                        placeholder="Enter task name"/>
                 <div th:errors="*{name}"
                      class="text-sm text-destructive">
-                    <p>Task name error</p>
+                    <p>Task name error message</p>
                 </div>
             </div>
             <div>
@@ -27,7 +27,7 @@
                        placeholder="Enter task category"/>
                 <div th:errors="*{category}"
                      class="text-sm text-destructive">
-                    <p>Task category error</p>
+                    <p>Task category error message</p>
                 </div>
             </div>
             <datalist id="popularCategory">
@@ -47,6 +47,10 @@
                     <option value="MEDIUM">Medium</option>
                     <option value="HIGH">High</option>
                 </select>
+                <div th:errors="*{priority}"
+                     class="text-sm text-destructive">
+                    <p>Task Priority error message</p>
+                </div>
             </div>
             <div>
                 <label th:for="dueDate" class="block text-sm font-medium text-black">Due Date</label>
@@ -55,7 +59,7 @@
                        placeholder="Select due date"/>
                 <div th:errors="*{dueDate}"
                      class="text-sm text-destructive">
-                    <p>Task dueDate error</p>
+                    <p>Task dueDate error message</p>
                 </div>
             </div>
             <div id="start-time-div">
@@ -66,7 +70,7 @@
                        placeholder="Select due date"/>
                 <div th:errors="*{startTime}"
                      class="text-sm text-destructive">
-                    <p>Task startTime error</p>
+                    <p>Task startTime error message</p>
                 </div>
             </div>
             <div id="end-time-div">
@@ -78,7 +82,7 @@
                        placeholder="Select due date"/>
                 <div th:errors="*{endTime}"
                      class="text-sm text-destructive">
-                    <p>Task endTime error</p>
+                    <p>Task endTime error message</p>
                 </div>
             </div>
             <div class="flex items-center">
@@ -93,11 +97,11 @@
                   rows="6" placeholder="Enter task notes"></textarea>
         <div th:errors="*{description}"
              class="text-sm text-destructive">
-            <p>Task name error</p>
+            <p>Task name error message</p>
         </div>
         <div class="flex justify-center">
             <button type="submit" id="add-task"
-                    onclick="onAddTask()"
+                    onclick="onAddEditTask()"
                     class="bg-primary text-primary-foreground mt-6 py-3 px-6 rounded-md hover:bg-primary/80 transition-colors">
                 Add task
             </button>
@@ -106,6 +110,6 @@
 </div>
 <footer th:replace="~{/fragments/footer::footer}"></footer>
 <script th:src="@{/js/dates.js}"></script>
-<script th:src="@{/js/add-task.js}"></script>
+<script th:src="@{/js/add-edit-task.js}"></script>
 </body>
 </html>

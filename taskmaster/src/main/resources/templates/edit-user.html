@@ -14,35 +14,23 @@
                 <div class="mb-4">
                     <label th:for="username" class="block text-base font-medium mb-2">Username</label>
                     <input th:field="*{username}"
-
-                           required
-                           minlength="5"
-                           maxlength="15"
-                           type="text"
-                           id="username"
-                           name="username"
+                           required minlength="5" maxlength="15"
+                           type="text" id="username" name="username"
                            placeholder="Enter your username"
-                           class="w-full px-4 py-4 border rounded-lg focus:outline-none focus:ring focus:ring-primary"
-                    />
+                           class="w-full px-4 py-4 border rounded-lg focus:outline-none focus:ring focus:ring-primary"/>
                     <div th:errors="*{username}" class="text-sm text-destructive">
-                        <p>Username length must be between 5 and 15 symbols!</p>
+                        <p>User username error message</p>
                     </div>
                 </div>
                 <div class="mb-4">
                     <label th:for="fullName" class="block text-base font-medium mb-2">Full Name</label>
                     <input th:field="*{fullName}"
-
-                           required
-                           minlength="5"
-                           maxlength="20"
-                           type="text"
-                           id="fullName"
-                           name="fullName"
+                           required minlength="5" maxlength="20"
+                           type="text" id="fullName" name="fullName"
                            placeholder="Enter your full name"
-                           class="w-full px-4 py-4 border rounded-lg focus:outline-none focus:ring focus:ring-primary"
-                    />
+                           class="w-full px-4 py-4 border rounded-lg focus:outline-none focus:ring focus:ring-primary"/>
                     <div th:errors="*{fullName}" class="text-sm text-destructive">
-                        <p>Full name length must be between 5 and 20 symbols!</p>
+                        <p>User full name error message</p>
                     </div>
                 </div>
             </div>
@@ -53,7 +41,7 @@
                            required type="email" id="email" name="email" placeholder="Enter your email"
                            class="w-full px-4 py-4 border rounded-lg focus:outline-none focus:ring focus:ring-primary"/>
                     <div th:errors="*{email}" class="text-sm text-destructive">
-                        <p>Enter valid email</p>
+                        <p>User email error message</p>
                     </div>
                 </div>
                 <div class="mb-4">
@@ -62,7 +50,7 @@
                            required min="1" type="number" id="age" name="age" placeholder="Enter your age"
                            class="w-full px-4 py-4 border rounded-lg focus:outline-none focus:ring focus:ring-primary"/>
                     <div th:errors="*{age}" class="text-sm text-destructive">
-                        <p>Age must be positive</p>
+                        <p>User age error message</p>
                     </div>
                 </div>
             </div>
@@ -72,7 +60,8 @@
                      class="w-24 h-24 rounded-full object-cover mb-4"/>
                 <input th:field="*{profilePicture}" type="file" id="profilePicture" class="hidden"/>
                 <label id="profilePicturePreviewLabel" th:for="profilePicture" class="cursor-pointer text-black">
-                    Upload from device </label>
+                    Upload from device
+                </label>
                 <button type="button" onclick="setDefaultPicture()" class="mt-4">Use default picture</button>
             </div>
             <button type="submit"

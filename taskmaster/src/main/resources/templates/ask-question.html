@@ -11,42 +11,42 @@
         <h1 class="text-center text-4xl font-bold mb-6 text-black">Ask Question</h1>
         <div class="grid grid-cols-2 gap-6">
             <div>
-                <label th:for="name" class="block text-sm font-medium text-black">Title</label>
-                <input th:field="*{title}" id="name" name="name" type="text"
+                <label th:for="title" class="block text-sm font-medium text-black">Title</label>
+                <input th:field="*{title}" id="title" name="title" type="text"
                        class="text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring"
                        placeholder="e.g. How to sort a array in java"/>
                 <div th:errors="*{title}"
                      class="text-sm text-destructive">
-                    <p>Username length must be between 5 and 15 symbols!</p>
+                    <p>Question title error message</p>
                 </div>
             </div>
             <div>
                 <label th:for="tags" class="block text-sm font-medium text-black">Tags</label>
-                <input th:field="*{tags}" type="text" id="tags"
+                <input th:field="*{tags}" type="text" id="tags" name="tags"
                        class="text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring"
                        placeholder="e.g. (java git c#)"/>
                 <div th:errors="*{tags}"
                      class="text-sm text-destructive">
-                    <p>Username length must be between 5 and 15 symbols!</p>
+                    <p>Question tags error message</p>
                 </div>
             </div>
         </div>
         <label th:for="description" class="block text-sm font-medium mt-6 text-black">Description</label>
-        <textarea th:field="*{description}" id="description"
+        <textarea th:field="*{description}" id="description" name="description"
                   class="w-full mt-1 p-3 rounded-md text-black border border-input focus:outline-none focus:ring focus:ring-ring"
-                  rows="5" ></textarea>
+                  rows="5"></textarea>
         <div th:errors="*{description}"
              class="text-sm text-destructive">
-            <p>Username length must be between 5 and 15 symbols!</p>
+            <p>Question description error message</p>
         </div>
 
         <label th:for="code" class="block text-sm font-medium mt-6 text-black">Code</label>
-        <textarea th:field="*{code}" id="code"
+        <textarea th:field="*{code}" id="code" name="code"
                   class="w-full mt-1 p-3 rounded-md text-black border border-input focus:outline-none focus:ring focus:ring-ring"
-                  rows="5" ></textarea>
+                  rows="5"></textarea>
         <div th:errors="*{code}"
              class="text-sm text-destructive">
-            <p>Username length must be between 5 and 15 symbols!</p>
+            <p>Question code error message</p>
         </div>
         <div class="flex justify-center">
             <button type="submit"

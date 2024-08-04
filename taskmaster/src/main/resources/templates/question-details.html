@@ -46,23 +46,23 @@
         <div class="p-4" th:object="${questionAnswerData}">
             <h2 class="text-black text-2xl  mb-2">Answer</h2>
             <label th:for="description" class="mb-2 block text-sm font-medium mt-4 text-black">Description</label>
-            <textarea id="description" th:field="*{description}"
+            <textarea id="description" name="description" th:field="*{description}"
                       class="w-full h-20 text-black placeholder-muted-foreground border border-primary rounded-lg p-2 focus:outline-none focus:ring focus:ring-primary"
                       placeholder="Write your comment here">
             </textarea>
             <div th:errors="*{description}"
                  class="text-sm text-destructive">
-                <p>Username length must be between 5 and 15 symbols!</p>
+                <p>Answer description error message</p>
             </div>
             <label th:for="code" class="mb-2 block text-sm font-medium mt-4 text-black">Code</label>
-            <textarea id="code" th:field="*{code}"
+            <textarea id="code" name="code" th:field="*{code}"
                       class="w-full h-20 text-black placeholder-muted-foreground border border-primary rounded-lg p-2 focus:outline-none focus:ring focus:ring-primary"
                       placeholder="Write your comment here">
 
             </textarea>
             <div th:errors="*{code}"
                  class="text-sm text-destructive">
-                <p>Username length must be between 5 and 15 symbols!</p>
+                <p>Answer code error message</p>
             </div>
             <button class="bg-primary text-primary-foreground px-4 py-2 mt-2 rounded-lg font-semibold">Add Answer
             </button>
