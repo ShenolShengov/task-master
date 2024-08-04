@@ -1,12 +1,14 @@
 package bg.softuni.taskmaster.exceptions;
 
+import lombok.Getter;
+
+@Getter
 public class ObjectNotFoundException extends RuntimeException {
 
-    public ObjectNotFoundException() {
-        super("Object is not found");
-    }
+    private final String type;
 
-    public ObjectNotFoundException(String message) {
-        super(message);
+    public ObjectNotFoundException(String type) {
+        super(type + " is not found!");
+        this.type = type;
     }
 }

@@ -75,10 +75,4 @@ public class TaskController {
         return "redirect:/";
     }
 
-    @ExceptionHandler(TaskNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String handleQuestionNotFoundException(Model model) {
-        model.addAttribute("type", "Task");
-        return "objectNotFound";
-    }
 }

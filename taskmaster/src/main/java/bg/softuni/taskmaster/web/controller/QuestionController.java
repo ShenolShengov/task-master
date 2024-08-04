@@ -93,10 +93,4 @@ public class QuestionController {
         return "redirect:/";
     }
 
-    @ExceptionHandler(QuestionNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String handleQuestionNotFoundException(Model model) {
-        model.addAttribute("type", "Question");
-        return "objectNotFound";
-    }
 }

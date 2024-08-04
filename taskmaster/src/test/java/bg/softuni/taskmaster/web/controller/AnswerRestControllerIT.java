@@ -65,7 +65,7 @@ class AnswerRestControllerIT {
     @WithMockUser("testUser")
     public void test_DeleteWithActualUser() throws Exception {
         mockMvc.perform(delete(ServletUriComponentsBuilder
-                        .fromPath("/answers/{id}").build(testAnswer.getId()))
+                        .fromPath("/answers/api/{id}").build(testAnswer.getId()))
                         .with(csrf()))
                 .andExpect(status().isNoContent());
         assertEquals(0, answerRepository.count());
@@ -81,7 +81,7 @@ class AnswerRestControllerIT {
 
         long answersCountBeforeTryToDelete = answerRepository.count();
         mockMvc.perform(delete(ServletUriComponentsBuilder
-                        .fromPath("/answers/{id}").build(answer.getId()))
+                        .fromPath("/answers/api/{id}").build(answer.getId()))
                         .with(csrf()))
                 .andExpect(status().isForbidden());
         assertEquals(answersCountBeforeTryToDelete, answerRepository.count());
@@ -91,7 +91,7 @@ class AnswerRestControllerIT {
     @WithMockUser("testUser")
     public void test_WithInvalid_Id() throws Exception {
         mockMvc.perform(delete(ServletUriComponentsBuilder
-                        .fromPath("/answers/{id}").build(-4L))
+                        .fromPath("/answers/api/{id}").build(-4L))
                         .with(csrf()))
                 .andExpect(status().isBadRequest());
     }

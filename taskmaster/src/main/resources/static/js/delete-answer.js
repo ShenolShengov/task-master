@@ -12,7 +12,7 @@ function updateAnswerCount() {
 function deleteAnswer(id) {
     let isDeleted = true;
     console.log(id);
-    fetch('http://localhost:8080/answers/' + id,
+    fetch('http://localhost:8080/answers/api/' + id,
         {
             method: 'DELETE',
             headers: getHeaderWithCsrf()

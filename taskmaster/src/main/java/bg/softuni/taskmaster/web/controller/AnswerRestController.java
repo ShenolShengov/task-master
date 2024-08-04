@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/answers")
+@RequestMapping("/answers/api/")
 @RequiredArgsConstructor
 public class AnswerRestController {
 
