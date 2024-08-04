@@ -34,7 +34,7 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
         User user = modelMapper.map(userRegisterDTO, User.class);
         user.getRoles().add(roleRepository.getByName(UserRoles.USER));
         MultipartFile profilePicture = userRegisterDTO.getProfilePicture();
-        user.setProfilePicture(pictureService.createPictureOrGetDefault(profilePicture, USERS_PROFILE_PICTURES_FOLDER));
+        user.setProfilePicture(pictureService.savePicture(profilePicture, USERS_PROFILE_PICTURES_FOLDER));
         userRepository.save(user);
         publisher.publishEvent(new RegistrationEvent(this, userRegisterDTO.getUsername(),
                 userRegisterDTO.getEmail()));

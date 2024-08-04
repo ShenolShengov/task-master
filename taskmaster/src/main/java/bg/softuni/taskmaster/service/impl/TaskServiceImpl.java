@@ -46,7 +46,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
-    public Page<TaskInfoDTO> getTasksFor(LocalDate dueDate, Pageable pageable) {
+    public Page<TaskInfoDTO> getFor(LocalDate dueDate, Pageable pageable) {
         return taskRepository.findAllByUserUsernameAndDueDate(userHelperService.getUsername(), dueDate, pageable)
                 .map(e -> modelMapper.map(e, TaskInfoDTO.class));
     }

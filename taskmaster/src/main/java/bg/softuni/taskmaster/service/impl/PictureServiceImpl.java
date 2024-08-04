@@ -18,7 +18,7 @@ public class PictureServiceImpl implements PictureService {
     private final CloudinaryService cloudinaryService;
 
     @Override
-    public Picture createPictureOrGetDefault(MultipartFile pictureFile, String folder) throws IOException {
+    public Picture savePicture(MultipartFile pictureFile, String folder) throws IOException {
         if (pictureFile.isEmpty()) {
             return getDefaultPicture();
         }

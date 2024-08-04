@@ -42,8 +42,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @PreAuthorize("@userHelperServiceImpl.getLoggedUser().id.equals(#id)  ||  hasRole('ADMIN')")
     public void delete(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(UserNotFoundException::new);
+        User user = userHelperService.getUser(id);
         userRepository.delete(user);
         publisher.publishEvent(new AccountDeletionEvent(this, user.getUsername(), user.getEmail()));
     }
@@ -55,8 +54,4 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAllBySearchQuery(searchQuery, pageable).map(this::toInfo);
     }
 
-    @Override
-    public boolean exists(Long id) {
-        return userRepository.existsById(id);
-    }
 }

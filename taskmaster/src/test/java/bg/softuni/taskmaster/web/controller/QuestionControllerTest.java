@@ -159,7 +159,7 @@ class QuestionControllerTest {
 
     @Test
     @WithMockUser("testUser")
-    public void test_AksWith_NotValid_DTO() throws Exception {
+    public void test_Aks_With_NotValid_DTO() throws Exception {
         mockMvc.perform(post("/questions/ask")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)

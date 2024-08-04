@@ -16,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
 class UserServiceImplIT {
@@ -31,13 +30,9 @@ class UserServiceImplIT {
     private UserTestDataUtils userTestDataUtils;
     private User testUser;
 
-//    @MockBean
-//    private MailService mockMailService;
-
     @BeforeEach
     void setUp() {
         testUser = userTestDataUtils.saveTestUser("testUser", "test@com.me");
-//        doNothing().when(mockMailService).send(any(Payload.class));
     }
 
     @AfterEach
@@ -46,7 +41,7 @@ class UserServiceImplIT {
     }
 
     @Test
-    void test_GetInfoWith_Valid_Id() {
+    void test_GetInfo() {
         UserInfoDTO info = userService.getInfo(testUser.getId());
         assertEquals(testUser.getId(), info.getId());
         assertEquals(testUser.getUsername(), info.getUsername());
@@ -63,7 +58,7 @@ class UserServiceImplIT {
 
     @Test
     @WithMockUser(username = "testUser")
-    public void test_deleteWith_Valid_Id() {
+    public void test_Delete() {
         assertEquals(1, userRepository.count());
         userService.delete(testUser.getId());
         assertEquals(0, userRepository.count());
@@ -71,20 +66,13 @@ class UserServiceImplIT {
 
     @Test
     @WithMockUser(roles = {"USER", "ADMIN"})
-    public void test_deleteWith_NotValid_Id() {
+    public void test_DeleteWith_NotValid_Id() {
         assertThrows(UserNotFoundException.class, () -> userService.delete(8L));
-    }
-
-
-    @Test
-    public void test_Exist() {
-        assertTrue(userService.exists(testUser.getId()));
-        assertFalse(userService.exists(7L));
     }
 
     @Test
     @WithMockUser(roles = {"USER", "ADMIN"})
-    public void test_getAll_With_EmptySearchQuery() {
+    public void test_GetAll_With_EmptySearchQuery() {
         addTestData();
         Page<UserInfoDTO> all = userService.getAll("", getPageable());
         assertEquals(5, all.getTotalElements());
@@ -92,7 +80,7 @@ class UserServiceImplIT {
 
     @Test
     @WithMockUser(roles = {"USER", "ADMIN"})
-    public void test_getAll_With_NotEmptySearchQuery() {
+    public void test_GetAll_With_Different_SearchQuery() {
         addTestData();
         assertEquals(1, userService.getAll("iv@com.me", getPageable()).getTotalElements());
         assertEquals(1, userService.getAll("Tomas", getPageable()).getTotalElements());

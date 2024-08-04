@@ -49,24 +49,6 @@ class UserControllerIT {
 
     @Test
     @WithMockUser(username = "testUser", roles = {"USER", "ADMIN"})
-    public void test_CloseAccount() throws Exception {
-        mockMvc.perform(delete("/users/close-account")
-                        .with(csrf()))
-                .andExpect(status().isFound());
-        assertEquals(0, userRepository.count());
-    }
-
-    @Test
-    @WithMockUser(username = "testUser", roles = {"USER", "ADMIN"})
-    public void test_GetAll_With_Invalid_Sort() throws Exception {
-        mockMvc.perform(get("/users")
-                        .queryParam("sort", "wrongSort"))
-                .andExpect(status().isFound())
-                .andExpect(model().attributeDoesNotExist("sortProperties", "sortDirection", "foundedUsers"));
-    }
-
-    @Test
-    @WithMockUser(username = "testUser", roles = {"USER", "ADMIN"})
     public void test_GetAll() throws Exception {
         addTestUsers();
         mockMvc.perform(get("/users")
@@ -114,7 +96,17 @@ class UserControllerIT {
                         .param("page", "1")
                         .param("sort", TEST_SORT_PROPERTIES + "mess" + "," + TEST_SORT_DIRECTION)
                         .param("search_query", TEST_USER_SEARCH_QUERY))
+                .andExpect(status().isFound())
+                .andExpect(model().attributeDoesNotExist("sortProperties", "sortDirection", "foundedUsers"));
+    }
+
+    @Test
+    @WithMockUser(username = "testUser", roles = {"USER", "ADMIN"})
+    public void test_CloseAccount() throws Exception {
+        mockMvc.perform(delete("/users/close-account")
+                        .with(csrf()))
                 .andExpect(status().isFound());
+        assertEquals(0, userRepository.count());
     }
 
     private void addTestUsers() {

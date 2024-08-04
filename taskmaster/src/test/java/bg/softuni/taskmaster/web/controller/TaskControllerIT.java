@@ -70,7 +70,7 @@ class TaskControllerIT {
 
     @Test
     @WithMockUser("testUser")
-    public void test_DoAddTaskWithValidDTO() throws Exception {
+    public void test_Add() throws Exception {
         taskRepository.deleteAll();
         mockMvc.perform(post("/tasks/add")
                         .with(csrf())
@@ -83,7 +83,7 @@ class TaskControllerIT {
 
     @Test
     @WithMockUser("testUser")
-    public void test_DoAddTaskWithInValidDTO() throws Exception {
+    public void test_Add_WithNotValidDTO() throws Exception {
         taskRepository.deleteAll();
         mockMvc.perform(post("/tasks/add")
                         .with(csrf())
@@ -100,7 +100,7 @@ class TaskControllerIT {
 
     @Test
     @WithMockUser("testUser")
-    public void test_EditTaskWithCorrectUser() throws Exception {
+    public void test_EditView() throws Exception {
         mockMvc.perform(get(ServletUriComponentsBuilder
                         .fromPath("/tasks/edit/{id}").build(testTask.getId())))
                 .andExpect(status().isOk())
@@ -109,7 +109,7 @@ class TaskControllerIT {
 
     @Test
     @WithMockUser("otherTestUser")
-    public void test_EditTaskWithOtherUser() throws Exception {
+    public void test_EditView_With_OtherUser() throws Exception {
         mockMvc.perform(get(ServletUriComponentsBuilder
                         .fromPath("/tasks/edit/{id}").build(testTask.getId())))
                 .andExpect(status().isForbidden());
@@ -117,7 +117,7 @@ class TaskControllerIT {
 
     @Test
     @WithMockUser("testUser")
-    public void test_EditTaskWithInvalidId() throws Exception {
+    public void test_EditView_With_InvalidId() throws Exception {
         mockMvc.perform(get(ServletUriComponentsBuilder
                         .fromPath("/tasks/edit/{id}").build(-2)))
                 .andExpect(status().isNotFound())
@@ -127,7 +127,7 @@ class TaskControllerIT {
 
     @Test
     @WithMockUser("testUser")
-    public void test_Do_EditTaskWithCorrectUser() throws Exception {
+    public void test_Edit() throws Exception {
         mockMvc.perform(post(ServletUriComponentsBuilder
                         .fromPath("/tasks/edit/{id}").build(testTask.getId()))
                         .formFields(getTestAddTaskDTOFormFields())
@@ -142,7 +142,7 @@ class TaskControllerIT {
 
     @Test
     @WithMockUser("testUser")
-    public void test_Do_EditTaskWithCorrectUserButWrongData() throws Exception {
+    public void test_Edit_With_WrongData() throws Exception {
         mockMvc.perform(post(ServletUriComponentsBuilder
                         .fromPath("/tasks/edit/{id}").build(testTask.getId()))
                         .with(csrf())
@@ -157,7 +157,7 @@ class TaskControllerIT {
 
     @Test
     @WithMockUser("otherTestUser")
-    public void test_Do_EditTaskWithOtherUser() throws Exception {
+    public void test_Edit_With_OtherUser() throws Exception {
         mockMvc.perform(post(ServletUriComponentsBuilder
                         .fromPath("/tasks/edit/{id}").build(testTask.getId()))
                         .with(csrf()))
@@ -166,7 +166,7 @@ class TaskControllerIT {
 
     @Test
     @WithMockUser("testUser")
-    public void test_Do_EditTaskWithInvalidId() throws Exception {
+    public void test_Edit_With_InvalidId() throws Exception {
         mockMvc.perform(post(ServletUriComponentsBuilder
                         .fromPath("/tasks/edit/{id}").build(-2))
                         .with(csrf()))
@@ -175,8 +175,19 @@ class TaskControllerIT {
     }
 
     @Test
+    @WithMockUser("testUser")
+    public void test_Delete() throws Exception {
+        mockMvc.perform(delete(ServletUriComponentsBuilder
+                        .fromPath("/tasks/{id}").build(testTask.getId()))
+                        .with(csrf()))
+                .andExpect(status().isFound())
+                .andExpect(redirectedUrl("/"));
+        assertEquals(0, taskRepository.count());
+    }
+
+    @Test
     @WithMockUser("otherTestUser")
-    public void test_DeleteWithOtherUser() throws Exception {
+    public void test_Delete_WithOtherUser() throws Exception {
         mockMvc.perform(delete(ServletUriComponentsBuilder
                         .fromPath("/tasks/{id}").build(testTask.getId()))
                         .with(csrf()))
@@ -186,24 +197,13 @@ class TaskControllerIT {
 
     @Test
     @WithMockUser("otherTestUser")
-    public void test_DeleteWithInvalidId() throws Exception {
+    public void test_Delete_WithInvalidId() throws Exception {
         mockMvc.perform(delete(ServletUriComponentsBuilder
                         .fromPath("/tasks/{id}").build(-2))
                         .with(csrf()))
                 .andExpect(status().isNotFound())
                 .andExpect(view().name("objectNotFound"));
         assertEquals(1, taskRepository.count());
-    }
-
-    @Test
-    @WithMockUser("testUser")
-    public void test_DeleteWithCorrectUser() throws Exception {
-        mockMvc.perform(delete(ServletUriComponentsBuilder
-                        .fromPath("/tasks/{id}").build(testTask.getId()))
-                        .with(csrf()))
-                .andExpect(status().isFound())
-                .andExpect(redirectedUrl("/"));
-        assertEquals(0, taskRepository.count());
     }
 
     private void assertTaskIsEdited(Task editedTask) {

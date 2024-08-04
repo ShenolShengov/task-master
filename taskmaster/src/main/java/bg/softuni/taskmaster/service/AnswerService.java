@@ -9,6 +9,4 @@ public interface AnswerService {
     boolean isActualUser(Long id);
 
     void delete(Long id);
-
-    boolean exist(Long id);
 }

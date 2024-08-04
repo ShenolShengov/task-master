@@ -55,11 +55,17 @@ class ContactControllerIT {
     }
 
     @Test
-    public void test_ContactUs_With_NotLoggedUser() throws Exception {
+    @WithMockUser("testUser")
+    public void test_ContactUs() throws Exception {
         mockMvc.perform(post("/contacts")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .formFields(new LinkedMultiValueMap<>()))
-                .andExpect(status().isForbidden());
+                        .formFields(getTestAddContactUsDTOFormFields()))
+                .andExpect(status().isFound())
+                .andExpect(redirectedUrl("/"))
+                .andExpect(flash().attributeCount(1))
+                .andExpect(flash().attributeExists("mailSent"));
+
     }
 
     @Test
@@ -77,17 +83,11 @@ class ContactControllerIT {
     }
 
     @Test
-    @WithMockUser("testUser")
-    public void test_ContactUs_With_Valid_ContactUsDTO() throws Exception {
+    public void test_ContactUs_With_NotLoggedUser() throws Exception {
         mockMvc.perform(post("/contacts")
-                        .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .formFields(getTestAddContactUsDTOFormFields()))
-                .andExpect(status().isFound())
-                .andExpect(redirectedUrl("/"))
-                .andExpect(flash().attributeCount(1))
-                .andExpect(flash().attributeExists("mailSent"));
-
+                        .formFields(new LinkedMultiValueMap<>()))
+                .andExpect(status().isForbidden());
     }
 
     private MultiValueMap<String, String> getTestAddContactUsDTOFormFields() {

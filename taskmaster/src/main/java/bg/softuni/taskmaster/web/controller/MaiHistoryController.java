@@ -21,7 +21,7 @@ public class MaiHistoryController {
     private final MailService mailService;
 
     @GetMapping("/mail-history")
-    public String emailHistoryView(Model model,
+    public String mailHistoryView(Model model,
                                    @RequestParam(required = false) Integer ignoredPage,
                                    @RequestParam(required = false, defaultValue = "date,desc")
                                    String sort,

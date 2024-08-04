@@ -15,7 +15,7 @@ public interface TaskService {
 
     void delete(Long id);
 
-    Page<TaskInfoDTO> getTasksFor(LocalDate dueDate, Pageable pageable);
+    Page<TaskInfoDTO> getFor(LocalDate dueDate, Pageable pageable);
 
     TaskInfoDTO getInfo(Long id);
 

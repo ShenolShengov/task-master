@@ -30,13 +30,13 @@ public class UserModificationController {
     }
 
     @GetMapping("/edit")
-    public String editUser() {
+    public String editView() {
         return "edit-user";
     }
 
     @PutMapping("/edit")
-    public String editView(@Valid UserEditDTO userEditDTO, BindingResult bindingResult,
-                           RedirectAttributes rAtt) throws IOException {
+    public String edit(@Valid UserEditDTO userEditDTO, BindingResult bindingResult,
+                       RedirectAttributes rAtt) throws IOException {
         if (bindingResult.hasErrors()) {
             rAtt.addFlashAttribute("editData", userEditDTO);
             rAtt.addFlashAttribute("org.springframework.validation.BindingResult.editData",

@@ -1,5 +1,6 @@
 package bg.softuni.taskmaster.web.controller;
 
+import bg.softuni.taskmaster.exceptions.UserNotFoundException;
 import bg.softuni.taskmaster.service.AuthorizationService;
 import bg.softuni.taskmaster.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -16,30 +17,26 @@ public class UserRestController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        if (!userService.exists(id)) {
-            return ResponseEntity.badRequest().build();
-        }
         userService.delete(id);
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/make-admin/{id}")
     public ResponseEntity<Void> makeAdmin(@PathVariable Long id) {
-        if (!userService.exists(id)) {
-            return ResponseEntity.badRequest().build();
-        }
         authorizationService.makeAdmin(id);
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/remove-admin/{id}")
     public ResponseEntity<Void> removeAdmin(@PathVariable Long id) {
-        if (!userService.exists(id)) {
-            return ResponseEntity.badRequest().build();
-        }
         authorizationService.removeAdmin(id);
         return ResponseEntity.ok().build();
     }
 
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Void> handleUserNotFoundException() {
+        return ResponseEntity.notFound().build();
+    }
 
 }

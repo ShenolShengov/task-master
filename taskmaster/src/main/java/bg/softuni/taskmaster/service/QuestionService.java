@@ -15,9 +15,9 @@ public interface QuestionService {
 
     void delete(Long id);
 
-    QuestionDetailsInfoDTO getDetailsInfoDTO(Long id);
+    QuestionDetailsInfoDTO getDetailsInfo(Long id);
 
-    Page<QuestionBaseInfoDTO> getQuestionsFrom(LocalDate questionCreatedTime, Pageable pageable);
+    Page<QuestionBaseInfoDTO> getFrom(LocalDate date, Pageable pageable);
 
     Page<QuestionBaseInfoDTO> getAll(String searchQuery, Pageable pageable);
 

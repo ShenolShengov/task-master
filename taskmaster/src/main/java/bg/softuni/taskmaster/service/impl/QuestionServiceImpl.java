@@ -47,7 +47,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     @Transactional
-    public QuestionDetailsInfoDTO getDetailsInfoDTO(Long id) {
+    public QuestionDetailsInfoDTO getDetailsInfo(Long id) {
         return questionRepository.findById(id)
                 .map(e -> modelMapper.map(e, QuestionDetailsInfoDTO.class)
                         .setTags(mapToTags(e.getTags())))
@@ -55,13 +55,13 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Page<QuestionBaseInfoDTO> getQuestionsFrom(LocalDate questionCreatedTime, Pageable pageable) {
-        if (questionCreatedTime == null) {
+    public Page<QuestionBaseInfoDTO> getFrom(LocalDate date, Pageable pageable) {
+        if (date == null) {
             return questionRepository.findAllByUserUsername(userHelperService.getUsername(), pageable)
                     .map(this::toBaseInfo);
         }
         return questionRepository.findAllByUserUsernameAndCreatedTimeDate(userHelperService.getUsername(),
-                questionCreatedTime, pageable).map(this::toBaseInfo);
+                date, pageable).map(this::toBaseInfo);
     }
 
     private LinkedHashSet<String> mapToTags(String tags) {

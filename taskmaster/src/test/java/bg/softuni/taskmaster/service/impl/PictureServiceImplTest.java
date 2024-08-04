@@ -58,25 +58,25 @@ class PictureServiceImplTest {
     }
 
     @Test
-    public void test_CreatePictureOrGetDefault_ShouldReturn_Default_WithEmptyMultipartFile() throws IOException {
-        when(mockPictureRepository.readById(1L)).thenReturn(testPicture);
-        Picture actualPicture = pictureServiceToTest.createPictureOrGetDefault(getEmptyMultipartFile(), "testFolder");
-        assertSame(testPicture, actualPicture);
-    }
-
-    @Test
-    public void test_CreatePictureOrGetDefault_Should_Successfully_CreatePicture() throws IOException {
+    public void test_CreatePictureOrGetDefault() throws IOException {
         when(mockCloudinaryService.uploadPicture(any(MultipartFile.class), eq(FOLDER)))
                 .thenReturn(PUBLIC_ID);
         when(mockCloudinaryService.getUrl(PUBLIC_ID))
                 .thenReturn(URL);
 
-        pictureServiceToTest.createPictureOrGetDefault(getMultipartPicture(), FOLDER);
+        pictureServiceToTest.savePicture(getMultipartPicture(), FOLDER);
         verify(mockPictureRepository).save(pictureCaptor.capture());
         Picture actualSavedPicture = pictureCaptor.getValue();
         assertEquals(ORIGINAL_NAME, actualSavedPicture.getOriginalName());
         assertEquals(PUBLIC_ID, actualSavedPicture.getPublicId());
         assertEquals(URL, actualSavedPicture.getUrl());
+    }
+
+    @Test
+    public void test_CreatePictureOrGetDefault_WithEmptyProfilePicture() throws IOException {
+        when(mockPictureRepository.readById(1L)).thenReturn(testPicture);
+        Picture actualPicture = pictureServiceToTest.savePicture(getEmptyMultipartFile(), "testFolder");
+        assertSame(testPicture, actualPicture);
     }
 
 }

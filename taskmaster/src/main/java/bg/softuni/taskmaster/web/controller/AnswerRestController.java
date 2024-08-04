@@ -21,6 +21,6 @@ public class AnswerRestController {
 
     @ExceptionHandler(AnswerNotFoundException.class)
     public ResponseEntity<Void> handleAnswerNotFoundException() {
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.notFound().build();
     }
 }

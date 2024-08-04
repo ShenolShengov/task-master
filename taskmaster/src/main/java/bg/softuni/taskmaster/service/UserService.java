@@ -12,5 +12,4 @@ public interface UserService {
 
     Page<UserInfoDTO> getAll(String searchQuery, Pageable pageable);
 
-    boolean exists(Long id);
 }

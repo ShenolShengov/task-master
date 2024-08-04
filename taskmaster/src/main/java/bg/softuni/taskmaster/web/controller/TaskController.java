@@ -21,7 +21,7 @@ public class TaskController {
     private final TaskService taskService;
 
     @GetMapping("/add")
-    public String addTaskView(Model model) {
+    public String addView(Model model) {
         if (!model.containsAttribute("addTaskData")) {
             model.addAttribute("addTaskData", new TaskAddEditDTO());
         }
@@ -29,8 +29,8 @@ public class TaskController {
     }
 
     @PostMapping("/add")
-    public String doAddTask(@Valid TaskAddEditDTO taskAddEditDTO, BindingResult bindingResult,
-                            RedirectAttributes rAtt) {
+    public String add(@Valid TaskAddEditDTO taskAddEditDTO, BindingResult bindingResult,
+                          RedirectAttributes rAtt) {
         if (bindingResult.hasErrors()) {
             rAtt.addFlashAttribute("addTaskData", taskAddEditDTO);
             rAtt.addFlashAttribute("org.springframework.validation.BindingResult.addTaskData",
@@ -42,7 +42,7 @@ public class TaskController {
     }
 
     @GetMapping("edit/{id}")
-    public String editTask(@PathVariable Long id, Model model) {
+    public String editView(@PathVariable Long id, Model model) {
         if (!model.containsAttribute("haveData")) {
             model.addAttribute("taskData", taskService.getInfo(id));
         }
@@ -52,7 +52,7 @@ public class TaskController {
 
     @PostMapping("/edit/{id}")
     @PreAuthorize("@taskServiceImpl.isActualUser(#taskEditDTO.id)")
-    public String doEditTask(@Valid TaskAddEditDTO taskEditDTO, BindingResult bindingResult,
+    public String edit(@Valid TaskAddEditDTO taskEditDTO, BindingResult bindingResult,
                              RedirectAttributes rAtt, @PathVariable Long id) {
         if (bindingResult.hasErrors()) {
             rAtt.addFlashAttribute("taskData", taskEditDTO);

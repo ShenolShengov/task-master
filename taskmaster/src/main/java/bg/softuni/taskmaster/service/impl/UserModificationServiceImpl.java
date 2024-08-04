@@ -58,7 +58,7 @@ public class UserModificationServiceImpl implements UserModificationService {
             return;
         }
         Picture oldprofilePicture = user.getProfilePicture();
-        user.setProfilePicture(pictureService.createPictureOrGetDefault(userEditDTO.getProfilePicture(), USERS_PROFILE_PICTURES_FOLDER));
+        user.setProfilePicture(pictureService.savePicture(userEditDTO.getProfilePicture(), USERS_PROFILE_PICTURES_FOLDER));
         if (oldprofilePicture.getId() != 1) pictureService.deletePicture(oldprofilePicture);
     }
 }

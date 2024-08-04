@@ -31,8 +31,8 @@ public class UserAuthenticationController {
     }
 
     @PostMapping("/register")
-    public String doRegister(@Valid UserRegisterDTO userRegisterDTO, BindingResult bindingResult,
-                             RedirectAttributes rAtt) throws IOException {
+    public String register(@Valid UserRegisterDTO userRegisterDTO, BindingResult bindingResult,
+                           RedirectAttributes rAtt) throws IOException {
         if (bindingResult.hasErrors()) {
             rAtt.addFlashAttribute("registerData", userRegisterDTO);
             rAtt.addFlashAttribute("org.springframework.validation.BindingResult.registerData",
@@ -50,7 +50,7 @@ public class UserAuthenticationController {
     }
 
     @PostMapping("/login-error")
-    public String loginError(@ModelAttribute("username") String username, Model model) {
+    public String loginErrorView(@ModelAttribute("username") String username, Model model) {
         model.addAttribute("hasError", true);
         model.addAttribute("username", username);
         return "login";

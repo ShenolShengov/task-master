@@ -70,17 +70,17 @@ class UserRestControllerIT {
 
     @Test
     @WithMockUser(username = "testAdminUser", roles = {"ADMIN", "USER"})
-    public void test_MakeAdminWithInvalidId() throws Exception {
+    public void test_MakeAdmin_With_InvalidId() throws Exception {
         mockMvc.perform(patch(ServletUriComponentsBuilder
                         .fromPath("/users/api/make-admin/{id}")
                         .build(24))
                         .with(csrf()))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNotFound());
     }
 
     @Test
     @WithMockUser("testUser")
-    public void test_MakeAdminWhenNotHaveAuthorities() throws Exception {
+    public void test_MakeAdmin_When_NotHaveAuthorities() throws Exception {
         mockMvc.perform(patch(ServletUriComponentsBuilder
                         .fromPath("/users/api/make-admin/{id}")
                         .build(testUser.getId()))
@@ -105,17 +105,17 @@ class UserRestControllerIT {
 
     @Test
     @WithMockUser(username = "testAdminUser", roles = {"ADMIN", "USER"})
-    public void test_RemoveAdminWithInvalidId() throws Exception {
+    public void test_RemoveAdmin_With_InvalidId() throws Exception {
         mockMvc.perform(patch(ServletUriComponentsBuilder
                         .fromPath("/users/api/remove-admin/{id}")
                         .build(24))
                         .with(csrf()))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNotFound());
     }
 
     @Test
     @WithMockUser(username = "testUser")
-    public void test_RemoveAdminWhenNotHaveAuthorities() throws Exception {
+    public void test_RemoveAdmin_When_NotHaveAuthorities() throws Exception {
         mockMvc.perform(patch(ServletUriComponentsBuilder
                         .fromPath("/users/api/remove-admin/{id}")
                         .build(testUser.getId()))
@@ -139,17 +139,17 @@ class UserRestControllerIT {
 
     @Test
     @WithMockUser(username = "testAdminUser", roles = {"ADMIN", "USER"})
-    public void test_deleteWithInvalidId() throws Exception {
+    public void test_delete_WithInvalidId() throws Exception {
         mockMvc.perform(delete(ServletUriComponentsBuilder
                         .fromPath("/users/api/{id}")
                         .build(NOT_VALID_USER_ID))
                         .with(csrf()))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNotFound());
     }
 
     @Test
     @WithMockUser(username = "otherTestUser")
-    public void test_deleteWhenNotHaveAuthorities() throws Exception {
+    public void test_delete_When_NotHaveAuthorities() throws Exception {
         userTestDataUtils.saveTestUser("otherTestUser", "other@gmail.com");
         mockMvc.perform(delete(ServletUriComponentsBuilder
                         .fromPath("/users/api/{id}")

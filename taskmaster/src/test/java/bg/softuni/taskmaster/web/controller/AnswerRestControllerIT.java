@@ -63,7 +63,7 @@ class AnswerRestControllerIT {
 
     @Test
     @WithMockUser("testUser")
-    public void test_DeleteWithActualUser() throws Exception {
+    public void test_Delete() throws Exception {
         mockMvc.perform(delete(ServletUriComponentsBuilder
                         .fromPath("/answers/api/{id}").build(testAnswer.getId()))
                         .with(csrf()))
@@ -74,7 +74,7 @@ class AnswerRestControllerIT {
 
     @Test
     @WithMockUser("testUser")
-    public void test_DeleteWithOtherUser() throws Exception {
+    public void test_Delete_WithOtherUser() throws Exception {
         Answer answer = answerTestDataUtils.saveTestAnswer(
                 userTestDataUtils.saveTestUser("otherUser", "otherUser@gmail.com"),
                 testQuestion);
@@ -89,10 +89,10 @@ class AnswerRestControllerIT {
 
     @Test
     @WithMockUser("testUser")
-    public void test_WithInvalid_Id() throws Exception {
+    public void test_Delete_WithNotValid_Id() throws Exception {
         mockMvc.perform(delete(ServletUriComponentsBuilder
                         .fromPath("/answers/api/{id}").build(-4L))
                         .with(csrf()))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNotFound());
     }
 }
