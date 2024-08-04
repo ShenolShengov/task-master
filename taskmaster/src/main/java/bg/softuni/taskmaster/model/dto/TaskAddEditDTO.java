@@ -1,8 +1,8 @@
 package bg.softuni.taskmaster.model.dto;
 
 import bg.softuni.taskmaster.validation.properstartandendtime.ProperStartAndEndTime;
+import bg.softuni.taskmaster.validation.validpriority.ValidPriority;
 import jakarta.validation.constraints.FutureOrPresent;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,8 +28,7 @@ public class TaskAddEditDTO implements Serializable {
     @Length(min = 5, max = 20, message = "{validation.task.category.length}")
     private String category;
 
-    @NotEmpty(message = "{validation.task.priority.not.null}")
-    //todo add Validation for valid priority
+    @ValidPriority
     private String priority;
 
     @NotNull(message = "{validation.task.dueDate.not.null}")

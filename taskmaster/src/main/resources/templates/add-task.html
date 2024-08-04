@@ -17,17 +17,17 @@
                        placeholder="Enter task name"/>
                 <div th:errors="*{name}"
                      class="text-sm text-destructive">
-                    <p>Username length must be between 5 and 15 symbols!</p>
+                    <p>Task name error</p>
                 </div>
             </div>
             <div>
                 <label th:for="category" class="block text-sm font-medium text-black">Category</label>
-                <input th:field="*{category}" id="category" list="popularCategory" type="text"
+                <input th:field="*{category}" id="category" name="category" list="popularCategory" type="text"
                        class="text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring"
                        placeholder="Enter task category"/>
                 <div th:errors="*{category}"
                      class="text-sm text-destructive">
-                    <p>Username length must be between 5 and 15 symbols!</p>
+                    <p>Task category error</p>
                 </div>
             </div>
             <datalist id="popularCategory">
@@ -41,7 +41,7 @@
         <div class="grid grid-cols-2 gap-6 mt-6">
             <div>
                 <label th:for="priority" class="block text-sm font-medium text-black">Priority</label>
-                <select th:field="*{priority}" id="priority"
+                <select th:field="*{priority}" id="priority" name="priority"
                         class="text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring">
                     <option value="LOW">Low</option>
                     <option value="MEDIUM">Medium</option>
@@ -55,19 +55,18 @@
                        placeholder="Select due date"/>
                 <div th:errors="*{dueDate}"
                      class="text-sm text-destructive">
-                    <p>Username length must be between 5 and 15 symbols!</p>
+                    <p>Task dueDate error</p>
                 </div>
             </div>
             <div id="start-time-div">
                 <label th:for="startTime" class="block text-sm font-medium text-black">Start</label>
                 <input th:field="*{startTime}"
-
                        id="startTime" name="dueDate" type="time" min="today"
                        class="text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring"
                        placeholder="Select due date"/>
                 <div th:errors="*{startTime}"
                      class="text-sm text-destructive">
-                    <p>Username length must be between 5 and 15 symbols!</p>
+                    <p>Task startTime error</p>
                 </div>
             </div>
             <div id="end-time-div">
@@ -79,7 +78,7 @@
                        placeholder="Select due date"/>
                 <div th:errors="*{endTime}"
                      class="text-sm text-destructive">
-                    <p>Username length must be between 5 and 15 symbols!</p>
+                    <p>Task endTime error</p>
                 </div>
             </div>
             <div class="flex items-center">
@@ -89,12 +88,12 @@
             </div>
         </div>
         <label th:for="description" class="block text-sm font-medium mt-6 text-black">Notes</label>
-        <textarea th:field="*{description}" id="description"
+        <textarea th:field="*{description}" id="description" name="description"
                   class="w-full mt-1 p-3 rounded-md text-black border border-input focus:outline-none focus:ring focus:ring-ring"
                   rows="6" placeholder="Enter task notes"></textarea>
         <div th:errors="*{description}"
              class="text-sm text-destructive">
-            <p>Username length must be between 5 and 15 symbols!</p>
+            <p>Task name error</p>
         </div>
         <div class="flex justify-center">
             <button type="submit" id="add-task"
