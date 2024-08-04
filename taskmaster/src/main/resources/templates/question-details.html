@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/fragments/head::head}"></head>
+<head th:replace="~{/fragments/headWithCsrf::head}"></head>
 <body class="">
 <nav th:replace="~{/fragments/navigation::nav}"></nav>
 <div th:object="${questionData}"
@@ -108,46 +108,13 @@
                     </div>
                 </div>
             </div>
-            <div th:if="${successfullyAddedComment}" id="addedCommentScroll"></div>
+            <div th:if="${successfullyAddedAnswer}" id="addedAnswerScroll"></div>
         </div>
     </div>
 </div>
 <footer th:replace="~{/fragments/footer::footer}"></footer>
-<script th:inline="javascript" th:replace="~{/fragments/csrf::csrf}"></script>
+<script th:src="@{/js/csrf.js}"></script>
+<script th:src="@{/js/delete-answer.js}"></script>
+<script th:src="@{/js/answer-scroller.js}"></script>
 </body>
-<script>
-
-    let invalidDataScroller = document.getElementById("invalidDataScroll");
-    let addedCommentScroller = document.getElementById("addedCommentScroll");
-    if (invalidDataScroller != null) {
-        invalidDataScroller.scrollIntoView({block: "end", behavior: "smooth"});
-    } else if (addedCommentScroller != null) {
-        addedCommentScroller.scrollIntoView({block: "end", behavior: "smooth"});
-    }
-
-    function removeAnswerSection(id) {
-        document.getElementById('answers')
-            .removeChild(document.getElementById(id + '-answer-section'));
-    }
-
-    function updateAnswerCount() {
-        let answersCountLabel = document.getElementById('answersCount');
-        answersCountLabel.textContent = (Number(answersCountLabel.textContent.split(' ')[0]) - 1) + ' Answer/s';
-    }
-
-    function deleteAnswer(id) {
-        let isDeleted = true;
-        console.log(id);
-        fetch('http://localhost:8080/answers/' + id,
-            {
-                method: 'DELETE',
-                headers: getHeaderWithCsrf()
-            })
-            .catch(() => isDeleted = false);
-        if (isDeleted) {
-            removeAnswerSection(id);
-            updateAnswerCount();
-        }
-    }
-</script>
 </html>

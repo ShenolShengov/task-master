@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/fragments/head::head}"></head>
+<head th:replace="~{/fragments/headWithCsrf::head}"></head>
 <body>
 <nav th:replace="~{/fragments/navigation::nav}"></nav>
 <div class="bg-background text-foreground min-h-screen p-4 flex flex-col items-center mb-8">
@@ -92,10 +92,8 @@
 <footer th:replace="~{/fragments/footer::footer}"></footer>
 </body>
 <script th:src="@{/js/pagingSortingAndFiltering.js}"></script>
-<script th:inline="javascript" th:replace="~{/fragments/csrf::csrf}"></script>
-<script th:src="@{/js/user-make-remove-admin.js}"></script>
 <script th:src="@{/js/pagingSortingAndFiltering.js}"></script>
-<script th:src="@{/js/edit-user.js}"></script>
+<script th:src="@{/js/csrf.js}"></script>
+<script th:src="@{/js/user-make-remove-admin.js}"></script>
 <script th:src="@{/js/delete-user.js}"></script>
-<script th:src="@{/js/chage-user-password.js}"></script>
 </html>

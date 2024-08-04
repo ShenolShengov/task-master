@@ -73,7 +73,7 @@ public class QuestionController {
             rAtt.addFlashAttribute("invalidData", true);
         } else {
             answerService.answer(answerDTO, id);
-            rAtt.addFlashAttribute("successfullyAddedComment", true);
+            rAtt.addFlashAttribute("successfullyAddedAnswer", true);
         }
         return "redirect:/questions/" + id;
     }
