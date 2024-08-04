@@ -1,18 +1,15 @@
 package bg.softuni.taskmaster.web.controller;
 
-import bg.softuni.taskmaster.exceptions.QuestionNotFoundException;
 import bg.softuni.taskmaster.model.dto.AnswerDTO;
 import bg.softuni.taskmaster.model.dto.QuestionAskDTO;
-import bg.softuni.taskmaster.service.QuestionService;
 import bg.softuni.taskmaster.service.AnswerService;
+import bg.softuni.taskmaster.service.QuestionService;
 import bg.softuni.taskmaster.utils.SortingUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

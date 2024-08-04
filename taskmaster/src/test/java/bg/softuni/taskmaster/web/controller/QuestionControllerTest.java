@@ -1,5 +1,6 @@
 package bg.softuni.taskmaster.web.controller;
 
+import bg.softuni.taskmaster.model.entity.Answer;
 import bg.softuni.taskmaster.model.entity.Question;
 import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.repository.QuestionRepository;
@@ -21,10 +22,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -39,6 +41,8 @@ class QuestionControllerTest {
     public static final String TEST_TAGS = "java lists";
     public static final String TEST_DESCRIPTION = "Create list of numbers";
     public static final String TEST_CODE = "List.of(2, 4, 7, 6)";
+    public static final String TEST_ANSWER_DESCRIPTION = "This is easy to solve. Use StringUtils";
+    public static final String TEST_ANSWER_CODE = "StringUtils.capitalize(\"Test string\");";
 
     @Autowired
     private MockMvc mockMvc;
@@ -143,12 +147,14 @@ class QuestionControllerTest {
     @Test
     @WithMockUser("testUser")
     public void test_Aks() throws Exception {
+        questionRepository.deleteAll();
         mockMvc.perform(post("/questions/ask")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .formFields(getValidAskQuestionFormFields()))
+                        .formFields(getValidQuestionAskDTOFormFields()))
                 .andExpect(status().isFound())
                 .andExpect(redirectedUrlPattern("/questions/{id:[0-9]+}"));
+        assertEquals(1, questionRepository.count());
     }
 
     @Test
@@ -157,13 +163,81 @@ class QuestionControllerTest {
         mockMvc.perform(post("/questions/ask")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .formFields(getNotValidAskQuestionFormFields()))
+                        .formFields(getNotValidQuestionAskDTOFormFields()))
                 .andExpect(status().isFound())
                 .andExpect(redirectedUrl("/questions/ask"))
                 .andExpect(flash().attributeCount(2))
                 .andExpect(flash().attributeExists("askQuestionData",
                         "org.springframework.validation.BindingResult.askQuestionData"));
     }
+
+    @Test
+    @WithMockUser("testUser")
+    public void test_Answer() throws Exception {
+        mockMvc.perform(post(ServletUriComponentsBuilder
+                        .fromPath("/questions/answer/{id}").build(testQuestion.getId()))
+                        .with(csrf())
+                        .formFields(getValidAnswerDTOFormFields()))
+                .andExpect(status().isFound())
+                .andExpect(redirectedUrlPattern("/questions/{id:[0-9]+}"))
+                .andExpect(flash().attributeCount(1))
+                .andExpect(flash().attributeExists("successfullyAddedAnswer"))
+                .andExpect(flash().attribute("successfullyAddedAnswer", equalTo(true)));
+
+        Optional<Question> questionWithAnswer = questionRepository.findById(testQuestion.getId());
+        assertTrue(questionWithAnswer.isPresent());
+
+        testQuestion = questionWithAnswer.get();
+        assertEquals(1, testQuestion.getAnswers().size());
+        Answer answer = testQuestion.getAnswers().getFirst();
+        assertEquals(TEST_ANSWER_DESCRIPTION, answer.getDescription());
+        assertEquals(TEST_ANSWER_CODE, answer.getCode());
+    }
+
+    @Test
+    @WithMockUser("testUser")
+    public void test_Answer_With_NotValid_AnswerDTO() throws Exception {
+        mockMvc.perform(post(ServletUriComponentsBuilder
+                        .fromPath("/questions/answer/{id}").build(testQuestion.getId()))
+                        .with(csrf())
+                        .formFields(getNotValidAnswerDTOFormFields()))
+                .andExpect(status().isFound())
+                .andExpect(redirectedUrlPattern("/questions/{id:[0-9]+}"))
+                .andExpect(flash().attributeCount(3))
+                .andExpect(flash().attributeExists("invalidData", "questionAnswerData",
+                        "org.springframework.validation.BindingResult.questionAnswerData"))
+                .andExpect(flash().attribute("invalidData", equalTo(true)));
+
+        Optional<Question> questionWithAnswer = questionRepository.findById(testQuestion.getId());
+        assertTrue(questionWithAnswer.isPresent());
+        testQuestion = questionWithAnswer.get();
+        assertEquals(0, testQuestion.getAnswers().size());
+    }
+
+    @Test
+    @WithMockUser("testUser")
+    public void test_Answer_With_NotValid_QuestionId() throws Exception {
+        mockMvc.perform(post(ServletUriComponentsBuilder
+                        .fromPath("/questions/answer/{id}").build(-2))
+                        .with(csrf())
+                        .formFields(getValidAnswerDTOFormFields()))
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("objectNotFound"));
+    }
+
+    private MultiValueMap<String, String> getNotValidAnswerDTOFormFields() {
+        LinkedMultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("description", "T");
+        return map;
+    }
+
+    private MultiValueMap<String, String> getValidAnswerDTOFormFields() {
+        LinkedMultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("description", TEST_ANSWER_DESCRIPTION);
+        map.add("code", TEST_ANSWER_CODE);
+        return map;
+    }
+
 
     @Test
     @WithMockUser("testUser")
@@ -237,14 +311,14 @@ class QuestionControllerTest {
         assertEquals(1, questionRepository.count());
     }
 
-    private MultiValueMap<String, String> getNotValidAskQuestionFormFields() {
-        MultiValueMap<String, String> map = getValidAskQuestionFormFields();
+    private MultiValueMap<String, String> getNotValidQuestionAskDTOFormFields() {
+        MultiValueMap<String, String> map = getValidQuestionAskDTOFormFields();
         map.add("title", "List");
         map.add("tags", "a o n a a");
         return map;
     }
 
-    private MultiValueMap<String, String> getValidAskQuestionFormFields() {
+    private MultiValueMap<String, String> getValidQuestionAskDTOFormFields() {
         LinkedMultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("title", TEST_TITLE);
         map.add("tags", TEST_TAGS);
