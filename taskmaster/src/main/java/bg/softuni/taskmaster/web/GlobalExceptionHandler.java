@@ -11,8 +11,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-
-    @ExceptionHandler({PropertyReferenceException.class, IllegalArgumentException.class})
+    @ExceptionHandler(PropertyReferenceException.class)
     @ResponseStatus(HttpStatus.FOUND)
     public String returnToHome() {
         return "redirect:/" + ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString().split("/+")[2];
@@ -25,10 +24,5 @@ public class GlobalExceptionHandler {
         return "object-not-found";
     }
 
-    @ExceptionHandler({Exception.class, Error.class})
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public String handleUnexpectedException() {
-        return "unexpected-error";
-    }
 
 }
