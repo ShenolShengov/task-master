@@ -32,9 +32,6 @@ public class QuestionController {
                          @RequestParam(name = "search_query", required = false, defaultValue = "") String searchQuery,
                          @PageableDefault(size = 5, sort = "createdTime", direction = Sort.Direction.DESC)
                          Pageable pageable) {
-        if (1 == 1) {
-            throw new ArithmeticException();
-        }
         SortingUtils.addSelectedSortOptions(model, sort, "desc");
         model.addAttribute("searchQuery", searchQuery);
         model.addAttribute("foundedQuestions",
