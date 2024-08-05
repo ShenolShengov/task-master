@@ -121,7 +121,7 @@ class TaskControllerIT {
         mockMvc.perform(get(ServletUriComponentsBuilder
                         .fromPath("/tasks/edit/{id}").build(-2)))
                 .andExpect(status().isNotFound())
-                .andExpect(view().name("objectNotFound"));
+                .andExpect(view().name("object-not-found"));
     }
 
 
@@ -171,7 +171,7 @@ class TaskControllerIT {
                         .fromPath("/tasks/edit/{id}").build(-2))
                         .with(csrf()))
                 .andExpect(status().isNotFound())
-                .andExpect(view().name("objectNotFound"));
+                .andExpect(view().name("object-not-found"));
     }
 
     @Test
@@ -202,7 +202,7 @@ class TaskControllerIT {
                         .fromPath("/tasks/{id}").build(-2))
                         .with(csrf()))
                 .andExpect(status().isNotFound())
-                .andExpect(view().name("objectNotFound"));
+                .andExpect(view().name("object-not-found"));
         assertEquals(1, taskRepository.count());
     }
 

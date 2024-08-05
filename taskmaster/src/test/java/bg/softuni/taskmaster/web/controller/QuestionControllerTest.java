@@ -222,7 +222,7 @@ class QuestionControllerTest {
                         .with(csrf())
                         .formFields(getValidAnswerDTOFormFields()))
                 .andExpect(status().isNotFound())
-                .andExpect(view().name("objectNotFound"));
+                .andExpect(view().name("object-not-found"));
     }
 
     private MultiValueMap<String, String> getNotValidAnswerDTOFormFields() {
@@ -274,7 +274,7 @@ class QuestionControllerTest {
         mockMvc.perform(get(ServletUriComponentsBuilder.fromPath("/questions/{id}")
                         .build(-2L)))
                 .andExpect(status().isNotFound())
-                .andExpect(view().name("objectNotFound"));
+                .andExpect(view().name("object-not-found"));
     }
 
     @Test
@@ -307,7 +307,7 @@ class QuestionControllerTest {
                         .build(-2L))
                         .with(csrf()))
                 .andExpect(status().isNotFound())
-                .andExpect(view().name("objectNotFound"));
+                .andExpect(view().name("object-not-found"));
         assertEquals(1, questionRepository.count());
     }
 
