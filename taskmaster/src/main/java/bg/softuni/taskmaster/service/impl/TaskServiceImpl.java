@@ -6,6 +6,7 @@ import bg.softuni.taskmaster.model.dto.TaskInfoDTO;
 import bg.softuni.taskmaster.model.entity.Task;
 import bg.softuni.taskmaster.model.enums.TaskPriorities;
 import bg.softuni.taskmaster.repository.TaskRepository;
+import bg.softuni.taskmaster.service.TaskHelperService;
 import bg.softuni.taskmaster.service.TaskService;
 import bg.softuni.taskmaster.service.UserHelperService;
 import jakarta.transaction.Transactional;
@@ -24,6 +25,7 @@ import java.time.LocalDate;
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
+    private final TaskHelperService taskHelperService;
     private final ModelMapper modelMapper;
     private final UserHelperService userHelperService;
 
@@ -54,22 +56,17 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @PreAuthorize("@taskServiceImpl.isActualUser(#id)")
     public TaskInfoDTO getInfo(Long id) {
-        return taskRepository
-                .findById(id)
-                .map(e -> modelMapper.map(e, TaskInfoDTO.class))
-                .orElseThrow(TaskNotFoundException::new);
+        return modelMapper.map(taskHelperService.getById(id), TaskInfoDTO.class);
     }
 
     @Override
     @PreAuthorize("@taskServiceImpl.isActualUser(#id)")
     public void delete(Long id) {
-        Task task = taskRepository.findById(id).orElseThrow(TaskNotFoundException::new);
-        taskRepository.delete(task);
+        taskRepository.delete(taskHelperService.getById(id));
     }
 
     @Override
     public boolean isActualUser(Long id) {
-        Task task = taskRepository.findById(id).orElseThrow(TaskNotFoundException::new);
-        return task.getUser().getUsername().equals(userHelperService.getUsername());
+        return taskHelperService.getById(id).getUser().getUsername().equals(userHelperService.getUsername());
     }
 }

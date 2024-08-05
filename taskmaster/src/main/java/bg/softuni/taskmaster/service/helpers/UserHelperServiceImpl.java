@@ -1,4 +1,4 @@
-package bg.softuni.taskmaster.service.impl;
+package bg.softuni.taskmaster.service.helpers;
 
 import bg.softuni.taskmaster.exceptions.UserNotFoundException;
 import bg.softuni.taskmaster.model.entity.User;

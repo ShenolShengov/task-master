@@ -1,13 +1,11 @@
 package bg.softuni.taskmaster.service.impl;
 
-import bg.softuni.taskmaster.exceptions.QuestionNotFoundException;
-import bg.softuni.taskmaster.exceptions.TaskNotFoundException;
 import bg.softuni.taskmaster.model.dto.QuestionAskDTO;
 import bg.softuni.taskmaster.model.dto.QuestionBaseInfoDTO;
 import bg.softuni.taskmaster.model.dto.QuestionDetailsInfoDTO;
 import bg.softuni.taskmaster.model.entity.Question;
-import bg.softuni.taskmaster.model.entity.Task;
 import bg.softuni.taskmaster.repository.QuestionRepository;
+import bg.softuni.taskmaster.service.QuestionHelperService;
 import bg.softuni.taskmaster.service.QuestionService;
 import bg.softuni.taskmaster.service.UserHelperService;
 import jakarta.transaction.Transactional;
@@ -28,6 +26,7 @@ import java.util.stream.Collectors;
 public class QuestionServiceImpl implements QuestionService {
 
     private final QuestionRepository questionRepository;
+    private final QuestionHelperService questionHelperService;
     private final UserHelperService userHelperService;
     private final ModelMapper modelMapper;
 
@@ -41,17 +40,17 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     @PreAuthorize("@questionServiceImpl.isActualUser(#id) || hasRole('ADMIN')")
     public void delete(Long id) {
-        Question question = questionRepository.findById(id).orElseThrow(QuestionNotFoundException::new);
-        questionRepository.delete(question);
+        questionRepository.delete(questionHelperService.getById(id));
     }
 
     @Override
     @Transactional
     public QuestionDetailsInfoDTO getDetailsInfo(Long id) {
-        return questionRepository.findById(id)
-                .map(e -> modelMapper.map(e, QuestionDetailsInfoDTO.class)
-                        .setTags(mapToTags(e.getTags())))
-                .orElseThrow(QuestionNotFoundException::new);
+        Question question = questionHelperService.getById(id);
+        QuestionDetailsInfoDTO questionDetailsInfoDTO =
+                modelMapper.map(question, QuestionDetailsInfoDTO.class);
+        questionDetailsInfoDTO.setTags(mapToTags(question.getTags()));
+        return questionDetailsInfoDTO;
     }
 
     @Override
@@ -80,8 +79,8 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public boolean isActualUser(Long id) {
-        Question question = questionRepository.findById(id).orElseThrow(QuestionNotFoundException::new);
-        return question.getUser().getUsername().equals(userHelperService.getUsername());
+
+        return questionHelperService.getById(id).getUser().getUsername().equals(userHelperService.getUsername());
     }
 
 }
