@@ -44,7 +44,7 @@
     <form th:method="post" th:action="@{/questions/answer/{id}(id = *{id})}"
           class="bg-card shadow-lg rounded-lg overflow-hidden w-full md:w-3/4 mt-4 relative">
         <div class="p-4" th:object="${questionAnswerData}">
-            <h2 class="text-black text-2xl  mb-2">Answer</h2>
+            <h2 class="text-black text-2xl  mb-2">Leave answer</h2>
             <label th:for="description" class="mb-2 block text-sm font-medium mt-4 text-black">Description</label>
             <textarea id="description" name="description" th:field="*{description}"
                       class="w-full h-20 text-black placeholder-muted-foreground border border-primary rounded-lg p-2 focus:outline-none focus:ring focus:ring-primary"
@@ -68,14 +68,15 @@
             </button>
         </div>
     </form>
+    <div th:if="${invalidData}" id="invalidDataScroll"></div>
     <div class="bg-card shadow-lg rounded-lg overflow-hidden w-full md:w-3/4 mt-4 relative">
         <div class="p-4" id="answers">
             <div class="flex gap-6 items-baseline">
                 <h2 th:text="*{answers.size() + ' Answer/s'}" id="answersCount"
-                    class="text-black font-bold text-2xl mb-2">3
-                    Answer</h2>
+                    class="text-black font-bold text-2xl mb-2">
+                    3 Answer
+                </h2>
             </div>
-            <div th:if="${invalidData}" id="invalidDataScroll"></div>
             <div th:each="answer: *{answers}" th:id="${answer.id + '-answer-section'}"
                  class="comment-container border-solid border-black border-b-2 pb-4">
                 <div th:object="${answer}">

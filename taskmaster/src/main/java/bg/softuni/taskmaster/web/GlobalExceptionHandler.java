@@ -26,6 +26,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({Exception.class, Error.class})
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String handleUnexpectedException() {
         return "unexpected-error";
     }

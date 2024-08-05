@@ -16,7 +16,7 @@ import java.io.Serializable;
 public class AnswerDTO implements Serializable {
 
     @NotNull(message = "{validation.description.length}")
-    @Length(min = 5, max = 2000, message = "{{validation.description.length}}")
+    @Length(min = 5, max = 2000, message = "{validation.description.length}")
     private String description;
 
     @NotNull(message = "{validation.question.answer.code.length}")
