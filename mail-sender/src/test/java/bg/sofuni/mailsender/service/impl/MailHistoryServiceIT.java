@@ -20,13 +20,13 @@ class MailHistoryServiceIT {
 
 
     @Autowired
-    private MailHistoryServiceImpl mailHistoryService;
+    private MailHistoryServiceImpl mailHistoryServiceToTest;
 
     @Test
     public void test_deleteOldHistory() {
         mailHistoryRepository.save(new MailHistory("testFrom@", "testTo@",
                 Instant.now().minus(370, ChronoUnit.DAYS), CONTACT_US));
-        mailHistoryService.deleteOldHistory();
+        mailHistoryServiceToTest.deleteOldHistory();
         assertEquals(0, mailHistoryRepository.count());
     }
 }

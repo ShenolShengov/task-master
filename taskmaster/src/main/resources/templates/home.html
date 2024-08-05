@@ -135,9 +135,9 @@
                             <span th:text="*{'Tags: ' + tags}" class="text-black">Priority: High</span>
                             <span th:text="*{answers + ' Answer/s'}" class="text-black">Answer/s: 5</span>
                         </div>
-                        <p th:text="*{description}" class="text-sm text-zinc-600 mb-4">Notes: Consectetur adipiscing
-                            elit, sed do eiusmod tempor
-                            incididunt ut labore et dolore magna aliqua.</p>
+                        <p th:text="*{description}" class="text-sm text-zinc-600 mb-4">
+                            Description: Some desc
+                        </p>
                         <div class="flex items-center justify-between">
                             <span th:text="*{'Ask on ' + createdTime}" class="text-sm text-zinc-600">Ask on ...</span>
                             <form th:method="delete"

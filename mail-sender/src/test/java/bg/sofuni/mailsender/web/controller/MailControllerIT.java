@@ -44,7 +44,7 @@ class MailControllerIT {
 
 
     @SpyBean
-    private JavaMailSender javaMailSender;
+    private JavaMailSender spyJavaMailSender;
 
     @BeforeEach
     void setUp() {
@@ -57,7 +57,7 @@ class MailControllerIT {
         mailHistoryRepository.save(getMailHistoryBeforeDays(24));
         mailHistoryRepository.save(getMailHistoryBeforeDays(30));
         mailHistoryRepository.save(getMailHistoryBeforeDays(120));
-        doNothing().when(javaMailSender).send(any(MimeMessage.class));
+        doNothing().when(spyJavaMailSender).send(any(MimeMessage.class));
     }
 
     @AfterEach
@@ -81,7 +81,7 @@ class MailControllerIT {
     }
 
     @Test
-    public void test_sendWithValidPayload() throws Exception {
+    public void test_send() throws Exception {
         mailHistoryRepository.deleteAll();
         mockMvc.perform(post("/api/send")
                         .accept(MediaType.APPLICATION_JSON)
@@ -89,23 +89,23 @@ class MailControllerIT {
                         .content(getValidTestPayloadJson()))
                 .andExpect(status().isOk());
 
-        verify(javaMailSender).send(any(MimeMessage.class));
+        verify(spyJavaMailSender).send(any(MimeMessage.class));
         assertEquals(1, mailHistoryRepository.count());
     }
 
     @Test
-    public void test_sendWithInValidPayload() throws Exception {
+    public void test_send_With_NotValid_Payload() throws Exception {
         mockMvc.perform(post("/api/send")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{}"))
                 .andExpect(status().isBadRequest());
-        verifyNoInteractions(javaMailSender);
+        verifyNoInteractions(spyJavaMailSender);
 
     }
 
     @Test
-    public void test_sendWithInValidParams() throws Exception {
+    public void test_send_With_NotValid_Params() throws Exception {
         mockMvc.perform(post("/api/send")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -117,14 +117,23 @@ class MailControllerIT {
 
 
     @Test
-    public void test_mailHistoryOnBadFiltering() throws Exception {
-        mockMvc.perform(get("/api/history")
-                        .queryParam("sort", "wrongValue"))
-                .andExpect(status().isBadRequest());
+    public void test_History_All() throws Exception {
+        MvcResult result = getHistory("all");
+        String body = result.getResponse().getContentAsString();
+        assertEquals(9, (int) JsonPath.read(body, "$.content.length()"));
+
+        Optional<MailHistory> firstFound = getMailHistoryFromBody(body, 0);
+        Optional<MailHistory> secondFound = getMailHistoryFromBody(body, 8);
+        assertTrue(firstFound.isPresent());
+        assertTrue(secondFound.isPresent());
+        assertMailHistoryEquals(getTodayMailHistory(), firstFound.get());
+        assertMailHistoryEquals(getMailHistoryBeforeDays(120), secondFound.get());
+
     }
 
+
     @Test
-    public void test_MailHistoryForToday() throws Exception {
+    public void test_History_For_Today() throws Exception {
         MvcResult result = getHistory("today");
         String body = result.getResponse().getContentAsString();
         assertEquals(2, (int) JsonPath.read(body, "$.content.length()"));
@@ -139,7 +148,7 @@ class MailControllerIT {
     }
 
     @Test
-    public void test_MailHistoryForYesterday() throws Exception {
+    public void test_History_For_Yesterday() throws Exception {
         MvcResult result = getHistory("yesterday");
         String body = result.getResponse().getContentAsString();
         assertEquals(2, (int) JsonPath.read(body, "$.content.length()"));
@@ -155,7 +164,7 @@ class MailControllerIT {
     }
 
     @Test
-    public void test_MailHistoryFor7Days() throws Exception {
+    public void test_History_For_7Days() throws Exception {
         MvcResult result = getHistory("7-days");
         String body = result.getResponse().getContentAsString();
         assertEquals(6, (int) JsonPath.read(body, "$.content.length()"));
@@ -171,7 +180,7 @@ class MailControllerIT {
     }
 
     @Test
-    public void test_MailHistoryFor30Days() throws Exception {
+    public void test_History_For_30Days() throws Exception {
         MvcResult result = getHistory("30-days");
         String body = result.getResponse().getContentAsString();
         assertEquals(8, (int) JsonPath.read(body, "$.content.length()"));
@@ -187,18 +196,10 @@ class MailControllerIT {
     }
 
     @Test
-    public void test_MailHistoryAll() throws Exception {
-        MvcResult result = getHistory("all");
-        String body = result.getResponse().getContentAsString();
-        assertEquals(9, (int) JsonPath.read(body, "$.content.length()"));
-
-        Optional<MailHistory> firstFound = getMailHistoryFromBody(body, 0);
-        Optional<MailHistory> secondFound = getMailHistoryFromBody(body, 8);
-        assertTrue(firstFound.isPresent());
-        assertTrue(secondFound.isPresent());
-        assertMailHistoryEquals(getTodayMailHistory(), firstFound.get());
-        assertMailHistoryEquals(getMailHistoryBeforeDays(120), secondFound.get());
-
+    public void test_History_With_BadFiltering() throws Exception {
+        mockMvc.perform(get("/api/history")
+                        .queryParam("sort", "wrongValue"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test

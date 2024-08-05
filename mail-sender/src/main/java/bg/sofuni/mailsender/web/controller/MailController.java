@@ -32,12 +32,12 @@ public class MailController {
 
 
     @GetMapping("/history")
-    public ResponseEntity<PagedModel<MailHistoryInfoDTO>> mailHistory(@RequestParam(required = false) Integer ignoredPage,
-                                                                      @RequestParam(required = false) String ignoredSort,
-                                                                      @RequestParam(required = false, defaultValue = "today")
-                                                                      String filterByDate,
-                                                                      @PageableDefault(sort = "date", direction = Sort.Direction.DESC)
-                                                                      Pageable pageable
+    public ResponseEntity<PagedModel<MailHistoryInfoDTO>> history(@RequestParam(required = false) Integer ignoredPage,
+                                                                  @RequestParam(required = false) String ignoredSort,
+                                                                  @RequestParam(required = false, defaultValue = "today")
+                                                                  String filterByDate,
+                                                                  @PageableDefault(sort = "date", direction = Sort.Direction.DESC)
+                                                                  Pageable pageable
     ) {
         return ResponseEntity.ok(new PagedModel<>(mailHistoryService.history(filterByDate, pageable)));
     }

@@ -25,7 +25,6 @@ spring:
         enabled: true
 mail:
   api:
-    sendEmails: true
     baseUrl: http://localhost:8081/api
 
 cloudinary:
