@@ -19,8 +19,8 @@ public class RegistrationListener {
 
     @EventListener
     public void handleRegistration(RegistrationEvent event) {
-        Payload payload = mailService.createPayload(APP_MAIL, event.getEmail(), getSubject(event.getUsername()), USER_REGISTRATION,
-                toParams(USERNAME, event.getUsername()));
+        Payload payload = mailService.createPayload(APP_MAIL, getSubject(event.getUsername()), USER_REGISTRATION,
+                toParams(USERNAME, event.getUsername()), event.getEmail());
         mailService.send(payload);
     }
 

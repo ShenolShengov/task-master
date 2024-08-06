@@ -19,10 +19,11 @@ public class AnswerToQuestionListener {
 
     @EventListener
     public void handleAnswerToQuestionEvent(AnswerToQuestionEvent event) {
-        Payload payload = mailService.createPayload(APP_MAIL, event.getQuestionerEmail(),
+        Payload payload = mailService.createPayload(APP_MAIL,
                 getSubject(event.getQuestionName()), ANSWER_TO_QUESTION,
                 toParams(QUESTIONER_USERNAME, event.getQuestionerUsername(), QUESTION_NAME, event.getQuestionName(),
-                        ANSWERER_USERNAME, event.getAnswererUsername(), QUESTION_LINK, event.getQuestionLink()));
+                        ANSWERER_USERNAME, event.getAnswererUsername(), QUESTION_LINK, event.getQuestionLink()),
+                event.getQuestionerEmail());
         mailService.send(payload);
     }
 

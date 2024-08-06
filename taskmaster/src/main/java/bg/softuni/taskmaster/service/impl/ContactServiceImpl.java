@@ -20,8 +20,8 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public void contactUs(ContactUsDTO contactUsDTO) {
-        Payload payload = mailService.createPayload(APP_MAIL, APP_MAIL, getSubject(contactUsDTO.getTitle())
-                , CONTACT_US, toParams(EMAIL, contactUsDTO.getEmail(), MESSAGE, contactUsDTO.getMessage()));
+        Payload payload = mailService.createPayload(APP_MAIL, getSubject(contactUsDTO.getTitle()), CONTACT_US,
+                toParams(EMAIL, contactUsDTO.getEmail(), MESSAGE, contactUsDTO.getMessage()), APP_MAIL);
         mailService.send(payload);
     }
 

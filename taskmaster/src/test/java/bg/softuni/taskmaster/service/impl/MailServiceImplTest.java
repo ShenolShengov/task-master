@@ -11,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PagedModel;
@@ -63,7 +64,10 @@ class MailServiceImplTest {
     @Test
     @SuppressWarnings("unchecked")
     public void test_History() {
-        when(mockRestClient.get().uri(any(Function.class)).retrieve().body(PageResponseDTO.class))
+        when(mockRestClient.get().uri(any(Function.class))
+                .retrieve()
+                .body(new ParameterizedTypeReference<PageResponseDTO<MailHistoryInfoDTO>>() {
+                }))
                 .thenReturn(getTestPageHistory());
         Page<MailHistoryInfoDTO> history = mailServiceToTest.history("testFilterBy", getTestPageable());
         assertEquals(2, history.getContent().size());
@@ -72,8 +76,7 @@ class MailServiceImplTest {
 
     @Test
     public void test_CreatePayload() {
-        Payload actualPayload = mailServiceToTest.createPayload(TEST_FROM, TEST_TO, TEST_SUBJECT, TEST_EMAIL_TEMPLATE,
-                EmailUtils.toParams(EMAIL, TEST_EMAIL, MESSAGE, TEST_MESSAGE));
+        Payload actualPayload = getTestPayload();
         assertEquals(getTestPayload(), actualPayload);
     }
 
@@ -105,7 +108,7 @@ class MailServiceImplTest {
     }
 
     private Payload getTestPayload() {
-        return new Payload(TEST_FROM, TEST_TO, TEST_SUBJECT, TEST_EMAIL_TEMPLATE,
-                EmailUtils.toParams(EMAIL, TEST_EMAIL, MESSAGE, TEST_MESSAGE));
+        return new Payload(TEST_FROM, TEST_SUBJECT, TEST_EMAIL_TEMPLATE,
+                EmailUtils.toParams(EMAIL, TEST_EMAIL, MESSAGE, TEST_MESSAGE), new String[]{TEST_TO});
     }
 }

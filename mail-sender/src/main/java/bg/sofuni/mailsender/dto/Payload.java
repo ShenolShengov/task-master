@@ -2,6 +2,7 @@ package bg.sofuni.mailsender.dto;
 
 import bg.sofuni.mailsender.dto.enums.EmailParam;
 import bg.sofuni.mailsender.dto.enums.EmailTemplate;
+import bg.sofuni.mailsender.validation.validemails.ValidEmails;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -21,8 +22,8 @@ public class Payload implements Serializable {
     private String from;
 
     @NotEmpty
-    @Email
-    private String to;
+    @ValidEmails
+    private String[] to;
 
     @NotNull
     private String subject;

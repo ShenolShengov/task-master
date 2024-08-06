@@ -3,6 +3,7 @@ package bg.softuni.taskmaster.events.listeners;
 import bg.softuni.taskmaster.events.RegistrationAlterEvent;
 import bg.softuni.taskmaster.model.dto.Payload;
 import bg.softuni.taskmaster.service.MailService;
+import bg.softuni.taskmaster.service.UserHelperService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -20,14 +21,17 @@ public class RegistrationAlterListener {
 
     private final MailService mailService;
 
+    private final UserHelperService userHelperService;
+
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm");
 
     @EventListener
     public void handleRegistrationAlterEvent(RegistrationAlterEvent event) {
-        Payload payload = mailService.createPayload(APP_MAIL, ADMIN_MAIL, REGISTRATION_ALTER_SUBJECT, USER_REGISTRATION_ALTER,
+        Payload payload = mailService.createPayload(APP_MAIL, REGISTRATION_ALTER_SUBJECT, USER_REGISTRATION_ALTER,
                 toParams(USERNAME, event.getUsername(),
                         EMAIL, event.getEmail(),
-                        JOINED_TIME, FORMATTER.format(LocalDateTime.now())));
+                        JOINED_TIME, FORMATTER.format(LocalDateTime.now())),
+                userHelperService.getAdminsEmails());
         mailService.send(payload);
     }
 }

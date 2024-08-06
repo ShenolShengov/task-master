@@ -11,7 +11,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -34,13 +33,13 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public Payload createPayload(String from, String to, String subject, EmailTemplate template, EnumMap<EmailParam, String> params) {
-        return new Payload(from, to, subject, template, params);
+    public Payload createPayload(String from, String subject, EmailTemplate template,
+                                 EnumMap<EmailParam, String> params, String... to) {
+        return new Payload(from, subject, template, params, to);
     }
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    @SuppressWarnings("unchecked")
     public Page<MailHistoryInfoDTO> history(String filterByDate, Pageable pageable) {
         PageResponseDTO<MailHistoryInfoDTO> pageResponseDTO =
                 restClient.get().uri(u -> u.path("/history")
@@ -50,7 +49,8 @@ public class MailServiceImpl implements MailService {
                                 .build()
                         )
                         .retrieve()
-                        .body(PageResponseDTO.class);
+                        .body(new ParameterizedTypeReference<>() {
+                        });
         return new PageImpl<>(pageResponseDTO.getContent(), pageable, pageResponseDTO.getPage().totalElements());
     }
 

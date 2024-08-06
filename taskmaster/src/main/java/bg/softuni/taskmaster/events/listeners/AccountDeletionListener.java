@@ -19,9 +19,8 @@ public class AccountDeletionListener {
 
     @EventListener
     public void handleProfileDeletionEvent(AccountDeletionEvent event) {
-        Payload payload = mailService.createPayload(APP_MAIL, event.getEmail(), getSubject(event.getUsername()),
-                EmailTemplate.DELETE_ACCOUNT,
-                toParams(USERNAME, event.getUsername()));
+        Payload payload = mailService.createPayload(APP_MAIL, getSubject(event.getUsername()),
+                EmailTemplate.DELETE_ACCOUNT, toParams(USERNAME, event.getUsername()), event.getEmail());
         mailService.send(payload);
     }
 

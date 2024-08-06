@@ -37,17 +37,19 @@
             </thead>
             <tbody>
             <tr th:each="mailHistory : ${history}" th:object="${mailHistory}">
-                <td th:text="*{template}" class="px-5 py-5 border-b border-gray-200  bg-white text-sm truncate">Welcome
-                    to our
-                    service
+                <td th:text="*{template}" class="px-5 py-5 border-b border-gray-200  bg-white text-sm truncate">
+                    CONTACT_US
                 </td>
                 <td th:text="*{#temporals.format(date, 'dd-MM-yyyy  kk:mm')}"
                     class="px-5 py-5 border-b border-gray-200  bg-white text-sm whitespace-nowrap">
                     2024-07-16 14:30
                 </td>
-                <td th:text="*{from}" class="px-5 py-5 border-b border-gray-200  bg-white text-sm">admin@example.com
+                <td th:text="*{from}" class="max-w-64 px-5 py-5 border-b border-gray-200  bg-white text-sm">
+                    admin@example.com
                 </td>
-                <td th:text="*{to}" class="px-5 py-5 border-b border-gray-200  bg-white text-sm">user@example.com</td>
+                <td th:text="*{to}" class=" max-w-64 overflow-hidden px-5 py-5 border-b border-gray-200  bg-white text-sm">
+                    user@example.com
+                </td>
 
             </tr>
             </tbody>

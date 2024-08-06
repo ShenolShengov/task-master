@@ -10,10 +10,9 @@ public class EmailUtils {
 
     public static final String APP_MAIL = "taskmastersoftuni@gmail.com";
 
-    public static final String ADMIN_MAIL = "shenolshengov41@gmail.com";
     public static final String APP_NAME = "TaskMaster";
     public static final String REGISTRATION_SUBJECT = "Welcome to " + APP_NAME + ", %s!";
-    public static final String REGISTRATION_ALTER_SUBJECT = "[Alter] - New registration";
+    public static final String REGISTRATION_ALTER_SUBJECT = "[Alert] - New registration";
 
     public static final String CONTACT_US_SUBJECT = "[Contact us] - %s";
     public static final String ACCOUNT_DELETION_SUBJECT = "Account Deletion: %s";

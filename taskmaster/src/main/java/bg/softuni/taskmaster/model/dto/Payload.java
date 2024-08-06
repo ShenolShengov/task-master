@@ -14,10 +14,10 @@ import java.util.EnumMap;
 public class Payload implements Serializable {
 
     private String from;
-    private String to;
     private String subject;
     private EmailTemplate template;
     private EnumMap<EmailParam, String> params;
+    private String[] to;
 
     public Payload() {
         this.params = new EnumMap<>(EmailParam.class);

@@ -253,27 +253,27 @@ class MailControllerIT {
         return """
                 {
                     "from" : "shenolShengov41@gmail.com",
-                    "to" : "shenolShengov41@gmail.com",
                     "subject" : "Test email",
                     "template" : "CONTACT_US",
                     "params": {
                         "EMAIL": "test@gmail.com",
                         "MESSAGE": "Test message"
-                    }
+                    },
+                    "to": ["shenolShengov41@gmail.com"]
                 }
                 """;
     }
 
     private String getTestPayloadWithInvalidParamsJson() {
-        return """
+        return  """
                 {
                     "from" : "shenolShengov41@gmail.com",
-                    "to" : "shenolShengov41@gmail.com",
                     "subject" : "Test email",
                     "template" : "CONTACT_US",
                     "params": {
                         "EMAIL": "test@gmail.com"
-                    }
+                    },
+                    "to": ["shenolShengov41@gmail.com"]
                 }
                 """;
     }

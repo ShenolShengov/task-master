@@ -13,8 +13,8 @@ public interface MailService {
 
     void send(Payload contactUsDTO);
 
-    Payload createPayload(String from, String to, String subject, EmailTemplate template,
-                          EnumMap<EmailParam, String> params);
+    Payload createPayload(String from, String subject, EmailTemplate template,
+                          EnumMap<EmailParam, String> params, String... to);
 
     Page<MailHistoryInfoDTO> history(String filterByDate, Pageable pageable);
 

@@ -19,8 +19,8 @@ public class ChangePasswordListener {
 
     @EventListener
     public void handleChangePasswordEvent(ChangePasswordEvent event) {
-        Payload payload = mailService.createPayload(APP_MAIL, event.getEmail(), CHANGE_PASSWORD_SUBJECT, CHANGE_PASSWORD,
-                toParams(USERNAME, event.getUsername()));
+        Payload payload = mailService.createPayload(APP_MAIL, CHANGE_PASSWORD_SUBJECT, CHANGE_PASSWORD,
+                toParams(USERNAME, event.getUsername()), event.getEmail());
         mailService.send(payload);
     }
 }

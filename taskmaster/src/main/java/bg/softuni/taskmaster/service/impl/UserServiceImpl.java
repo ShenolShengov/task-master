@@ -1,7 +1,6 @@
 package bg.softuni.taskmaster.service.impl;
 
 import bg.softuni.taskmaster.events.AccountDeletionEvent;
-import bg.softuni.taskmaster.exceptions.UserNotFoundException;
 import bg.softuni.taskmaster.model.dto.UserInfoDTO;
 import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.repository.UserRepository;
@@ -53,5 +52,6 @@ public class UserServiceImpl implements UserService {
     public Page<UserInfoDTO> getAll(String searchQuery, Pageable pageable) {
         return userRepository.findAllBySearchQuery(searchQuery, pageable).map(this::toInfo);
     }
+
 
 }

@@ -55,4 +55,13 @@ public class UserHelperServiceImpl implements UserHelperService {
     private static Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
+
+    @Override
+    public String[] getAdminsEmails() {
+        return userRepository.findAll().stream()
+                .filter(e -> e.getRoles().stream().anyMatch(r -> r.getName().equals(UserRoles.ADMIN)))
+                .map(User::getEmail)
+                .toArray(String[]::new);
+    }
+
 }

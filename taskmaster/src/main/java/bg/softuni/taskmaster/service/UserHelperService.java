@@ -2,6 +2,8 @@ package bg.softuni.taskmaster.service;
 
 import bg.softuni.taskmaster.model.entity.User;
 
+import java.util.List;
+
 public interface UserHelperService {
 
     boolean isAuthenticated();
@@ -15,4 +17,6 @@ public interface UserHelperService {
     User getLoggedUser();
 
     User getUser(Long id);
+
+    String[] getAdminsEmails();
 }
