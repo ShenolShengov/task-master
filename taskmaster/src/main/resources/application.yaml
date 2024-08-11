@@ -5,7 +5,7 @@ spring:
     prefix: file:./src/main/resources/templates/
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/planner_db?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/task_master_db?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
     username: ${db_username}
     password: ${db_password}
   jpa:
@@ -16,9 +16,11 @@ spring:
         show_sql: true
     hibernate:
       ddl-auto: update
+    defer-datasource-initialization: true
   sql:
     init:
       mode: never
+      platform: mysql
   mvc:
     hiddenmethod:
       filter:
