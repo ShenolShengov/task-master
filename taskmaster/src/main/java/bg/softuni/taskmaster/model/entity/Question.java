@@ -22,10 +22,10 @@ public class Question extends BaseEntity {
     @Column(nullable = false)
     private String tags;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false)
     private String code;
 
     @Column(nullable = false)

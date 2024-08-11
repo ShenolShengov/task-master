@@ -15,10 +15,10 @@ import java.time.Instant;
 @Setter
 public class Answer extends BaseEntity {
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false)
     private String code;
 
     @Column(nullable = false)
