@@ -44,7 +44,7 @@ public class UserTestDataUtils {
                     User user = new User(username, fullName, email, age, "password",
                             new HashSet<>(List.of(roleTestDataUtils.getRole(UserRoles.USER))),
                             new HashSet<>(), new HashSet<>(), new HashSet<>(),
-                            pictureTestDataUtils.saveOrGetPicture());
+                            pictureTestDataUtils.getDefaultProfilePicture());
                     if (isAdmin) {
                         user.getRoles().add(roleTestDataUtils.getRole(UserRoles.ADMIN));
                     }

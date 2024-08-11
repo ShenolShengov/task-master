@@ -8,7 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Optional;
 
 @Component
 public class PictureTestDataUtils {
@@ -22,11 +21,8 @@ public class PictureTestDataUtils {
     }
 
 
-    public Picture saveOrGetPicture() {
-        Picture profilePicture = getTestPicture();
-        Optional<Picture> defaultPicture = pictureRepository.findById(1L);
-        return defaultPicture.orElseGet(() -> pictureRepository
-                .save(profilePicture));
+    public Picture getDefaultProfilePicture() {
+        return pictureRepository.readById(1L);
     }
 
     public static Picture getTestPicture() {
