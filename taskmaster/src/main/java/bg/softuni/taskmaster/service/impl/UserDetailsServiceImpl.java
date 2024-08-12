@@ -24,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
                 .map(this::toUserDetails)
-                .orElseThrow(() -> new UsernameNotFoundException("User with " + username + " not fount"));
+                .orElseThrow(() -> new UsernameNotFoundException("User with " + username + " not found"));
     }
 
     private UserDetails toUserDetails(User user) {

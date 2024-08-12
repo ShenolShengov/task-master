@@ -12,6 +12,10 @@ import bg.softuni.taskmaster.service.UserModificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,9 +36,27 @@ public class UserModificationServiceImpl implements UserModificationService {
     @Override
     public void edit(UserEditDTO userEditDTO) throws IOException {
         User user = userHelperService.getLoggedUser();
+        if (!user.getUsername().equals(userEditDTO.getUsername())) {
+            changeNameInSecContext(user, userEditDTO.getUsername());
+        }
         BeanUtils.copyProperties(userEditDTO, user);
         changeProfilePicture(userEditDTO, user);
         userRepository.save(user);
+    }
+
+    private void changeNameInSecContext(User loggedUser, String newUsername) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        UserDetails updatedPrincipal = org.springframework.security.core.userdetails.User
+                .withUsername(newUsername)
+                .password(loggedUser.getPassword())
+                .authorities(auth.getAuthorities())
+                .build();
+        UsernamePasswordAuthenticationToken updatedAuth = new
+                UsernamePasswordAuthenticationToken(updatedPrincipal, auth.getCredentials(), auth.getAuthorities());
+
+        SecurityContextHolder.getContext().setAuthentication(updatedAuth);
+
     }
 
     @Override
