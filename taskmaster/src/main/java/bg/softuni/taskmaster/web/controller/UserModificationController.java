@@ -1,11 +1,12 @@
 package bg.softuni.taskmaster.web.controller;
 
 import bg.softuni.taskmaster.model.dto.UserChangePasswordDTO;
-import bg.softuni.taskmaster.model.dto.UserEditDTO;
+import bg.softuni.taskmaster.model.dto.UserProfileDTO;
 import bg.softuni.taskmaster.service.UserModificationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -19,36 +20,30 @@ public class UserModificationController {
 
     private final UserModificationService modificationService;
 
-    @ModelAttribute("editData")
-    public UserEditDTO editData() {
-        return modificationService.getCurrentUserEditData();
-    }
-
-    @ModelAttribute("changePasswordData")
-    public UserChangePasswordDTO changePasswordData() {
-        return new UserChangePasswordDTO();
-    }
-
     @GetMapping("/profile")
-    public String editView() {
+    public String editView(Model model) {
+        if (!model.containsAttribute("profileData")) {
+            model.addAttribute("profileData", modificationService.getLoggedUserProfileDTO());
+        }
         return "profile-user";
     }
 
     @PutMapping("/edit")
-    public String edit(@Valid UserEditDTO userEditDTO, BindingResult bindingResult,
+    public String edit(@Valid UserProfileDTO userProfileDTO, BindingResult bindingResult,
                        RedirectAttributes rAtt) throws IOException {
         if (bindingResult.hasErrors()) {
-            rAtt.addFlashAttribute("editData", userEditDTO);
+            rAtt.addFlashAttribute("editData", userProfileDTO);
             rAtt.addFlashAttribute("org.springframework.validation.BindingResult.editData",
                     bindingResult);
             return "redirect:/users/profile";
         }
-        modificationService.edit(userEditDTO);
+        modificationService.edit(userProfileDTO);
         return "redirect:/";
     }
 
     @GetMapping("/change-password")
-    public String changePasswordView() {
+    public String changePasswordView(Model model, @ModelAttribute UserChangePasswordDTO userChangePasswordDTO) {
+        model.addAttribute("changePasswordData", userChangePasswordDTO);
         return "change-password";
     }
 

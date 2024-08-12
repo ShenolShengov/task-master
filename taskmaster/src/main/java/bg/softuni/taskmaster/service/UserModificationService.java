@@ -1,16 +1,16 @@
 package bg.softuni.taskmaster.service;
 
 import bg.softuni.taskmaster.model.dto.UserChangePasswordDTO;
-import bg.softuni.taskmaster.model.dto.UserEditDTO;
+import bg.softuni.taskmaster.model.dto.UserProfileDTO;
 
 import java.io.IOException;
 
 public interface UserModificationService {
 
 
-    void edit(UserEditDTO userEditDTO) throws IOException;
+    void edit(UserProfileDTO userProfileDTO) throws IOException;
 
-    UserEditDTO getCurrentUserEditData();
+    UserProfileDTO getLoggedUserProfileDTO();
 
     void changePassword(UserChangePasswordDTO changePasswordDTO);
 }

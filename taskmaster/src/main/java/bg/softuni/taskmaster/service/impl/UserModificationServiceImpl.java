@@ -2,7 +2,7 @@ package bg.softuni.taskmaster.service.impl;
 
 import bg.softuni.taskmaster.events.ChangePasswordEvent;
 import bg.softuni.taskmaster.model.dto.UserChangePasswordDTO;
-import bg.softuni.taskmaster.model.dto.UserEditDTO;
+import bg.softuni.taskmaster.model.dto.UserProfileDTO;
 import bg.softuni.taskmaster.model.entity.Picture;
 import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.repository.UserRepository;
@@ -34,13 +34,13 @@ public class UserModificationServiceImpl implements UserModificationService {
     private final ApplicationEventPublisher publisher;
 
     @Override
-    public void edit(UserEditDTO userEditDTO) throws IOException {
+    public void edit(UserProfileDTO userProfileDTO) throws IOException {
         User user = userHelperService.getLoggedUser();
-        if (!user.getUsername().equals(userEditDTO.getUsername())) {
-            changeNameInSecContext(user, userEditDTO.getUsername());
+        if (!user.getUsername().equals(userProfileDTO.getUsername())) {
+            changeNameInSecContext(user, userProfileDTO.getUsername());
         }
-        BeanUtils.copyProperties(userEditDTO, user);
-        changeProfilePicture(userEditDTO, user);
+        BeanUtils.copyProperties(userProfileDTO, user);
+        changeProfilePicture(userProfileDTO, user);
         userRepository.save(user);
     }
 
@@ -68,19 +68,19 @@ public class UserModificationServiceImpl implements UserModificationService {
     }
 
     @Override
-    public UserEditDTO getCurrentUserEditData() {
-        UserEditDTO userEditDTO = new UserEditDTO();
+    public UserProfileDTO getLoggedUserProfileDTO() {
+        UserProfileDTO userProfileDTO = new UserProfileDTO();
         User loggedUser = userHelperService.getLoggedUser();
-        BeanUtils.copyProperties(loggedUser, userEditDTO);
-        return userEditDTO;
+        BeanUtils.copyProperties(loggedUser, userProfileDTO);
+        return userProfileDTO;
     }
 
-    private void changeProfilePicture(UserEditDTO userEditDTO, User user) throws IOException {
-        if (user.getProfilePicture().getId() == 1 && userEditDTO.getProfilePicture().isEmpty()) {
+    private void changeProfilePicture(UserProfileDTO userProfileDTO, User user) throws IOException {
+        if (user.getProfilePicture().getId() == 1 && userProfileDTO.getProfilePicture().isEmpty()) {
             return;
         }
         Picture oldprofilePicture = user.getProfilePicture();
-        user.setProfilePicture(pictureService.savePicture(userEditDTO.getProfilePicture(), USERS_PROFILE_PICTURES_FOLDER));
+        user.setProfilePicture(pictureService.savePicture(userProfileDTO.getProfilePicture(), USERS_PROFILE_PICTURES_FOLDER));
         userRepository.save(user);
         if (oldprofilePicture.getId() != 1) pictureService.deletePicture(oldprofilePicture);
     }

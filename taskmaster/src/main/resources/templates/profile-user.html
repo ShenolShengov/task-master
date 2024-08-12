@@ -7,7 +7,7 @@
         <h2 class="text-2xl text-black font-bold mb-6">Profile</h2>
         <form th:method="put"
               th:action="@{/users/edit}"
-              th:object="${editData}"
+              th:object="${profileData}"
               class="text-black"
               enctype="multipart/form-data">
             <div class="grid grid-cols-2 gap-6">
