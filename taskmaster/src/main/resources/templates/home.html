@@ -4,8 +4,8 @@
 </head>
 <body>
 <nav th:replace="~{/fragments/navigation::nav}"></nav>
-<section th:if="${mailSent}" class="bg-green-400 p-4 border-green-900  border-t-8 box-border">
-    <p class="text-lg">Successfully sent email</p>
+<section th:if="${messageToDisplay != null}" class="bg-green-400 p-4 border-green-900  border-t-8 box-border">
+    <p th:text="${messageToDisplay}" class="text-lg">Message to display</p>
 </section>
 <div class="bg-background text-primary-foreground min-h-screen mx-2 flex flex-col items-center justify-center">
     <main class="container mx-auto mt-8 grid grid-cols-1  md:grid-cols-2">

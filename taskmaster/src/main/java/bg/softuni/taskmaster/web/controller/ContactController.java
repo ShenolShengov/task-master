@@ -37,7 +37,7 @@ public class ContactController {
             return "redirect:/contacts";
         }
         contactService.contactUs(contactUsDTO);
-        rAtt.addFlashAttribute("mailSent", true);
+        rAtt.addFlashAttribute("messageToDisplay", "Successfully sent email");
         return "redirect:/";
     }
 }

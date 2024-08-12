@@ -3,8 +3,8 @@
 <head th:replace="~{/fragments/head::head}"></head>
 <body>
 <nav th:replace="~{/fragments/navigation::nav}"></nav>
-<section th:if="${mailSent}" class="bg-green-400 p-4 border-green-900  border-t-8 box-border">
-    <p class="text-lg">Successfully sent email</p>
+<section th:if="${messageToDisplay != null}" class="bg-green-400 p-4 border-green-900  border-t-8 box-border">
+    <p th:text="${messageToDisplay}" class="text-lg">Message to display</p>
 </section>
 <div class="text-primary-foreground min-h-screen flex flex-col items-center justify-center">
     <div class="text-center max-w-4xl mx-auto p-8">

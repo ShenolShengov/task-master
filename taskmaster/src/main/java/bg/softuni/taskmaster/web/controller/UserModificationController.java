@@ -42,8 +42,10 @@ public class UserModificationController {
     }
 
     @GetMapping("/change-password")
-    public String changePasswordView(Model model, @ModelAttribute UserChangePasswordDTO userChangePasswordDTO) {
-        model.addAttribute("changePasswordData", userChangePasswordDTO);
+    public String changePasswordView(Model model) {
+        if (!model.containsAttribute("changePasswordData")) {
+            model.addAttribute("changePasswordData", new UserChangePasswordDTO());
+        }
         return "change-password";
     }
 
@@ -57,6 +59,7 @@ public class UserModificationController {
             return "redirect:/users/change-password";
         }
         modificationService.changePassword(changePasswordDTO);
+        rAtt.addFlashAttribute("messageToDisplay", "Successfully change your password");
         return "redirect:/";
     }
 }
