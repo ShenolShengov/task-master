@@ -1,14 +1,18 @@
 let allDayCheckBox = document.getElementById("allDay");
 let startTimeDiv = document.getElementById("start-time-div");
 let endTimeDiv = document.getElementById("end-time-div");
+const startTimeInput = document.getElementById("startTime");
+const endTimeInput = document.getElementById("endTime");
 if (allDayCheckBox.checked) {
     onChangeAllDay();
+    startTimeInput.value = '';
+    endTimeInput.value = '';
 }
 
 function onAddEditTask() {
     if (allDayCheckBox.checked) {
-        document.getElementById("startTime").value = '00:00';
-        document.getElementById("endTime").value = "23:59";
+        startTimeInput.value = '00:00';
+        endTimeInput.value = "23:59";
     }
 }
 
