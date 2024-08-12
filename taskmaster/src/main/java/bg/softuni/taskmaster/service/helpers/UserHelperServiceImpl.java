@@ -28,6 +28,11 @@ public class UserHelperServiceImpl implements UserHelperService {
     }
 
     @Override
+    public String getEmail() {
+        return getLoggedUser().getEmail();
+    }
+
+    @Override
     public boolean isAdmin() {
         return getAuthentication().getAuthorities()
                 .stream().anyMatch(e -> e.getAuthority().equals("ROLE_ADMIN"));

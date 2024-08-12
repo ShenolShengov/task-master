@@ -18,11 +18,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ContactController {
 
     private final ContactService contactService;
-
     @GetMapping
     public String contactsView(Model model) {
         if (!model.containsAttribute("contactData")) {
-            model.addAttribute("contactData", new ContactUsDTO());
+            model.addAttribute("contactData", contactService.getContactUs());
         }
         return "contacts";
     }

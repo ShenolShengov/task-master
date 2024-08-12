@@ -10,6 +10,8 @@ public interface UserHelperService {
 
     String getUsername();
 
+    String getEmail();
+
     boolean isAdmin();
 
     boolean isAdmin(Long id);
