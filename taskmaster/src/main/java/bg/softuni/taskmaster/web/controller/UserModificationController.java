@@ -3,6 +3,7 @@ package bg.softuni.taskmaster.web.controller;
 import bg.softuni.taskmaster.model.dto.UserChangePasswordDTO;
 import bg.softuni.taskmaster.model.dto.UserProfileDTO;
 import bg.softuni.taskmaster.service.UserModificationService;
+import bg.softuni.taskmaster.utils.MessageUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 
+import static bg.softuni.taskmaster.utils.MessageUtils.SUCCESSFULLY_CHANGE_PASSWORD_MESSAGE;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/users")
@@ -21,19 +24,19 @@ public class UserModificationController {
     private final UserModificationService modificationService;
 
     @GetMapping("/profile")
-    public String editView(Model model) {
+    public String profileView(Model model) {
         if (!model.containsAttribute("profileData")) {
             model.addAttribute("profileData", modificationService.getLoggedUserProfileDTO());
         }
-        return "profile-user";
+        return "user-profile";
     }
 
     @PutMapping("/edit")
     public String edit(@Valid UserProfileDTO userProfileDTO, BindingResult bindingResult,
                        RedirectAttributes rAtt) throws IOException {
         if (bindingResult.hasErrors()) {
-            rAtt.addFlashAttribute("editData", userProfileDTO);
-            rAtt.addFlashAttribute("org.springframework.validation.BindingResult.editData",
+            rAtt.addFlashAttribute("profileData", userProfileDTO);
+            rAtt.addFlashAttribute("org.springframework.validation.BindingResult.profileData",
                     bindingResult);
             return "redirect:/users/profile";
         }
@@ -59,7 +62,7 @@ public class UserModificationController {
             return "redirect:/users/change-password";
         }
         modificationService.changePassword(changePasswordDTO);
-        rAtt.addFlashAttribute("messageToDisplay", "Successfully change your password");
+        rAtt.addFlashAttribute("messageToDisplay", SUCCESSFULLY_CHANGE_PASSWORD_MESSAGE);
         return "redirect:/";
     }
 }

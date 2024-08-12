@@ -35,5 +35,6 @@ public class UserProfileDTO implements Serializable {
     @NotNull(message = "{validation.user.age.positive}")
     private Integer age;
 
+    @NotNull
     private MultipartFile profilePicture;
 }

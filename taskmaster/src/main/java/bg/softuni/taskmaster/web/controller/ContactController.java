@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import static bg.softuni.taskmaster.utils.EmailUtils.SUCCESSFULLY_SEND_EMAIL_MESSAGE;
+import static bg.softuni.taskmaster.utils.MessageUtils.SUCCESSFULLY_SEND_EMAIL_MESSAGE;
+
 
 @Controller
 @RequestMapping("/contacts")

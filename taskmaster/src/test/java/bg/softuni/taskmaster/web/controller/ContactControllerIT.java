@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import static bg.softuni.taskmaster.utils.EmailUtils.SUCCESSFULLY_SEND_EMAIL_MESSAGE;
+import static bg.softuni.taskmaster.utils.MessageUtils.SUCCESSFULLY_SEND_EMAIL_MESSAGE;
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

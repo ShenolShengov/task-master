@@ -30,14 +30,14 @@ public class PictureTestDataUtils {
     }
 
 
-    public static MultipartFile getMultipartPicture() throws IOException {
+    public static MockMultipartFile getMultipartPicture() throws IOException {
         FileInputStream profilePictureStream =
                 new FileInputStream(TEST_PICTURE_PATHNAME);
-        return new MockMultipartFile("testPicture", profilePictureStream);
+        return new MockMultipartFile("profilePicture", profilePictureStream);
     }
 
-    public static MultipartFile getEmptyMultipartFile() {
-        return new MockMultipartFile("emptyPicture", new byte[]{});
+    public static MockMultipartFile getEmptyMultipartFile() {
+        return new MockMultipartFile("profilePicture", new byte[]{});
     }
 
 }
