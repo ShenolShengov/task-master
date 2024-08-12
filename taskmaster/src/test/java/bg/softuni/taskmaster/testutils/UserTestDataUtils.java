@@ -3,6 +3,7 @@ package bg.softuni.taskmaster.testutils;
 import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.model.enums.UserRoles;
 import bg.softuni.taskmaster.repository.UserRepository;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -38,10 +39,12 @@ public class UserTestDataUtils {
     }
 
 
-    public User saveTestUser(String username, String email, String fullName, Integer age, boolean isAdmin) {
+    public User saveTestUser(String username, String email, String fullName,
+                             Integer age, String password, boolean isAdmin) {
         Optional<User> optionalUser = userRepository.findByUsername(username);
         return optionalUser.orElseGet(() -> {
-                    User user = new User(username, fullName, email, age, "password",
+                    User user = new User(username, fullName, email, age,
+                            Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8().encode(password),
                             new HashSet<>(List.of(roleTestDataUtils.getRole(UserRoles.USER))),
                             new HashSet<>(), new HashSet<>(), new HashSet<>(),
                             pictureTestDataUtils.getDefaultProfilePicture());
@@ -51,6 +54,10 @@ public class UserTestDataUtils {
                     return userRepository.save(user);
                 }
         );
+    }
+
+    public User saveTestUser(String username, String email, String fullName, Integer age, boolean isAdmin) {
+        return saveTestUser(username, email, fullName, age, "password", isAdmin);
     }
 
     public User saveTestUser(String username, String email, boolean isAdmin) {

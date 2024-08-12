@@ -17,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
@@ -25,8 +26,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
+import static bg.softuni.taskmaster.utils.MessageUtils.SUCCESSFULLY_CHANGE_PASSWORD_MESSAGE;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -47,6 +50,8 @@ class UserModificationControllerIT {
     public static final int TEST_NEW_AGE = 25;
     public static final String NEW_PROFILE_PICTURE_PUBLIC_ID = "updatePicture";
     public static final String NEW_PROFILE_PICTURE_URL = "https://someUrl.com";
+    private static final String TEST_PASSWORD = "asdAsd";
+    public static final String TEST_NEW_PASSWORD = "asdAsdAsd";
     @Autowired
     private MockMvc mockMvc;
 
@@ -61,8 +66,8 @@ class UserModificationControllerIT {
 
     @BeforeEach
     void setUp() {
-        userTestDataUtils.saveTestUser(TEST_USERNAME, TEST_EMAIL,
-                TEST_FULL_NAME, TEST_AGE, false);
+        userTestDataUtils.saveTestUser(TEST_USERNAME, TEST_EMAIL, TEST_FULL_NAME,
+                TEST_AGE, TEST_PASSWORD, false);
     }
 
     @AfterEach
@@ -130,6 +135,60 @@ class UserModificationControllerIT {
                         "org.springframework.validation.BindingResult.profileData"));
         Optional<User> editedUserOptional = userRepository.findByUsername(TEST_USERNAME);
         assertTrue(editedUserOptional.isPresent());
+    }
+
+    @Test
+    @WithMockUser(TEST_USERNAME)
+    public void test_ChangePasswordView() throws Exception {
+        mockMvc.perform(get("/users/change-password"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("change-password"))
+                .andExpect(model().attributeExists("changePasswordData"));
+    }
+
+    @Test
+    @WithMockUser(TEST_USERNAME)
+    public void test_ChangePassword() throws Exception {
+        mockMvc.perform(patch("/users/change-password")
+                        .with(csrf())
+                        .formFields(getValidChangePasswordFormFields()))
+                .andExpect(status().isFound())
+                .andExpect(redirectedUrl("/"))
+                .andExpect(flash().attributeCount(1))
+                .andExpect(flash().attribute("messageToDisplay", equalTo(SUCCESSFULLY_CHANGE_PASSWORD_MESSAGE)));
+        Optional<User> optionalUser = userRepository.findByUsername(TEST_USERNAME);
+        assertTrue(optionalUser.isPresent());
+        User user = optionalUser.get();
+        Pbkdf2PasswordEncoder passwordEncoder = Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8();
+        assertTrue(passwordEncoder.matches(TEST_NEW_PASSWORD, user.getPassword()));
+    }
+
+    @Test
+    @WithMockUser(TEST_USERNAME)
+    public void test_ChangePassword_When_CurrentPassword_Not_Match() throws Exception {
+        mockMvc.perform(patch("/users/change-password")
+                        .with(csrf())
+                        .formFields(getCurrentPasswordNotMatchFormFields()))
+                .andExpect(status().isFound())
+                .andExpect(redirectedUrl("/users/change-password"))
+                .andExpect(flash().attributeCount(2))
+                .andExpect(flash().attributeExists("changePasswordData",
+                        "org.springframework.validation.BindingResult.changePasswordData"));
+    }
+
+    private MultiValueMap<String, String> getCurrentPasswordNotMatchFormFields() {
+        MultiValueMap<String, String> map = getValidChangePasswordFormFields();
+        map.add("currentPassword", "incorrect password");
+        return map;
+    }
+
+
+    private MultiValueMap<String, String> getValidChangePasswordFormFields() {
+        LinkedMultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("currentPassword", TEST_PASSWORD);
+        map.add("newPassword", TEST_NEW_PASSWORD);
+        map.add("confirmPassword", TEST_NEW_PASSWORD);
+        return map;
     }
 
     private MultiValueMap<String, String> getNotValidUserEditFormFields() {

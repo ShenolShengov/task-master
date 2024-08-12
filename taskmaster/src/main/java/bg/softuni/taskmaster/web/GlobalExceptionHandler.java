@@ -11,6 +11,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+    //IllegalArgumentException is for test, because h2 db throw IllegalArgumentException when can't find property
     @ExceptionHandler({PropertyReferenceException.class, IllegalArgumentException.class})
     @ResponseStatus(HttpStatus.FOUND)
     public String returnToHome() {
