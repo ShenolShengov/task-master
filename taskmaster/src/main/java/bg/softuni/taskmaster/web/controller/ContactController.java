@@ -12,12 +12,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import static bg.softuni.taskmaster.utils.EmailUtils.SUCCESSFULLY_SEND_EMAIL_MESSAGE;
+
 @Controller
 @RequestMapping("/contacts")
 @RequiredArgsConstructor
 public class ContactController {
 
     private final ContactService contactService;
+
     @GetMapping
     public String contactsView(Model model) {
         if (!model.containsAttribute("contactData")) {
@@ -36,7 +39,7 @@ public class ContactController {
             return "redirect:/contacts";
         }
         contactService.contactUs(contactUsDTO);
-        rAtt.addFlashAttribute("messageToDisplay", "Successfully sent email");
+        rAtt.addFlashAttribute("messageToDisplay", SUCCESSFULLY_SEND_EMAIL_MESSAGE);
         return "redirect:/";
     }
 }

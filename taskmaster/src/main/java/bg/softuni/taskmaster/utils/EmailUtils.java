@@ -10,6 +10,7 @@ public class EmailUtils {
 
     public static final String APP_MAIL = "taskmastersoftuni@gmail.com";
 
+    public static final String SUCCESSFULLY_SEND_EMAIL_MESSAGE = "Successfully sent email";
     public static final String APP_NAME = "TaskMaster";
     public static final String REGISTRATION_SUBJECT = "Welcome to " + APP_NAME + ", %s!";
     public static final String REGISTRATION_ALTER_SUBJECT = "[Alert] - New registration";

@@ -15,6 +15,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import static bg.softuni.taskmaster.utils.EmailUtils.SUCCESSFULLY_SEND_EMAIL_MESSAGE;
+import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -64,7 +66,8 @@ class ContactControllerIT {
                 .andExpect(status().isFound())
                 .andExpect(redirectedUrl("/"))
                 .andExpect(flash().attributeCount(1))
-                .andExpect(flash().attributeExists("mailSent"));
+                .andExpect(flash().attributeExists("messageToDisplay"))
+                .andExpect(flash().attribute("messageToDisplay", equalTo(SUCCESSFULLY_SEND_EMAIL_MESSAGE)));
 
     }
 
