@@ -56,11 +56,13 @@
             </div>
             <label th:for="code" class="mb-2 block text-sm font-medium mt-4 text-black">Code</label>
             <textarea id="code" name="code" th:field="*{code}"
+                      required minlength="5" maxlength="2000"
                       class="w-full h-20 text-black placeholder-muted-foreground border border-primary rounded-lg p-2 focus:outline-none focus:ring focus:ring-primary"
                       placeholder="Write your comment here">
 
             </textarea>
             <div th:errors="*{code}"
+                 th:maxlength="5000"
                  class="text-sm text-destructive">
                 <p>Answer code error message</p>
             </div>

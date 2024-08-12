@@ -13,6 +13,7 @@
             <div>
                 <label th:for="title" class="block text-sm font-medium text-black">Title</label>
                 <input th:field="*{title}" id="title" name="title" type="text"
+                       required minlength="5" maxlength="50"
                        class="text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring"
                        placeholder="e.g. How to sort a array in java"/>
                 <div th:errors="*{title}"
@@ -23,6 +24,7 @@
             <div>
                 <label th:for="tags" class="block text-sm font-medium text-black">Tags</label>
                 <input th:field="*{tags}" type="text" id="tags" name="tags"
+                       required
                        class="text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring"
                        placeholder="e.g. (java git c#)"/>
                 <div th:errors="*{tags}"
@@ -33,6 +35,7 @@
         </div>
         <label th:for="description" class="block text-sm font-medium mt-6 text-black">Description</label>
         <textarea th:field="*{description}" id="description" name="description"
+                  required minlength="5" maxlength="2000"
                   class="w-full mt-1 p-3 rounded-md text-black border border-input focus:outline-none focus:ring focus:ring-ring"
                   rows="5"></textarea>
         <div th:errors="*{description}"
@@ -42,6 +45,7 @@
 
         <label th:for="code" class="block text-sm font-medium mt-6 text-black">Code</label>
         <textarea th:field="*{code}" id="code" name="code"
+                  maxlength="5000"
                   class="w-full mt-1 p-3 rounded-md text-black border border-input focus:outline-none focus:ring focus:ring-ring"
                   rows="5"></textarea>
         <div th:errors="*{code}"

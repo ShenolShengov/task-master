@@ -19,6 +19,8 @@ import java.io.Serializable;
 )
 public class UserChangePasswordDTO implements Serializable {
 
+    @NotNull(message = "{validation.user.password.length}")
+    @Length(min = 5, max = 15, message = "{validation.user.password.length}")
     @MatchLoggedUserPassword
     private String currentPassword;
 

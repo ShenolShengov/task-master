@@ -13,6 +13,7 @@
             <div>
                 <label th:for="name" class="block text-sm font-medium text-black">Task Name</label>
                 <input th:field="*{name}" id="name" name="name" type="text"
+                       required minlength="5" maxlength="20"
                        class="text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring"
                        placeholder="Enter task name"/>
                 <div th:errors="*{name}"
@@ -23,6 +24,7 @@
             <div>
                 <label th:for="category" class="block text-sm font-medium text-black">Category</label>
                 <input th:field="*{category}" id="category" name="category" list="popularCategory" type="text"
+                       required minlength="5" maxlength="20"
                        class="text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring"
                        placeholder="Enter task category"/>
                 <div th:errors="*{category}"
@@ -33,7 +35,6 @@
             <datalist id="popularCategory">
                 <option>Personal</option>
                 <option>School</option>
-                <option>Work</option>
                 <option>Finance</option>
                 <option>Health</option>
             </datalist>
@@ -42,6 +43,7 @@
             <div>
                 <label th:for="priority" class="block text-sm font-medium text-black">Priority</label>
                 <select th:field="*{priority}" id="priority" name="priority"
+                        required
                         class="text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring">
                     <option value="LOW">Low</option>
                     <option value="MEDIUM">Medium</option>
@@ -55,6 +57,7 @@
             <div>
                 <label th:for="dueDate" class="block text-sm font-medium text-black">Due Date</label>
                 <input th:field="*{dueDate}" id="dueDate" name="dueDate" type="date"
+                       required
                        class="min-today today text-black w-full mt-1 p-3 rounded-md border border-input focus:outline-none focus:ring focus:ring-ring"
                        placeholder="Select due date"/>
                 <div th:errors="*{dueDate}"
@@ -93,6 +96,7 @@
         </div>
         <label th:for="description" class="block text-sm font-medium mt-6 text-black">Notes</label>
         <textarea th:field="*{description}" id="description" name="description"
+                  required minlength="5" maxlength="2000"
                   class="w-full mt-1 p-3 rounded-md text-black border border-input focus:outline-none focus:ring focus:ring-ring"
                   rows="6" placeholder="Enter task notes"></textarea>
         <div th:errors="*{description}"
