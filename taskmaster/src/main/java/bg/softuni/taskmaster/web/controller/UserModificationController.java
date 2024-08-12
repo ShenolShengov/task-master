@@ -29,9 +29,9 @@ public class UserModificationController {
         return new UserChangePasswordDTO();
     }
 
-    @GetMapping("/edit")
+    @GetMapping("/profile")
     public String editView() {
-        return "edit-user";
+        return "profile-user";
     }
 
     @PutMapping("/edit")
@@ -41,7 +41,7 @@ public class UserModificationController {
             rAtt.addFlashAttribute("editData", userEditDTO);
             rAtt.addFlashAttribute("org.springframework.validation.BindingResult.editData",
                     bindingResult);
-            return "redirect:/users/edit";
+            return "redirect:/users/profile";
         }
         modificationService.edit(userEditDTO);
         return "redirect:/";
