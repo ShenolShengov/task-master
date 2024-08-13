@@ -10,7 +10,7 @@ public class RetentionScheduler {
 
     private final MailHistoryService mailHistoryService;
 
-    @Scheduled(cron = "*/10 * * * * *")//for example
+    @Scheduled(cron = "0 0 0 * * *")//cron = */10 * * * * * - cron for every 10 seconds
     public void deleteOldHistory() {
         mailHistoryService.deleteOldHistory();
     }

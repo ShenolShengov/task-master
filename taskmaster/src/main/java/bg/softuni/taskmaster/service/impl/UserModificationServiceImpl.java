@@ -37,26 +37,25 @@ public class UserModificationServiceImpl implements UserModificationService {
     public void edit(UserProfileDTO userProfileDTO) throws IOException {
         User user = userHelperService.getLoggedUser();
         if (!user.getUsername().equals(userProfileDTO.getUsername())) {
-            changeNameInSecContext(user, userProfileDTO.getUsername());
+            changeNameInSecurityContext(user.getPassword(), userProfileDTO.getUsername());
         }
         BeanUtils.copyProperties(userProfileDTO, user);
         changeProfilePicture(userProfileDTO, user);
         userRepository.save(user);
     }
 
-    private void changeNameInSecContext(User loggedUser, String newUsername) {
+    private void changeNameInSecurityContext(String currentPassword, String newUsername) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         UserDetails updatedPrincipal = org.springframework.security.core.userdetails.User
                 .withUsername(newUsername)
-                .password(loggedUser.getPassword())
+                .password(currentPassword)
                 .authorities(auth.getAuthorities())
                 .build();
         UsernamePasswordAuthenticationToken updatedAuth = new
                 UsernamePasswordAuthenticationToken(updatedPrincipal, auth.getCredentials(), auth.getAuthorities());
 
         SecurityContextHolder.getContext().setAuthentication(updatedAuth);
-
     }
 
     @Override
