@@ -1,4 +1,4 @@
-package bg.softuni.taskmaster.validation.validtagscountandnotdiplicates;
+package bg.softuni.taskmaster.validation.validtags;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -8,10 +8,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = ValidTagsCountAndNotDuplicatesValidator.class)
+@Constraint(validatedBy = ValidTagsValidator.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface ValidTagsCountAndNotDuplicates {
+public @interface ValidTags {
 
     String message() default "{validation.question.invalid.tags}";
 

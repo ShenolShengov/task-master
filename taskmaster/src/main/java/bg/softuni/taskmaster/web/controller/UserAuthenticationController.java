@@ -1,7 +1,7 @@
 package bg.softuni.taskmaster.web.controller;
 
 import bg.softuni.taskmaster.model.dto.UserRegisterDTO;
-import bg.softuni.taskmaster.service.UserAuthenticationService;
+import bg.softuni.taskmaster.service.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,7 +20,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class UserAuthenticationController {
 
-    private final UserAuthenticationService authenticationService;
+    private final AuthenticationService authenticationService;
 
     @GetMapping("/register")
     public String registerView(Model model) {

@@ -1,4 +1,4 @@
-package bg.softuni.taskmaster.validation.validtagscountandnotdiplicates;
+package bg.softuni.taskmaster.validation.validtags;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -6,7 +6,7 @@ import jakarta.validation.ConstraintValidatorContext;
 import java.util.Arrays;
 import java.util.List;
 
-public class ValidTagsCountAndNotDuplicatesValidator implements ConstraintValidator<ValidTagsCountAndNotDuplicates, String> {
+public class ValidTagsValidator implements ConstraintValidator<ValidTags, String> {
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         if (value == null || value.isBlank() || value.split("\\s+").length == 0) {

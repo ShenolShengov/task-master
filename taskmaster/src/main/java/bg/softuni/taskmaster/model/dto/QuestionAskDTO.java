@@ -1,6 +1,6 @@
 package bg.softuni.taskmaster.model.dto;
 
-import bg.softuni.taskmaster.validation.validtagscountandnotdiplicates.ValidTagsCountAndNotDuplicates;
+import bg.softuni.taskmaster.validation.validtags.ValidTags;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +16,7 @@ public class QuestionAskDTO implements Serializable {
     @Length(min = 5, max = 50, message = "{validation.title.length}")
     private String title;
 
-    @ValidTagsCountAndNotDuplicates
+    @ValidTags
     private String tags;
 
     @NotNull(message = "{validation.description.length}")

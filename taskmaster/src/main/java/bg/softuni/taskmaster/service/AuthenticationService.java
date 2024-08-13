@@ -4,7 +4,7 @@ import bg.softuni.taskmaster.model.dto.UserRegisterDTO;
 
 import java.io.IOException;
 
-public interface UserAuthenticationService {
+public interface AuthenticationService {
 
     void register(UserRegisterDTO userRegisterDTO) throws IOException;
 
