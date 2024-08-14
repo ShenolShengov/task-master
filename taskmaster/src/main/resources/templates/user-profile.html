@@ -56,7 +56,7 @@
             </div>
             <div class="flex flex-col items-center justify-center w-full h-full mt-2 mb-2 ">
                 <img aria-hidden="true" id="profilePicturePreview" alt="profile-picture"
-                     th:src="${@userHelperServiceImpl.getLoggedUser().getProfilePicture().getUrl()}"
+                     th:src="${@userHelperServiceImpl.getProfilePictureUrl()}"
                      class="w-24 h-24 rounded-full object-cover mb-4"/>
                 <input th:field="*{profilePicture}" type="file" id="profilePicture" class="hidden"/>
                 <label id="profilePicturePreviewLabel" th:for="profilePicture" class="cursor-pointer text-black">

@@ -35,27 +35,22 @@ public class UserModificationServiceImpl implements UserModificationService {
 
     @Override
     public void edit(UserProfileDTO userProfileDTO) throws IOException {
-        User user = userHelperService.getLoggedUser();
-        if (!user.getUsername().equals(userProfileDTO.getUsername())) {
-            changeNameInSecurityContext(user.getPassword(), userProfileDTO.getUsername());
-        }
-        BeanUtils.copyProperties(userProfileDTO, user);
-        changeProfilePicture(userProfileDTO, user);
-        userRepository.save(user);
+        User loggedUser = userHelperService.getLoggedUser();
+        BeanUtils.copyProperties(userProfileDTO, loggedUser);
+        changeProfilePicture(userProfileDTO, loggedUser);
+        User editedUser = userRepository.save(loggedUser);
+        editUserDetailsInSecurityContext(editedUser);
     }
 
-    private void changeNameInSecurityContext(String currentPassword, String newUsername) {
+    private void editUserDetailsInSecurityContext(User editedUser) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        UserDetails updatedPrincipal = org.springframework.security.core.userdetails.User
-                .withUsername(newUsername)
-                .password(currentPassword)
-                .authorities(auth.getAuthorities())
-                .build();
+        UserDetails updatedPrincipal = userHelperService.toUserDetails(editedUser);
         UsernamePasswordAuthenticationToken updatedAuth = new
                 UsernamePasswordAuthenticationToken(updatedPrincipal, auth.getCredentials(), auth.getAuthorities());
 
-        SecurityContextHolder.getContext().setAuthentication(updatedAuth);
+        SecurityContextHolder.getContext().
+                setAuthentication(updatedAuth);
     }
 
     @Override

@@ -1,8 +1,7 @@
 package bg.softuni.taskmaster.service;
 
 import bg.softuni.taskmaster.model.entity.User;
-
-import java.util.List;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public interface UserHelperService {
 
@@ -11,6 +10,10 @@ public interface UserHelperService {
     String getUsername();
 
     String getEmail();
+
+    String getProfilePictureUrl();
+
+    UserDetails toUserDetails(User user);
 
     boolean isAdmin();
 
