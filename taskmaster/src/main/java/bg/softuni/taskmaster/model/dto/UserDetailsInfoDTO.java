@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-public class UserInfoDTO implements Serializable {
+public class UserDetailsInfoDTO implements Serializable {
 
     private Long id;
     private String username;
@@ -15,4 +15,5 @@ public class UserInfoDTO implements Serializable {
     private String email;
     private Integer age;
     private boolean isAdmin;
+    private String profilePictureUrl;
 }

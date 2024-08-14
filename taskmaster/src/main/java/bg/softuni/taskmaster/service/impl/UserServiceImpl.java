@@ -1,7 +1,7 @@
 package bg.softuni.taskmaster.service.impl;
 
 import bg.softuni.taskmaster.events.AccountDeletionEvent;
-import bg.softuni.taskmaster.model.dto.UserInfoDTO;
+import bg.softuni.taskmaster.model.dto.UserDetailsInfoDTO;
 import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.repository.UserRepository;
 import bg.softuni.taskmaster.service.UserHelperService;
@@ -26,15 +26,11 @@ public class UserServiceImpl implements UserService {
     private final UserHelperService userHelperService;
     private final ApplicationEventPublisher publisher;
 
-    @Override
-    public UserInfoDTO getInfo(Long id) {
-        return toInfo(userHelperService.getUser(id));
-    }
 
-    private UserInfoDTO toInfo(User e) {
-        UserInfoDTO userInfoDTO = modelMapper.map(e, UserInfoDTO.class);
-        userInfoDTO.setAdmin(userHelperService.isAdmin(e.getId()));
-        return userInfoDTO;
+    private UserDetailsInfoDTO toDetailsInfo(User e) {
+        UserDetailsInfoDTO userDetailsInfoDTO = modelMapper.map(e, UserDetailsInfoDTO.class);
+        userDetailsInfoDTO.setAdmin(userHelperService.isAdmin(e.getId()));
+        return userDetailsInfoDTO;
     }
 
     @Override
@@ -49,9 +45,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    public Page<UserInfoDTO> getAll(String searchQuery, Pageable pageable) {
-        return userRepository.findAllBySearchQuery(searchQuery, pageable).map(this::toInfo);
+    public Page<UserDetailsInfoDTO> getAll(String searchQuery, Pageable pageable) {
+        return userRepository.findAllBySearchQuery(searchQuery, pageable).map(this::toDetailsInfo);
     }
-
-
 }
+

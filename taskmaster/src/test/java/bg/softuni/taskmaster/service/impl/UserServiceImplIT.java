@@ -1,7 +1,7 @@
 package bg.softuni.taskmaster.service.impl;
 
 import bg.softuni.taskmaster.exceptions.UserNotFoundException;
-import bg.softuni.taskmaster.model.dto.UserInfoDTO;
+import bg.softuni.taskmaster.model.dto.UserDetailsInfoDTO;
 import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.repository.UserRepository;
 import bg.softuni.taskmaster.testutils.UserTestDataUtils;
@@ -40,21 +40,6 @@ class UserServiceImplIT {
         userTestDataUtils.clearDB();
     }
 
-    @Test
-    void test_GetInfo() {
-        UserInfoDTO info = userService.getInfo(testUser.getId());
-        assertEquals(testUser.getId(), info.getId());
-        assertEquals(testUser.getUsername(), info.getUsername());
-        assertEquals(testUser.getFullName(), info.getFullName());
-        assertEquals(testUser.getAge(), info.getAge());
-        assertEquals(testUser.getEmail(), info.getEmail());
-        assertFalse(info.isAdmin());
-    }
-
-    @Test
-    void test_GetInfoWith_NotValid_Id() {
-        assertThrows(UserNotFoundException.class, () -> userService.getInfo(-4L));
-    }
 
     @Test
     @WithMockUser(username = "testUser")
@@ -74,7 +59,7 @@ class UserServiceImplIT {
     @WithMockUser(roles = {"USER", "ADMIN"})
     public void test_GetAll_With_EmptySearchQuery() {
         addTestData();
-        Page<UserInfoDTO> all = userService.getAll("", getPageable());
+        Page<UserDetailsInfoDTO> all = userService.getAll("", getPageable());
         assertEquals(5, all.getTotalElements());
     }
 

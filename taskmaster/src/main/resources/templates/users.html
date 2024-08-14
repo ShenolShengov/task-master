@@ -46,6 +46,9 @@
         <table class="min-w-full bg-card rounded-lg table-fixed">
             <thead>
             <tr>
+                <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">
+                    Profile picture
+                </th>
                 <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">Username</th>
                 <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">Full Name</th>
                 <th class="px-4 py-2 bg-primary text-primary-foreground font-bold uppercase text-sm">Email</th>
@@ -56,6 +59,11 @@
             </thead>
             <tbody id="users">
             <tr th:each="user : ${foundedUsers}" th:object="${user}" th:id="*{id + '-section'}">
+                <td class="px-4 py-2 text-center flex justify-center">
+                    <img aria-hidden="true" id="profilePicture" alt="profile-picture"
+                         th:src="*{profilePictureUrl}"
+                         class="w-8 h-8 rounded-full object-cover "/>
+                </td>
                 <td th:text="*{username}" class="px-4 py-2 text-center">JohnDoe</td>
                 <td th:text="*{fullName}" class="px-4 py-2 text-center">John Doe</td>
                 <td th:text="*{email}" class="px-4 py-2 text-center">john.doe@example.com</td>
