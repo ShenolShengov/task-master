@@ -3,13 +3,16 @@ package bg.softuni.taskmaster.web.controller;
 import bg.softuni.taskmaster.model.dto.UserChangePasswordDTO;
 import bg.softuni.taskmaster.model.dto.UserProfileDTO;
 import bg.softuni.taskmaster.service.UserModificationService;
-import bg.softuni.taskmaster.utils.MessageUtils;
+import bg.softuni.taskmaster.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
@@ -22,11 +25,12 @@ import static bg.softuni.taskmaster.utils.MessageUtils.SUCCESSFULLY_CHANGE_PASSW
 public class UserModificationController {
 
     private final UserModificationService modificationService;
+    private final UserService userService;
 
     @GetMapping("/profile")
     public String profileView(Model model) {
         if (!model.containsAttribute("profileData")) {
-            model.addAttribute("profileData", modificationService.getLoggedUserProfileDTO());
+            model.addAttribute("profileData", userService.getLoggedUserProfile());
         }
         return "user-profile";
     }

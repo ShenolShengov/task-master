@@ -54,7 +54,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-col items-center justify-center w-full h-full mt-2 mb-6 ">
+            <div class="flex flex-col items-center justify-center w-full h-full mt-2 mb-2 ">
                 <img aria-hidden="true" id="profilePicturePreview" alt="profile-picture"
                      th:src="${@userHelperServiceImpl.getLoggedUser().getProfilePicture().getUrl()}"
                      class="w-24 h-24 rounded-full object-cover mb-4"/>
@@ -62,10 +62,11 @@
                 <label id="profilePicturePreviewLabel" th:for="profilePicture" class="cursor-pointer text-black">
                     Upload from device
                 </label>
+                <p class="mt-2">Or</p>
                 <button type="button" onclick="setDefaultPicture()" class="mt-4">Use default picture</button>
             </div>
             <button type="submit"
-                    class="bg-primary text-primary-foreground py-3 px-4 rounded-lg hover:bg-primary/80 transition-colors duration-300 ml-0 mt-2">
+                    class="bg-primary text-primary-foreground  py-3 px-4 rounded-lg hover:bg-primary/80 transition-colors duration-300 ml-0 mt-2">
                 Save changes
             </button>
         </form>

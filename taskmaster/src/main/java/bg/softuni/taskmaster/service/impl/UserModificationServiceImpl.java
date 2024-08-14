@@ -66,13 +66,6 @@ public class UserModificationServiceImpl implements UserModificationService {
         publisher.publishEvent(new ChangePasswordEvent(this, user.getUsername(), user.getEmail()));
     }
 
-    @Override
-    public UserProfileDTO getLoggedUserProfileDTO() {
-        UserProfileDTO userProfileDTO = new UserProfileDTO();
-        User loggedUser = userHelperService.getLoggedUser();
-        BeanUtils.copyProperties(loggedUser, userProfileDTO);
-        return userProfileDTO;
-    }
 
     private void changeProfilePicture(UserProfileDTO userProfileDTO, User user) throws IOException {
         if (user.getProfilePicture().getId() == 1 && userProfileDTO.getProfilePicture().isEmpty()) {

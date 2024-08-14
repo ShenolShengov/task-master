@@ -10,7 +10,5 @@ public interface UserModificationService {
 
     void edit(UserProfileDTO userProfileDTO) throws IOException;
 
-    UserProfileDTO getLoggedUserProfileDTO();
-
     void changePassword(UserChangePasswordDTO changePasswordDTO);
 }

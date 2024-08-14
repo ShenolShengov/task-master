@@ -2,6 +2,7 @@ package bg.softuni.taskmaster.service.impl;
 
 import bg.softuni.taskmaster.events.AccountDeletionEvent;
 import bg.softuni.taskmaster.model.dto.UserDetailsInfoDTO;
+import bg.softuni.taskmaster.model.dto.UserProfileDTO;
 import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.repository.UserRepository;
 import bg.softuni.taskmaster.service.UserHelperService;
@@ -42,6 +43,10 @@ public class UserServiceImpl implements UserService {
         publisher.publishEvent(new AccountDeletionEvent(this, user.getUsername(), user.getEmail()));
     }
 
+    @Override
+    public UserProfileDTO getLoggedUserProfile() {
+        return modelMapper.map(userHelperService.getLoggedUser(), UserProfileDTO.class);
+    }
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
