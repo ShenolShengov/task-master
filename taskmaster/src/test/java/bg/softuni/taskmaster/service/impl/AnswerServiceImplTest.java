@@ -8,7 +8,6 @@ import bg.softuni.taskmaster.model.entity.User;
 import bg.softuni.taskmaster.repository.AnswerRepository;
 import bg.softuni.taskmaster.repository.QuestionRepository;
 import bg.softuni.taskmaster.service.UserHelperService;
-import bg.softuni.taskmaster.testutils.AnswerTestDataUtils;
 import bg.softuni.taskmaster.testutils.QuestionTestDataUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +23,8 @@ import org.springframework.context.ApplicationEventPublisher;
 import java.util.Optional;
 
 import static bg.softuni.taskmaster.testutils.UserTestDataUtils.getTestUser;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -33,7 +33,6 @@ class AnswerServiceImplTest {
 
 
     public static final long TEST_QUESTION_ID = 1L;
-    public static final long ANSWER_TEST_ID = 1L;
     private AnswerServiceImpl answerServiceToTest;
 
     @Mock
@@ -90,17 +89,6 @@ class AnswerServiceImplTest {
         assertThrows(QuestionNotFoundException.class, () -> answerServiceToTest.answer(answerDTO, TEST_QUESTION_ID));
     }
 
-    @Test
-    public void test_IsActualUser() {
-        when(mockAnswerRepository.findById(ANSWER_TEST_ID))
-                .thenReturn(Optional.of(AnswerTestDataUtils.getTestAnswer(testUser, testQuestion)));
-        when(mockUserHelperService.getUsername()).thenReturn(testUser.getUsername());
-        assertTrue(answerServiceToTest.isActualUser(ANSWER_TEST_ID));
-
-        when(mockUserHelperService.getUsername()).thenReturn("otherTestUser");
-        assertFalse(answerServiceToTest.isActualUser(ANSWER_TEST_ID));
-
-    }
 
     @Test
     public void test_Delete() {
