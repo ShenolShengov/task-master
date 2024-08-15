@@ -6,7 +6,5 @@ public interface AnswerService {
 
     void answer(AnswerDTO answerDTO, Long questionId);
 
-    boolean isActualUser(Long id);
-
     void delete(Long id);
 }

@@ -46,14 +46,9 @@ public class AnswerServiceImpl implements AnswerService {
         return String.format(LINK_TO_QUESTION, questionId);
     }
 
-    @Override
-    public boolean isActualUser(Long id) {
-        Answer answer = answerRepository.findById(id).orElseThrow(AnswerNotFoundException::new);
-        return answer.getUser().getUsername().equals(userHelperService.getUsername());
-    }
 
     @Override
-    @PreAuthorize("@answerServiceImpl.isActualUser(#id) || hasRole('ADMIN')")
+    @PreAuthorize("@answerHelperServiceImpl.isActualUser(#id) || hasRole('ADMIN')")
     public void delete(Long id) {
         answerRepository.deleteById(id);
     }

@@ -20,6 +20,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.*;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -58,13 +59,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    @PreAuthorize("@taskServiceImpl.isActualUser(#id)")
+    @PreAuthorize("@taskHelperServiceImpl.isActualUser(#id)")
     public TaskInfoDTO getInfo(Long id) {
         return modelMapper.map(taskHelperService.getById(id), TaskInfoDTO.class);
     }
 
     @Override
-    @PreAuthorize("@taskServiceImpl.isActualUser(#id)")
+    @PreAuthorize("@taskHelperServiceImpl.isActualUser(#id)")
     public void delete(Long id) {
         taskRepository.delete(taskHelperService.getById(id));
     }
@@ -73,10 +74,5 @@ public class TaskServiceImpl implements TaskService {
     public void deleteOldTasks() {
         LocalDate deleteBefore = LocalDate.now().minus(retentionPeriod);
         taskRepository.deleteOldTasks(deleteBefore);
-    }
-
-    @Override
-    public boolean isActualUser(Long id) {
-        return taskHelperService.getById(id).getUser().getUsername().equals(userHelperService.getUsername());
     }
 }

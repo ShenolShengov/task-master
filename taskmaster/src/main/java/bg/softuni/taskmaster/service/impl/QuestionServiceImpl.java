@@ -38,7 +38,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    @PreAuthorize("@questionServiceImpl.isActualUser(#id) || hasRole('ADMIN')")
+    @PreAuthorize("@questionHelperServiceImpl.isActualUser(#id) || hasRole('ADMIN')")
     public void delete(Long id) {
         questionRepository.delete(questionHelperService.getById(id));
     }
@@ -75,12 +75,6 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Page<QuestionBaseInfoDTO> getAll(String searchQuery, Pageable pageable) {
         return questionRepository.search(searchQuery, pageable).map(this::toBaseInfo);
-    }
-
-    @Override
-    public boolean isActualUser(Long id) {
-
-        return questionHelperService.getById(id).getUser().getUsername().equals(userHelperService.getUsername());
     }
 
 }

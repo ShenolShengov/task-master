@@ -1,11 +1,9 @@
 package bg.softuni.taskmaster.web.controller;
 
-import bg.softuni.taskmaster.exceptions.TaskNotFoundException;
 import bg.softuni.taskmaster.model.dto.TaskAddEditDTO;
 import bg.softuni.taskmaster.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,9 +49,9 @@ public class TaskController {
 
 
     @PostMapping("/edit/{id}")
-    @PreAuthorize("@taskServiceImpl.isActualUser(#taskEditDTO.id)")
+    @PreAuthorize("@taskHelperServiceImpl.isActualUser(#taskEditDTO.id)")
     public String edit(@Valid TaskAddEditDTO taskEditDTO, BindingResult bindingResult,
-                             RedirectAttributes rAtt, @PathVariable Long id) {
+                       RedirectAttributes rAtt, @PathVariable Long id) {
         if (bindingResult.hasErrors()) {
             rAtt.addFlashAttribute("taskData", taskEditDTO);
             rAtt.addFlashAttribute("org.springframework.validation.BindingResult.taskData",
