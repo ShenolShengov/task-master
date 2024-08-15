@@ -1,3 +1,4 @@
+
 function searchTaskByDueDate(dueDate) {
     reloadUrlWith("task_due_date", dueDate)
 }
@@ -11,3 +12,5 @@ function reloadUrlWith(paramName, paramValue) {
     url.searchParams.set(paramName, paramValue);
     reload(url);
 }
+
+//todo move this method in pagingSortingAndFiltering.js and use it when you can //todo

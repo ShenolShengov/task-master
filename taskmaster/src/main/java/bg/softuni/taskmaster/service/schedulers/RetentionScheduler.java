@@ -1,5 +1,6 @@
-package bg.softuni.taskmaster.service;
+package bg.softuni.taskmaster.service.schedulers;
 
+import bg.softuni.taskmaster.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

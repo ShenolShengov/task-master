@@ -1,5 +1,6 @@
-package bg.sofuni.mailsender.service;
+package bg.sofuni.mailsender.service.schedulers;
 
+import bg.sofuni.mailsender.service.MailHistoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
