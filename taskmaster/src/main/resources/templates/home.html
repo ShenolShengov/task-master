@@ -14,11 +14,7 @@
                 <h2 class="text-lg text-black font-semibold">My Tasks</h2>
                 <div class="flex items-center space-x-2">
                     <label for="chooseTaskDate" class="text-zinc-600">Choose Day:</label>
-                    <input onchange="{
-                        let url = getUrl();
-                        url.searchParams.set('task_due_date', this.value);
-                        reload(url);
-                    }"
+                    <input onchange="searchTaskByDueDate(this.value)"
                            th:value="${task_due_date}"
                            id="chooseTaskDate"
                            type="date" class="text-black border border-card px-2 py-1 rounded-lg"/>
@@ -88,11 +84,7 @@
                 <h2 class="text-lg text-black font-semibold">My Questions</h2>
                 <div class="flex items-center space-x-2">
                     <label for="chooseQuestionId" class="text-zinc-600">Choose Day:</label>
-                    <input onchange="{
-                        let url = getUrl();
-                        url.searchParams.set('question_created_time', this.value);
-                        reload(url);
-                    }"
+                    <input onchange="searchQuestionByCreatedTime(this.value)"
                            th:value="${question_created_time}"
                            type="date"
                            id="chooseQuestionId"

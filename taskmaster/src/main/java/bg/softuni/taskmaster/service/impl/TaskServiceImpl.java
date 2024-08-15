@@ -13,12 +13,13 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.*;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +29,9 @@ public class TaskServiceImpl implements TaskService {
     private final TaskHelperService taskHelperService;
     private final ModelMapper modelMapper;
     private final UserHelperService userHelperService;
+
+    @Value("${tasks.retention.period}")
+    private Period retentionPeriod;
 
     @Override
     public void add(TaskAddEditDTO taskAddEditDTO) {
@@ -63,6 +67,12 @@ public class TaskServiceImpl implements TaskService {
     @PreAuthorize("@taskServiceImpl.isActualUser(#id)")
     public void delete(Long id) {
         taskRepository.delete(taskHelperService.getById(id));
+    }
+
+    @Override
+    public void deleteOldTasks() {
+        LocalDate deleteBefore = LocalDate.now().minus(retentionPeriod);
+        taskRepository.deleteOldTasks(deleteBefore);
     }
 
     @Override

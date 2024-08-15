@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 public interface TaskService {
 
@@ -15,10 +16,11 @@ public interface TaskService {
 
     void delete(Long id);
 
+    void deleteOldTasks();
+
     Page<TaskInfoDTO> getFor(LocalDate dueDate, Pageable pageable);
 
     TaskInfoDTO getInfo(Long id);
-
 
     boolean isActualUser(Long id);
 }

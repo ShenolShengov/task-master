@@ -34,3 +34,7 @@ cloudinary:
   api_key: ${cloudinary_api_key}
   api_secret: ${cloudinary_api_secret}
 
+tasks:
+  retention:
+    period: P365D
+
