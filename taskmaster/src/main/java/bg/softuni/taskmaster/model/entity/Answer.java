@@ -18,7 +18,7 @@ public class Answer extends BaseEntity {
     @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 5000)
     private String code;
 
     @Column(nullable = false)

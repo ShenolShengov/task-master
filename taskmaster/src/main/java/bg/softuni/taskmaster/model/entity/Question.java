@@ -22,7 +22,7 @@ public class Question extends BaseEntity {
     @Column(nullable = false)
     private String tags;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 5000)
     private String description;
 
     @Column(nullable = false)
