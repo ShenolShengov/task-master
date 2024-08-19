@@ -16,7 +16,7 @@ public class MailHistoryInfoDTO implements Serializable {
 
     private Long id;
     private String template;
-    private Instant date;
+    private String date;
     private String from;
     private String to;
 }

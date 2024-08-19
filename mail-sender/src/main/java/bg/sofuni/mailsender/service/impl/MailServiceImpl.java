@@ -10,13 +10,15 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.EnumMap;
 
 @Service
@@ -27,14 +29,16 @@ public class MailServiceImpl implements MailService {
     private final JavaMailSender mailSender;
     private final ModelMapper modelMapper;
     private final MailHistoryRepository mailHistoryRepository;
+    private final KafkaTemplate<Long, MailHistory> kafkaTemplate;
 
     @Override
     public void send(Payload payload) throws MessagingException {
         MimeMessage mimeMessage = getMimeMessage(payload);
         mailSender.send(mimeMessage);
         MailHistory mailHistory = modelMapper.map(payload, MailHistory.class);
-        mailHistory.setDate(Instant.now());
-        mailHistoryRepository.save(mailHistory);
+        mailHistory.setDate(LocalDateTime.now().toInstant(ZoneOffset.UTC));
+        MailHistory saved = mailHistoryRepository.save(mailHistory);
+        kafkaTemplate.send("email-history", saved.getId(), saved);
     }
 
     private MimeMessage getMimeMessage(Payload payload) throws MessagingException {

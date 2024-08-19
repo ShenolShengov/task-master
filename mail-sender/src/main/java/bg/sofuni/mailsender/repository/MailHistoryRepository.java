@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
+import java.util.List;
 
 @Repository
 public interface MailHistoryRepository extends JpaRepository<MailHistory, Long> {
@@ -17,7 +18,7 @@ public interface MailHistoryRepository extends JpaRepository<MailHistory, Long> 
     @Transactional
     @Modifying
     @Query("DELETE FROM MailHistory mh WHERE mh.date < :olderThan")
-    void deleteOldHistory(Instant olderThan);
+    List<MailHistory> deleteOldHistory(Instant olderThan);
 
 
     @Query("SELECT mh FROM MailHistory mh WHERE YEAR(mh.date) = YEAR(:date) AND DAYOFYEAR(mh.date) >= DAYOFYEAR(:date)")

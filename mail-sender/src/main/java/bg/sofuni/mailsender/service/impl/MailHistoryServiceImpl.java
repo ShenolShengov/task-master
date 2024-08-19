@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.Period;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.function.Function;
 
 @Service
@@ -40,13 +43,19 @@ public class MailHistoryServiceImpl implements MailHistoryService {
     }
 
     private Function<MailHistory, MailHistoryInfoDTO> toMailHistoryInfoDTO() {
-        return e -> modelMapper.map(e, MailHistoryInfoDTO.class);
+        final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy  HH:mm");
+        return e -> {
+            MailHistoryInfoDTO mailHistoryInfoDTO = modelMapper.map(e, MailHistoryInfoDTO.class);
+            mailHistoryInfoDTO.setDate(FORMATTER.format(e.getDate().atOffset(ZoneOffset.UTC).toLocalDateTime()));
+            return mailHistoryInfoDTO;
+        };
     }
 
     @Override
     public void deleteOldHistory() {
         Instant deleteBefore = Instant.now().minus(retentionPeriod);
-        mailHistoryRepository.deleteOldHistory(deleteBefore);
+        List<MailHistory> mailHistories = mailHistoryRepository.deleteOldHistory(deleteBefore);
+        System.out.println();
     }
 
     @Override
