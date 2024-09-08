@@ -36,4 +36,15 @@ public class MailHistory {
         this.date = date;
         this.template = template;
     }
+
+    @Override
+    public String toString() {
+        return "MailHistory{" +
+               "id=" + id +
+               ", from='" + from + '\'' +
+               ", to='" + to + '\'' +
+               ", date=" + date +
+               ", template=" + template +
+               '}';
+    }
 }
