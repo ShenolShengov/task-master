@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font: 16px/1.5 Lato, sans-serif;
+    box-sizing: border-box;
+}
+
+body, input, textarea, select, option {
+    font: inherit;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #eee;
+}
+
+.login-form {
+    flex: 0 0 450px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    padding: 3em;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+.field {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.login-form h1 {
+    font-weight: 900;
+    padding: 0 2em 0 0;
+}
+
+.login-form label {
+    order: -1;
+    position: relative;
+    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+
+input:placeholder-shown ~ label {
+    top: 27px;
+}
+
+input:focus {
+    outline: 0;
+}
+
+input:focus ~ label {
+    top: 0;
+}
+
+input {
+    padding: 0.5em;
+    border-radius: 5px;
+    flex: 0 0 100%;
+    border: 0;
+    border-bottom: 1px solid  silver;
+}
+
+input[type="submit"]{
+    background-color: #eee;
+    color: black;
+    padding: 0.7rem;
+    font-size: 1.2em;
+    font-weight: 900;
+    border: 0;
+}
+
+input[type="submit"]:hover {
+    background: #aaaaaa;
+    color: white;
+}
+
+
+.example, .requirements {
+    opacity: 0.7;
+    font-size: 0.8em;
+}
+
+i.fa-eye, i.fa-eye-slash {
+    position: absolute;
+    top: 30%;
+    transform: translateY(50%);
+    right: 15px;
+}
+
+i.fa-eye-slash {
+    display: none;
+}
+
+.incorrect-credentials {
+    color: #d40b0b;
+    font-size: 1.2em;
+    text-align: center;
+    font-weight: 600;
+}

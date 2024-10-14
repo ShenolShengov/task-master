@@ -37,8 +37,8 @@ public class UserRegisterDTO implements Serializable {
     @UniqueEmail(message = "{validation.user.email.unique}")
     private String email;
 
-    @Positive(message = "{validation.user.age.positive}")
     @NotNull(message = "{validation.user.age.positive}")
+    @Positive(message = "{validation.user.age.positive}")
     private Integer age;
 
     @NotNull(message = "{validation.user.password.length}")
