@@ -115,3 +115,22 @@ i.fa-eye-slash {
     text-align: center;
     font-weight: 600;
 }
+
+
+.language {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+#lang {
+    border: 0;
+    appearance: none;
+    background: transparent;
+    font-size: 1.4em;
+
+}
+
+#lang:focus {
+    outline: none;
+}

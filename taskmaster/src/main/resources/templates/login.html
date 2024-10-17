@@ -8,6 +8,15 @@
     <title>Login</title>
 </head>
 <body>
+<form method="get" class="language">
+    <select id="lang"
+            name="lang"
+            onchange="this.form.submit()"
+           >
+        <option th:selected="${#locale.toString().equals('en_US')}" value="en_US">EN</option>
+        <option th:selected="${#locale.toString().equals('bg_BG')}" value="bg_BG">BG</option>
+    </select>
+</form>
     <form th:method="post" th:action="@{/users/login}" class="login-form">
         <h1 th:text="#{login_label}">Login</h1>
         <div class="field">
@@ -33,5 +42,4 @@
     </form>
 </body>
 <script th:src="@{/js/password-show-hide.js}"></script>
-<!--<script src="script.js"></script>-->
 </html>
